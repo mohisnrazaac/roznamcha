@@ -1,6 +1,6 @@
 # Roznamcha
 
-Laravel + Inertia + React + Tailwind starter skeleton based on approved mockups.
+Laravel + Inertia + React + Tailwind starter skeleton based on approved Roznamcha mockups.
 
 This project includes:
 - Public site (Home, About, Contact, Login)
