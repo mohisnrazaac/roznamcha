@@ -1,44 +1,44 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\KharchaController;
-use App\Http\Controllers\RationController;
-use App\Http\Controllers\ReminderController;
-use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 
-// Public pages
-Route::get('/', fn() => Inertia::render('Home'))->name('home');
-Route::get('/about', fn() => Inertia::render('About'))->name('about');
-Route::get('/contact', fn() => Inertia::render('Contact'))->name('contact');
+// PUBLIC HOME (no auth)
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Branded login page
-Route::get('/login-custom', function () {
-    return redirect()->route('login');
-})->name('login.custom');
+// AUTH
+Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
 
-// Protected area
-Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/kharcha', [KharchaController::class, 'index'])->name('kharcha.map');
-    Route::get('/kharcha/add', [KharchaController::class, 'create'])->name('kharcha.add');
-    Route::post('/kharcha', [KharchaController::class, 'store'])->name('kharcha.store');
-    Route::put('/kharcha/{expense}', [KharchaController::class, 'update'])->name('kharcha.update');
-    Route::delete('/kharcha/{expense}', [KharchaController::class, 'destroy'])->name('kharcha.destroy');
+Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
 
-    Route::get('/ration', [RationController::class, 'index'])->name('ration.index');
-    Route::post('/ration', [RationController::class, 'store'])->name('ration.store');
-    Route::put('/ration/{rationItem}', [RationController::class, 'update'])->name('ration.update');
-    Route::delete('/ration/{rationItem}', [RationController::class, 'destroy'])->name('ration.destroy');
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
-    Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
-    Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
-    Route::put('/reminders/{reminder}', [ReminderController::class, 'update'])->name('reminders.update');
-    Route::delete('/reminders/{reminder}', [ReminderController::class, 'destroy'])->name('reminders.destroy');
+// DASHBOARD (must be logged in)
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
 
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports.main');
-    Route::post('/reports/generate', [ReportController::class, 'generate'])->name('reports.generate');
+// ADMIN-ONLY
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Users
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
+    Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+
+    // Categories
+    Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/create', [AdminCategoryController::class, 'create'])->name('categories.create');
+    Route::post('/categories', [AdminCategoryController::class, 'store'])->name('categories.store');
+    Route::get('/categories/{id}/edit', [AdminCategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{id}', [AdminCategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{id}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
 });
-
-require __DIR__.'/auth.php';

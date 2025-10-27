@@ -9,7 +9,6 @@ use App\Models\RationHistory;
 use App\Models\RationItem;
 use App\Models\Reminder;
 use App\Models\ReportCache;
-use App\Models\Role;
 use App\Models\User;
 use App\Models\UserSetting;
 use Carbon\Carbon;
@@ -23,46 +22,28 @@ class RoznamchaDemoSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::firstOrCreate(
+        $user = User::updateOrCreate(
             ['email' => 'demo@roznamcha.test'],
             [
                 'name' => 'Roznamcha Demo',
                 'password' => Hash::make('password'),
+                'role' => 'admin',
             ]
         );
 
-        // Roles and assignment
-        $adminRole = Role::firstOrCreate(
-            ['slug' => 'admin'],
-            ['name' => 'Administrator']
-        );
-
-        $memberRole = Role::firstOrCreate(
-            ['slug' => 'member'],
-            ['name' => 'Household Member']
-        );
-
-        $user->roles()->syncWithoutDetaching([$adminRole->id, $memberRole->id]);
-
         // Categories
         $categoryDefinitions = collect([
-            ['name' => 'Ration', 'color_code' => '#facc15', 'icon' => '🛒'],
-            ['name' => 'Fuel', 'color_code' => '#f97316', 'icon' => '⛽'],
-            ['name' => 'School', 'color_code' => '#38bdf8', 'icon' => '🎒'],
-            ['name' => 'Medicine', 'color_code' => '#f472b6', 'icon' => '💊'],
-            ['name' => 'Utilities', 'color_code' => '#34d399', 'icon' => '💡'],
+            ['name' => 'Ration', 'description' => 'Groceries, staples and ration stock'],
+            ['name' => 'Fuel', 'description' => 'Petrol, diesel and transport'],
+            ['name' => 'School', 'description' => 'School fees and education expenses'],
+            ['name' => 'Medicine', 'description' => 'Healthcare and medicine'],
+            ['name' => 'Utilities', 'description' => 'Bills and utilities'],
         ]);
 
-        $categories = $categoryDefinitions->mapWithKeys(function (array $definition) use ($user) {
+        $categories = $categoryDefinitions->mapWithKeys(function (array $definition) {
             $category = Category::updateOrCreate(
-                [
-                    'user_id' => $user->id,
-                    'name' => $definition['name'],
-                ],
-                [
-                    'color_code' => $definition['color_code'],
-                    'icon' => $definition['icon'],
-                ]
+                ['name' => $definition['name']],
+                ['description' => $definition['description'] ?? null]
             );
 
             return [$definition['name'] => $category];

@@ -3,8 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -48,28 +47,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function roles(): BelongsToMany
+    public function isAdmin(): bool
     {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function categories(): HasMany
-    {
-        return $this->hasMany(Category::class);
-    }
-
-    public function expenses(): HasMany
-    {
-        return $this->hasMany(Expense::class);
-    }
-
-    public function rationItems(): HasMany
-    {
-        return $this->hasMany(RationItem::class);
-    }
-
-    public function reminders(): HasMany
-    {
-        return $this->hasMany(Reminder::class);
+        return $this->role === 'admin';
     }
 }

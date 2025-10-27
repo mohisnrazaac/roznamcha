@@ -10,6 +10,7 @@
 .env
 .env.*
 composer.lock
+*.log
 
 # Node / React / Vite
 node_modules/
