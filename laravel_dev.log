@@ -1,0 +1,169 @@
+
+   WARN  Unable to respect the `PHP_CLI_SERVER_WORKERS` environment variable without the `--no-reload` flag. Only creating a single server.  
+
+   INFO  Server running on [http://127.0.0.1:8002].  
+
+  Press Ctrl+C to stop the server
+
+  2025-10-27 20:12:11 / ............................................ ~ 2.07ms
+  2025-10-27 20:12:11 .............................................. ~ 7.84ms
+  2025-10-27 20:12:12 /.well-known/appspecific/com.chrome.devtools.json  ~ 0.03ms
+  2025-10-27 20:12:12 /favicon.ico ................................. ~ 0.12ms
+  2025-10-27 20:12:30 /about ..................................... ~ 507.25ms
+  2025-10-27 20:12:30 /favicon.ico ................................. ~ 0.09ms
+  2025-10-27 20:12:31 / ............................................ ~ 0.23ms
+  2025-10-27 20:12:32 /favicon.ico ................................. ~ 0.09ms
+  2025-10-27 20:12:34 /contact ..................................... ~ 0.12ms
+  2025-10-27 20:12:34 /favicon.ico ................................. ~ 0.05ms
+  2025-10-27 20:12:37 /about ....................................... ~ 0.75ms
+  2025-10-27 20:12:37 /favicon.ico ................................. ~ 0.09ms
+  2025-10-27 20:12:39 / ............................................ ~ 0.31ms
+  2025-10-27 20:12:39 /favicon.ico ................................. ~ 0.09ms
+  2025-10-27 20:42:06 / ............................................ ~ 1.85ms
+  2025-10-27 20:42:06 /.well-known/appspecific/com.chrome.devtools.json  ~ 0.04ms
+  2025-10-27 20:42:07 /favicon.ico ................................. ~ 0.32ms
+  2025-10-27 20:55:02 / ............................................ ~ 2.60ms
+  2025-10-27 20:55:02 /.well-known/appspecific/com.chrome.devtools.json  ~ 4.34ms
+  2025-10-27 20:55:03 /favicon.ico ................................. ~ 0.16ms
+  2025-10-27 20:59:23 / ............................................ ~ 2.24ms
+  2025-10-27 20:59:23 /.well-known/appspecific/com.chrome.devtools.json  ~ 3.52ms
+  2025-10-27 20:59:24 /favicon.ico ................................. ~ 0.09ms
+  2025-10-27 20:59:56 / ............................................ ~ 0.93ms
+  2025-10-27 20:59:56 /.well-known/appspecific/com.chrome.devtools.json  ~ 0.05ms
+  2025-10-27 20:59:57 /favicon.ico ................................. ~ 0.05ms
+  2025-10-27 21:00:17 / ............................................ ~ 1.11ms
+  2025-10-27 21:00:17 /.well-known/appspecific/com.chrome.devtools.json  ~ 0.03ms
+  2025-10-27 21:00:18 /favicon.ico ................................. ~ 0.27ms
+  2025-10-27 21:03:30 / .......................................... ~ 507.44ms
+  2025-10-27 21:03:30 /.well-known/appspecific/com.chrome.devtools.json  ~ 508.75ms
+  2025-10-27 21:03:30 /favicon.ico ................................. ~ 0.02ms
+  2025-10-27 21:03:32 /login-custom .............................. ~ 504.92ms
+  2025-10-27 21:03:32 /favicon.ico ................................. ~ 0.13ms
+  2025-10-27 21:04:03 /login-custom ................................ ~ 3.20ms
+  2025-10-27 21:06:19 /login-custom .............................. ~ 508.61ms
+  2025-10-27 21:06:19 /.well-known/appspecific/com.chrome.devtools.json  ~ 509.37ms
+  2025-10-27 21:06:20 /favicon.ico ................................. ~ 0.22ms
+  2025-10-27 21:07:05 / .......................................... ~ 508.36ms
+  2025-10-27 21:07:06 /favicon.ico ................................. ~ 0.05ms
+  2025-10-27 21:07:07 / ............................................ ~ 0.31ms
+  2025-10-27 21:07:08 / ............................................ ~ 0.36ms
+  2025-10-27 21:07:08 /.well-known/appspecific/com.chrome.devtools.json  ~ 2.18ms
+  2025-10-27 21:07:10 /favicon.ico ................................. ~ 0.22ms
+  2025-10-27 21:07:14 /login-custom .............................. ~ 501.02ms
+  2025-10-27 21:07:14 /favicon.ico ................................. ~ 0.07ms
+  2025-10-27 21:09:45 .............................................. ~ 1.11ms
+  2025-10-27 21:11:15 /.well-known/appspecific/com.chrome.devtools.json  ~ 1.51ms
+  2025-10-27 21:11:15 /.well-known/appspecific/com.chrome.devtools.json  ~ 0.08ms
+  2025-10-27 21:11:17 /login-custom ................................ ~ 0.14ms
+  2025-10-27 21:11:17 /.well-known/appspecific/com.chrome.devtools.json  ~ 1.73ms
+  2025-10-27 21:11:17 /build/assets/app-EdqZYJMh.css ............... ~ 0.08ms
+  2025-10-27 21:11:17 /build/assets/Login-BiELOuzn.js .............. ~ 0.59ms
+  2025-10-27 21:11:17 /build/assets/app-IRFisUnc.js ................ ~ 1.09ms
+  2025-10-27 21:11:17 /build/assets/PublicLayout-CkvZhf_E.js ....... ~ 1.62ms
+  2025-10-27 21:11:17 /build/assets/About-BkA-bX8f.js .............. ~ 0.30ms
+  2025-10-27 21:11:17 /build/assets/AddExpenseForm-BDMHHOLD.js ..... ~ 1.05ms
+  2025-10-27 21:11:17 /build/assets/AppLayout-MuVaQOUh.js .......... ~ 1.44ms
+  2025-10-27 21:11:17 /favicon.ico ................................. ~ 0.07ms
+  2025-10-27 21:11:17 /build/assets/ConfirmPassword-CtlP8K3u.js .... ~ 0.10ms
+  2025-10-27 21:11:17 /build/assets/TextInput-DUtCg3lh.js .......... ~ 0.37ms
+  2025-10-27 21:11:17 /build/assets/InputLabel-DJabuZFA.js ......... ~ 0.85ms
+  2025-10-27 21:11:17 /build/assets/PrimaryButton-DMSMVptC.js ...... ~ 0.07ms
+  2025-10-27 21:11:17 /build/assets/GuestLayout-Cr5rBriG.js ........ ~ 0.26ms
+  2025-10-27 21:11:17 /build/assets/ApplicationLogo-BplwoHgN.js .... ~ 0.49ms
+  2025-10-27 21:11:17 /build/assets/ForgotPassword-BgaGJX4y.js ..... ~ 0.05ms
+  2025-10-27 21:11:17 /build/assets/Login-fNNXrw5o.js .............. ~ 0.22ms
+  2025-10-27 21:11:17 /build/assets/Register-Cs2Rcz2p.js ........... ~ 0.61ms
+  2025-10-27 21:11:17 /build/assets/ResetPassword-BXUEphtP.js ...... ~ 0.05ms
+  2025-10-27 21:11:17 /build/assets/VerifyEmail-DirFMojK.js ........ ~ 0.24ms
+  2025-10-27 21:11:17 /build/assets/Contact-DRvVyJRQ.js ............ ~ 0.46ms
+  2025-10-27 21:11:17 /build/assets/Dashboard-BB43JZiZ.js .......... ~ 0.05ms
+  2025-10-27 21:11:17 /build/assets/AuthenticatedLayout-DfPOnv-5.js  ~ 0.05ms
+  2025-10-27 21:11:17 /build/assets/transition-pcsR8NzS.js ......... ~ 0.14ms
+  2025-10-27 21:11:17 /build/assets/Home-BMQ61DhN.js ............... ~ 0.30ms
+  2025-10-27 21:11:17 /build/assets/KharchaMapList-no3Ws7-E.js ..... ~ 0.04ms
+  2025-10-27 21:11:17 /build/assets/Edit-CLDsNJv4.js ............... ~ 0.19ms
+  2025-10-27 21:11:17 /build/assets/DeleteUserForm-tdmS2lbz.js ..... ~ 0.43ms
+  2025-10-27 21:11:17 /build/assets/UpdatePasswordForm-DtCA3E2J.js . ~ 0.18ms
+  2025-10-27 21:11:17 /build/assets/Ration-B8YBoObU.js ............. ~ 0.04ms
+  2025-10-27 21:11:17 /build/assets/UpdateProfileInformationForm-vc5k8OgB.js  ~ 0.37ms
+  2025-10-27 21:11:17 /build/assets/Reminders-DO4Fwv7R.js .......... ~ 0.44ms
+  2025-10-27 21:11:17 /build/assets/Reports-DnYySOfL.js ............ ~ 0.04ms
+  2025-10-27 21:11:17 /build/assets/Welcome-BYUduobQ.js ............ ~ 0.34ms
+  2025-10-27 21:15:15 /login-custom ................................ ~ 2.31ms
+  2025-10-27 21:15:15 /login ....................................... ~ 0.03ms
+  2025-10-27 21:15:16 /.well-known/appspecific/com.chrome.devtools.json  ~ 0.02ms
+  2025-10-27 21:15:16 /build/assets/app-Bv4gCNwG.css ............... ~ 0.05ms
+  2025-10-27 21:15:16 /build/assets/Login-BMgBRq1y.js .............. ~ 0.31ms
+  2025-10-27 21:15:16 /build/assets/app-DzyonVtd.js ................ ~ 0.58ms
+  2025-10-27 21:15:16 /build/assets/PublicLayout-CVMznyUS.js ....... ~ 0.84ms
+  2025-10-27 21:15:16 /favicon.ico ................................. ~ 0.28ms
+  2025-10-27 21:15:16 /build/assets/AddExpenseForm-29MeDENN.js ..... ~ 3.80ms
+  2025-10-27 21:15:16 /build/assets/About-WpvYzA9y.js .............. ~ 4.52ms
+  2025-10-27 21:15:16 /build/assets/AppLayout-CC90FUwJ.js .......... ~ 1.18ms
+  2025-10-27 21:15:16 /build/assets/ConfirmPassword-CUq_KIQG.js .... ~ 0.16ms
+  2025-10-27 21:15:16 /build/assets/TextInput-BG5o-eDt.js .......... ~ 0.59ms
+  2025-10-27 21:15:16 /build/assets/InputLabel-LeeVW7i9.js ......... ~ 2.26ms
+  2025-10-27 21:15:16 /build/assets/PrimaryButton-D3aDOzKB.js ...... ~ 0.13ms
+  2025-10-27 21:15:16 /build/assets/GuestLayout-UebkAMOP.js ........ ~ 0.58ms
+  2025-10-27 21:15:16 /build/assets/ApplicationLogo-C3hA0jxU.js .... ~ 1.10ms
+  2025-10-27 21:15:16 /build/assets/ForgotPassword-DFynY_VR.js ..... ~ 1.05ms
+  2025-10-27 21:15:16 /build/assets/Login-CzmDN7t3.js .............. ~ 0.53ms
+  2025-10-27 21:15:16 /build/assets/Register-Bp_EqV0y.js ........... ~ 0.89ms
+  2025-10-27 21:15:16 /build/assets/ResetPassword-Hpi3JKSe.js ...... ~ 0.13ms
+  2025-10-27 21:15:16 /build/assets/VerifyEmail-wfb8ORy3.js ........ ~ 0.51ms
+  2025-10-27 21:15:16 /build/assets/Contact-B5ca7rIy.js ............ ~ 0.08ms
+  2025-10-27 21:15:16 /build/assets/Dashboard-CftrMTrU.js .......... ~ 0.10ms
+  2025-10-27 21:15:16 /build/assets/AuthenticatedLayout-Ca02K-T-.js  ~ 0.61ms
+  2025-10-27 21:15:16 /build/assets/transition-tZveSlMx.js ......... ~ 0.26ms
+  2025-10-27 21:15:16 /build/assets/Home-B5NOWZw7.js ............... ~ 0.53ms
+  2025-10-27 21:15:16 /build/assets/KharchaMapList-DiKo-Dnb.js ..... ~ 0.10ms
+  2025-10-27 21:15:16 /build/assets/Edit-BOTRCqil.js ............... ~ 0.34ms
+  2025-10-27 21:15:16 /build/assets/DeleteUserForm-CJ0UalTj.js ..... ~ 0.61ms
+  2025-10-27 21:15:16 /build/assets/UpdateProfileInformationForm-pvjEGKjK.js  ~ 0.04ms
+  2025-10-27 21:15:16 /build/assets/UpdatePasswordForm-DgO9UWlG.js . ~ 0.08ms
+  2025-10-27 21:15:16 /build/assets/Ration-B0CS8_TH.js ............. ~ 0.14ms
+  2025-10-27 21:15:16 /build/assets/Reminders-CLo1rPaH.js .......... ~ 0.03ms
+  2025-10-27 21:15:16 /build/assets/Reports-ClOn6sP5.js ............ ~ 0.21ms
+  2025-10-27 21:15:16 /build/assets/Welcome-C7eVtni-.js ............ ~ 0.42ms
+  2025-10-27 21:15:26 /login ..................................... ~ 501.19ms
+  2025-10-27 21:15:26 /dashboard ................................... ~ 0.05ms
+  2025-10-27 21:15:26 /build/assets/Dashboard-CftrMTrU.js .......... ~ 0.40ms
+  2025-10-27 21:15:26 /build/assets/AuthenticatedLayout-Ca02K-T-.js  ~ 0.92ms
+  2025-10-27 21:15:26 /build/assets/ApplicationLogo-C3hA0jxU.js .... ~ 1.09ms
+  2025-10-27 21:15:26 /build/assets/transition-tZveSlMx.js ......... ~ 1.37ms
+  2025-10-27 21:15:26 /favicon.ico ................................. ~ 0.08ms
+  2025-10-27 21:15:59 /dashboard ................................... ~ 2.73ms
+  2025-10-27 21:15:59 /.well-known/appspecific/com.chrome.devtools.json  ~ 3.81ms
+  2025-10-27 21:15:59 /build/assets/app-Bv4gCNwG.css ............... ~ 0.04ms
+  2025-10-27 21:15:59 /build/assets/Dashboard-CftrMTrU.js .......... ~ 0.29ms
+  2025-10-27 21:15:59 /build/assets/AuthenticatedLayout-Ca02K-T-.js  ~ 0.46ms
+  2025-10-27 21:15:59 /build/assets/ApplicationLogo-C3hA0jxU.js .... ~ 0.50ms
+  2025-10-27 21:15:59 /build/assets/transition-tZveSlMx.js ......... ~ 0.32ms
+  2025-10-27 21:15:59 /build/assets/app-DzyonVtd.js ................ ~ 0.74ms
+  2025-10-27 21:15:59 /favicon.ico ................................. ~ 0.04ms
+  2025-10-27 21:15:59 /build/assets/About-WpvYzA9y.js .............. ~ 0.88ms
+  2025-10-27 21:15:59 /build/assets/AddExpenseForm-29MeDENN.js ..... ~ 1.14ms
+  2025-10-27 21:15:59 /build/assets/AppLayout-CC90FUwJ.js .......... ~ 1.24ms
+  2025-10-27 21:15:59 /build/assets/ConfirmPassword-CUq_KIQG.js .... ~ 0.04ms
+  2025-10-27 21:15:59 /build/assets/TextInput-BG5o-eDt.js .......... ~ 0.12ms
+  2025-10-27 21:15:59 /build/assets/InputLabel-LeeVW7i9.js ......... ~ 0.30ms
+  2025-10-27 21:15:59 /build/assets/PrimaryButton-D3aDOzKB.js ...... ~ 0.45ms
+  2025-10-27 21:15:59 /build/assets/GuestLayout-UebkAMOP.js ........ ~ 0.30ms
+  2025-10-27 21:15:59 /build/assets/ForgotPassword-DFynY_VR.js ..... ~ 0.02ms
+  2025-10-27 21:15:59 /build/assets/Login-CzmDN7t3.js .............. ~ 0.03ms
+  2025-10-27 21:15:59 /build/assets/Register-Bp_EqV0y.js ........... ~ 0.26ms
+  2025-10-27 21:15:59 /build/assets/ResetPassword-Hpi3JKSe.js ...... ~ 0.02ms
+  2025-10-27 21:15:59 /build/assets/VerifyEmail-wfb8ORy3.js ........ ~ 0.03ms
+  2025-10-27 21:15:59 /build/assets/Contact-B5ca7rIy.js ............ ~ 0.17ms
+  2025-10-27 21:15:59 /build/assets/Home-B5NOWZw7.js ............... ~ 0.37ms
+  2025-10-27 21:15:59 /build/assets/KharchaMapList-DiKo-Dnb.js ..... ~ 0.03ms
+  2025-10-27 21:15:59 /build/assets/Login-BMgBRq1y.js .............. ~ 0.13ms
+  2025-10-27 21:15:59 /build/assets/Edit-BOTRCqil.js ............... ~ 0.36ms
+  2025-10-27 21:15:59 /build/assets/UpdateProfileInformationForm-pvjEGKjK.js  ~ 0.02ms
+  2025-10-27 21:15:59 /build/assets/DeleteUserForm-CJ0UalTj.js ..... ~ 0.03ms
+  2025-10-27 21:15:59 /build/assets/UpdatePasswordForm-DgO9UWlG.js . ~ 0.12ms
+  2025-10-27 21:15:59 /build/assets/Ration-B0CS8_TH.js ............. ~ 0.02ms
+  2025-10-27 21:15:59 /build/assets/Reminders-CLo1rPaH.js .......... ~ 0.25ms
+  2025-10-27 21:15:59 /build/assets/Reports-ClOn6sP5.js ............ ~ 0.19ms
+  2025-10-27 21:15:59 /build/assets/Welcome-C7eVtni-.js ............ ~ 0.02ms
+  2025-10-27 21:15:59 /build/assets/PublicLayout-CVMznyUS.js ....... ~ 0.02ms

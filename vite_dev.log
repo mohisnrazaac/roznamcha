@@ -1,0 +1,25 @@
+
+> dev
+> vite
+
+
+  VITE v5.4.21  ready in 183 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+
+  LARAVEL v12.35.1  plugin v1.3.0
+
+  ➜  APP_URL: http://127.0.0.1:8002
+8:55:02 PM [vite] full reload routes/web.php
+8:59:23 PM [vite] page reload resources/js/Pages/Ration.jsx
+8:59:56 PM [vite] page reload resources/js/Pages/Reminders.jsx
+9:00:17 PM [vite] page reload resources/js/Layouts/AppLayout.jsx
+9:13:01 PM [vite] full reload routes/web.php
+9:14:10 PM [vite] hmr update /resources/js/Pages/Login.jsx, /resources/css/app.css
+9:14:37 PM [vite] hmr update /resources/js/Pages/Login.jsx, /resources/css/app.css
+9:19:07 PM [vite] full reload routes/web.php
+9:19:57 PM [vite] page reload resources/js/Pages/Admin/Dashboard.jsx
+9:32:01 PM [vite] page reload resources/js/app.jsx
+9:39:27 PM [vite] page reload resources/js/Pages/Admin/Dashboard.jsx
+9:39:45 PM [vite] page reload resources/js/Pages/Admin/Dashboard.jsx
