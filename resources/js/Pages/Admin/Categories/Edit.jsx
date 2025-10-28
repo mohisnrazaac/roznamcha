@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, useForm } from '@inertiajs/react';
 
 export default function CategoriesEdit({ category }) {
@@ -21,7 +21,7 @@ export default function CategoriesEdit({ category }) {
   };
 
   return (
-    <AdminLayout>
+    <ControlRoomLayout active="categories">
       <div className="p-6 md:p-10 text-white">
         <div className="mb-6">
           <Link href="/admin/categories" className="text-sm text-slate-400 hover:text-slate-200">
@@ -70,6 +70,6 @@ export default function CategoriesEdit({ category }) {
           </button>
         </form>
       </div>
-    </AdminLayout>
+    </ControlRoomLayout>
   );
 }

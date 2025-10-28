@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -45,6 +46,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function kharchaEntries(): HasMany
+    {
+        return $this->hasMany(KharchaEntry::class);
+    }
+
+    public function rationEntries(): HasMany
+    {
+        return $this->hasMany(RationEntry::class);
+    }
+
+    public function reminders(): HasMany
+    {
+        return $this->hasMany(Reminder::class);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->email === 'admin@roznamcha.local' || $this->role === 'admin';
     }
 
     public function isAdmin(): bool

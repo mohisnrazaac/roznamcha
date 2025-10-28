@@ -5,24 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Reminder extends Model
+class KharchaEntry extends Model
 {
     protected $fillable = [
         'user_id',
-        'title',
-        'due_date',
-        'reminder_type',
-        'is_done',
+        'category_id',
+        'date',
+        'amount',
+        'vendor',
         'notes',
+        'receipt_path',
     ];
 
     protected $casts = [
-        'due_date' => 'datetime',
-        'is_done' => 'boolean',
+        'date' => 'date',
+        'amount' => 'decimal:2',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }

@@ -3,152 +3,130 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Expense;
-use Carbon\Carbon;
+use App\Models\KharchaEntry;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class KharchaController extends Controller
 {
-    /**
-     * Display the expense listing with optional filters.
-     */
     public function index(Request $request): Response
     {
         $user = $request->user();
 
-        $filters = $request->only(['category', 'search', 'month']);
+        $baseQuery = KharchaEntry::with('category');
 
-        $expensesQuery = Expense::with('category')
-            ->where('user_id', $user->id)
-            ->when($filters['category'] ?? null, function ($query, $categoryId) {
-                $query->where('category_id', $categoryId);
-            })
-            ->when($filters['search'] ?? null, function ($query, $search) {
-                $query->where('description', 'like', "%{$search}%");
-            })
-            ->when($filters['month'] ?? null, function ($query, $month) {
-                $start = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
-                $end = (clone $start)->endOfMonth();
+        if (! $user->isSuperAdmin()) {
+            $baseQuery->where('user_id', $user->id);
+        }
 
-                $query->whereBetween('date', [
-                    $start->toDateString(),
-                    $end->toDateString(),
-                ]);
-            })
+        $entries = (clone $baseQuery)
             ->orderByDesc('date')
-            ->orderByDesc('created_at');
+            ->orderByDesc('id')
+            ->limit(50)
+            ->get()
+            ->map(function (KharchaEntry $entry) {
+                return [
+                    'id' => $entry->id,
+                    'date' => optional($entry->date)->toDateString(),
+                    'amount' => (float) $entry->amount,
+                    'vendor' => $entry->vendor,
+                    'notes' => $entry->notes,
+                    'category' => $entry->category ? [
+                        'id' => $entry->category->id,
+                        'name' => $entry->category->name,
+                        'color' => $entry->category->color,
+                    ] : null,
+                ];
+            });
 
-        $expenses = $expensesQuery->paginate(10)->withQueryString();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
 
-        return Inertia::render('KharchaMapList', [
-            'filters' => $filters,
-            'categories' => Category::where('user_id', $user->id)
-                ->orderBy('name')
-                ->get(['id', 'name'])
-                ->map(fn (Category $category) => [
-                    'id' => $category->id,
-                    'name' => $category->name,
-                ]),
-            'expenses' => [
-                'data' => collect($expenses->items())->map(function (Expense $expense) {
-                    return [
-                        'id' => $expense->id,
-                        'date' => $expense->date->toDateString(),
-                        'category' => optional($expense->category)->name,
-                        'category_color' => optional($expense->category)->color_code,
-                        'description' => $expense->description,
-                        'amount' => (float) $expense->amount,
-                    ];
-                }),
-                'pagination' => [
-                    'total' => $expenses->total(),
-                    'per_page' => $expenses->perPage(),
-                    'current_page' => $expenses->currentPage(),
-                    'last_page' => $expenses->lastPage(),
-                ],
-            ],
-            'flash' => [
-                'success' => session('success'),
+        $totalThisMonth = (clone $baseQuery)
+            ->whereBetween('date', [$monthStart->toDateString(), $monthEnd->toDateString()])
+            ->sum('amount');
+
+        $topCategoryRow = (clone $baseQuery)
+            ->select('category_id', DB::raw('SUM(amount) as total_amount'))
+            ->whereNotNull('category_id')
+            ->groupBy('category_id')
+            ->orderByDesc('total_amount')
+            ->first();
+
+        $topCategoryName = null;
+        if ($topCategoryRow && $topCategoryRow->category_id) {
+            $topCategoryName = optional(Category::find($topCategoryRow->category_id))->name;
+        }
+
+        return Inertia::render('Admin/Kharcha', [
+            'user' => $user,
+            'entries' => $entries,
+            'categories' => Category::orderBy('name')->get(['id', 'name', 'color']),
+            'filters' => [],
+            'stats' => [
+                'totalThisMonth' => (float) $totalThisMonth,
+                'topCategory' => $topCategoryName,
             ],
         ]);
     }
 
-    /**
-     * Display the add expense form.
-     */
-    public function create(Request $request): Response
-    {
-        $user = $request->user();
-
-        return Inertia::render('AddExpenseForm', [
-            'categories' => Category::where('user_id', $user->id)
-                ->orderBy('name')
-                ->get(['id', 'name'])
-                ->map(fn (Category $category) => [
-                    'id' => $category->id,
-                    'name' => $category->name,
-                ]),
-        ]);
-    }
-
-    /**
-     * Store a newly created expense.
-     */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'date' => ['required', 'date'],
             'category_id' => ['nullable', 'exists:categories,id'],
-            'description' => ['nullable', 'string', 'max:255'],
-            'amount' => ['required', 'numeric', 'min:0'],
+            'amount' => ['required', 'numeric'],
+            'vendor' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
             'receipt_path' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $expense = new Expense($validated);
-        $expense->user_id = $request->user()->id;
-        $expense->save();
+        KharchaEntry::create([
+            ...$validated,
+            'user_id' => $request->user()->id,
+        ]);
 
-        return redirect()
-            ->route('kharcha.map')
-            ->with('success', 'Expense recorded successfully.');
+        return redirect()->route('kharcha.index')->with('success', 'Expense recorded.');
     }
 
-    /**
-     * Update the specified expense.
-     */
-    public function update(Expense $expense, Request $request): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
-        abort_unless($expense->user_id === $request->user()->id, 403);
+        $entry = KharchaEntry::findOrFail($id);
+        $user = $request->user();
+
+        if (! $user->isSuperAdmin() && $entry->user_id !== $user->id) {
+            abort(403);
+        }
 
         $validated = $request->validate([
             'date' => ['required', 'date'],
             'category_id' => ['nullable', 'exists:categories,id'],
-            'description' => ['nullable', 'string', 'max:255'],
-            'amount' => ['required', 'numeric', 'min:0'],
+            'amount' => ['required', 'numeric'],
+            'vendor' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string'],
             'receipt_path' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $expense->update($validated);
+        $entry->update($validated);
 
-        return redirect()
-            ->route('kharcha.map')
-            ->with('success', 'Expense updated.');
+        return redirect()->route('kharcha.index')->with('success', 'Expense updated.');
     }
 
-    /**
-     * Remove the specified expense.
-     */
-    public function destroy(Expense $expense, Request $request): RedirectResponse
+    public function destroy(Request $request, int $id): RedirectResponse
     {
-        abort_unless($expense->user_id === $request->user()->id, 403);
+        $entry = KharchaEntry::findOrFail($id);
+        $user = $request->user();
 
-        $expense->delete();
+        if (! $user->isSuperAdmin() && $entry->user_id !== $user->id) {
+            abort(403);
+        }
 
-        return redirect()
-            ->route('kharcha.map')
-            ->with('success', 'Expense deleted.');
+        $entry->delete();
+
+        return redirect()->route('kharcha.index')->with('success', 'Expense removed.');
     }
 }

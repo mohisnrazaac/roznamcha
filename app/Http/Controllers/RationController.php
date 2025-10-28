@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RationHistory;
-use App\Models\RationItem;
+use App\Models\RationEntry;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,134 +10,89 @@ use Inertia\Response;
 
 class RationController extends Controller
 {
-    /**
-     * Display the ration inventory overview.
-     */
     public function index(Request $request): Response
     {
         $user = $request->user();
 
-        $items = RationItem::with([
-            'history' => fn ($query) => $query->latest('change_date')->limit(5),
-        ])
-            ->where('user_id', $user->id)
-            ->orderBy('item_name')
-            ->get()
-            ->map(function (RationItem $item) {
-                $daysLeft = $item->daily_usage > 0
-                    ? (int) floor($item->stock_quantity / max($item->daily_usage, 0.0001))
-                    : null;
+        $query = RationEntry::query();
 
+        if (! $user->isSuperAdmin()) {
+            $query->where('user_id', $user->id);
+        }
+
+        $entries = $query
+            ->latest('created_at')
+            ->limit(50)
+            ->get()
+            ->map(function (RationEntry $entry) {
                 return [
-                    'id' => $item->id,
-                    'item_name' => $item->item_name,
-                    'unit' => $item->unit,
-                    'stock_quantity' => (float) $item->stock_quantity,
-                    'daily_usage' => (float) $item->daily_usage,
-                    'price_per_unit' => $item->price_per_unit ? (float) $item->price_per_unit : null,
-                    'days_left' => $daysLeft,
-                    'history' => $item->history->map(fn (RationHistory $history) => [
-                        'id' => $history->id,
-                        'change_date' => $history->change_date->toDateString(),
-                        'change_type' => $history->change_type,
-                        'quantity_change' => (float) $history->quantity_change,
-                        'notes' => $history->notes,
-                    ]),
+                    'id' => $entry->id,
+                    'item_name' => $entry->item_name,
+                    'qty_used' => (float) $entry->qty_used,
+                    'unit' => $entry->unit,
+                    'days_left_estimate' => $entry->days_left_estimate,
+                    'notes' => $entry->notes,
+                    'created_at' => optional($entry->created_at)->toDateTimeString(),
                 ];
             });
 
-        return Inertia::render('Ration', [
-            'items' => $items,
-            'flash' => [
-                'success' => session('success'),
-            ],
+        return Inertia::render('Admin/Ration', [
+            'user' => $user,
+            'entries' => $entries,
         ]);
     }
 
-    /**
-     * Store a new ration item.
-     */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'item_name' => ['required', 'string', 'max:100'],
-            'unit' => ['nullable', 'string', 'max:20'],
-            'stock_quantity' => ['required', 'numeric', 'min:0'],
-            'daily_usage' => ['required', 'numeric', 'min:0'],
-            'price_per_unit' => ['nullable', 'numeric', 'min:0'],
+            'item_name' => ['required', 'string', 'max:255'],
+            'qty_used' => ['required', 'numeric'],
+            'unit' => ['required', 'string', 'max:50'],
+            'days_left_estimate' => ['nullable', 'integer'],
+            'notes' => ['nullable', 'string'],
         ]);
 
-        $item = new RationItem($validated);
-        $item->user_id = $request->user()->id;
-        $item->save();
+        RationEntry::create([
+            ...$validated,
+            'user_id' => $request->user()->id,
+        ]);
 
-        if ($item->stock_quantity > 0) {
-            RationHistory::create([
-                'ration_item_id' => $item->id,
-                'change_date' => now()->toDateString(),
-                'change_type' => 'add_stock',
-                'quantity_change' => $item->stock_quantity,
-                'notes' => 'Initial stock entry',
-            ]);
-        }
-
-        return redirect()
-            ->route('ration.index')
-            ->with('success', 'Ration item added.');
+        return redirect()->route('ration.index')->with('success', 'Ration entry recorded.');
     }
 
-    /**
-     * Update the stored details for a ration item.
-     */
-    public function update(RationItem $rationItem, Request $request): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
-        abort_unless($rationItem->user_id === $request->user()->id, 403);
+        $entry = RationEntry::findOrFail($id);
+        $user = $request->user();
+
+        if (! $user->isSuperAdmin() && $entry->user_id !== $user->id) {
+            abort(403);
+        }
 
         $validated = $request->validate([
-            'item_name' => ['required', 'string', 'max:100'],
-            'unit' => ['nullable', 'string', 'max:20'],
-            'stock_quantity' => ['required', 'numeric', 'min:0'],
-            'daily_usage' => ['required', 'numeric', 'min:0'],
-            'price_per_unit' => ['nullable', 'numeric', 'min:0'],
-            'notes' => ['nullable', 'string', 'max:255'],
+            'item_name' => ['required', 'string', 'max:255'],
+            'qty_used' => ['required', 'numeric'],
+            'unit' => ['required', 'string', 'max:50'],
+            'days_left_estimate' => ['nullable', 'integer'],
+            'notes' => ['nullable', 'string'],
         ]);
 
-        $notes = $validated['notes'] ?? null;
-        unset($validated['notes']);
+        $entry->update($validated);
 
-        $originalStock = $rationItem->stock_quantity;
-
-        $rationItem->update($validated);
-
-        $delta = $rationItem->stock_quantity - $originalStock;
-
-        if ($delta !== 0.0) {
-            RationHistory::create([
-                'ration_item_id' => $rationItem->id,
-                'change_date' => now()->toDateString(),
-                'change_type' => $delta > 0 ? 'add_stock' : 'consume',
-                'quantity_change' => abs($delta),
-                'notes' => $notes ?? 'Stock adjustment',
-            ]);
-        }
-
-        return redirect()
-            ->route('ration.index')
-            ->with('success', 'Ration item updated.');
+        return redirect()->route('ration.index')->with('success', 'Ration entry updated.');
     }
 
-    /**
-     * Remove a ration item and its history.
-     */
-    public function destroy(RationItem $rationItem, Request $request): RedirectResponse
+    public function destroy(Request $request, int $id): RedirectResponse
     {
-        abort_unless($rationItem->user_id === $request->user()->id, 403);
+        $entry = RationEntry::findOrFail($id);
+        $user = $request->user();
 
-        $rationItem->history()->delete();
-        $rationItem->delete();
+        if (! $user->isSuperAdmin() && $entry->user_id !== $user->id) {
+            abort(403);
+        }
 
-        return redirect()
-            ->route('ration.index')
-            ->with('success', 'Ration item removed.');
+        $entry->delete();
+
+        return redirect()->route('ration.index')->with('success', 'Ration entry removed.');
     }
 }

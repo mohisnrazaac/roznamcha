@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, useForm } from '@inertiajs/react';
 
 export default function CategoriesCreate() {
@@ -14,7 +14,7 @@ export default function CategoriesCreate() {
   };
 
   return (
-    <AdminLayout>
+    <ControlRoomLayout active="categories">
       <div className="p-6 md:p-10 text-white">
         <div className="mb-6">
           <Link href="/admin/categories" className="text-sm text-slate-400 hover:text-slate-200">
@@ -63,6 +63,6 @@ export default function CategoriesCreate() {
           </button>
         </form>
       </div>
-    </AdminLayout>
+    </ControlRoomLayout>
   );
 }

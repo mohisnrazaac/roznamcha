@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, router } from '@inertiajs/react';
 
 export default function CategoriesIndex({ categories }) {
@@ -10,7 +10,7 @@ export default function CategoriesIndex({ categories }) {
   };
 
   return (
-    <AdminLayout>
+    <ControlRoomLayout active="categories">
       <div className="p-6 md:p-10 text-white">
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
@@ -73,6 +73,6 @@ export default function CategoriesIndex({ categories }) {
           </table>
         </div>
       </div>
-    </AdminLayout>
+    </ControlRoomLayout>
   );
 }

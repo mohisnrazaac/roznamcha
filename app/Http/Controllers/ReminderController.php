@@ -17,35 +17,30 @@ class ReminderController extends Controller
     {
         $user = $request->user();
 
-        $reminders = Reminder::where('user_id', $user->id)
-            ->orderByRaw('CASE WHEN next_due IS NULL THEN 1 ELSE 0 END')
-            ->orderBy('next_due')
+        $query = Reminder::query();
+
+        if (! $user->isSuperAdmin()) {
+            $query->where('user_id', $user->id);
+        }
+
+        $reminders = $query
+            ->orderByRaw('CASE WHEN due_date IS NULL THEN 1 ELSE 0 END')
+            ->orderBy('is_done')
+            ->orderBy('due_date')
+            ->orderByDesc('created_at')
             ->get()
             ->map(fn (Reminder $reminder) => [
                 'id' => $reminder->id,
-                'type' => $reminder->type,
                 'title' => $reminder->title,
-                'description' => $reminder->description,
-                'next_due' => $reminder->next_due?->toDateTimeString(),
-                'frequency' => $reminder->frequency,
-                'status' => $reminder->status,
+                'due_date' => optional($reminder->due_date)->toDateTimeString(),
+                'reminder_type' => $reminder->reminder_type,
+                'is_done' => (bool) $reminder->is_done,
+                'notes' => $reminder->notes,
             ]);
 
-        return Inertia::render('Reminders', [
+        return Inertia::render('Admin/Reminders', [
+            'user' => $user,
             'reminders' => $reminders,
-            'meta' => [
-                'types' => [
-                    'bill' => 'Bill',
-                    'school_fee' => 'School Fee',
-                    'medicine' => 'Medicine',
-                    'fuel' => 'Fuel',
-                    'other' => 'Other',
-                ],
-                'frequencies' => ['daily', 'weekly', 'monthly', 'yearly'],
-            ],
-            'flash' => [
-                'success' => session('success'),
-            ],
         ]);
     }
 
@@ -55,58 +50,59 @@ class ReminderController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'type' => ['required', 'in:bill,school_fee,medicine,fuel,other'],
-            'title' => ['required', 'string', 'max:150'],
-            'description' => ['nullable', 'string'],
-            'next_due' => ['nullable', 'date'],
-            'frequency' => ['required', 'in:daily,weekly,monthly,yearly'],
+            'title' => ['required', 'string', 'max:255'],
+            'due_date' => ['nullable', 'date'],
+            'reminder_type' => ['required', 'string', 'max:50'],
+            'notes' => ['nullable', 'string'],
         ]);
 
         Reminder::create([
             ...$validated,
             'user_id' => $request->user()->id,
-            'status' => 'pending',
         ]);
 
-        return redirect()
-            ->route('reminders.index')
-            ->with('success', 'Reminder added.');
+        return redirect()->route('reminders.index')->with('success', 'Reminder added.');
     }
 
     /**
      * Update the specified reminder.
      */
-    public function update(Reminder $reminder, Request $request): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
-        abort_unless($reminder->user_id === $request->user()->id, 403);
+        $reminder = Reminder::findOrFail($id);
+        $user = $request->user();
+
+        if (! $user->isSuperAdmin() && $reminder->user_id !== $user->id) {
+            abort(403);
+        }
 
         $validated = $request->validate([
-            'type' => ['required', 'in:bill,school_fee,medicine,fuel,other'],
-            'title' => ['required', 'string', 'max:150'],
-            'description' => ['nullable', 'string'],
-            'next_due' => ['nullable', 'date'],
-            'frequency' => ['required', 'in:daily,weekly,monthly,yearly'],
-            'status' => ['required', 'in:pending,done'],
+            'title' => ['required', 'string', 'max:255'],
+            'due_date' => ['nullable', 'date'],
+            'reminder_type' => ['required', 'string', 'max:50'],
+            'is_done' => ['required', 'boolean'],
+            'notes' => ['nullable', 'string'],
         ]);
 
         $reminder->update($validated);
 
-        return redirect()
-            ->route('reminders.index')
-            ->with('success', 'Reminder updated.');
+        return redirect()->route('reminders.index')->with('success', 'Reminder updated.');
     }
 
     /**
      * Remove the specified reminder.
      */
-    public function destroy(Reminder $reminder, Request $request): RedirectResponse
+    public function destroy(Request $request, int $id): RedirectResponse
     {
-        abort_unless($reminder->user_id === $request->user()->id, 403);
+        $reminder = Reminder::findOrFail($id);
+        $user = $request->user();
+
+        if (! $user->isSuperAdmin() && $reminder->user_id !== $user->id) {
+            abort(403);
+        }
 
         $reminder->delete();
 
-        return redirect()
-            ->route('reminders.index')
-            ->with('success', 'Reminder removed.');
+        return redirect()->route('reminders.index')->with('success', 'Reminder removed.');
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, useForm } from '@inertiajs/react';
 
 export default function UsersCreate() {
@@ -16,7 +16,7 @@ export default function UsersCreate() {
   };
 
   return (
-    <AdminLayout>
+    <ControlRoomLayout active="users">
       <div className="p-6 md:p-10 text-white">
         <div className="mb-6">
           <Link href="/admin/users" className="text-sm text-slate-400 hover:text-slate-200">
@@ -97,6 +97,6 @@ export default function UsersCreate() {
           </button>
         </form>
       </div>
-    </AdminLayout>
+    </ControlRoomLayout>
   );
 }

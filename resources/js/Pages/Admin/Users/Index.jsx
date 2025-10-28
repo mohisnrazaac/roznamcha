@@ -1,10 +1,10 @@
 import React from 'react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link } from '@inertiajs/react';
 
 export default function UsersIndex({ users }) {
   return (
-    <AdminLayout>
+    <ControlRoomLayout active="users">
       <div className="p-6 md:p-10 text-white">
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
@@ -51,6 +51,6 @@ export default function UsersIndex({ users }) {
           </table>
         </div>
       </div>
-    </AdminLayout>
+    </ControlRoomLayout>
   );
 }

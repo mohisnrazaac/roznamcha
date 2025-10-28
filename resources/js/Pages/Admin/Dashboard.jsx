@@ -1,79 +1,92 @@
 import React from 'react';
+import { Link } from '@inertiajs/react';
+import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
+
+const moduleCards = [
+    {
+        title: 'Kharcha Map',
+        description: 'Track monthly expenses and burn',
+        href: '/kharcha',
+        slug: 'kharcha',
+    },
+    {
+        title: 'Ration Brain',
+        description: 'Grocery price watch / inflation',
+        href: '/ration',
+        slug: 'ration',
+    },
+    {
+        title: 'Reminders / Health Guard',
+        description: 'BP meds, school fees, petrol refill, etc.',
+        href: '/reminders',
+        slug: 'reminders',
+    },
+];
+
+const adminCards = [
+    {
+        title: 'Users',
+        description: 'Create and manage users',
+        href: '/admin/users',
+        slug: 'users',
+    },
+    {
+        title: 'Categories',
+        description: 'Budget / spend tags',
+        href: '/admin/categories',
+        slug: 'categories',
+    },
+];
 
 export default function Dashboard({ authUser }) {
-    const isAdmin = authUser?.role === 'admin';
+    const isSuperAdmin = authUser?.role === 'admin' || authUser?.email === 'admin@roznamcha.local';
 
     return (
-        <div className="p-6 space-y-6">
-            <h1 className="text-xl font-semibold">
-                Welcome, {authUser?.name} ({authUser?.role})
-            </h1>
+        <ControlRoomLayout active="dashboard" user={authUser}>
+            <div className="p-6 md:p-10 text-white space-y-10">
+                <header className="space-y-2">
+                    <h1 className="text-2xl font-semibold leading-tight">
+                        Welcome, {authUser?.name} ({authUser?.role})
+                    </h1>
+                    <p className="text-sm text-slate-400">
+                        Household cockpit overview — get to the modules you need in one click.
+                    </p>
+                </header>
 
-            {/* main modules available to all users */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-                <button
-                    className="rounded-xl shadow border p-4 text-left hover:shadow-md transition bg-white w-full"
-                    onClick={() => { window.location.href = '/kharcha'; }}
-                >
-                    <div className="text-lg font-medium">Kharcha Map</div>
-                    <div className="text-sm text-gray-500">
-                        Track monthly expenses and burn
+                <section className="space-y-4">
+                    <h2 className="text-sm uppercase tracking-wide text-slate-400">Household modules</h2>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {moduleCards.map((card) => (
+                            <Link
+                                key={card.slug}
+                                href={card.href}
+                                className="rounded-xl border border-slate-800 bg-slate-900/50 p-5 transition hover:border-slate-600 hover:bg-slate-900"
+                            >
+                                <div className="text-lg font-semibold text-white">{card.title}</div>
+                                <p className="mt-2 text-sm text-slate-300">{card.description}</p>
+                            </Link>
+                        ))}
                     </div>
-                </button>
+                </section>
 
-                <button
-                    className="rounded-xl shadow border p-4 text-left hover:shadow-md transition bg-white w-full"
-                    onClick={() => { window.location.href = '/ration'; }}
-                >
-                    <div className="text-lg font-medium">Ration Brain</div>
-                    <div className="text-sm text-gray-500">
-                        Grocery price watch / inflation
-                    </div>
-                </button>
-
-                <button
-                    className="rounded-xl shadow border p-4 text-left hover:shadow-md transition bg-white w-full"
-                    onClick={() => { window.location.href = '/reminders'; }}
-                >
-                    <div className="text-lg font-medium">Reminders / Health Guard</div>
-                    <div className="text-sm text-gray-500">
-                        BP meds, school fees, petrol refill, etc.
-                    </div>
-                </button>
-
+                {isSuperAdmin && (
+                    <section className="space-y-4">
+                        <h2 className="text-sm uppercase tracking-wide text-slate-400">Admin tools</h2>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            {adminCards.map((card) => (
+                                <Link
+                                    key={card.slug}
+                                    href={card.href}
+                                    className="rounded-xl border border-slate-800 bg-slate-900/50 p-5 transition hover:border-slate-600 hover:bg-slate-900"
+                                >
+                                    <div className="text-lg font-semibold text-white">{card.title}</div>
+                                    <p className="mt-2 text-sm text-slate-300">{card.description}</p>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                )}
             </div>
-
-            {/* admin-only tools */}
-            {isAdmin && (
-                <div className="mt-8">
-                    <h2 className="text-lg font-semibold mb-2">Admin Tools</h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                        <button
-                            className="rounded-xl shadow border p-4 text-left hover:shadow-md transition bg-white w-full"
-                            onClick={() => { window.location.href = '/admin/users'; }}
-                        >
-                            <div className="text-lg font-medium">Users</div>
-                            <div className="text-sm text-gray-500">
-                                Create and manage users
-                            </div>
-                        </button>
-
-                        <button
-                            className="rounded-xl shadow border p-4 text-left hover:shadow-md transition bg-white w-full"
-                            onClick={() => { window.location.href = '/admin/categories'; }}
-                        >
-                            <div className="text-lg font-medium">Categories</div>
-                            <div className="text-sm text-gray-500">
-                                Budget / spend tags
-                            </div>
-                        </button>
-
-                    </div>
-                </div>
-            )}
-        </div>
+        </ControlRoomLayout>
     );
 }
