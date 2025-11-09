@@ -7,12 +7,12 @@ use App\Models\Household;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 class SurvivalReportService
 {
-    public function generate(User $user, Household $household, Carbon|string $month): string
+    public function generate(User $user, ?Household $household, Carbon|string $month): string
     {
         $monthDate = $month instanceof Carbon ? $month->copy() : Carbon::parse($month);
 
@@ -29,21 +29,23 @@ class SurvivalReportService
         ]);
 
         $path = sprintf(
-            'reports/household-%s/survival-%s.pdf',
-            $household->id,
+            'reports/%s/survival-%s.pdf',
+            $this->reportScopeFolder($user, $household),
             $rangeStart->format('Ym')
         );
 
         Storage::disk('public')->put($path, $pdf->output());
 
-        return Storage::disk('public')->url($path);
+        return '/storage/'.ltrim($path, '/');
     }
 
-    protected function aggregate(Household $household, Carbon $start, Carbon $end): array
+    protected function aggregate(?Household $household, Carbon $start, Carbon $end): array
     {
+        $dateColumn = $this->expenseDateColumn();
+
         $expenses = Expense::query()
             ->forHousehold($household)
-            ->whereBetween('tx_date', [$start->toDateString(), $end->toDateString()]);
+            ->whereBetween($dateColumn, [$start->toDateString(), $end->toDateString()]);
 
         $total = (float) $expenses->sum('amount');
         $daysInMonth = $start->daysInMonth;
@@ -54,7 +56,7 @@ class SurvivalReportService
 
         $previousTotal = Expense::query()
             ->forHousehold($household)
-            ->whereBetween('tx_date', [$previousStart->toDateString(), $previousEnd->toDateString()])
+            ->whereBetween($dateColumn, [$previousStart->toDateString(), $previousEnd->toDateString()])
             ->sum('amount');
 
         $trend = $previousTotal > 0
@@ -66,7 +68,7 @@ class SurvivalReportService
         $breakdown = Expense::query()
             ->forHousehold($household)
             ->selectRaw('category_id, SUM(amount) as total_amount')
-            ->whereBetween('tx_date', [$start->toDateString(), $end->toDateString()])
+            ->whereBetween($dateColumn, [$start->toDateString(), $end->toDateString()])
             ->groupBy('category_id')
             ->with('category')
             ->orderByDesc('total_amount')
@@ -84,5 +86,29 @@ class SurvivalReportService
             'projection' => $projection,
             'breakdown' => $breakdown,
         ];
+    }
+
+    protected function reportScopeFolder(User $user, ?Household $household): string
+    {
+        if ($household) {
+            return 'household-'.$household->id;
+        }
+
+        return 'user-'.$user->id;
+    }
+
+    protected function expenseDateColumn(): string
+    {
+        static $column = null;
+
+        if ($column === null) {
+            $column = Schema::hasColumn('expenses', 'tx_date')
+                ? 'tx_date'
+                : (Schema::hasColumn('expenses', 'expense_date')
+                    ? 'expense_date'
+                    : (Schema::hasColumn('expenses', 'date') ? 'date' : 'tx_date'));
+        }
+
+        return $column;
     }
 }

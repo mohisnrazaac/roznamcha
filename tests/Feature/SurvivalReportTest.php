@@ -48,6 +48,33 @@ class SurvivalReportTest extends TestCase
         $this->assertTrue(Storage::disk('public')->size($expectedPath) > 0);
     }
 
+    public function test_pdf_generation_without_households(): void
+    {
+        config(['roznamcha.enable_households' => false]);
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+
+        Expense::factory()->create([
+            'user_id' => $user->id,
+            'tx_date' => now()->toDateString(),
+            'amount' => 750,
+        ]);
+
+        $service = app(SurvivalReportService::class);
+        $month = now()->startOfMonth();
+        $url = $service->generate($user, null, $month);
+
+        $this->assertNotEmpty($url);
+        $expectedPath = sprintf(
+            'reports/user-%s/survival-%s.pdf',
+            $user->id,
+            $month->format('Ym')
+        );
+
+        Storage::disk('public')->assertExists($expectedPath);
+    }
+
     private function userWithHousehold(): array
     {
         $user = User::factory()->create();

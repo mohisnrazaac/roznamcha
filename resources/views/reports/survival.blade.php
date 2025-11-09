@@ -15,7 +15,7 @@
 </head>
 <body>
     <h1>{{ __('roznamcha.app.brand') }} — {{ $monthLabel }}</h1>
-    <p>{{ $household->name }} • {{ $user->name }}</p>
+    <p>{{ $household?->name ?? 'Personal budget' }} • {{ $user->name }}</p>
 
     <div class="summary">
         <div class="card">
