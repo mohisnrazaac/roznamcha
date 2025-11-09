@@ -17,7 +17,7 @@ Both tracks expect production `.env` to live on the server, database backups bef
 4. Pipeline steps:
    - Checkout, install PHP 8.3 runtime, cache Composer (`composer install --no-dev --optimize-autoloader`).
    - Setup Node 20, `npm ci`, `npm run build` (writes `public/build/manifest.json`).
-   - Remove `public/hot`, sync repo → `deploy_bundle/` via `rsync` honoring `.deployignore` (skips node_modules, tests, zips, storage/logs, etc.).
+   - Run `bash scripts/prepare-deploy.sh` to mirror the repository (minus anything listed in `.deployignore`) into `deploy/rozapp/`. This gives Actions and manual operators the same trimmed bundle.
    - Upload bundle using `SamKirkland/FTP-Deploy-Action` over FTPS.
    - POST to `/ops/post-deploy` with bearer token; the endpoint should execute:
      `php artisan config:cache route:cache view:cache event:cache`, optionally `php artisan migrate --force`, `php artisan optimize`, `php artisan queue:restart`.
