@@ -22,8 +22,8 @@ jobs:
     env:
       APP_ENV: production
       COMPOSER_ALLOW_SUPERUSER: 1
-      VITE_BASE_PATH: ${{ inputs.vite_base_path != '' && inputs.vite_base_path || '/build/' }}
-      RUN_MIGRATIONS: ${{ inputs.run_migrations && 'true' || 'false' }}
+      VITE_BASE_PATH: ${{ github.event.inputs.vite_base_path && github.event.inputs.vite_base_path != '' ? github.event.inputs.vite_base_path : '/build/' }}
+      RUN_MIGRATIONS: ${{ (github.event.inputs.run_migrations || 'false') == 'true' ? 'true' : 'false' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.composer/cache/files
-          key: composer-${{ hashFiles('composer.lock') }}
+          key: composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             composer-
 
@@ -61,23 +61,21 @@ jobs:
           npm run build
 
       - name: Prepare deploy bundle
-        run: |
-          mkdir -p deploy_bundle
-          rsync -av --delete --exclude-from='.deployignore' ./ deploy_bundle/
+        run: bash scripts/prepare-deploy.sh deploy_bundle .
 
       - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
           protocol: ftps
           server-dir: ${{ secrets.FTP_REMOTE_DIR }}
           local-dir: deploy_bundle
           log-level: verbose
 
       - name: Call post-deploy hook
-        if: ${{ env.RUN_MIGRATIONS == 'true' || secrets.POST_DEPLOY_URL != '' }}
+        if: ${{ secrets.POST_DEPLOY_URL != '' }}
         env:
           POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
           POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
@@ -87,7 +85,9 @@ jobs:
             echo "POST_DEPLOY_URL not configured; skipping post-deploy hook."
             exit 0
           fi
-          curl -X POST "$POST_DEPLOY_URL" \
+
+          echo "Calling post-deploy hook with run_migrations=$SHOULD_RUN_MIGRATIONS"
+          curl -sS -X POST "$POST_DEPLOY_URL" \
             -H "Authorization: Bearer $POST_DEPLOY_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"run_migrations\": $SHOULD_RUN_MIGRATIONS}"
