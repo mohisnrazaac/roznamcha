@@ -30,9 +30,8 @@ jobs:
             POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
                   POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
     steps:
-      - name: Checkout repository
+      - name:Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
