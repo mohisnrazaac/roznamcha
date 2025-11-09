@@ -22,7 +22,7 @@ jobs:
     env:
       APP_ENV: production
       COMPOSER_ALLOW_SUPERUSER: 1
-      VITE_BASE_PATH: ${{ github.event.inputs.vite_base_path && github.event.inputs.vite_base_path != '' ? github.event.inputs.vite_base_path : '/build/' }}
+      VITE_BASE_PATH: ${{ github.event.inputs.vite_base_path && github.event.inputs.vite_base_path != '' ? github.event.inputs.vite_base_path : '/build/' }∑
       RUN_MIGRATIONS: ${{ (github.event.inputs.run_migrations || 'false') == 'true' ? 'true' : 'false' }}
     steps:
       - name: Checkout repository
