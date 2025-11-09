@@ -22,11 +22,24 @@ jobs:
     env:
       APP_ENV: production
       COMPOSER_ALLOW_SUPERUSER: 1
-      VITE_BASE_PATH: ${{ github.event.inputs.vite_base_path && github.event.inputs.vite_base_path != '' ? github.event.inputs.vite_base_path : '/build/' }∑
-      RUN_MIGRATIONS: ${{ (github.event.inputs.run_migrations || 'false') == 'true' ? 'true' : 'false' }}
+      VITE_BASE_PATH: /build/
+      RUN_MIGRATIONS: 'false'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Apply workflow inputs
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          INPUT_VITE_BASE: ${{ github.event.inputs.vite_base_path || '' }}
+          INPUT_RUN_MIGRATIONS: ${{ github.event.inputs.run_migrations || 'false' }}
+        run: |
+          if [ "$INPUT_VITE_BASE" != "" ]; then
+            echo "VITE_BASE_PATH=$INPUT_VITE_BASE" >> "$GITHUB_ENV"
+          fi
+          if [ "$INPUT_RUN_MIGRATIONS" == "true" ]; then
+            echo "RUN_MIGRATIONS=true" >> "$GITHUB_ENV"
+          fi
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -76,7 +89,7 @@ jobs:
 
       - name: Call post-deploy hook
         if: ${{ secrets.POST_DEPLOY_URL != '' }}
-        enØ
+        env:
           POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
           POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
           SHOULD_RUN_MIGRATIONS: ${{ env.RUN_MIGRATIONS }}
