@@ -22,12 +22,13 @@ jobs:
     env:
       APP_ENV: production
       COMPOSER_ALLOW_SUPERUSER: 1
-   POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
-  POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
+  
 
 
       VITE_BASE_PATH: ${{ inputs.vite_base_path != '' && inputs.vite_base_path || '/build/' }}
       RUN_MIGRATIONS: ${{ inputs.run_migrations && 'true' || 'false' }}
+            POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
+                  POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
