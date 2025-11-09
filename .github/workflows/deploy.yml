@@ -76,7 +76,7 @@ jobs:
 
       - name: Call post-deploy hook
         if: ${{ secrets.POST_DEPLOY_URL != '' }}
-        env:
+        enØ
           POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
           POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
           SHOULD_RUN_MIGRATIONS: ${{ env.RUN_MIGRATIONS }}
