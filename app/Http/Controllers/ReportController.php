@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KharchaEntry;
-use App\Models\Reminder;
-use App\Models\RationEntry;
 use App\Models\Category;
+use App\Models\Expense;
+use App\Models\Reminder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,8 +21,8 @@ class ReportController extends Controller
 
         $totals = $this->spendTotals($user);
         $breakdown = $this->categoryBreakdown($user);
-        $recentActivity = $this->recentKharcha($user);
-        $rationDaysLeft = $this->rationDaysLeft($user);
+        $recentActivity = $this->recentExpenses($user);
+        $rationDaysLeft = null;
         $upcomingFees = $this->upcomingReminders($user);
         $health = $this->healthReminderSnapshot($user);
 
@@ -38,9 +38,9 @@ class ReportController extends Controller
         ]);
     }
 
-    protected function baseKharchaQuery($user)
+    protected function baseExpenseQuery($user)
     {
-        $query = KharchaEntry::with('category');
+        $query = Expense::with('category');
 
         if (! $user->isSuperAdmin()) {
             $query->where('user_id', $user->id);
@@ -54,8 +54,10 @@ class ReportController extends Controller
         $monthStart = Carbon::now()->startOfMonth()->toDateString();
         $monthEnd = Carbon::now()->endOfMonth()->toDateString();
 
-        $total = (clone $this->baseKharchaQuery($user))
-            ->whereBetween('date', [$monthStart, $monthEnd])
+        $dateColumn = $this->expenseDateColumn();
+
+        $total = (clone $this->baseExpenseQuery($user))
+            ->whereBetween($dateColumn, [$monthStart, $monthEnd])
             ->sum('amount');
 
         return ['total_spend' => $total];
@@ -66,9 +68,11 @@ class ReportController extends Controller
         $monthStart = Carbon::now()->startOfMonth()->toDateString();
         $monthEnd = Carbon::now()->endOfMonth()->toDateString();
 
-        $rows = (clone $this->baseKharchaQuery($user))
+        $dateColumn = $this->expenseDateColumn();
+
+        $rows = (clone $this->baseExpenseQuery($user))
             ->select('category_id', DB::raw('SUM(amount) as total_amount'))
-            ->whereBetween('date', [$monthStart, $monthEnd])
+            ->whereBetween($dateColumn, [$monthStart, $monthEnd])
             ->groupBy('category_id')
             ->orderByDesc('total_amount')
             ->limit(5)
@@ -95,18 +99,20 @@ class ReportController extends Controller
         })->toArray();
     }
 
-    protected function recentKharcha($user): array
+    protected function recentExpenses($user): array
     {
-        return $this->baseKharchaQuery($user)
-            ->orderByDesc('date')
+        $dateColumn = $this->expenseDateColumn();
+
+        return $this->baseExpenseQuery($user)
+            ->orderByDesc($dateColumn)
             ->orderByDesc('id')
             ->limit(5)
             ->get()
-            ->map(function (KharchaEntry $entry) {
+            ->map(function (Expense $entry) use ($dateColumn) {
                 return [
-                    'date' => optional($entry->date)->format('d M'),
+                    'date' => optional($entry->{$dateColumn})->format('d M'),
                     'category' => $entry->category?->name ?? 'Other',
-                    'description' => $entry->vendor ?? $entry->notes ?? 'Expense',
+                    'description' => $entry->note ?? 'Expense',
                     'amount' => (float) $entry->amount,
                 ];
             })
@@ -117,47 +123,30 @@ class ReportController extends Controller
             ];
     }
 
-    protected function rationDaysLeft($user): ?int
-    {
-        $query = RationEntry::query();
-        if (! $user->isSuperAdmin()) {
-            $query->where('user_id', $user->id);
-        }
-
-        $days = $query
-            ->whereNotNull('days_left_estimate')
-            ->orderBy('days_left_estimate')
-            ->value('days_left_estimate');
-
-        return $days ?? 9;
-    }
-
     protected function upcomingReminders($user): array
     {
-        $query = Reminder::query();
+        $query = Reminder::query()->where('is_active', true);
         if (! $user->isSuperAdmin()) {
             $query->where('user_id', $user->id);
         }
 
-        $now = Carbon::now();
-
         $reminders = $query
-            ->where('is_done', false)
-            ->orderBy('due_date')
+            ->orderBy('starts_on')
             ->limit(3)
             ->get()
             ->map(function (Reminder $reminder) {
                 return [
                     'label' => $reminder->title,
-                    'due' => optional($reminder->due_date)->format('j M') ?? 'Soon',
+                    'due' => optional($reminder->starts_on)->format('j M') ?? 'Cron',
                 ];
             })
             ->toArray();
 
         if (empty($reminders)) {
+            $now = Carbon::now();
             $reminders = [
                 ['label' => 'School Fee', 'due' => $now->copy()->addDays(7)->format('j M')],
-                ['label' => 'HE Bill', 'due' => $now->copy()->addDays(8)->format('j M')],
+                ['label' => 'Utility Bill', 'due' => $now->copy()->addDays(8)->format('j M')],
             ];
         }
 
@@ -166,15 +155,12 @@ class ReportController extends Controller
 
     protected function healthReminderSnapshot($user): array
     {
-        $query = Reminder::query();
+        $query = Reminder::query()->where('type', 'health');
         if (! $user->isSuperAdmin()) {
             $query->where('user_id', $user->id);
         }
 
-        $health = $query
-            ->where('reminder_type', 'health')
-            ->orderBy('due_date')
-            ->first();
+        $health = $query->orderBy('starts_on')->first();
 
         if (! $health) {
             return [
@@ -186,10 +172,25 @@ class ReportController extends Controller
 
         return [
             'label' => $health->title,
-            'status' => $health->due_date
-                ? ($health->due_date->isToday() ? 'Today' : $health->due_date->diffForHumans())
+            'status' => $health->starts_on
+                ? ($health->starts_on->isToday() ? 'Today' : $health->starts_on->diffForHumans())
                 : 'Scheduled',
-            'nextCheck' => $health->due_date ? $health->due_date->format('g:i A') : '—',
+            'nextCheck' => $health->schedule_cron,
         ];
+    }
+
+    protected function expenseDateColumn(): string
+    {
+        static $column = null;
+
+        if ($column === null) {
+            $column = Schema::hasColumn('expenses', 'tx_date')
+                ? 'tx_date'
+                : (Schema::hasColumn('expenses', 'expense_date')
+                    ? 'expense_date'
+                    : (Schema::hasColumn('expenses', 'date') ? 'date' : 'tx_date'));
+        }
+
+        return $column;
     }
 }

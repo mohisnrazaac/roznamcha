@@ -11,6 +11,7 @@ use App\Models\Reminder;
 use App\Models\ReportCache;
 use App\Models\User;
 use App\Models\UserSetting;
+use App\Support\ReminderScheduler;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -128,40 +129,49 @@ class RoznamchaDemoSeeder extends Seeder
         // Reminders
         $reminders = [
             [
-                'type' => 'bill',
+                'type' => 'finance',
                 'title' => 'K-Electric bill',
-                'description' => 'Due this Friday',
-                'next_due' => Carbon::now()->addDays(3),
-                'frequency' => 'monthly',
+                'notes' => 'Due this Friday',
+                'schedule_cron' => '0 18 * * *',
+                'timezone' => 'Asia/Karachi',
             ],
             [
-                'type' => 'medicine',
+                'type' => 'health',
                 'title' => 'BP Medicine',
-                'description' => 'Take after dinner',
-                'next_due' => Carbon::now()->setTime(21, 0),
-                'frequency' => 'daily',
+                'notes' => 'Take after dinner',
+                'schedule_cron' => '0 21 * * *',
+                'timezone' => 'Asia/Karachi',
             ],
             [
-                'type' => 'school_fee',
+                'type' => 'finance',
                 'title' => 'Kids school fee',
-                'description' => 'Pay at City School',
-                'next_due' => Carbon::now()->addWeek(),
-                'frequency' => 'monthly',
+                'notes' => 'Pay at City School',
+                'schedule_cron' => '0 8 1 * *',
+                'timezone' => 'Asia/Karachi',
             ],
         ];
 
-        foreach ($reminders as $reminder) {
+        foreach ($reminders as $definition) {
+            $starts = Carbon::now($definition['timezone'])->toDateString();
+            $nextRun = ReminderScheduler::nextRun(
+                $definition['schedule_cron'],
+                $definition['timezone'],
+                Carbon::parse($starts, $definition['timezone'])
+            );
+
             Reminder::updateOrCreate(
                 [
                     'user_id' => $user->id,
-                    'title' => $reminder['title'],
+                    'title' => $definition['title'],
                 ],
                 [
-                    'type' => $reminder['type'],
-                    'description' => $reminder['description'],
-                    'next_due' => $reminder['next_due'],
-                    'frequency' => $reminder['frequency'],
-                    'status' => 'pending',
+                    'type' => $definition['type'],
+                    'notes' => $definition['notes'],
+                    'schedule_cron' => $definition['schedule_cron'],
+                    'timezone' => $definition['timezone'],
+                    'starts_on' => $starts,
+                    'next_run_at' => $nextRun,
+                    'is_active' => true,
                 ]
             );
         }

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 
 export default function Reports({
@@ -11,6 +12,25 @@ export default function Reports({
     breakdown = [],
     recentActivity = [],
 }) {
+    const { props } = usePage();
+    const translations = props.translations ?? {};
+    const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
+    const [isGenerating, setIsGenerating] = useState(false);
+    const downloadUrl = props?.flash?.report_download_url ?? null;
+
+    const generateReport = (event) => {
+        event.preventDefault();
+        setIsGenerating(true);
+        router.post(
+            route('panel.reports.survival'),
+            { month },
+            {
+                preserveScroll: true,
+                onFinish: () => setIsGenerating(false),
+            }
+        );
+    };
+
     return (
         <ControlRoomLayout active="reports" user={user}>
             <div className="p-6 md:p-10 text-white space-y-10">
@@ -21,13 +41,35 @@ export default function Reports({
                             Monthly survival report for {monthLabel}. Designed for the household CFO.
                         </p>
                     </div>
-                    <button
-                        type="button"
-                        className="inline-flex items-center justify-center rounded-lg border border-yellow-400 px-4 py-2 text-sm font-semibold text-yellow-300 transition hover:bg-yellow-400/10"
-                    >
-                        Download PDF (soon)
-                    </button>
+                    <form onSubmit={generateReport} className="flex items-center gap-2">
+                        <input
+                            type="month"
+                            value={month}
+                            onChange={(event) => setMonth(event.target.value)}
+                            className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1 text-sm text-white"
+                        />
+                        <button
+                            type="submit"
+                            disabled={isGenerating}
+                            className="inline-flex items-center justify-center rounded-lg border border-yellow-400 px-4 py-2 text-sm font-semibold text-yellow-300 transition hover:bg-yellow-400/10 disabled:opacity-50"
+                        >
+                            {isGenerating ? 'Generating…' : translations.reports?.survival_cta}
+                        </button>
+                    </form>
                 </header>
+
+                {downloadUrl ? (
+                    <div className="rounded-xl border border-emerald-400 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                        {translations.reports?.survival_ready}{' '}
+                        <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="underline">
+                            {translations.actions?.download ?? 'Download'}
+                        </a>
+                    </div>
+                ) : (
+                    <div className="rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 text-sm text-slate-300">
+                        {translations.reports?.survival_empty}
+                    </div>
+                )}
 
                 <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                     <article className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">

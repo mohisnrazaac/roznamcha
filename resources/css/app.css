@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.control-room input:not([type='checkbox']):not([type='radio']),
+.control-room select,
+.control-room textarea {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
+.control-room input::placeholder,
+.control-room textarea::placeholder {
+    color: #94a3b8;
+}

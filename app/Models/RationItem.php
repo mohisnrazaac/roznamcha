@@ -2,23 +2,41 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Schema;
 
-class RationItem extends Model {
-    protected $fillable = ['user_id','item_name','unit','stock_quantity','daily_usage','price_per_unit'];
+class RationItem extends Model
+{
+    use HasFactory;
 
-    protected $casts = [
-        'stock_quantity' => 'decimal:2',
-        'daily_usage' => 'decimal:2',
-        'price_per_unit' => 'decimal:2',
+    protected $fillable = [
+        'user_id',
+        'household_id',
+        'name',
+        'item_name',
+        'unit',
+        'is_active',
     ];
 
-    public function user(): BelongsTo {
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
-    public function history(): HasMany {
-        return $this->hasMany(RationHistory::class);
+
+    public function household(): BelongsTo
+    {
+        return $this->belongsTo(Household::class);
+    }
+
+    public function prices(): HasMany
+    {
+        return $this->hasMany(RationPrice::class)->orderByDesc('priced_at');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -71,5 +72,17 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function households(): BelongsToMany
+    {
+        return $this->belongsToMany(Household::class)->withPivot('is_owner')->withTimestamps();
+    }
+
+    public function primaryHousehold(): ?Household
+    {
+        return app()->bound('currentHousehold')
+            ? app('currentHousehold')
+            : $this->households()->first();
     }
 }

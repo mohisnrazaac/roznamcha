@@ -3,13 +3,23 @@ import { Link, usePage } from '@inertiajs/react';
 
 export default function AppLayout({ children }) {
   const { url } = usePage();
+  const safeRoute = (name, fallback) => {
+    try {
+      if (typeof route === 'function') {
+        return route(name);
+      }
+    } catch (error) {
+      // noop
+    }
+    return fallback;
+  };
 
      const navItems = [
        { href: route('dashboard'), label: 'Dashboard', icon: '📊' },
-       { href: route('kharcha.map'), label: 'Kharcha Map', icon: '💸' },
-       { href: route('ration.index'), label: 'Ration Brain', icon: '🥘' },
-       { href: route('reminders.index'), label: 'Reminders', icon: '⏰' },
-       { href: route('reports.main'), label: 'Reports', icon: '📈' },
+       { href: safeRoute('panel.kharcha.index', '/panel/kharcha'), label: 'Kharcha Map', icon: '💸' },
+       { href: safeRoute('panel.ration.index', '/panel/ration'), label: 'Ration Brain', icon: '🥘' },
+       { href: safeRoute('panel.reminders.index', '/panel/reminders'), label: 'Reminders', icon: '⏰' },
+       { href: safeRoute('reports.index', '/reports'), label: 'Reports', icon: '📈' },
      ];
 
   return (

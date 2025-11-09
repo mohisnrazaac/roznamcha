@@ -1,0 +1,30 @@
+# Laravel / PHP
+/vendor/
+/bootstrap/cache/
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+.env
+.env.*
+composer.lock
+*.log
+
+# Node / React / Vite
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.vite/
+.next/
+dist/
+build/
+
+# IDE / OS noise
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

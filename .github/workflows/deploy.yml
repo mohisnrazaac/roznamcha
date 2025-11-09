@@ -1,0 +1,93 @@
+name: Deploy Roznamcha over FTP
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      run_migrations:
+        description: 'Run php artisan migrate --force via post-deploy hook'
+        required: false
+        default: false
+        type: boolean
+      vite_base_path:
+        description: 'Override Vite base (e.g., /apps/roznamcha/public/build/)'
+        required: false
+        default: ''
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: production
+      COMPOSER_ALLOW_SUPERUSER: 1
+      VITE_BASE_PATH: ${{ inputs.vite_base_path != '' && inputs.vite_base_path || '/build/' }}
+      RUN_MIGRATIONS: ${{ inputs.run_migrations && 'true' || 'false' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+          extensions: mbstring, intl, pdo_mysql, bcmath, fileinfo
+
+      - name: Cache Composer deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-
+
+      - name: Install Composer dependencies (no-dev)
+        run: composer install --no-dev --prefer-dist --optimize-autoloader
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build frontend assets
+        run: |
+          rm -f public/hot || true
+          npm run build
+
+      - name: Prepare deploy bundle
+        run: |
+          mkdir -p deploy_bundle
+          rsync -av --delete --exclude-from='.deployignore' ./ deploy_bundle/
+
+      - name: FTP deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+          local-dir: deploy_bundle
+          log-level: verbose
+
+      - name: Call post-deploy hook
+        if: ${{ env.RUN_MIGRATIONS == 'true' || secrets.POST_DEPLOY_URL != '' }}
+        env:
+          POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
+          POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
+          SHOULD_RUN_MIGRATIONS: ${{ env.RUN_MIGRATIONS }}
+        run: |
+          if [ -z "$POST_DEPLOY_URL" ]; then
+            echo "POST_DEPLOY_URL not configured; skipping post-deploy hook."
+            exit 0
+          fi
+          curl -X POST "$POST_DEPLOY_URL" \
+            -H "Authorization: Bearer $POST_DEPLOY_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"run_migrations\": $SHOULD_RUN_MIGRATIONS}"
