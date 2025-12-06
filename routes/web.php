@@ -1,7 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
@@ -14,19 +15,41 @@ use App\Http\Controllers\SurvivalReportController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\MaintenanceTriggerController;
+use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\ContactController;
+
+$maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
+
+if ($maintenanceEnabled) {
+    Route::middleware('throttle:5,1')->group(function () {
+        Route::get('/maintenance/run', [MaintenanceTriggerController::class, 'show'])
+            ->name('maintenance.trigger');
+        Route::post('/maintenance/run', [MaintenanceTriggerController::class, 'run'])
+            ->name('maintenance.trigger.run');
+    });
+}
 
 // Public marketing pages
-Route::get('/', function () {
-    return Inertia::render('Public/Home');
-})->name('public.home');
+Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
+Route::get('/kharcha-map', [PublicPageController::class, 'kharchaMap'])->name('public.kharcha-map');
+Route::get('/ration-brain', [PublicPageController::class, 'rationBrain'])->name('public.ration-brain');
+Route::get('/survival-report', [PublicPageController::class, 'survivalReport'])->name('public.survival-report');
+Route::get('/about', [PublicPageController::class, 'about'])->name('public.about');
+Route::get('/contact', [ContactController::class, 'show'])->name('public.contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('public.contact.send');
 
-Route::get('/about', function () {
-    return Inertia::render('Public/About');
-})->name('public.about');
+Route::get('/maintenance/clear-caches', function (Request $request) {
+    $token = config('maintenance.secret', env('MAINTENANCE_TRIGGER_SECRET'));
 
-Route::get('/contact', function () {
-    return Inertia::render('Public/Contact');
-})->name('public.contact');
+    abort_unless($token && hash_equals((string) $token, (string) $request->query('token')), 403);
+
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+
+    return response()->json(['status' => 'Laravel caches cleared']);
+})->name('maintenance.clear-caches');
 
 // Authentication
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');

@@ -40,6 +40,9 @@ class HandleInertiaRequests extends Middleware
             'availableLocales' => config('roznamcha.available_locales', []),
             'isRtl' => $locale === 'ur',
             'translations' => trans('roznamcha'),
+            'flash' => [
+                'status' => $request->session()->get('status'),
+            ],
         ];
     }
 }

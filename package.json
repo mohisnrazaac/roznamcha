@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build && cp -f public/build/.vite/manifest.json public/build/manifest.json && php artisan ziggy:generate resources/js/ziggy.js"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",

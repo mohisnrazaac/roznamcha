@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\UserSetting;
 use App\Support\ReminderScheduler;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -159,20 +160,26 @@ class RoznamchaDemoSeeder extends Seeder
                 Carbon::parse($starts, $definition['timezone'])
             );
 
+            $payload = [
+                'type' => $definition['type'],
+                'notes' => $definition['notes'],
+                'schedule_cron' => $definition['schedule_cron'],
+                'timezone' => $definition['timezone'],
+                'starts_on' => $starts,
+                'next_run_at' => $nextRun,
+                'is_active' => true,
+            ];
+
+            if (Schema::hasColumn('reminders', 'reminder_type')) {
+                $payload['reminder_type'] = $definition['type'];
+            }
+
             Reminder::updateOrCreate(
                 [
                     'user_id' => $user->id,
                     'title' => $definition['title'],
                 ],
-                [
-                    'type' => $definition['type'],
-                    'notes' => $definition['notes'],
-                    'schedule_cron' => $definition['schedule_cron'],
-                    'timezone' => $definition['timezone'],
-                    'starts_on' => $starts,
-                    'next_run_at' => $nextRun,
-                    'is_active' => true,
-                ]
+                $payload
             );
         }
 
