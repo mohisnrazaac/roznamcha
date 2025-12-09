@@ -6,10 +6,12 @@ use App\Mail\ContactMessageMail;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Throwable;
 
 class ContactController extends Controller
 {
@@ -48,12 +50,27 @@ class ContactController extends Controller
             ]);
         }
 
-        Mail::to('micasony@gmail.com')->send(new ContactMessageMail(
-            $data['name'],
-            $data['email'],
-            $data['subject'],
-            $data['message']
-        ));
+        $recipient = config('mail.contact_to', 'micasony@gmail.com');
+
+        try {
+            Mail::to($recipient)->send(new ContactMessageMail(
+                $data['name'],
+                $data['email'],
+                $data['subject'],
+                $data['message']
+            ));
+        } catch (Throwable $exception) {
+            Log::error('contact_form_mail_failed', [
+                'error' => $exception->getMessage(),
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'subject' => $data['subject'],
+            ]);
+
+            throw ValidationException::withMessages([
+                'message' => __('We could not deliver your message right now. Please try again later or email support@roznamcha.pk.'),
+            ]);
+        }
 
         return redirect()
             ->route('public.contact')
