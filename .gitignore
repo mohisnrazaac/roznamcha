@@ -24,6 +24,9 @@ pnpm-debug.log*
 dist/
 build/
 
+# Deployment bundles
+deploy/
+
 # IDE / OS noise
 .idea/
 .vscode/
