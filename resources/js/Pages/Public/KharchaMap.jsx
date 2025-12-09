@@ -1,144 +1,137 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import SeoHead from '../../Components/SeoHead';
+import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
-const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://roznamcha.local';
-const defaultOgImage = 'https://placehold.co/1200x630.png?text=Roznamcha';
+const benefitBullets = [
+    'Spot overspending on rent, fuel, or lifestyle treats before payday',
+    'Explain monthly totals to family in clear Urdu charts',
+    'Plan ahead for school fees, petrol hikes, and ration restocks',
+    'Share data with spouses or parents without sending spreadsheets',
+];
+
+const steps = [
+    'Log in and open the household workspace.',
+    'Tap “Add kharcha”, enter amount, category, and short Urdu note.',
+    'Repeat daily or weekly to capture groceries, bills, transport, or fees.',
+    'Use filters to compare weeks and download summaries for the Survival Report.',
+];
+
+const faqs = [
+    {
+        question: 'Is Kharcha Map free?',
+        answer: 'Yes, Kharcha Map is included in the free Roznamcha plan so every household can track expenses without paying upfront.',
+    },
+    {
+        question: 'Do I need to be good with numbers?',
+        answer: 'No. You just enter rupee amounts; the dashboard handles totals, charts, and comparisons.',
+    },
+    {
+        question: 'Can my family members also use it?',
+        answer: 'Invite any trusted family member into the same household workspace so everyone can log and review kharcha together.',
+    },
+    {
+        question: 'Is data secure?',
+        answer: 'Entries stay encrypted and private; only users you invite can see your kharcha timeline.',
+    },
+    {
+        question: 'Do I need to install an app?',
+        answer: 'No installation needed. Open roznamcha.pk on your phone or computer browser and start tracking.',
+    },
+];
 
 export default function KharchaMap() {
-    const pageUrl = `${baseUrl}/kharcha-map`;
-    const meta = {
-        title: 'Kharcha Map — track every rupee of your Pakistani household budget',
-        description:
-            'Roznamcha Kharcha Map helps Pakistani families map monthly kharcha, categorize grocery, rent, school fees, utility bills and petrol to see exactly where money goes.',
-        image: defaultOgImage,
-    };
+    const seo = seoContent.kharchaMap;
+    const jsonLd = buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">
-            <Head title={meta.title}>
-                <meta name="description" content={meta.description} />
-                <meta property="og:title" content={meta.title} />
-                <meta property="og:description" content={meta.description} />
-                <meta property="og:type" content="article" />
-                <meta property="og:url" content={pageUrl} />
-                <meta property="og:image" content={meta.image} />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={meta.title} />
-                <meta name="twitter:description" content={meta.description} />
-                <meta name="twitter:image" content={meta.image} />
-            </Head>
+            <SeoHead {...seo} jsonLd={jsonLd} />
 
             <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
                 <header className="space-y-4">
                     <p className="text-xs uppercase tracking-[0.4em] text-[#001a4a]/70">Roznamcha</p>
-                    <h1 className="text-3xl font-bold text-[#001a4a]">Kharcha Map — track every rupee of your household budget</h1>
+                    <h1 className="text-3xl font-bold text-[#001a4a]">Kharcha Map – the Urdu expense tracker Pakistan trusts</h1>
                     <p className="text-base text-slate-700">
-                        Cut through guesswork by logging day-to-day kharcha for grocery, rent, school van, mobile package, medicine, and chai.
-                        Kharcha Map keeps monthly burn visible for joint families, students, and salaried couples managing Pakistani inflation.
+                        Kharcha Map is the center of Roznamcha’s kharcha tracker. It records day-to-day expenses in Urdu, whether it’s milk, mobile
+                        data, rent, or school fees, so Pakistani families finally know where each rupee went.
                     </p>
                 </header>
 
-                <article className="space-y-6">
-                    <Section
-                        title="How Kharcha Map works"
-                        content="Open the panel, add today’s kharcha with date, category, and optional Urdu notes. The map instantly plots totals by day and category so you spot spikes—maybe fuel because of extra trips or school fee quarter hitting."
-                        bullets={[
-                            'Add unlimited entries with PKR amounts and bilingual notes.',
-                            'Filter date ranges to compare Ramzan vs regular months.',
-                            'Export data into the month-end Survival Report instantly.',
-                        ]}
-                    />
-
-                    <Section
-                        title="Why Kharcha Map is made for Pakistani families"
-                        content="We built Kharcha Map for the mix of cash + digital payments most households live with. You can tag rent, bijli bill, gas bill, milk, roti, mobile top-up, or even chai da dabba. The dashboard respects shared devices and low-bandwidth connections."
-                        bullets={[
-                            'Designed for Urdu/English bilingual inputs.',
-                            'Works for joint families, students sharing flats, or shop owners separating business vs home kharcha.',
-                            'Highlights essentials like school fees, kirana credit, and Qarz payments.',
-                        ]}
-                    />
-
-                    <Section
-                        title="Examples of kharcha categories"
-                        content="Start with default buckets or create your own. Popular categories include:"
-                        bullets={[
-                            'Grocery + Ration (atta, roti, sabzi, milk, daal, masalay)',
-                            'Utilities (KE bijli bill, sui gas, PTCL, water tanker)',
-                            'Transport (petrol, Careem, school van, local bus cards)',
-                            'Education + Fees (school fee, tuition, books, uniforms)',
-                            'Health + Care (clinic visits, medicine, multivitamins)',
-                            'Lifestyle (mobile package, Netflix, mehndi, gifting)',
-                        ]}
-                    />
-                </article>
-
-                <section className="bg-white border border-slate-200 rounded-2xl p-6" itemScope itemType="https://schema.org/FAQPage">
-                    <h2 className="text-2xl font-semibold text-[#001a4a] mb-4">Kharcha Map FAQ</h2>
-                    <div className="space-y-4">
-                        <FAQ
-                            question="Is my household data private?"
-                            answer="Yes. Kharcha entries live in your secure Roznamcha account. Only logged-in household members you invite can view them."
-                        />
-                        <FAQ
-                            question="Can I manage multiple households?"
-                            answer="Roznamcha supports multiple households; switch between your parents’ home and your own within the Control Room."
-                        />
-                        <FAQ
-                            question="How is data stored?"
-                            answer="Entries are saved in an encrypted database hosted in secure cloud regions. You can delete any record or export your data at any time."
-                        />
-                    </div>
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">What Kharcha Map does</h2>
+                    <p className="text-base text-slate-700">
+                        Kharcha Map breaks every rupee into a timeline of daily, weekly, and monthly spending. Log groceries, fuel, electricity,
+                        school van fees, rent, and healthcare. See totals by category, compare current weeks with last month, and watch how close
+                        you are to your monthly plan. Categories stay flexible so you can add zakat, savings, or business reimbursements.
+                    </p>
                 </section>
 
-                <nav className="flex flex-wrap gap-4 text-sm font-semibold text-[#001a4a]">
-                    <Link href={route('public.home')} className="hover:underline">
-                        ← Home
-                    </Link>
-                    <Link href={route('public.ration-brain')} className="hover:underline">
-                        Ration Brain
-                    </Link>
-                    <Link href={route('public.survival-report')} className="hover:underline">
-                        Survival Report
-                    </Link>
-                    <Link href={route('public.about')} className="hover:underline">
-                        About Roznamcha
-                    </Link>
-                    <Link href={route('public.contact')} className="hover:underline">
-                        Contact
-                    </Link>
-                </nav>
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">How Kharcha Map helps Pakistani families</h2>
+                    <p className="text-base text-slate-700">
+                        When families see real numbers, they make better decisions. Kharcha Map reveals spending patterns that notebooks never
+                        capture.
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-slate-700">
+                        {benefitBullets.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">How to use Kharcha Map</h2>
+                    <p className="text-base text-slate-700">
+                        Using Kharcha Map is straightforward even if you’ve never maintained a budget before.
+                    </p>
+                    <ol className="list-decimal pl-5 space-y-2 text-slate-700">
+                        {steps.map((step) => (
+                            <li key={step}>{step}</li>
+                        ))}
+                    </ol>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4" itemScope itemType="https://schema.org/FAQPage">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">FAQ</h2>
+                    {faqs.map((faq) => (
+                        <div
+                            key={faq.question}
+                            itemScope
+                            itemProp="mainEntity"
+                            itemType="https://schema.org/Question"
+                            className="border border-slate-200 rounded-xl p-4 space-y-2"
+                        >
+                            <h3 itemProp="name" className="text-lg font-semibold text-[#001a4a]">
+                                {faq.question}
+                            </h3>
+                            <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                                <p itemProp="text" className="text-sm text-slate-700">
+                                    {faq.answer}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </section>
+
+                <div className="text-sm text-[#001a4a] font-semibold space-y-2">
+                    <p>
+                        Explore{' '}
+                        <Link href={route('public.ration-brain')} className="underline hover:no-underline">
+                            Ration Brain
+                        </Link>{' '}
+                        for grocery and ration tracking.
+                    </p>
+                    <p>
+                        See the{' '}
+                        <Link href={route('public.survival-report')} className="underline hover:no-underline">
+                            Survival Report
+                        </Link>{' '}
+                        for a monthly summary.
+                    </p>
+                </div>
             </section>
         </PublicLayout>
-    );
-}
-
-function Section({ title, content, bullets }) {
-    return (
-        <section className="space-y-3">
-            <h2 className="text-2xl font-semibold text-[#001a4a]">{title}</h2>
-            <p className="text-base text-slate-700">{content}</p>
-            <ul className="list-disc pl-5 space-y-2 text-slate-700">
-                {bullets.map((item) => (
-                    <li key={item}>{item}</li>
-                ))}
-            </ul>
-        </section>
-    );
-}
-
-function FAQ({ question, answer }) {
-    return (
-        <div itemScope itemProp="mainEntity" itemType="https://schema.org/Question" className="border border-slate-200 rounded-xl p-4">
-            <h3 itemProp="name" className="text-lg font-semibold text-[#001a4a]">
-                {question}
-            </h3>
-            <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                <p itemProp="text" className="mt-2 text-sm text-slate-700">
-                    {answer}
-                </p>
-            </div>
-        </div>
     );
 }

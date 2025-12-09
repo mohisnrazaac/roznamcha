@@ -1,119 +1,116 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import SeoHead from '../../Components/SeoHead';
+import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
-const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://roznamcha.local';
-const defaultOgImage = 'https://placehold.co/1200x630.png?text=Roznamcha';
+const audience = [
+    'Salaried families stretching paychecks through the 30th',
+    'Small business owners balancing shop and home kharcha',
+    'Parents managing school fees, tuition, and ration together',
+    'People sending money to relatives and needing visibility on usage',
+];
 
 export default function About() {
-    const pageUrl = `${baseUrl}/about`;
-    const meta = {
-        title: 'About Roznamcha — household survival cockpit for Pakistan',
-        description:
-            'Roznamcha is an Urdu-first personal finance and ration awareness tool. Learn why we built Kharcha Map, Ration Brain, Reminders, and Survival Report for Pakistani families.',
-        image: defaultOgImage,
-    };
+    const seo = seoContent.about;
+    const jsonLd = buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">
-            <Head title={meta.title}>
-                <meta name="description" content={meta.description} />
-                <meta property="og:title" content={meta.title} />
-                <meta property="og:description" content={meta.description} />
-                <meta property="og:type" content="article" />
-                <meta property="og:url" content={pageUrl} />
-                <meta property="og:image" content={meta.image} />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={meta.title} />
-                <meta name="twitter:description" content={meta.description} />
-                <meta name="twitter:image" content={meta.image} />
-            </Head>
+            <SeoHead {...seo} jsonLd={jsonLd} />
 
             <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
                 <header className="space-y-4">
+                    <p className="text-xs uppercase tracking-[0.4em] text-[#001a4a]/70">Roznamcha</p>
                     <h1 className="text-3xl font-bold text-[#001a4a]">About Roznamcha</h1>
                     <p className="text-base text-slate-700">
-                        Roznamcha is the household survival cockpit for Pakistan. We combine Kharcha Map, Ration Brain, Reminders, and Survival Report
-                        to help families control budgets, ration lists, and upcoming dues in one Urdu-first control room.
+                        Roznamcha is a household survival cockpit built in Pakistan for Pakistan. Kharcha Map, Ration Brain, and the Survival Report
+                        give families the visibility they never had with diaries or spreadsheets.
                     </p>
                 </header>
 
-                <section className="space-y-3">
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">Why we built Roznamcha</h2>
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Why Roznamcha was created</h2>
                     <p className="text-base text-slate-700">
-                        Inflation, unstable income, and the lack of simple Urdu finance tools pushed us to build Roznamcha. Our parents and friends
-                        still used diaries for ration, another for kharcha, and WhatsApp reminders for bills. We wanted one clean cockpit that
-                        respects Pakistani realities.
+                        We watched relatives juggle salaries against runaway mehngai. Rent climbed, petrol hiked, school fees arrived without notice,
+                        and ration diaries never balanced. There was no Urdu budget app that showed the full picture. Roznamcha was created so every
+                        household could log expenses, track ration prices, and see a survival report in the language they speak at home.
                     </p>
                 </section>
 
-                <section className="space-y-3">
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">How Roznamcha works</h2>
-                    <p className="text-base text-slate-700">Inside the app you will find:</p>
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">What Roznamcha offers</h2>
+                    <p className="text-base text-slate-700">
+                        Three modules keep Pakistani households steady.{' '}
+                        <Link href={route('public.kharcha-map')} className="font-semibold text-[#001a4a] underline">
+                            Kharcha Map
+                        </Link>{' '}
+                        is the kharcha tracker that records every rupee—from chai to rent.{' '}
+                        <Link href={route('public.ration-brain')} className="font-semibold text-[#001a4a] underline">
+                            Ration Brain
+                        </Link>{' '}
+                        tracks grocery prices so mehngai is measured, not guessed. The{' '}
+                        <Link href={route('public.survival-report')} className="font-semibold text-[#001a4a] underline">
+                            Survival Report
+                        </Link>{' '}
+                        combines everything into a monthly budget report that families can share.
+                    </p>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Our promise</h2>
+                    <p className="text-base text-slate-700">
+                        Roznamcha stays privacy-first, simple, and Urdu friendly. Your kharcha and ration data belongs to you. We design for shared
+                        phones, slow internet, and bilingual notes, and we answer support messages with real humans. No corporate buzzwords—just tools
+                        that work for actual Pakistani life.
+                    </p>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Who Roznamcha is for</h2>
                     <ul className="list-disc pl-5 space-y-2 text-slate-700">
-                        <li>
-                            <Link href={route('public.kharcha-map')} className="font-semibold hover:underline">
-                                Kharcha Map
-                            </Link>{' '}
-                            to log rent, school fees, petrol, and more.
-                        </li>
-                        <li>
-                            <Link href={route('public.ration-brain')} className="font-semibold hover:underline">
-                                Ration Brain
-                            </Link>{' '}
-                            to track atta, ghee, sugar, chai, and other staples.
-                        </li>
-                        <li>Reminder tools for school fees, rent, bijli bills, BP medicine, and zakat.</li>
-                        <li>
-                            <Link href={route('public.survival-report')} className="font-semibold hover:underline">
-                                Survival Report
-                            </Link>{' '}
-                            for a detailed month-end PDF summary.
-                        </li>
+                        {audience.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
                     </ul>
                 </section>
 
-                <section className="space-y-3">
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">Who Roznamcha is for</h2>
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Future roadmap</h2>
                     <p className="text-base text-slate-700">
-                        Families managing joint budgets, students sharing apartments, salaried people balancing EMIs, freelancers with uneven cash
-                        flow, and small shop owners who want to separate shop vs home kharcha all rely on Roznamcha. If you work in PKR and think in
-                        Urdu, you’re home.
+                        We are building deeper insights, localized alerts, and eventually mobile apps so Pakistani households receive ration tips and
+                        kharcha reminders on the go. User feedback drives every release.
                     </p>
                 </section>
 
-                <section className="space-y-3">
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">Trust and privacy</h2>
-                    <p className="text-base text-slate-700">
-                        Your household data belongs to you. We store it securely, give owners full control, and provide exports or deletion on
-                        request. Our support inbox is run by humans—message us anytime.
-                    </p>
-                    <p className="text-base text-slate-700">
-                        Need help?{' '}
-                        <Link href={route('public.contact')} className="font-semibold text-[#001a4a] hover:underline">
-                            Contact Roznamcha
+                <div className="text-sm text-[#001a4a] font-semibold space-y-2">
+                    <p>
+                        Go back to the{' '}
+                        <Link href={route('public.home')} className="underline hover:no-underline">
+                            Home page
+                        </Link>{' '}
+                        or explore{' '}
+                        <Link href={route('public.kharcha-map')} className="underline hover:no-underline">
+                            Kharcha Map
+                        </Link>
+                        ,{' '}
+                        <Link href={route('public.ration-brain')} className="underline hover:no-underline">
+                            Ration Brain
+                        </Link>
+                        , and the{' '}
+                        <Link href={route('public.survival-report')} className="underline hover:no-underline">
+                            Survival Report
                         </Link>
                         .
                     </p>
-                </section>
-
-                <nav className="flex flex-wrap gap-4 text-sm font-semibold text-[#001a4a]">
-                    <Link href={route('public.home')} className="hover:underline">
-                        Home
-                    </Link>
-                    <Link href={route('public.kharcha-map')} className="hover:underline">
-                        Kharcha Map
-                    </Link>
-                    <Link href={route('public.ration-brain')} className="hover:underline">
-                        Ration Brain
-                    </Link>
-                    <Link href={route('public.survival-report')} className="hover:underline">
-                        Survival Report
-                    </Link>
-                    <Link href={route('public.contact')} className="hover:underline">
-                        Contact
-                    </Link>
-                </nav>
+                    <p>
+                        Need help?{' '}
+                        <Link href={route('public.contact')} className="underline hover:no-underline">
+                            Contact the team
+                        </Link>
+                        .
+                    </p>
+                </div>
             </section>
         </PublicLayout>
     );

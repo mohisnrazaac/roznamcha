@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import SeoHead from '../../Components/SeoHead';
+import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
-const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://roznamcha.local';
-const defaultOgImage = 'https://placehold.co/1200x630.png?text=Roznamcha';
+const contactReasons = [
+    'Trouble entering expenses inside Kharcha Map',
+    'Questions about tracking grocery prices in Ration Brain',
+    'Ideas for new Survival Report insights or reminders',
+    'Bug reports, billing issues, or suspected data problems',
+    'Partnerships with NGOs, community groups, or media',
+];
 
 export default function Contact() {
     const { props } = usePage();
     const { formTimestamp, flash = {} } = props;
-    const pageUrl = `${baseUrl}/contact`;
-    const meta = {
-        title: 'Contact Roznamcha — support, questions, and feedback',
-        description:
-            'Reach the Roznamcha team for support, partnership ideas, or product feedback about Kharcha Map, Ration Brain, and the Survival Report.',
-        image: defaultOgImage,
-    };
+    const seo = seoContent.contact;
+    const jsonLd = buildWebPageSchema(seo);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
@@ -41,25 +43,14 @@ export default function Contact() {
 
     return (
         <PublicLayout variant="inner">
-            <Head title={meta.title}>
-                <meta name="description" content={meta.description} />
-                <meta property="og:title" content={meta.title} />
-                <meta property="og:description" content={meta.description} />
-                <meta property="og:type" content="article" />
-                <meta property="og:url" content={pageUrl} />
-                <meta property="og:image" content={meta.image} />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={meta.title} />
-                <meta name="twitter:description" content={meta.description} />
-                <meta name="twitter:image" content={meta.image} />
-            </Head>
+            <SeoHead {...seo} jsonLd={jsonLd} />
 
             <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
                 <header className="space-y-2 text-center">
                     <h1 className="text-3xl font-bold text-[#001a4a]">Contact Roznamcha</h1>
                     <p className="text-base text-slate-700">
-                        Send feedback, request support, or ask product questions about Kharcha Map, Ration Brain, and the Survival Report. We reply
-                        from micasony@gmail.com within two working days.
+                        Reach us for support, feedback, partnerships, or any ideas that make Kharcha Map, Ration Brain, and the Survival Report more
+                        useful for Pakistani households.
                     </p>
                 </header>
 
@@ -102,7 +93,7 @@ export default function Contact() {
                             id="message"
                             rows="5"
                             className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-[#001a4a] focus:outline-none focus:ring-2 focus:ring-[#001a4a]/30"
-                            placeholder="Share your support request, question, or feedback"
+                            placeholder="Share your request or feedback"
                             value={data.message}
                             onChange={(e) => setData('message', e.target.value)}
                         />
@@ -129,13 +120,42 @@ export default function Contact() {
                     </button>
                 </form>
 
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3 text-left">
+                    <h2 className="text-xl font-semibold text-[#001a4a]">How to reach us</h2>
+                    <p className="text-base text-slate-700">
+                        Email{' '}
+                        <a href="mailto:support@roznamcha.pk" className="text-[#001a4a] font-semibold">
+                            support@roznamcha.pk
+                        </a>{' '}
+                        for direct help. The same team reads the in-app contact form, so feel free to use whichever is easier. WhatsApp and social
+                        support will arrive later once we can guarantee timely responses there as well.
+                    </p>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3 text-left">
+                    <h2 className="text-xl font-semibold text-[#001a4a]">When to contact us</h2>
+                    <ul className="list-disc pl-5 space-y-1 text-slate-700">
+                        {contactReasons.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3 text-left">
+                    <h2 className="text-xl font-semibold text-[#001a4a]">Response time and privacy</h2>
+                    <p className="text-base text-slate-700">
+                        We reply within two working days, often sooner. Your email, phone, or message content stays private and is used only to solve
+                        your request. We do not share support conversations with third parties.
+                    </p>
+                </section>
+
                 <div className="text-sm text-slate-600 text-center space-y-2">
                     <p>
-                        Prefer a quick read? Visit the{' '}
+                        Need product details first? Visit the{' '}
                         <Link href={route('public.home')} className="font-semibold text-[#001a4a] hover:underline">
-                            home page
+                            Home
                         </Link>{' '}
-                        or explore{' '}
+                        page or explore{' '}
                         <Link href={route('public.kharcha-map')} className="font-semibold text-[#001a4a] hover:underline">
                             Kharcha Map
                         </Link>
@@ -147,7 +167,11 @@ export default function Contact() {
                         <Link href={route('public.survival-report')} className="font-semibold text-[#001a4a] hover:underline">
                             Survival Report
                         </Link>
-                        .
+                        . Learn more about the story on the{' '}
+                        <Link href={route('public.about')} className="font-semibold text-[#001a4a] hover:underline">
+                            About
+                        </Link>{' '}
+                        page.
                     </p>
                 </div>
             </section>

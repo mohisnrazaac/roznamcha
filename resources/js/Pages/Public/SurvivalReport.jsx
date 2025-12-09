@@ -1,110 +1,127 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import SeoHead from '../../Components/SeoHead';
+import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
-const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://roznamcha.local';
-const defaultOgImage = 'https://placehold.co/1200x630.png?text=Roznamcha';
+const reportHighlights = [
+    'Total income vs total expenses for the month',
+    'Top spending categories such as rent, school fees, ration, fuel, and health',
+    'Ration cost and the inflation impact pulled from Ration Brain',
+    'Leftover balance, savings added, or gap that needs covering',
+    'Trends compared to previous months so you see improvement or decline',
+];
+
+const faqs = [
+    {
+        question: 'Do I need to manually calculate the Survival Report?',
+        answer: 'No. Once your kharcha and ration entries are recorded, Roznamcha compiles the report automatically.',
+    },
+    {
+        question: 'Is this report auto generated?',
+        answer: 'Yes, the report is generated with one click and updates whenever you add new data.',
+    },
+    {
+        question: 'Can I export or share the report?',
+        answer: 'Download a PDF or share it digitally with spouses, parents, or accountants without exposing your login.',
+    },
+    {
+        question: 'Does the report support multiple months?',
+        answer: 'You can review past months, compare trends, and keep an archive for future planning.',
+    },
+    {
+        question: 'Does using the Survival Report cost money?',
+        answer: 'It is included in the current plan. Advanced analytics may be offered as premium add-ons later.',
+    },
+];
 
 export default function SurvivalReport() {
-    const pageUrl = `${baseUrl}/survival-report`;
-    const meta = {
-        title: 'Survival Report — month-end PDF summary for Pakistani households',
-        description:
-            'Roznamcha Survival Report creates a month-end PDF showing total spending by category, ration inflation and upcoming reminders so Pakistani families can plan the next month calmly.',
-        image: defaultOgImage,
-    };
+    const seo = seoContent.survivalReport;
+    const jsonLd = buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">
-            <Head title={meta.title}>
-                <meta name="description" content={meta.description} />
-                <meta property="og:title" content={meta.title} />
-                <meta property="og:description" content={meta.description} />
-                <meta property="og:type" content="article" />
-                <meta property="og:url" content={pageUrl} />
-                <meta property="og:image" content={meta.image} />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={meta.title} />
-                <meta name="twitter:description" content={meta.description} />
-                <meta name="twitter:image" content={meta.image} />
-            </Head>
+            <SeoHead {...seo} jsonLd={jsonLd} />
 
             <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
                 <header className="space-y-4">
-                    <h1 className="text-3xl font-bold text-[#001a4a]">Month-end Survival Report for your household</h1>
+                    <p className="text-xs uppercase tracking-[0.4em] text-[#001a4a]/70">Roznamcha</p>
+                    <h1 className="text-3xl font-bold text-[#001a4a]">Survival Report – monthly budget report for Pakistani households</h1>
                     <p className="text-base text-slate-700">
-                        The Survival Report is a premium-quality PDF generated from your Kharcha Map, Ration Brain, and Reminders. It sums up the month with clean charts and Urdu-friendly text so you can plan the next salary cycle with clarity.
+                        Survival Report is the month-end view of everything recorded in Kharcha Map, Ration Brain, reminders, and incomes. It answers
+                        the question: how well did we survive this month, and what must we do before the next salary?
                     </p>
                 </header>
 
-                <article className="space-y-6">
-                    <Section
-                        title="What is the Survival Report?"
-                        content="A downloadable PDF snapshot that highlights the month’s total spend, ration inflation trend, and outstanding reminders (rent, bijli bill, school dues). Share it with your spouse, parents, or accountant without exposing your login."
-                    />
-
-                    <Section
-                        title="How the Survival Report helps you plan next month"
-                        content="Instead of stressing on the 25th, open the Survival Report and know exactly where the rupees went. Adjust ration targets, negotiate tuition fees, or hold back impulse buys based on facts, not emotions."
-                        bullets={[
-                            'Set smarter budgets for ration and transport.',
-                            'Alert the family about upcoming reminders (fees, maintenance, zakat).',
-                            'Track health reminders like BP medicine so no refill is missed.',
-                        ]}
-                    />
-
-                    <Section
-                        title="What is inside the report?"
-                        content="Each report includes:"
-                        bullets={[
-                            'Totals by category (rent, school fees, ration, petrol, utilities).',
-                            'Ration inflation overview sourced from Ration Brain entries.',
-                            'Upcoming reminders and their due dates pulled from Roznamcha Reminders.',
-                            'Health and wellbeing signals such as medicine schedules or doctor follow-ups.',
-                        ]}
-                    />
-                </article>
-
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">What is the Survival Report?</h2>
                     <p className="text-base text-slate-700">
-                        The MVP offers Survival Reports free of charge so you build the habit. Future premium tiers will add AI-powered advice,
-                        multi-household benchmarking, and shareable branded reports.
+                        It’s a combined snapshot that pulls in kharcha tracker data, ration price trends, and reminders. Instead of scattered notes,
+                        you receive a single Urdu-friendly summary that shows income, expenses, savings, and risks.
                     </p>
-                    <div className="flex flex-wrap gap-4">
-                        <Link
-                            href={route('register')}
-                            className="inline-flex items-center justify-center rounded-lg bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-yellow-300 hover:bg-[#112e66]"
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">What the report shows</h2>
+                    <ul className="list-disc pl-5 space-y-2 text-slate-700">
+                        {reportHighlights.map((item) => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Why this matters for Pakistani families</h2>
+                    <p className="text-base text-slate-700">
+                        The Survival Report keeps everyone honest about the true cost of living. Families can spot when ration eats the salary,
+                        understand how transport or school fees jump, and adjust before debt or qarz becomes unavoidable. It also helps those sending
+                        money to parents in another city by showing exactly how funds were used.
+                    </p>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4" itemScope itemType="https://schema.org/FAQPage">
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">FAQ</h2>
+                    {faqs.map((faq) => (
+                        <div
+                            key={faq.question}
+                            itemScope
+                            itemProp="mainEntity"
+                            itemType="https://schema.org/Question"
+                            className="border border-slate-200 rounded-xl p-4 space-y-2"
                         >
-                            Create your first Survival Report
+                            <h3 itemProp="name" className="text-lg font-semibold text-[#001a4a]">
+                                {faq.question}
+                            </h3>
+                            <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                                <p itemProp="text" className="text-sm text-slate-700">
+                                    {faq.answer}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </section>
+
+                <div className="text-sm text-[#001a4a] font-semibold space-y-2">
+                    <p>
+                        Keep logging spending in{' '}
+                        <Link href={route('public.kharcha-map')} className="underline hover:no-underline">
+                            Kharcha Map
+                        </Link>{' '}
+                        and ration in{' '}
+                        <Link href={route('public.ration-brain')} className="underline hover:no-underline">
+                            Ration Brain
                         </Link>
-                        <Link href={route('public.kharcha-map')} className="text-sm font-semibold text-[#001a4a] hover:underline">
-                            Visit Kharcha Map
-                        </Link>
-                        <Link href={route('public.ration-brain')} className="text-sm font-semibold text-[#001a4a] hover:underline">
-                            Explore Ration Brain
-                        </Link>
-                        <Link href={route('public.contact')} className="text-sm font-semibold text-[#001a4a] hover:underline">
-                            Contact Roznamcha
-                        </Link>
-                    </div>
+                        .
+                    </p>
+                    <p>
+                        Visit the{' '}
+                        <Link href={route('public.home')} className="underline hover:no-underline">
+                            Home page
+                        </Link>{' '}
+                        to explore everything Roznamcha offers.
+                    </p>
                 </div>
             </section>
         </PublicLayout>
-    );
-}
-
-function Section({ title, content, bullets }) {
-    return (
-        <section className="space-y-3">
-            <h2 className="text-2xl font-semibold text-[#001a4a]">{title}</h2>
-            <p className="text-base text-slate-700">{content}</p>
-            {bullets && (
-                <ul className="list-disc pl-5 space-y-2 text-slate-700">
-                    {bullets.map((item) => (
-                        <li key={item}>{item}</li>
-                    ))}
-                </ul>
-            )}
-        </section>
     );
 }
