@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
+import { deleteResource } from '@/lib/inertia';
 
 export default function RemindersIndex({ reminders = [], meta = {} }) {
   const { props } = usePage();
@@ -14,7 +15,7 @@ export default function RemindersIndex({ reminders = [], meta = {} }) {
 
   const destroy = (id) => {
     if (confirm('Delete reminder?')) {
-      router.delete(route('panel.reminders.destroy', id), { preserveScroll: true });
+      deleteResource(route('panel.reminders.destroy', id), { preserveScroll: true });
     }
   };
 

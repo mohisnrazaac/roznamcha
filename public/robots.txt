@@ -1,2 +1,8 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /dashboard
+Disallow: /panel
+Disallow: /admin
+Disallow: /auth
+Disallow: /api/internal
+Sitemap: https://roznamcha.pk/sitemap.xml

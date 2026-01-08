@@ -18,13 +18,15 @@ class ExpenseController extends Controller
         /** @var Household|null $household */
         $household = app()->bound('currentHousehold') ? app('currentHousehold') : null;
         $filters = $request->only(['category', 'from', 'to']);
+        $user = $request->user();
 
         $dateColumn = $this->dateColumn();
         $noteColumn = $this->noteColumn();
 
         $expensesQuery = Expense::query()
             ->with('category')
-            ->forHousehold($household);
+            ->forHousehold($household)
+            ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id));
 
         if ($filters['category'] ?? null) {
             $expensesQuery->where('category_id', $filters['category']);
@@ -60,10 +62,12 @@ class ExpenseController extends Controller
         $totals = [
             'month' => Expense::query()
                 ->forHousehold($household)
+                ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
                 ->whereBetween($dateColumn, [$monthStart->toDateString(), $now->toDateString()])
                 ->sum('amount'),
             'today' => Expense::query()
                 ->forHousehold($household)
+                ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
                 ->whereDate($dateColumn, $now->toDateString())
                 ->sum('amount'),
         ];
@@ -133,7 +137,7 @@ class ExpenseController extends Controller
 
     public function edit(Expense $expense): Response
     {
-        $this->authorizeExpense($expense);
+        $this->authorize('update', $expense);
 
         return Inertia::render('Kharcha/Edit', [
             'expense' => [
@@ -149,7 +153,7 @@ class ExpenseController extends Controller
 
     public function update(Request $request, Expense $expense)
     {
-        $this->authorizeExpense($expense);
+        $this->authorize('update', $expense);
 
         $validated = $request->validate([
             'amount' => ['required', 'numeric', 'min:0.01'],
@@ -183,20 +187,10 @@ class ExpenseController extends Controller
 
     public function destroy(Expense $expense)
     {
-        $this->authorizeExpense($expense);
+        $this->authorize('delete', $expense);
         $expense->delete();
 
         return redirect()->route('panel.kharcha.index')->with('success', 'Expense removed.');
-    }
-
-    protected function authorizeExpense(Expense $expense): void
-    {
-        $household = app()->bound('currentHousehold') ? app('currentHousehold') : null;
-        $householdColumn = $this->householdColumn();
-
-        if ($householdColumn && $household && $expense->{$householdColumn} !== $household->id) {
-            abort(403);
-        }
     }
 
     private function dateColumn(): string

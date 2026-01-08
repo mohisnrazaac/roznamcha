@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -9,7 +11,24 @@ class PublicPageController extends Controller
 {
     public function home(): Response
     {
-        return Inertia::render('Public/Home');
+        $latestPosts = BlogPost::query()
+            ->published()
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->limit(3)
+            ->get()
+            ->map(fn (BlogPost $post) => [
+                'id' => $post->id,
+                'title' => $post->title,
+                'slug' => $post->slug,
+                'excerpt' => $post->excerpt ?: Str::limit(strip_tags($post->rendered_content), 160),
+                'published_label' => optional($post->published_at)->format('M j, Y'),
+                'url' => route('public.blog.show', ['slug' => $post->slug]),
+            ]);
+
+        return Inertia::render('Public/Home', [
+            'latestPosts' => $latestPosts,
+        ]);
     }
 
     public function kharchaMap(): Response
@@ -30,5 +49,15 @@ class PublicPageController extends Controller
     public function about(): Response
     {
         return Inertia::render('Public/About');
+    }
+
+    public function privacyPolicy(): Response
+    {
+        return Inertia::render('Public/PrivacyPolicy');
+    }
+
+    public function terms(): Response
+    {
+        return Inertia::render('Public/Terms');
     }
 }

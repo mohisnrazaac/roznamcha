@@ -14,25 +14,28 @@ export default function AppLayout({ children }) {
     return fallback;
   };
 
-     const navItems = [
-       { href: route('dashboard'), label: 'Dashboard', icon: '📊' },
-       { href: safeRoute('panel.kharcha.index', '/panel/kharcha'), label: 'Kharcha Map', icon: '💸' },
-       { href: safeRoute('panel.ration.index', '/panel/ration'), label: 'Ration Brain', icon: '🥘' },
-       { href: safeRoute('panel.reminders.index', '/panel/reminders'), label: 'Reminders', icon: '⏰' },
-       { href: safeRoute('reports.index', '/reports'), label: 'Reports', icon: '📈' },
-     ];
+  const navItems = [
+    { href: route('dashboard'), label: 'Dashboard', icon: '📊' },
+    { href: safeRoute('panel.kharcha.index', '/panel/kharcha'), label: 'Kharcha Map', icon: '💸' },
+    { href: safeRoute('panel.ration.index', '/panel/ration'), label: 'Ration Brain', icon: '🥘' },
+    { href: safeRoute('panel.reminders.index', '/panel/reminders'), label: 'Reminders', icon: '⏰' },
+    { href: safeRoute('reports.index', '/reports'), label: 'Reports', icon: '📈' },
+  ];
+  const homeHref = safeRoute('public.home', '/');
 
   return (
     <div className="min-h-screen flex bg-[#F7F8FA] text-slate-900">
       {/* Sidebar */}
       <aside className="hidden md:flex md:flex-col w-60 bg-white border-r border-slate-200">
-        <div className="px-4 py-4 flex items-center gap-3 border-b border-slate-200">
-          <div className="w-10 h-10 rounded-lg bg-yellow-400 flex items-center justify-center text-black font-bold text-xs shadow">
-            <div className="flex flex-col items-start leading-none">
-              <span className="text-[10px]">₹↑</span>
-              <span className="text-[9px]">📒</span>
-            </div>
-          </div>
+        <Link
+          href={homeHref}
+          className="px-4 py-4 flex items-center gap-3 border-b border-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#003a8c]/40"
+        >
+          <img
+            src="/icons/appicon.png"
+            alt="Roznamcha logo"
+            className="w-10 h-10 rounded-xl border border-slate-200 object-cover"
+          />
           <div className="flex flex-col leading-tight">
             <span className="font-semibold text-slate-900 text-sm">
               Roznamcha
@@ -41,7 +44,7 @@ export default function AppLayout({ children }) {
               روزنامچہ
             </span>
           </div>
-        </div>
+        </Link>
 
         <nav className="flex-1 p-4 space-y-1 text-sm">
           {navItems.map((item) => (
@@ -79,7 +82,14 @@ export default function AppLayout({ children }) {
             <button className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md bg-white/10 text-white text-lg">
               ☰
             </button>
-            <div className="hidden md:block font-semibold text-white">Panel</div>
+            <Link href={homeHref} className="inline-flex items-center gap-2 text-white font-semibold">
+              <img
+                src="/icons/appicon.png"
+                alt="Roznamcha logo"
+                className="w-8 h-8 rounded-xl border border-white/20 object-cover"
+              />
+              <span className="hidden sm:inline">Roznamcha</span>
+            </Link>
           </div>
 
           <div className="flex-1 max-w-md mx-4 hidden sm:flex">

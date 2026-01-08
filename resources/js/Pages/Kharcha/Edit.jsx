@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, usePage, router } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import ExpenseForm from '@/Components/forms/ExpenseForm';
+import { deleteResource } from '@/lib/inertia';
 
 export default function KharchaEdit({ expense, categories }) {
   const { props } = usePage();
@@ -21,7 +22,7 @@ export default function KharchaEdit({ expense, categories }) {
 
   const destroy = () => {
     if (confirm('Delete this expense?')) {
-      router.delete(route('panel.kharcha.destroy', expense.id));
+      deleteResource(route('panel.kharcha.destroy', expense.id));
     }
   };
 

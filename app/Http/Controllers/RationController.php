@@ -7,6 +7,7 @@ use App\Models\RationItem;
 use App\Models\RationPrice;
 use App\Services\InflationService;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -18,7 +19,7 @@ class RationController extends Controller
     {
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
         /** @var Household|null $household */
         $household = app()->bound('currentHousehold') ? app('currentHousehold') : null;
@@ -26,6 +27,7 @@ class RationController extends Controller
             Carbon::now()->copy()->subMonth()->startOfMonth(),
             Carbon::now()->copy()->subMonth()->endOfMonth(),
         ];
+        $user = $request->user();
 
         $householdColumn = $this->householdColumn();
         $nameColumn = $this->nameColumn();
@@ -36,6 +38,7 @@ class RationController extends Controller
             ->when($householdColumn, function ($query) use ($householdColumn, $household) {
                 return $query->where($householdColumn, $household?->id);
             })
+            ->when(! $user?->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
             ->when($pricesTableExists, function ($query) {
                 $query->with(['prices' => fn ($relation) => $relation->orderByDesc('priced_at')->limit(12)]);
             })
@@ -135,7 +138,7 @@ class RationController extends Controller
 
     public function edit(RationItem $ration): Response
     {
-        $this->authorizeItem($ration);
+        $this->authorize('update', $ration);
 
         $statusColumn = $this->statusColumn();
 
@@ -162,7 +165,7 @@ class RationController extends Controller
 
     public function update(Request $request, RationItem $ration)
     {
-        $this->authorizeItem($ration);
+        $this->authorize('update', $ration);
 
         $rules = [
             'name' => ['required', 'string', 'max:160'],
@@ -195,7 +198,7 @@ class RationController extends Controller
             return redirect()->back()->with('error', 'Price history is not available yet.');
         }
 
-        $this->authorizeItem($ration);
+        $this->authorize('update', $ration);
 
         $validated = $request->validate([
             'price' => ['required', 'numeric', 'min:0.01'],
@@ -217,14 +220,13 @@ class RationController extends Controller
         return redirect()->back()->with('success', 'Price recorded.');
     }
 
-    protected function authorizeItem(RationItem $item): void
+    public function destroy(RationItem $ration): RedirectResponse
     {
-        $household = app()->bound('currentHousehold') ? app('currentHousehold') : null;
-        $column = $this->householdColumn();
+        $this->authorize('delete', $ration);
 
-        if ($column && $household && $item->{$column} !== $household->id) {
-            abort(403);
-        }
+        $ration->delete();
+
+        return redirect()->route('panel.ration.index')->with('success', 'Ration item removed.');
     }
 
     private function householdColumn(): ?string

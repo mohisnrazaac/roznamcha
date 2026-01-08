@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import AppLayout from '@/Layouts/AppLayout';
 import { Link, router } from '@inertiajs/react';
+import AppLayout from '@/Layouts/AppLayout';
+import { deleteResource } from '@/lib/inertia';
 
 export default function KharchaMapList({
   expenses,
@@ -44,9 +45,7 @@ export default function KharchaMapList({
       return;
     }
 
-    router.delete(route('kharcha.destroy', id), {
-      preserveScroll: true,
-    });
+    deleteResource(route('kharcha.destroy', id), { preserveScroll: true });
   };
 
   return (

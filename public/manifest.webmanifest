@@ -1,0 +1,20 @@
+{
+  "name": "Roznamcha",
+  "short_name": "Roznamcha",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#061325",
+  "theme_color": "#061325",
+  "icons": [
+    {
+      "src": "/icons/appicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/appicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

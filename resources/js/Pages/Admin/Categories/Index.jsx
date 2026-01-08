@@ -1,11 +1,12 @@
 import React from 'react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, router } from '@inertiajs/react';
+import { deleteResource } from '@/lib/inertia';
 
 export default function CategoriesIndex({ categories }) {
   const handleDelete = (id) => {
     if (confirm('Delete this category?')) {
-      router.delete(`/admin/categories/${id}`);
+      deleteResource(`/admin/categories/${id}`);
     }
   };
 

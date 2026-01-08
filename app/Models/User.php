@@ -64,14 +64,16 @@ class User extends Authenticatable
         return $this->hasMany(Reminder::class);
     }
 
-    public function isSuperAdmin(): bool
-    {
-        return $this->email === 'admin@roznamcha.local' || $this->role === 'admin';
-    }
-
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        $role = strtolower((string) $this->role);
+
+        return in_array($role, ['admin', 'superadmin', 'super_admin'], true);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->isAdmin();
     }
 
     public function households(): BelongsToMany

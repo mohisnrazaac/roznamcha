@@ -39,7 +39,7 @@ const adminCards = [
 ];
 
 export default function Dashboard({ authUser }) {
-    const isSuperAdmin = authUser?.role === 'admin' || authUser?.email === 'admin@roznamcha.local';
+    const isSuperAdmin = authUser?.role === 'admin';
 
     return (
         <ControlRoomLayout active="dashboard" user={authUser}>

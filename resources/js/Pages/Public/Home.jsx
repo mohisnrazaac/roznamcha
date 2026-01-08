@@ -1,190 +1,234 @@
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import SeoHead from '../../Components/SeoHead';
+import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
-const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://roznamcha.local';
-const defaultOgImage = 'https://placehold.co/1200x630.png?text=Roznamcha';
+const kharchaBullets = [
+    'Record daily expenses',
+    'See monthly spending totals',
+    'Spot unnecessary spending',
+    'Plan a realistic monthly budget',
+    'Understand where most money goes',
+];
 
-export default function Home() {
-    const pageUrl = `${baseUrl}/`;
-    const meta = {
-        title: 'Roznamcha Kharcha Map, Ration Brain & Survival Report for Pakistani households',
-        description:
-            'Roznamcha is the Urdu-first household budget, kharcha, ration and survival report tracker built for Pakistan. Track expenses, ration lists, mehngai and plan monthly cash.',
-        image: defaultOgImage,
-    };
+const rationBullets = [
+    'Track ration item prices over months',
+    'Monitor inflation on essential goods',
+    'Create your own ration list',
+    'Avoid sudden surprises in grocery budget',
+];
+
+const survivalBullets = [
+    'Month-end summary of all expenses',
+    'Identify overspending areas',
+    'Get a projected next-month estimate',
+    'Understand inflation impact on your home',
+];
+
+const faqs = [
+    {
+        question: 'How can I manage my monthly household budget in Pakistan effectively?',
+        answer: 'Effective budgeting starts with categorizing your income into fixed costs like rent and bills, and variable costs like groceries and fuel. Many families follow the 50/30/20 rule: 50% for needs, 30% for wants, and 20% for savings. Regularly tracking these categories helps identify overspending areas and ensures your monthly salary lasts until the next payday.',
+    },
+    {
+        question: 'What is the best way to track daily expenses (Kharcha) on a mobile phone?',
+        answer: 'The most reliable method is to record every transaction immediately, from small grocery bills to large utility payments. Using a digital ledger or expense diary allows you to see real-time spending patterns. This transparency is crucial for Pakistani households to stay within their budget limits and avoid the stress of running out of cash by the month-end.',
+    },
+    {
+        question: 'How can I monitor the changing prices of daily ration items in Pakistan?',
+        answer: 'Keeping a personal record of prices for staples like atta, ghee, and sugar allows you to spot inflation trends early. By comparing prices from different months or markets, you can make smarter purchasing decisions, such as buying in bulk when prices are lower. Monitoring these fluctuations is essential for maintaining a stable household food budget during high inflation.',
+    },
+    {
+        question: 'What is a survival report and why is it useful for households?',
+        answer: 'A survival report is a summary that evaluates your financial health at the end of the month by comparing total income against all expenses. It highlights whether you lived within your means or overspent. For families in Pakistan, this report serves as a monthly audit, providing the data needed to adjust spending and plan better for the upcoming month.',
+    },
+    {
+        question: 'How much money should a middle-class family in Pakistan save monthly?',
+        answer: 'Financial experts generally recommend saving at least 10% to 20% of your net monthly income. Building an emergency fund that covers three to six months of expenses is vital for protection against unexpected costs like medical bills or inflation spikes. Consistently setting aside even small amounts each month significantly improves long-term financial security for the household.',
+    },
+];
+
+const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+        },
+    })),
+};
+
+export default function Home({ latestPosts = [] }) {
+    const seo = seoContent.home;
+    const jsonLd = buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="landing">
-            <Head title={meta.title}>
-                <meta name="description" content={meta.description} />
-                <meta property="og:title" content={meta.title} />
-                <meta property="og:description" content={meta.description} />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={pageUrl} />
-                <meta property="og:image" content={meta.image} />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={meta.title} />
-                <meta name="twitter:description" content={meta.description} />
-                <meta name="twitter:image" content={meta.image} />
+            <SeoHead {...seo} jsonLd={jsonLd} />
+            <Head>
+                <script
+                    key="faq-schema"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+                />
             </Head>
 
-            <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 space-y-16">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-                    <div className="space-y-6">
-                        <h1 className="text-3xl sm:text-4xl font-bold text-[#001a4a] leading-tight">
-                            Roznamcha — your Urdu-first household kharcha and ration tracker
-                        </h1>
-                        <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
-                            Pakistani families juggle rent, school fees, bijli bills, petrol, and ration refills
-                            while Mehngai tightens every month. Roznamcha gives you the Kharcha Map, Ration Brain and
-                            Survival Report so every rupee is documented and every month end is calmer.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-3">
-                            <Link
-                                href={route('register')}
-                                className="inline-flex items-center justify-center rounded-lg bg-[#001a4a] px-6 py-3 text-base font-semibold text-yellow-300 shadow hover:bg-[#112e66]"
-                            >
-                                Sign up and start tracking
-                            </Link>
-                            <Link
-                                href={route('public.kharcha-map')}
-                                className="inline-flex items-center justify-center rounded-lg border border-[#001a4a] px-6 py-3 text-base font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
-                            >
-                                Explore Kharcha Map
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-                        <div className="flex items-center justify-between text-xs uppercase tracking-wide text-slate-500">
-                            <span>Household cockpit</span>
-                            <span>Roznamcha Preview</span>
-                        </div>
-                        <div className="bg-[#001a4a] text-white rounded-xl p-5 space-y-1">
-                            <p className="text-sm text-yellow-200">This Month Kharcha</p>
-                            <p className="text-3xl font-semibold">₨ 82,450</p>
-                            <p className="text-xs text-slate-200">+12% vs last month (fuel + ration spike)</p>
-                        </div>
-                        <p className="text-sm text-slate-600">
-                            Get totals, ration days left, reminders, and the Survival Report PDF inside the Control Room
-                            once you sign up. No spreadsheets, no complicated English dashboards—just clear Urdu-first
-                            insights.
-                        </p>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <ModuleCard
-                        title="Kharcha Map"
-                        description="Log every monthly kharcha from daal, school van, to mobile package and see the heatmap of spending."
-                        link={route('public.kharcha-map')}
-                        cta="Read about Kharcha Map"
-                    />
-                    <ModuleCard
-                        title="Ration Brain"
-                        description="Track ration list prices (atta, ghee, chawal, chai, sugar) and monitor mehngai trend."
-                        link={route('public.ration-brain')}
-                        cta="Learn about Ration Brain"
-                    />
-                    <ModuleCard
-                        title="Survival Report"
-                        description="Download a month-end Survival Report PDF that sums kharcha, ration inflation, and upcoming dues."
-                        link={route('public.survival-report')}
-                        cta="See Survival Report"
-                    />
-                </div>
-
-                <FeatureSection
-                    id="kharcha-map"
-                    heading="Kharcha Map keeps monthly kharcha visible"
-                    description="Every rupee for rent, school fee, bike petrol, medicine, and gup shup tea can be categorized—so you know exactly what ate the salary."
-                    bullets={[
-                        'Track kharcha by category in Urdu + English mix',
-                        'Filter weeks to compare Eid spending vs normal weeks',
-                        'Share insights with your partner without spreadsheets',
-                    ]}
-                    link={route('public.kharcha-map')}
-                    linkLabel="Deep dive into Kharcha Map"
-                />
-
-                <FeatureSection
-                    id="ration-brain"
-                    heading="Ration Brain understands ration lists and mehngai"
-                    description="Atta suddenly touched 145/kg? Cooking oil jumped before salary date? Ration Brain stores every refill price so you can bargain confidently."
-                    bullets={[
-                        'Maintain a living ration list with quantity and rate',
-                        'See price deltas for atta, chawal, daal, ghee, sugar',
-                        'Estimate how many days the current ration will last',
-                    ]}
-                    link={route('public.ration-brain')}
-                    linkLabel="Explore Ration Brain"
-                />
-
-                <FeatureSection
-                    id="survival-report"
-                    heading="Survival Report keeps next month stress-free"
-                    description="A PDF snapshot summarises totals by category, ration inflation, and reminder-based dues (rent, bijli bill, school fees) so you plan early."
-                    bullets={[
-                        'Auto-generate a bilingual PDF summary',
-                        'Spot overspending early and adjust targets',
-                        'Share the report with family or accountant',
-                    ]}
-                    link={route('public.survival-report')}
-                    linkLabel="See Survival Report details"
-                />
-
-                <div className="bg-[#001a4a] text-yellow-200 rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                    <div>
-                        <p className="text-xl font-semibold">Ready to steady your household cash?</p>
-                        <p className="text-sm text-yellow-100 mt-1">
-                            Create a free Roznamcha account and start logging kharcha + ration today.
-                        </p>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-3">
+            <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 space-y-16">
+                <header className="space-y-6 text-center">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-[#001a4a]">
+                        Roznamcha – Your Household Kharcha, Ration Tracking, and Monthly Survival Report
+                    </h1>
+                    <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
+                        Running a home in Pakistan is not easy. Prices jump every month, budgets get tight, and it becomes hard to understand where
+                        the money goes. Roznamcha solves this problem by giving every family a simple place to record expenses, track ration prices,
+                        plan monthly budgets, and get a clear survival report at the end of the month. All in plain Urdu and designed for real
+                        Pakistani households.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3">
                         <Link
                             href={route('register')}
-                            className="inline-flex items-center justify-center rounded-xl bg-yellow-300 px-6 py-3 text-sm font-semibold text-[#001a4a] hover:bg-yellow-200"
+                            className="inline-flex items-center justify-center rounded-lg bg-[#001a4a] px-6 py-3 text-base font-semibold text-yellow-300 shadow hover:bg-[#112e66]"
                         >
-                            Sign up now
+                            Start tracking for free
                         </Link>
                         <Link
                             href={route('public.contact')}
-                            className="inline-flex items-center justify-center rounded-xl border border-yellow-200 px-6 py-3 text-sm font-semibold text-yellow-200 hover:bg-white/10"
+                            className="inline-flex items-center justify-center rounded-lg border border-[#001a4a] px-6 py-3 text-base font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
                         >
-                            Talk to us
+                            Talk to the team
                         </Link>
                     </div>
-                </div>
+                </header>
+
+                <Section
+                    title="Why Pakistani Families Use Roznamcha"
+                    body="Money slips away when there is no clear record. Roznamcha helps you stay in control of daily expenses, grocery prices, and unexpected costs. You can check where you spent more, how ration prices changed, and what to expect next month. The goal is simple: make life easier and help families survive monthly inflation with confidence."
+                />
+
+                <FeatureBlock
+                    title="Track Every Rupee with Kharcha Map"
+                    body="Kharcha Map gives you a clean breakdown of your daily, weekly, and monthly expenses. It shows how much went into groceries, fuel, school fees, bills, and other categories. Over time, you’ll see spending patterns that help you cut unnecessary costs. It’s built in Urdu so every family member can understand it easily."
+                    bullets={kharchaBullets}
+                    link={route('public.kharcha-map')}
+                />
+
+                <FeatureBlock
+                    title="Know Your Ration Prices with Ration Brain"
+                    body="Ration Brain helps you track changes in grocery prices. Whether it's dal, atta, chawal, ghee, or cheeni, you can keep a record of what you paid last time and how much prices changed. This makes grocery shopping smarter and more predictable, especially during high inflation."
+                    bullets={rationBullets}
+                    link={route('public.ration-brain')}
+                />
+
+                <FeatureBlock
+                    title="Get a Clear Survival Report at Month-End"
+                    body="The Survival Report gives you a summary of your income, expenses, and the overall health of your budget. It shows what you saved, where you overspent, and what to expect in the coming month. It works like a monthly audit of your household."
+                    bullets={survivalBullets}
+                    link={route('public.survival-report')}
+                />
+
+                {latestPosts.length > 0 && (
+                    <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div>
+                                <h2 className="text-2xl font-semibold text-[#001a4a]">Latest from the Blog</h2>
+                                <p className="text-sm text-slate-500">
+                                    Daily Roznamcha commentary on ration strategy, inflation, and Pakistani household survival.
+                                </p>
+                            </div>
+                            <Link href={route('public.blog.index')} className="text-sm font-semibold text-[#001a4a] hover:underline">
+                                View all →
+                            </Link>
+                        </div>
+                        <div className="space-y-4">
+                            {latestPosts.map((post) => (
+                                <article key={post.id} className="rounded-xl border border-slate-200 p-4">
+                                    <p className="text-xs uppercase tracking-wide text-slate-500">{post.published_label}</p>
+                                    <h3 className="text-xl font-semibold text-[#001a4a]">
+                                        <Link href={post.url} className="hover:underline">
+                                            {post.title}
+                                        </Link>
+                                    </h3>
+                                    <p className="text-sm text-slate-600">{post.excerpt}</p>
+                                </article>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                <Section
+                    title="Designed for Pakistani Homes"
+                    body="Roznamcha is made for our local needs. Every feature, every label, and every screen is built with Urdu language and Pakistani lifestyle in mind. No complex terms. No foreign budgeting style. Just a simple tool that anyone can use."
+                />
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4" aria-labelledby="faq-heading">
+                    <h2 id="faq-heading" className="text-2xl font-semibold text-[#001a4a]">
+                        Frequently Asked Questions
+                    </h2>
+                    <div className="space-y-4">
+                        {faqs.map((faq) => (
+                            <div key={faq.question} className="border border-slate-200 rounded-xl p-4 space-y-2">
+                                <h3 className="text-lg font-semibold text-[#001a4a]">{faq.question}</h3>
+                                <p className="text-base text-slate-700">{faq.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="bg-[#001a4a] text-yellow-200 rounded-2xl p-6 space-y-4">
+                    <h2 className="text-2xl font-semibold">Explore Roznamcha Features</h2>
+                    <p className="text-sm text-yellow-100">
+                        Google and people both understand Roznamcha better when these links stay visible.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                        <InternalLink href={route('public.kharcha-map')} label="Kharcha Map" />
+                        <InternalLink href={route('public.ration-brain')} label="Ration Brain" />
+                        <InternalLink href={route('public.survival-report')} label="Survival Report" />
+                        <InternalLink href={route('public.about')} label="About" />
+                        <InternalLink href={route('public.contact')} label="Contact" />
+                    </div>
+                </section>
             </section>
         </PublicLayout>
     );
 }
 
-function ModuleCard({ title, description, link, cta }) {
+function Section({ title, body }) {
     return (
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col gap-3">
-            <h2 className="text-xl font-semibold text-[#001a4a]">{title}</h2>
-            <p className="text-sm text-slate-600 flex-1">{description}</p>
-            <Link href={link} className="text-sm font-semibold text-[#001a4a] hover:underline">
-                {cta}
-            </Link>
-        </div>
+        <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+            <h2 className="text-2xl font-semibold text-[#001a4a]">{title}</h2>
+            <p className="text-base text-slate-700">{body}</p>
+        </section>
     );
 }
 
-function FeatureSection({ id, heading, description, bullets, link, linkLabel }) {
+function FeatureBlock({ title, body, bullets, link }) {
     return (
-        <section id={id} className="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 space-y-4">
-            <h2 className="text-2xl font-semibold text-[#001a4a]">{heading}</h2>
-            <p className="text-base text-slate-700">{description}</p>
+        <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+            <h2 className="text-2xl font-semibold text-[#001a4a]">{title}</h2>
+            <p className="text-base text-slate-700">{body}</p>
             <ul className="list-disc pl-5 space-y-2 text-slate-700">
                 {bullets.map((item) => (
                     <li key={item}>{item}</li>
                 ))}
             </ul>
-            <Link href={link} className="inline-flex items-center text-sm font-semibold text-[#001a4a] hover:underline">
-                {linkLabel}
+            <Link href={link} className="text-sm font-semibold text-[#001a4a] hover:underline">
+                Learn more →
             </Link>
         </section>
+    );
+}
+
+function InternalLink({ href, label }) {
+    return (
+        <Link
+            href={href}
+            className="inline-flex items-center rounded-full border border-yellow-200 px-4 py-2 text-sm font-semibold text-yellow-100 hover:bg-white/10"
+        >
+            {label}
+        </Link>
     );
 }

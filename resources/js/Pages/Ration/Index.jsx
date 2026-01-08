@@ -1,12 +1,29 @@
 import React from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
+import { deleteResource } from '@/lib/inertia';
 
 export default function RationIndex({ items = [] }) {
   const { props } = usePage();
   const translations = props.translations ?? {};
   const ration = translations.ration ?? {};
-  const currency = translations.commons?.currency ?? '₨';
+  const commons = translations.commons ?? {};
+  const actions = translations.actions ?? {};
+  const currency = commons?.currency ?? '₨';
+  const editLabel = actions.edit ?? 'Edit';
+  const deleteLabel = actions.delete ?? 'Delete';
+  const deleteConfirm = actions.confirm_delete ?? 'Delete this ration item?';
+  const actionsLabel = commons?.actions_label ?? editLabel ?? 'Actions';
+
+  const confirmDelete = (itemId) => {
+    if (!window.confirm(deleteConfirm)) {
+      return;
+    }
+
+    deleteResource(route('panel.ration.destroy', { ration: itemId }), {
+      preserveScroll: true,
+    });
+  };
 
   return (
     <ControlRoomLayout active="ration" user={props.auth?.user}>
@@ -34,7 +51,7 @@ export default function RationIndex({ items = [] }) {
                 <th className="px-4 py-3 text-left">{ration.last_month_price}</th>
                 <th className="px-4 py-3 text-left">{ration.delta}</th>
                 <th className="px-4 py-3 text-left">{ration.last_updated}</th>
-                <th className="px-4 py-3 text-right">{translations.commons?.actions_label}</th>
+                <th className="px-4 py-3 text-right">{actionsLabel}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-100">
@@ -64,13 +81,22 @@ export default function RationIndex({ items = [] }) {
                     )}
                   </td>
                   <td className="px-4 py-3 text-slate-400">{item.latest_at ?? '—'}</td>
-                    <td className="px-4 py-3 text-right">
-                    <Link
-                      href={route('panel.ration.edit', item.id)}
-                      className="text-xs font-semibold text-yellow-300 hover:text-yellow-200"
-                    >
-                      {translations.actions?.edit}
-                    </Link>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-4 text-xs font-semibold">
+                      <Link
+                        href={route('panel.ration.edit', item.id)}
+                        className="text-yellow-300 hover:text-yellow-200"
+                      >
+                        {editLabel}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => confirmDelete(item.id)}
+                        className="text-red-300 hover:text-red-200"
+                      >
+                        {deleteLabel}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

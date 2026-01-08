@@ -1,6 +1,7 @@
 import React from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 import { useForm, router } from '@inertiajs/react';
+import { deleteResource } from '@/lib/inertia';
 
 export default function Ration({ items = [], flash = {} }) {
   const form = useForm({
@@ -24,7 +25,7 @@ export default function Ration({ items = [], flash = {} }) {
       return;
     }
 
-    router.delete(route('ration.destroy', id), { preserveScroll: true });
+    deleteResource(route('ration.destroy', id), { preserveScroll: true });
   };
 
   const handleAdjust = (item) => {

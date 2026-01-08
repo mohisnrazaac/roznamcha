@@ -15,9 +15,14 @@ use App\Http\Controllers\SurvivalReportController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
+use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
 use App\Http\Controllers\MaintenanceTriggerController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BlogPublicController;
+use App\Http\Controllers\RssController;
+use App\Http\Controllers\SitemapController;
 
 $maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
 
@@ -38,6 +43,14 @@ Route::get('/survival-report', [PublicPageController::class, 'survivalReport'])-
 Route::get('/about', [PublicPageController::class, 'about'])->name('public.about');
 Route::get('/contact', [ContactController::class, 'show'])->name('public.contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('public.contact.send');
+Route::get('/privacy-policy', [PublicPageController::class, 'privacyPolicy'])->name('public.privacy');
+Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms');
+Route::view('/offline', 'offline')->name('offline');
+Route::get('/blog', [BlogPublicController::class, 'index'])->name('public.blog.index');
+Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->name('public.blog.category');
+Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])->name('public.blog.show');
+Route::get('/blog/rss.xml', [RssController::class, 'blog'])->name('public.blog.rss');
+Route::get('/sitemap.xml', [SitemapController::class, 'show'])->name('public.sitemap');
 
 Route::get('/maintenance/clear-caches', function (Request $request) {
     $token = config('maintenance.secret', env('MAINTENANCE_TRIGGER_SECRET'));
@@ -72,16 +85,22 @@ Route::middleware(['auth', 'set.household'])->prefix('panel')->name('panel.')->g
 
     Route::resource('kharcha', ExpenseController::class)
         ->parameters(['kharcha' => 'expense'])
-        ->except(['show']);
+        ->except(['show', 'destroy']);
+    Route::match(['DELETE', 'POST'], 'kharcha/{expense}', [ExpenseController::class, 'destroy'])
+        ->name('kharcha.destroy');
 
     Route::resource('ration', RationController::class)
         ->parameters(['ration' => 'ration'])
-        ->except(['show']);
+        ->except(['show', 'destroy']);
+    Route::match(['DELETE', 'POST'], 'ration/{ration}', [RationController::class, 'destroy'])
+        ->name('ration.destroy');
 
     Route::post('ration/{ration}/prices', [RationController::class, 'storePrice'])
         ->name('ration.prices.store');
 
-    Route::resource('reminders', ReminderController::class)->except(['show']);
+    Route::resource('reminders', ReminderController::class)->except(['show', 'destroy']);
+    Route::match(['DELETE', 'POST'], 'reminders/{reminder}', [ReminderController::class, 'destroy'])
+        ->name('reminders.destroy');
     Route::post('reminders/{reminder}/toggle', [ReminderController::class, 'toggle'])->name('reminders.toggle');
 
     Route::post('reports/survival', [SurvivalReportController::class, 'generate'])->name('reports.survival');
@@ -98,7 +117,7 @@ Route::get('/reports', [ReportController::class, 'index'])
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::match(['DELETE', 'POST'], '/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 // Admin routes
@@ -106,13 +125,33 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
     Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+    Route::match(['DELETE', 'POST'], '/users/{user}/kharcha/{expense}', [AdminUserController::class, 'destroyKharcha'])->name('users.kharcha.destroy');
+    Route::match(['DELETE', 'POST'], '/users/{user}/ration/{ration}', [AdminUserController::class, 'destroyRation'])->name('users.ration.destroy');
+    Route::match(['DELETE', 'POST'], '/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [AdminCategoryController::class, 'create'])->name('categories.create');
     Route::post('/categories', [AdminCategoryController::class, 'store'])->name('categories.store');
     Route::get('/categories/{category}/edit', [AdminCategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{category}', [AdminCategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::match(['DELETE', 'POST'], '/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+
+    Route::prefix('blog')->name('blog.')->group(function () {
+        Route::get('/posts', [AdminBlogPostController::class, 'index'])->name('posts.index');
+        Route::get('/posts/create', [AdminBlogPostController::class, 'create'])->name('posts.create');
+        Route::post('/posts', [AdminBlogPostController::class, 'store'])->name('posts.store');
+        Route::get('/posts/{post}/edit', [AdminBlogPostController::class, 'edit'])->name('posts.edit');
+        Route::put('/posts/{post}', [AdminBlogPostController::class, 'update'])->name('posts.update');
+        Route::delete('/posts/{post}', [AdminBlogPostController::class, 'destroy'])->name('posts.destroy');
+        Route::post('/posts/{post}/publish', [AdminBlogPostController::class, 'publish'])->name('posts.publish');
+        Route::post('/posts/{post}/draft', [AdminBlogPostController::class, 'draft'])->name('posts.draft');
+
+        Route::get('/categories', [AdminBlogCategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [AdminBlogCategoryController::class, 'store'])->name('categories.store');
+        Route::put('/categories/{category}', [AdminBlogCategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{category}', [AdminBlogCategoryController::class, 'destroy'])->name('categories.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
+import { deleteResource } from '@/lib/inertia';
 
 export default function KharchaIndex({ expenses, categories, filters = {}, totals = {} }) {
   const { props } = usePage();
@@ -8,6 +9,10 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
   const kharcha = translations.kharcha ?? {};
   const commons = translations.commons ?? {};
   const actions = translations.actions ?? {};
+  const editLabel = actions.edit ?? 'Edit';
+  const deleteLabel = actions.delete ?? 'Delete';
+  const deleteConfirm = actions.confirm_delete ?? 'Delete this expense?';
+  const actionsLabel = commons.actions_label ?? editLabel ?? 'Actions';
 
   const currency = commons.currency ?? '₨';
 
@@ -33,6 +38,16 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
   };
 
   const rows = expenses?.data ?? [];
+
+  const confirmDelete = (expenseId) => {
+    if (!window.confirm(deleteConfirm)) {
+      return;
+    }
+
+    deleteResource(route('panel.kharcha.destroy', { expense: expenseId }), {
+      preserveScroll: true,
+    });
+  };
 
   return (
     <ControlRoomLayout active="kharcha" user={props.auth?.user}>
@@ -124,7 +139,7 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
                   <th className="px-4 py-3 text-left">{commons.category}</th>
                   <th className="px-4 py-3 text-left">{commons.note}</th>
                   <th className="px-4 py-3 text-right">{commons.amount}</th>
-                  <th className="px-4 py-3 text-right">{actions.edit}</th>
+                  <th className="px-4 py-3 text-right">{actionsLabel}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-slate-200">
@@ -145,13 +160,22 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
                     <td className="px-4 py-3 text-right font-semibold">
                       {currency} {Number(expense.amount ?? 0).toLocaleString()}
                     </td>
-                    <td className="px-4 py-3 text-right">
-                      <Link
-                        href={route('panel.kharcha.edit', expense.id)}
-                        className="text-xs font-semibold text-yellow-300 hover:text-yellow-200"
-                      >
-                        {actions.edit}
-                      </Link>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center justify-end gap-4 text-xs font-semibold">
+                        <Link
+                          href={route('panel.kharcha.edit', expense.id)}
+                          className="text-yellow-300 hover:text-yellow-200"
+                        >
+                          {editLabel}
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => confirmDelete(expense.id)}
+                          className="text-red-300 hover:text-red-200"
+                        >
+                          {deleteLabel}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

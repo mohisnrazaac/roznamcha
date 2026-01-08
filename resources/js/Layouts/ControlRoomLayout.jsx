@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 
 const baseLinks = (translations) => [
     { name: translations?.app?.brand ?? 'Dashboard', routeName: 'dashboard', slug: 'dashboard' },
@@ -9,7 +9,21 @@ const baseLinks = (translations) => [
     { name: translations?.reports?.title ?? 'Reports', routeName: 'reports.index', slug: 'reports' },
     { name: 'Users', routeName: 'admin.users.index', slug: 'users', adminOnly: true },
     { name: 'Categories', routeName: 'admin.categories.index', slug: 'categories', adminOnly: true },
+    { name: 'Blog Posts', routeName: 'admin.blog.posts.index', slug: 'blog-posts', adminOnly: true },
+    { name: 'Blog Categories', routeName: 'admin.blog.categories.index', slug: 'blog-categories', adminOnly: true },
 ];
+
+const resolveHref = (link) => {
+    if (link.routeName) {
+        try {
+            return route(link.routeName);
+        } catch (error) {
+            return link.href ?? '#';
+        }
+    }
+
+    return link.href ?? '#';
+};
 
 export default function ControlRoomLayout({ children, active, user: providedUser }) {
     const { url, props } = usePage();
@@ -18,12 +32,12 @@ export default function ControlRoomLayout({ children, active, user: providedUser
     const user = providedUser ?? sharedAuthUser;
     const links = baseLinks(translations);
 
-    const isSuperAdmin = user?.role === 'admin' || user?.email === 'admin@roznamcha.local';
+    const isSuperAdmin = user?.role === 'admin';
 
     const filteredLinks = links
         .map((link) => ({
             ...link,
-            href: link.routeName ? route(link.routeName) : link.href,
+            href: resolveHref(link),
         }))
         .filter((link) => {
         if (link.adminOnly) {
@@ -42,6 +56,27 @@ export default function ControlRoomLayout({ children, active, user: providedUser
         }
 
         return url.startsWith(link.href);
+    };
+
+    const activeLink = filteredLinks.find((link) => isActive(link));
+    const mobileTitle = activeLink?.name ?? translations?.app?.brand ?? 'Roznamcha';
+
+    const panelHomeHref = (() => {
+        try {
+            return route('panel.home');
+        } catch (error) {
+            return '/panel';
+        }
+    })();
+
+    const handleBackClick = () => {
+        if (typeof window !== 'undefined' && window.history.length > 1) {
+            window.history.back();
+
+            return;
+        }
+
+        router.visit(panelHomeHref, { replace: true });
     };
 
     return (
@@ -97,9 +132,38 @@ export default function ControlRoomLayout({ children, active, user: providedUser
                 </div>
             </aside>
 
-            <div className="flex-1 flex flex-col">
-                <header className="border-b border-slate-800 bg-slate-900/70 px-6 py-4 text-sm text-slate-300 md:hidden">
-                    {user ? `Welcome, ${user.name} (${user.role})` : 'Roznamcha'}
+            <div className="flex flex-1 flex-col overflow-hidden">
+                <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-900/80 px-4 py-3 text-sm text-slate-300 backdrop-blur md:hidden">
+                    <div className="flex items-center justify-between gap-3">
+                        <button
+                            type="button"
+                            onClick={handleBackClick}
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-700/70 text-white transition hover:bg-slate-800"
+                            aria-label="Go back"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                className="h-5 w-5"
+                            >
+                                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+                        <div className="flex-1 text-center leading-tight">
+                            <p className="text-sm font-semibold">{mobileTitle}</p>
+                            {user && <p className="text-xs text-slate-400">{user.name}</p>}
+                        </div>
+                        <Link
+                            href={panelHomeHref}
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-700/70 text-white transition hover:bg-slate-800"
+                            aria-label="Panel home"
+                        >
+                            <span className="text-lg">◎</span>
+                        </Link>
+                    </div>
                 </header>
 
                 <main className="flex-1 overflow-y-auto">{children}</main>

@@ -1,8 +1,30 @@
 import React from 'react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
-import { Link } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
+import { deleteResource } from '@/lib/inertia';
+
+const safeRoute = (name, params, fallback) => {
+  try {
+    return route(name, params);
+  } catch (error) {
+    return typeof fallback === 'function' ? fallback(params) : fallback ?? '#';
+  }
+};
 
 export default function UsersIndex({ users }) {
+  const { props } = usePage();
+  const authUser = props.auth?.user;
+
+  const handleDelete = (user) => {
+    if (!window.confirm(`Delete ${user.name}?`)) {
+      return;
+    }
+
+    const endpoint = safeRoute('admin.users.destroy', user.id, `/admin/users/${user.id}`);
+
+    deleteResource(endpoint, { preserveScroll: true });
+  };
+
   return (
     <ControlRoomLayout active="users">
       <div className="p-6 md:p-10 text-white">
@@ -28,21 +50,48 @@ export default function UsersIndex({ users }) {
                 <th className="px-4 py-3 text-left font-medium">Email</th>
                 <th className="px-4 py-3 text-left font-medium">Role</th>
                 <th className="px-4 py-3 text-left font-medium">Created</th>
+                <th className="px-4 py-3 text-right font-medium">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
               {users.data?.length ? (
                 users.data.map((user) => (
                   <tr key={user.id} className="hover:bg-slate-800/40">
-                    <td className="px-4 py-3">{user.name}</td>
+                    <td className="px-4 py-3">
+                        <Link
+                          href={safeRoute('admin.users.show', user.id, `/admin/users/${user.id}`)}
+                          className="font-semibold text-blue-300 hover:text-blue-200"
+                        >
+                          {user.name}
+                        </Link>
+                    </td>
                     <td className="px-4 py-3 text-slate-300">{user.email}</td>
                     <td className="px-4 py-3 capitalize">{user.role}</td>
                     <td className="px-4 py-3 text-slate-400">{user.created_at}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center justify-end gap-3 text-xs font-semibold">
+                        <Link
+                          href={safeRoute('admin.users.show', user.id, `/admin/users/${user.id}`)}
+                          className="text-blue-300 hover:text-blue-200"
+                        >
+                          View
+                        </Link>
+                        {authUser?.id !== user.id && (
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(user)}
+                            className="text-red-300 hover:text-red-200"
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-center text-slate-400">
+                  <td colSpan={5} className="px-4 py-6 text-center text-slate-400">
                     No users found.
                   </td>
                 </tr>
