@@ -16,7 +16,7 @@ class BlogContentRenderer
 
         $normalized = static::normalizeLineEndings($content);
 
-        if ($format === 'html') {
+        if ($format === 'html' || static::looksLikeHtmlFragment($normalized)) {
             return static::sanitizeHtml($normalized);
         }
 
@@ -39,14 +39,16 @@ class BlogContentRenderer
         }
 
         $allowedTags = [
-            'p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+            'p', 'br', 'strong', 'em', 'b', 'i', 'u', 'ul', 'ol', 'li', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
             'pre', 'code', 'a', 'img', 'article', 'section', 'header', 'footer', 'main', 'aside', 'nav',
             'div', 'span', 'figure', 'figcaption', 'table', 'tbody', 'thead', 'tfoot', 'tr', 'td', 'th', 'hr',
         ];
 
+        $globalAttributes = ['class', 'id', 'style', 'data-*'];
+
         $allowedAttributes = [
-            'a' => ['href', 'title'],
-            'img' => ['src', 'alt', 'title'],
+            'a' => ['href', 'title', 'target', 'rel'],
+            'img' => ['src', 'alt', 'title', 'loading', 'width', 'height'],
         ];
 
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -60,25 +62,25 @@ class BlogContentRenderer
         } catch (\Throwable $exception) {
             libxml_clear_errors();
 
-            return e($html);
+            return $html;
         }
 
         if (! $loaded) {
             libxml_clear_errors();
 
-            return e($html);
+            return $html;
         }
 
         $root = $document->getElementsByTagName('body')->item(0);
         if (! $root) {
             libxml_clear_errors();
 
-            return e($html);
+            return $html;
         }
 
         $output = '';
         foreach (iterator_to_array($root->childNodes) as $child) {
-            static::sanitizeNode($child, $allowedTags, $allowedAttributes);
+            static::sanitizeNode($child, $allowedTags, $allowedAttributes, $globalAttributes);
             $output .= $document->saveHTML($child);
         }
 
@@ -87,7 +89,7 @@ class BlogContentRenderer
         return $output;
     }
 
-    protected static function sanitizeNode(\DOMNode $node, array $allowedTags, array $allowedAttributes): void
+    protected static function sanitizeNode(\DOMNode $node, array $allowedTags, array $allowedAttributes, array $globalAttributes): void
     {
         if ($node->nodeType === XML_ELEMENT_NODE) {
             $tag = strtolower($node->nodeName);
@@ -101,10 +103,21 @@ class BlogContentRenderer
                 $attributes = iterator_to_array($node->attributes);
                 foreach ($attributes as $attribute) {
                     $attrName = strtolower($attribute->nodeName);
-                    $allowed = $allowedAttributes[$tag] ?? [];
+                    $allowed = array_merge($globalAttributes, $allowedAttributes[$tag] ?? []);
 
-                    if (! in_array($attrName, $allowed, true)) {
+                    if (! static::attributeAllowed($attrName, $allowed)) {
                         $node->removeAttributeNode($attribute);
+
+                        continue;
+                    }
+
+                    if ($attrName === 'style') {
+                        $safeStyle = static::sanitizeStyle($attribute->nodeValue);
+                        if ($safeStyle === '') {
+                            $node->removeAttributeNode($attribute);
+                        } else {
+                            $node->setAttribute($attrName, $safeStyle);
+                        }
 
                         continue;
                     }
@@ -118,7 +131,7 @@ class BlogContentRenderer
 
         if ($node->hasChildNodes()) {
             foreach (iterator_to_array($node->childNodes) as $child) {
-                static::sanitizeNode($child, $allowedTags, $allowedAttributes);
+                static::sanitizeNode($child, $allowedTags, $allowedAttributes, $globalAttributes);
             }
         }
     }
@@ -189,5 +202,40 @@ class BlogContentRenderer
         }, $paragraphs);
 
         return implode("\n", array_filter($segments));
+    }
+
+    protected static function looksLikeHtmlFragment(string $value): bool
+    {
+        return (bool) preg_match('/<\s*(article|section|div|header|footer|table|tbody|thead|tfoot|tr|td|th|ul|ol|li|figure|figcaption|p|h[1-6]|blockquote|span)(\s|>)/i', $value);
+    }
+
+    protected static function attributeAllowed(string $attribute, array $allowed): bool
+    {
+        foreach ($allowed as $allowedAttribute) {
+            if ($allowedAttribute === $attribute) {
+                return true;
+            }
+
+            if (str_ends_with($allowedAttribute, '*')) {
+                $prefix = rtrim($allowedAttribute, '*');
+                if (str_starts_with($attribute, $prefix)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    protected static function sanitizeStyle(?string $value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        $clean = strip_tags($value);
+        $clean = preg_replace('/expression|javascript:/i', '', $clean);
+
+        return trim($clean);
     }
 }

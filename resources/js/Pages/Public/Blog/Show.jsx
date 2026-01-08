@@ -36,7 +36,7 @@ export default function BlogShow({ post, seo, jsonLd }) {
                 )}
 
                 <section
-                    className="prose prose-lg max-w-none prose-headings:text-[#001a4a] prose-a:text-[#001a4a]"
+                    className="post-content space-y-6 text-lg leading-relaxed text-slate-800 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-slate-200 [&_a]:text-[#001a4a] [&_a]:underline-offset-2 [&_a:hover]:underline [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_li]:marker:text-[#001a4a] [&_table]:w-full [&_table]:border-collapse [&_table]:rounded-2xl [&_th]:text-left [&_th]:bg-slate-100 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_td]:border [&_td]:border-slate-200 [&_thead]:border-b [&_tbody_tr:nth-child(odd)]:bg-slate-50"
                     dangerouslySetInnerHTML={{ __html: post?.content ?? '' }}
                 />
 

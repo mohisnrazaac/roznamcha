@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import ControlRoomLayout from '../../../Layouts/ControlRoomLayout';
+import RichTextEditor from '../../../Components/RichTextEditor';
 
 export default function BlogPostForm({ post = null, categories = [], statusOptions = [], formatOptions = [] }) {
     const isEdit = Boolean(post?.id);
@@ -10,7 +11,7 @@ export default function BlogPostForm({ post = null, categories = [], statusOptio
         slug: post?.slug ?? '',
         excerpt: post?.excerpt ?? '',
         content: post?.content ?? '',
-        content_format: post?.content_format ?? 'markdown',
+        content_format: post?.content_format ?? 'html',
         status: post?.status ?? 'draft',
         published_at: post?.published_at ?? '',
         seo_title: post?.seo_title ?? '',
@@ -95,16 +96,26 @@ export default function BlogPostForm({ post = null, categories = [], statusOptio
                     />
 
                     <div className="grid gap-4 lg:grid-cols-[2fr,1fr]">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-200">Content</label>
-                            <textarea
+                        {form.data.content_format === 'html' ? (
+                            <RichTextEditor
+                                label="Content"
                                 value={form.data.content}
-                                onChange={(event) => form.setData('content', event.target.value)}
-                                rows={14}
-                                className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                                onChange={(html) => form.setData('content', html)}
+                                error={form.errors.content}
+                                placeholder="Craft your story…"
                             />
-                            {form.errors.content && <ErrorText>{form.errors.content}</ErrorText>}
-                        </div>
+                        ) : (
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-slate-200">Content</label>
+                                <textarea
+                                    value={form.data.content}
+                                    onChange={(event) => form.setData('content', event.target.value)}
+                                    rows={14}
+                                    className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                                />
+                                {form.errors.content && <ErrorText>{form.errors.content}</ErrorText>}
+                            </div>
+                        )}
 
                         <div className="space-y-4">
                             <div className="space-y-2">
