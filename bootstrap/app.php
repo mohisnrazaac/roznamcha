@@ -19,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
             'set.household' => \App\Http\Middleware\SetHouseholdContext::class,
+            'track.blog.view' => \App\Http\Middleware\TrackBlogView::class,
+            'track.blog.cta' => \App\Http\Middleware\TrackBlogCtaClick::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import ControlRoomLayout from '../../../Layouts/ControlRoomLayout';
 import RichTextEditor from '../../../Components/RichTextEditor';
@@ -22,16 +22,45 @@ export default function BlogPostForm({ post = null, categories = [], statusOptio
         categories: post?.categories ?? [],
         og_image: null,
         remove_og_image: false,
+        feature_hooks: post?.feature_hooks ?? {},
     });
+
+    const [prefillTagsInput, setPrefillTagsInput] = useState(
+        (post?.feature_hooks?.prefill?.tags ?? []).join(', ')
+    );
+
+    const featureHooks = form.data.feature_hooks ?? {};
+
+    const updateFeatureHook = (key, value) => {
+        form.setData('feature_hooks', {
+            ...featureHooks,
+            [key]: value,
+        });
+    };
+
+    const updatePrefill = (key, value) => {
+        form.setData('feature_hooks', {
+            ...featureHooks,
+            prefill: {
+                ...(featureHooks.prefill ?? {}),
+                [key]: value,
+            },
+        });
+    };
 
     const submitWithStatus = (status) => {
         const url = isEdit ? route('admin.blog.posts.update', { post: post.id }) : route('admin.blog.posts.store');
 
-        form.transform((payload) => ({
-            ...payload,
-            status,
-            ...(isEdit ? { _method: 'put' } : {}),
-        }));
+        form.transform((payload) => {
+            const hooks = cleanFeatureHooks(payload.feature_hooks);
+
+            return {
+                ...payload,
+                status,
+                feature_hooks: hooks ?? null,
+                ...(isEdit ? { _method: 'put' } : {}),
+            };
+        });
 
         form.post(url, {
             forceFormData: true,
@@ -47,6 +76,15 @@ export default function BlogPostForm({ post = null, categories = [], statusOptio
         } else {
             form.setData('categories', [...values, categoryId]);
         }
+    };
+
+    const handleTagsChange = (value) => {
+        setPrefillTagsInput(value);
+        const tags = value
+            .split(',')
+            .map((tag) => tag.trim())
+            .filter((tag) => tag.length > 0);
+        updatePrefill('tags', tags);
     };
 
     return (
@@ -273,6 +311,115 @@ export default function BlogPostForm({ post = null, categories = [], statusOptio
                     </div>
                 </section>
 
+                <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 space-y-4">
+                    <h2 className="text-lg font-semibold text-white">Activation Hooks</h2>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label className="text-sm font-medium text-slate-200">Primary category highlight</label>
+                            <select
+                                value={featureHooks.primaryCategory ?? ''}
+                                onChange={(event) => updateFeatureHook('primaryCategory', event.target.value || null)}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                            >
+                                <option value="">None</option>
+                                {categories.map((category) => (
+                                    <option key={category.id} value={category.name}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
+                            {form.errors['feature_hooks.primaryCategory'] && (
+                                <ErrorText>{form.errors['feature_hooks.primaryCategory']}</ErrorText>
+                            )}
+                        </div>
+                        <div>
+                            <label className="text-sm font-medium text-slate-200">CTA route</label>
+                            <select
+                                value={featureHooks.ctaRoute ?? 'register'}
+                                onChange={(event) => updateFeatureHook('ctaRoute', event.target.value)}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                            >
+                                <option value="register">Register</option>
+                                <option value="login">Login</option>
+                            </select>
+                            {form.errors['feature_hooks.ctaRoute'] && (
+                                <ErrorText>{form.errors['feature_hooks.ctaRoute']}</ErrorText>
+                            )}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-medium text-slate-200">Calculator</label>
+                        <select
+                            value={featureHooks.calculator ?? ''}
+                            onChange={(event) => updateFeatureHook('calculator', event.target.value || null)}
+                            className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                        >
+                            <option value="">None</option>
+                            <option value="school_fee_increase">School fee increase</option>
+                        </select>
+                        {form.errors['feature_hooks.calculator'] && (
+                            <ErrorText>{form.errors['feature_hooks.calculator']}</ErrorText>
+                        )}
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label className="text-sm font-medium text-slate-200">Prefill category</label>
+                            <input
+                                value={featureHooks?.prefill?.category ?? ''}
+                                onChange={(event) => updatePrefill('category', event.target.value)}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                                placeholder="School"
+                            />
+                            {form.errors['feature_hooks.prefill.category'] && (
+                                <ErrorText>{form.errors['feature_hooks.prefill.category']}</ErrorText>
+                            )}
+                        </div>
+                        <div>
+                            <label className="text-sm font-medium text-slate-200">Prefill amount</label>
+                            <input
+                                type="number"
+                                min="0"
+                                value={featureHooks?.prefill?.amount ?? ''}
+                                onChange={(event) => updatePrefill('amount', event.target.value)}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                                placeholder="15000"
+                            />
+                            {form.errors['feature_hooks.prefill.amount'] && (
+                                <ErrorText>{form.errors['feature_hooks.prefill.amount']}</ErrorText>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label className="text-sm font-medium text-slate-200">Prefill note</label>
+                            <input
+                                value={featureHooks?.prefill?.note ?? ''}
+                                onChange={(event) => updatePrefill('note', event.target.value)}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                                placeholder="School fee increase"
+                            />
+                            {form.errors['feature_hooks.prefill.note'] && (
+                                <ErrorText>{form.errors['feature_hooks.prefill.note']}</ErrorText>
+                            )}
+                        </div>
+                        <div>
+                            <label className="text-sm font-medium text-slate-200">Tags (comma separated)</label>
+                            <input
+                                value={prefillTagsInput}
+                                onChange={(event) => handleTagsChange(event.target.value)}
+                                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+                                placeholder="fees,school"
+                            />
+                            {form.errors['feature_hooks.prefill.tags'] && (
+                                <ErrorText>{form.errors['feature_hooks.prefill.tags']}</ErrorText>
+                            )}
+                        </div>
+                    </div>
+                </section>
+
                 <section className="flex flex-wrap gap-3">
                     <button
                         type="button"
@@ -336,4 +483,50 @@ function Textarea({ label, value, onChange, error, rows = 4 }) {
 
 function ErrorText({ children }) {
     return <p className="text-xs text-red-400">{children}</p>;
+}
+
+function cleanFeatureHooks(hooks) {
+    if (!hooks) {
+        return null;
+    }
+
+    const payload = {};
+
+    if (hooks.primaryCategory) {
+        payload.primaryCategory = hooks.primaryCategory;
+    }
+
+    if (hooks.ctaRoute) {
+        payload.ctaRoute = hooks.ctaRoute;
+    }
+
+    if (hooks.calculator) {
+        payload.calculator = hooks.calculator;
+    }
+
+    if (hooks.prefill) {
+        const cleanPrefill = {};
+
+        if (hooks.prefill.category) {
+            cleanPrefill.category = hooks.prefill.category;
+        }
+
+        if (hooks.prefill.amount) {
+            cleanPrefill.amount = hooks.prefill.amount;
+        }
+
+        if (hooks.prefill.note) {
+            cleanPrefill.note = hooks.prefill.note;
+        }
+
+        if (Array.isArray(hooks.prefill.tags) && hooks.prefill.tags.length > 0) {
+            cleanPrefill.tags = hooks.prefill.tags;
+        }
+
+        if (Object.keys(cleanPrefill).length > 0) {
+            payload.prefill = cleanPrefill;
+        }
+    }
+
+    return Object.keys(payload).length > 0 ? payload : null;
 }

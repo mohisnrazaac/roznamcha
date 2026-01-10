@@ -29,6 +29,7 @@ class BlogPost extends Model
         'seo_keywords',
         'og_image_path',
         'canonical_url',
+        'feature_hooks',
         'language',
         'created_by',
         'updated_by',
@@ -36,6 +37,7 @@ class BlogPost extends Model
 
     protected $casts = [
         'published_at' => 'datetime',
+        'feature_hooks' => 'array',
     ];
 
     protected $appends = [

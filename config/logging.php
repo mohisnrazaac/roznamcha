@@ -129,7 +129,7 @@ return [
 
         'blog_pages' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/blog-pages.log'),
+            'path' => storage_path('logs/blog-pages/blog-pages.log'),
             'level' => 'info',
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,

@@ -126,6 +126,7 @@ class BlogPublicController extends Controller
             'excerpt' => $post->excerpt,
             'content' => $post->rendered_content,
             'slug' => $post->slug,
+            'url' => $url,
             'published_at' => optional($post->published_at)->toDateTimeString(),
             'published_label' => optional($post->published_at)->format('F j, Y'),
             'categories' => $post->categories->map(fn (BlogCategory $category) => [
@@ -134,6 +135,7 @@ class BlogPublicController extends Controller
                 'slug' => $category->slug,
             ]),
             'og_image_url' => $post->og_image_url,
+            'feature_hooks' => $post->feature_hooks,
         ];
 
         Log::channel('blog_pages')->info('Blog page rendered', $this->blogLogContext($request, [

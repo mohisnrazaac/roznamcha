@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-export default function Register() {
-  const { data, setData, post, processing, errors } = useForm({
+export default function Register({ returnTo = '/dashboard' }) {
+  const { data, setData, post, processing, errors, setDefaults } = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
+    return_to: returnTo,
   });
+
+  useEffect(() => {
+    setDefaults('return_to', returnTo);
+    setData('return_to', returnTo);
+  }, [returnTo, setDefaults, setData]);
 
   const submit = (event) => {
     event.preventDefault();
@@ -106,7 +112,10 @@ export default function Register() {
 
         <p className="mt-6 text-center text-sm text-slate-400">
           Already have an account?{' '}
-          <Link href="/login" className="font-semibold text-blue-400 hover:text-blue-300">
+          <Link
+            href={route('login', { return_to: data.return_to })}
+            className="font-semibold text-blue-400 hover:text-blue-300"
+          >
             Log in
           </Link>
         </p>

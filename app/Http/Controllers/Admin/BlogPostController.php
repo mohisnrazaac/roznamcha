@@ -154,6 +154,7 @@ class BlogPostController extends Controller
             'canonical_url' => $post->canonical_url,
             'language' => $post->language,
             'categories' => $post->categories->pluck('id'),
+            'feature_hooks' => $post->feature_hooks,
         ];
     }
 
@@ -181,6 +182,16 @@ class BlogPostController extends Controller
             'categories.*' => ['integer', 'exists:blog_categories,id'],
             'og_image' => ['nullable', 'image'],
             'remove_og_image' => ['nullable', 'boolean'],
+            'feature_hooks' => ['nullable', 'array'],
+            'feature_hooks.primaryCategory' => ['nullable', 'string', 'max:255'],
+            'feature_hooks.ctaRoute' => ['nullable', 'string', 'max:255'],
+            'feature_hooks.calculator' => ['nullable', 'string', 'in:school_fee_increase'],
+            'feature_hooks.prefill' => ['nullable', 'array'],
+            'feature_hooks.prefill.category' => ['nullable', 'string', 'max:255'],
+            'feature_hooks.prefill.tags' => ['nullable', 'array'],
+            'feature_hooks.prefill.tags.*' => ['string', 'max:50'],
+            'feature_hooks.prefill.amount' => ['nullable', 'numeric', 'min:0'],
+            'feature_hooks.prefill.note' => ['nullable', 'string', 'max:255'],
         ]);
 
         if (($data['status'] ?? null) === 'scheduled' && empty($data['published_at'])) {

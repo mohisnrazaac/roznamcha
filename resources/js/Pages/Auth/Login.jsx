@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-export default function Login() {
-  const { data, setData, post, processing, errors } = useForm({
+export default function Login({ returnTo = '/dashboard' }) {
+  const { data, setData, post, processing, errors, setDefaults } = useForm({
     email: '',
     password: '',
+    return_to: returnTo,
   });
+
+  useEffect(() => {
+    setDefaults('return_to', returnTo);
+    setData('return_to', returnTo);
+  }, [returnTo, setDefaults, setData]);
 
   const submit = (event) => {
     event.preventDefault();
@@ -70,7 +76,10 @@ export default function Login() {
 
         <p className="mt-6 text-center text-sm text-slate-400">
           New here?{' '}
-          <Link href="/register" className="font-semibold text-blue-400 hover:text-blue-300">
+          <Link
+            href={route('register', { return_to: data.return_to })}
+            className="font-semibold text-blue-400 hover:text-blue-300"
+          >
             Sign up
           </Link>
         </p>

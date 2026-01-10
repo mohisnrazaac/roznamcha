@@ -2,8 +2,34 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import PublicLayout from '../../../Layouts/PublicLayout';
 import SeoHead from '../../../Components/SeoHead';
+import BlogCTA from '../../../Components/Blog/BlogCTA';
+import UseInRoznamchaWidget from '../../../Components/Blog/UseInRoznamchaWidget';
+import SchoolFeeIncreaseCalculator from '../../../Components/Calculators/SchoolFeeIncreaseCalculator';
+
+const getReturnPath = (url, slug) => {
+    if (!url && slug) {
+        return `/blog/${slug}`;
+    }
+
+    try {
+        const parsed = new URL(url);
+        return parsed.pathname || `/blog/${slug}`;
+    } catch {
+        if (typeof url === 'string' && url.startsWith('/')) {
+            return url;
+        }
+        return `/blog/${slug}`;
+    }
+};
 
 export default function BlogShow({ post, seo, jsonLd }) {
+    const featureHooks = post?.feature_hooks ?? {};
+    const returnPath = getReturnPath(post?.url, post?.slug);
+    const promiseText = featureHooks?.primaryCategory
+        ? `Track ${featureHooks.primaryCategory} costs in Roznamcha in 10 seconds.`
+        : 'Track this expense in Roznamcha in 10 seconds.';
+    const showCalculator = featureHooks?.calculator === 'school_fee_increase';
+
     return (
         <PublicLayout variant="inner">
             <SeoHead {...seo} jsonLd={jsonLd} />
@@ -34,6 +60,15 @@ export default function BlogShow({ post, seo, jsonLd }) {
                         loading="lazy"
                     />
                 )}
+
+                <section className="space-y-5 rounded-3xl border border-[#001a4a]/10 bg-white/70 p-6 shadow-sm">
+                    <p className="text-base font-semibold text-[#001a4a]">{promiseText}</p>
+                    {showCalculator && (
+                        <SchoolFeeIncreaseCalculator post={post} returnPath={returnPath} />
+                    )}
+                    <BlogCTA post={post} featureHooks={featureHooks} returnPath={returnPath} />
+                    <UseInRoznamchaWidget post={post} featureHooks={featureHooks} returnPath={returnPath} />
+                </section>
 
                 <section
                     className="post-content space-y-6 text-lg leading-relaxed text-slate-800 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-slate-200 [&_a]:text-[#001a4a] [&_a]:underline-offset-2 [&_a:hover]:underline [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_li]:marker:text-[#001a4a] [&_table]:w-full [&_table]:border-collapse [&_table]:rounded-2xl [&_th]:text-left [&_th]:bg-slate-100 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_td]:border [&_td]:border-slate-200 [&_thead]:border-b [&_tbody_tr:nth-child(odd)]:bg-slate-50"

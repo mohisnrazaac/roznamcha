@@ -10,6 +10,7 @@ use App\Http\Controllers\KharchaController;
 use App\Http\Controllers\RationController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SurvivalReportController;
 use App\Http\Controllers\ReportController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
 use App\Http\Controllers\MaintenanceTriggerController;
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogPublicController;
@@ -48,9 +50,16 @@ Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms
 Route::view('/offline', 'offline')->name('offline');
 Route::get('/blog', [BlogPublicController::class, 'index'])->name('public.blog.index');
 Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->name('public.blog.category');
-Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])->name('public.blog.show');
+Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
+    ->middleware('track.blog.view')
+    ->name('public.blog.show');
 Route::get('/blog/rss.xml', [RssController::class, 'blog'])->name('public.blog.rss');
 Route::get('/sitemap.xml', [SitemapController::class, 'show'])->name('public.sitemap');
+
+Route::post('/events/blog-cta-click', [EventController::class, 'blogCtaClick'])
+    ->middleware('track.blog.cta')
+    ->name('events.blog-cta-click');
+Route::post('/events', [EventController::class, 'store'])->name('events.store');
 
 Route::get('/maintenance/clear-caches', function (Request $request) {
     $token = config('maintenance.secret', env('MAINTENANCE_TRIGGER_SECRET'));
@@ -118,6 +127,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::match(['DELETE', 'POST'], '/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding.index');
+    Route::get('/onboarding/household', [OnboardingController::class, 'household'])->name('onboarding.household');
+    Route::post('/onboarding/household', [OnboardingController::class, 'storeHousehold'])->name('onboarding.household.store');
+    Route::get('/onboarding/budget', [OnboardingController::class, 'budget'])->name('onboarding.budget');
+    Route::post('/onboarding/budget', [OnboardingController::class, 'storeBudget'])->name('onboarding.budget.store');
+    Route::get('/onboarding/first-expense', [OnboardingController::class, 'firstExpense'])->name('onboarding.first-expense');
+    Route::post('/onboarding/first-expense', [OnboardingController::class, 'storeFirstExpense'])->name('onboarding.first-expense.store');
+    Route::get('/onboarding/done', [OnboardingController::class, 'done'])->name('onboarding.done');
 });
 
 // Admin routes
