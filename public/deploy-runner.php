@@ -8,6 +8,8 @@ header('Content-Type: text/plain; charset=utf-8');
 $rootPath = resolveProjectRoot(__DIR__);
 chdir($rootPath);
 
+ensureBootstrapCache($rootPath);
+
 $commands = [
     'npm install --omit=dev',
     'npm run build',
@@ -159,4 +161,19 @@ function shouldRunOptimize(): bool
     }
 
     return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false;
+}
+
+function ensureBootstrapCache(string $rootPath): void
+{
+    $cacheDir = $rootPath.'/bootstrap/cache';
+
+    if (! is_dir($cacheDir)) {
+        if (! mkdir($cacheDir, 0775, true) && ! is_dir($cacheDir)) {
+            throw new RuntimeException("Unable to create bootstrap/cache directory at {$cacheDir}");
+        }
+    }
+
+    if (! is_writable($cacheDir)) {
+        @chmod($cacheDir, 0775);
+    }
 }

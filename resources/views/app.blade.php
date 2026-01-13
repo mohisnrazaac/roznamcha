@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta property="og:see_also" content="https://facebook.com/roznamcha.pk" />
         {{-- PWA manifest link --}}
         <link rel="manifest" href="/manifest.webmanifest">
         {{-- Primary icon / favicon --}}
@@ -71,9 +72,30 @@
         <script type="application/ld+json">
             {!! json_encode($websiteSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
         </script>
+        <script type="application/ld+json">
+            {!! json_encode([
+                '@context' => 'https://schema.org',
+                '@type' => 'Organization',
+                'name' => 'Roznamcha',
+                'url' => 'https://roznamcha.pk',
+                'sameAs' => [
+                    'https://facebook.com/roznamcha.pk',
+                ],
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        </script>
     </head>
     <body class="antialiased bg-gray-50 text-gray-900 min-h-screen">
         @inertia
+        <footer class="bg-gray-900 text-center text-sm text-white/80 py-4">
+            <a
+                href="https://facebook.com/roznamcha.pk"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-semibold text-yellow-300 hover:text-white transition"
+            >
+                Follow us on Facebook
+            </a>
+        </footer>
         <script>
             // Service worker registration
             if ('serviceWorker' in navigator) {

@@ -1,13 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { deleteResource } from '@/lib/inertia';
+import AiInsightCard from '@/Components/AiInsightCard';
+import { fetchAiInsight } from '@/ai';
 
 export default function RemindersIndex({ reminders = [], meta = {} }) {
   const { props } = usePage();
   const translations = props.translations ?? {};
   const rem = translations.reminders ?? {};
   const actions = translations.actions ?? {};
+
+  const [aiState, setAiState] = useState({ loading: true, data: null, error: '' });
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadAi = async () => {
+      try {
+        const response = await fetchAiInsight('reminder');
+        if (mounted) {
+          setAiState({ loading: false, data: response, error: '' });
+        }
+      } catch (error) {
+        if (mounted) {
+          setAiState({
+            loading: false,
+            data: error?.data ?? null,
+            error: error?.data?.message ?? error.message ?? 'Unable to load AI insight.',
+          });
+        }
+      }
+    };
+
+    loadAi();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const toggle = (id) => {
     router.post(route('panel.reminders.toggle', id), {}, { preserveScroll: true });
@@ -35,6 +66,33 @@ export default function RemindersIndex({ reminders = [], meta = {} }) {
             {rem.new_reminder}
           </Link>
         </header>
+
+        <AiInsightCard
+          title="Reminder Coach"
+          description="Recurring kharcha the AI thinks deserves gentle nudges."
+          status={
+            aiState.loading
+              ? 'Scanning reminders...'
+              : aiState.error
+                ? aiState.error
+                : ''
+          }
+        >
+          {(aiState.data?.suggestions ?? []).length === 0 && !aiState.loading && !aiState.error && (
+            <p className="text-slate-200">Add reminders or record more kharcha to get AI suggestions.</p>
+          )}
+
+          {aiState.data?.suggestions?.length > 0 && (
+            <ul className="space-y-2">
+              {aiState.data.suggestions.map((suggestion, index) => (
+                <li key={`${suggestion.title}-${index}`} className="rounded-lg bg-slate-800/70 px-3 py-2">
+                  <p className="font-semibold text-white">{suggestion.title}</p>
+                  <p className="text-xs text-slate-400">{suggestion.schedule}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </AiInsightCard>
 
         <section className="rounded-2xl border border-slate-800 bg-slate-900/70">
           <div className="divide-y divide-slate-800">

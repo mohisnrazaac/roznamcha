@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { deleteResource } from '@/lib/inertia';
+import AiInsightCard from '@/Components/AiInsightCard';
+import { fetchAiInsight } from '@/ai';
 
 export default function RationIndex({ items = [] }) {
   const { props } = usePage();
@@ -14,6 +16,35 @@ export default function RationIndex({ items = [] }) {
   const deleteLabel = actions.delete ?? 'Delete';
   const deleteConfirm = actions.confirm_delete ?? 'Delete this ration item?';
   const actionsLabel = commons?.actions_label ?? editLabel ?? 'Actions';
+
+  const [aiState, setAiState] = useState({ loading: true, data: null, error: '' });
+
+  useEffect(() => {
+    let active = true;
+
+    const loadAi = async () => {
+      try {
+        const response = await fetchAiInsight('ration');
+        if (active) {
+          setAiState({ loading: false, data: response, error: '' });
+        }
+      } catch (error) {
+        if (active) {
+          setAiState({
+            loading: false,
+            data: error?.data ?? null,
+            error: error?.data?.message ?? error.message ?? 'Unable to load AI insight.',
+          });
+        }
+      }
+    };
+
+    loadAi();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const confirmDelete = (itemId) => {
     if (!window.confirm(deleteConfirm)) {
@@ -41,6 +72,35 @@ export default function RationIndex({ items = [] }) {
             {ration.new_item}
           </Link>
         </header>
+
+        <AiInsightCard
+          title="Ration Brain Alerts"
+          description="Price spikes and grocery items to watch next."
+          status={
+            aiState.loading
+              ? 'Checking ration prices...'
+              : aiState.error
+                ? aiState.error
+                : ''
+          }
+        >
+          {(aiState.data?.alerts ?? []).length === 0 && !aiState.loading && !aiState.error && (
+            <p className="text-slate-200">No recent AI alerts. Keep logging ration prices for smarter trends.</p>
+          )}
+
+          {aiState.data?.alerts?.length > 0 && (
+            <ul className="space-y-2">
+              {aiState.data.alerts.map((alert, index) => (
+                <li key={`${alert.item}-${index}`} className="rounded-lg bg-slate-800/70 px-3 py-2">
+                  <p className="text-sm font-semibold text-white">{alert.item}</p>
+                  <p className="text-xs text-slate-400">
+                    Trend: {alert.trend} • Risk: {alert.risk}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </AiInsightCard>
 
         <section className="rounded-2xl border border-slate-800 bg-slate-900/70 overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-800 text-sm">

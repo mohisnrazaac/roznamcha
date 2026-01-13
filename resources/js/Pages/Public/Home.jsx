@@ -62,7 +62,7 @@ const faqJsonLd = {
     })),
 };
 
-export default function Home({ latestPosts = [] }) {
+export default function Home({ latestPosts = [], showAiBanner = false }) {
     const seo = seoContent.home;
     const jsonLd = buildWebPageSchema(seo);
 
@@ -78,6 +78,23 @@ export default function Home({ latestPosts = [] }) {
             </Head>
 
             <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 space-y-16">
+                {showAiBanner && (
+                    <div className="rounded-2xl border border-yellow-200 bg-yellow-50 px-5 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <p className="text-sm font-semibold text-yellow-900">🔥 New: AI Budget Advisor (Free for all users)</p>
+                            <p className="text-sm text-yellow-800">
+                                Roznamcha now includes AI-powered money tips. Track inflation, control groceries, and survive the month smarter.
+                            </p>
+                        </div>
+                        <Link
+                            href="/login"
+                            className="inline-flex items-center justify-center rounded-xl bg-[#001a4a] px-4 py-2 text-sm font-semibold text-yellow-200 shadow hover:bg-[#022057]"
+                        >
+                            Experience AI tips
+                        </Link>
+                    </div>
+                )}
+
                 <header className="space-y-6 text-center">
                     <h1 className="text-3xl sm:text-4xl font-bold text-[#001a4a]">
                         Roznamcha – Your Household Kharcha, Ration Tracking, and Monthly Survival Report

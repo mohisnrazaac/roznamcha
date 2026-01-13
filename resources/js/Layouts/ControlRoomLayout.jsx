@@ -9,6 +9,7 @@ const baseLinks = (translations) => [
     { name: translations?.reports?.title ?? 'Reports', routeName: 'reports.index', slug: 'reports' },
     { name: 'Users', routeName: 'admin.users.index', slug: 'users', adminOnly: true },
     { name: 'Categories', routeName: 'admin.categories.index', slug: 'categories', adminOnly: true },
+    { name: 'AI Logs', routeName: 'admin.ai-logs.index', slug: 'ai-logs', adminOnly: true },
     { name: 'Blog Posts', routeName: 'admin.blog.posts.index', slug: 'blog-posts', adminOnly: true },
     { name: 'Blog Categories', routeName: 'admin.blog.categories.index', slug: 'blog-categories', adminOnly: true },
 ];

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { deleteResource } from '@/lib/inertia';
+import AiInsightCard from '@/Components/AiInsightCard';
+import { fetchAiInsight } from '@/ai';
 
 export default function KharchaIndex({ expenses, categories, filters = {}, totals = {} }) {
   const { props } = usePage();
@@ -21,6 +23,35 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
     to: filters.to ?? '',
     category: filters.category ?? '',
   });
+
+  const [aiState, setAiState] = useState({ loading: true, data: null, error: '' });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadAi = async () => {
+      try {
+        const response = await fetchAiInsight('kharcha');
+        if (isMounted) {
+          setAiState({ loading: false, data: response, error: '' });
+        }
+      } catch (error) {
+        if (isMounted) {
+          setAiState({
+            loading: false,
+            data: error?.data ?? null,
+            error: error?.data?.message ?? error.message ?? 'Unable to load AI insight.',
+          });
+        }
+      }
+    };
+
+    loadAi();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -71,6 +102,46 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
           <StatCard label={kharcha.totals_today} value={totals.today} currency={currency} />
           <StatCard label={kharcha.average_daily} value={totals.average_daily} currency={currency} />
         </section>
+
+        <AiInsightCard
+          title="Kharcha Advisor"
+          description="Month-to-month spikes plus bilingual savings tips."
+          status={
+            aiState.loading
+              ? 'Generating AI summary...'
+              : aiState.error
+                ? aiState.error
+                : ''
+          }
+        >
+          {aiState.data?.summary && (
+            <p className="text-base text-slate-100">{aiState.data.summary}</p>
+          )}
+
+          {aiState.data?.top_risks?.length > 0 && (
+            <div>
+              <p className="text-xs uppercase tracking-wide text-slate-400">Top risks</p>
+              <ul className="list-disc list-inside text-slate-200 space-y-1">
+                {aiState.data.top_risks.map((risk, index) => (
+                  <li key={`${risk}-${index}`}>{risk}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {aiState.data?.suggestions?.length > 0 && (
+            <div>
+              <p className="text-xs uppercase tracking-wide text-slate-400">Suggestions</p>
+              <ul className="space-y-1 text-slate-200">
+                {aiState.data.suggestions.map((tip, index) => (
+                  <li key={`${tip}-${index}`} className="rounded-lg bg-slate-800/70 px-3 py-2">
+                    {tip}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </AiInsightCard>
 
         <section className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
           <form onSubmit={applyFilters} className="space-y-4">

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 import { router } from '@inertiajs/react';
+import AiInsightCard from '@/Components/AiInsightCard';
+import { fetchAiInsight } from '@/ai';
 
 export default function Reports({
   selectedMonth,
@@ -10,6 +12,34 @@ export default function Reports({
   flash = {},
 }) {
   const [month, setMonth] = useState(selectedMonth ?? new Date().toISOString().slice(0, 7));
+  const [aiState, setAiState] = useState({ loading: true, data: null, error: '' });
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadAi = async () => {
+      try {
+        const response = await fetchAiInsight('report');
+        if (mounted) {
+          setAiState({ loading: false, data: response, error: '' });
+        }
+      } catch (error) {
+        if (mounted) {
+          setAiState({
+            loading: false,
+            data: error?.data ?? null,
+            error: error?.data?.message ?? error.message ?? 'Unable to load AI insight.',
+          });
+        }
+      }
+    };
+
+    loadAi();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleGenerate = (event) => {
     event.preventDefault();
@@ -142,6 +172,23 @@ export default function Reports({
             )}
           </div>
         </div>
+
+        <AiInsightCard
+          variant="light"
+          title="Monthly Survival Story"
+          description="AI budget advisor summarises your month in 5 Urdu + English lines."
+          status={
+            aiState.loading
+              ? 'Asking Roznamcha AI...'
+              : aiState.error
+                ? aiState.error
+                : ''
+          }
+        >
+          {aiState.data?.story && (
+            <p className="text-base leading-relaxed text-slate-700">{aiState.data.story}</p>
+          )}
+        </AiInsightCard>
       </div>
     </AppLayout>
   );

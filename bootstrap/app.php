@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'set.household' => \App\Http\Middleware\SetHouseholdContext::class,
             'track.blog.view' => \App\Http\Middleware\TrackBlogView::class,
             'track.blog.cta' => \App\Http\Middleware\TrackBlogCtaClick::class,
+            'ai.quota' => \App\Http\Middleware\CheckAiQuota::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

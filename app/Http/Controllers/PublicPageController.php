@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AiUsageLog;
 use App\Models\BlogPost;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -26,8 +28,22 @@ class PublicPageController extends Controller
                 'url' => route('public.blog.show', ['slug' => $post->slug]),
             ]);
 
+        $user = auth()->user();
+        $showAiBanner = ! $user;
+
+        $hasUsageTable = Schema::hasTable('ai_usage_logs');
+
+        if ($user && $hasUsageTable) {
+            $showAiBanner = ! AiUsageLog::query()
+                ->where('user_id', $user->id)
+                ->exists();
+        } elseif ($user) {
+            $showAiBanner = false;
+        }
+
         return Inertia::render('Public/Home', [
             'latestPosts' => $latestPosts,
+            'showAiBanner' => $showAiBanner,
         ]);
     }
 

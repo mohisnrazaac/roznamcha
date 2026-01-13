@@ -84,6 +84,17 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                         Sitemap
                     </a>
                 </div>
+                <div className="flex flex-wrap justify-center items-center gap-2 text-sm text-[#001a4a]">
+                    <span className="font-medium">Follow us:</span>
+                    <a
+                        href="https://web.facebook.com/roznamcha.pk/"
+                        className="text-[#001a4a] underline decoration-dotted underline-offset-2 hover:decoration-solid"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Facebook
+                    </a>
+                </div>
                 <p>© 2025 Roznamcha. All rights reserved.</p>
             </footer>
         </div>

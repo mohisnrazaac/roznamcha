@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
+use App\Http\Controllers\Admin\AiLogsController as AdminAiLogsController;
 use App\Http\Controllers\MaintenanceTriggerController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PublicPageController;
@@ -25,6 +26,10 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogPublicController;
 use App\Http\Controllers\RssController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\AiKharchaController;
+use App\Http\Controllers\AiRationController;
+use App\Http\Controllers\AiReminderController;
+use App\Http\Controllers\AiReportController;
 
 $maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
 
@@ -136,6 +141,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/onboarding/first-expense', [OnboardingController::class, 'firstExpense'])->name('onboarding.first-expense');
     Route::post('/onboarding/first-expense', [OnboardingController::class, 'storeFirstExpense'])->name('onboarding.first-expense.store');
     Route::get('/onboarding/done', [OnboardingController::class, 'done'])->name('onboarding.done');
+
+    Route::prefix('ai')
+        ->middleware('ai.quota')
+        ->group(function (): void {
+            Route::post('/kharcha', [AiKharchaController::class, 'generate'])->name('ai.kharcha');
+            Route::post('/ration', [AiRationController::class, 'generate'])->name('ai.ration');
+            Route::post('/reminder', [AiReminderController::class, 'generate'])->name('ai.reminder');
+            Route::post('/report', [AiReportController::class, 'generate'])->name('ai.report');
+        });
 });
 
 // Admin routes
@@ -154,6 +168,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/categories/{category}/edit', [AdminCategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{category}', [AdminCategoryController::class, 'update'])->name('categories.update');
     Route::match(['DELETE', 'POST'], '/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+
+    Route::get('/ai-logs', [AdminAiLogsController::class, 'index'])->name('ai-logs.index');
 
     Route::prefix('blog')->name('blog.')->group(function () {
         Route::get('/posts', [AdminBlogPostController::class, 'index'])->name('posts.index');
