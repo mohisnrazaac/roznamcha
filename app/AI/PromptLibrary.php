@@ -52,4 +52,16 @@ Monthly survival data:
 {$json}
 PROMPT;
     }
+
+    public static function getDailyReturnLinePrompt(array $data): string
+    {
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        return <<<PROMPT
+Create exactly one blunt Urdu sentence for a Pakistani household about their recent money trends. No motivational quotes. Keep it in aam ghar ki zuban, max 25 Urdu words, and focus on inflation, top spending category, or savings caution. Respond strictly with {"status":"ok","module":"daily_return","sentence":""}.
+
+Household snapshot:
+{$json}
+PROMPT;
+    }
 }

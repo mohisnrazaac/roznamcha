@@ -12,6 +12,7 @@ const baseLinks = (translations) => [
     { name: 'AI Logs', routeName: 'admin.ai-logs.index', slug: 'ai-logs', adminOnly: true },
     { name: 'Blog Posts', routeName: 'admin.blog.posts.index', slug: 'blog-posts', adminOnly: true },
     { name: 'Blog Categories', routeName: 'admin.blog.categories.index', slug: 'blog-categories', adminOnly: true },
+    { name: 'Daily Hooks', routeName: 'admin.daily-return.index', slug: 'daily-hooks', adminOnly: true },
 ];
 
 const resolveHref = (link) => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import SeoHead from '../../Components/SeoHead';
+import DailyMoneySnapshot from '../../Components/Daily/DailyMoneySnapshot';
 import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
 const kharchaBullets = [
@@ -78,6 +79,8 @@ export default function Home({ latestPosts = [], showAiBanner = false }) {
             </Head>
 
             <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 space-y-16">
+                {/* Daily hook card surfaces CMS text + AI nudges so the homepage feels fresh every day. */}
+                <DailyMoneySnapshot className="shadow-lg" />
                 {showAiBanner && (
                     <div className="rounded-2xl border border-yellow-200 bg-yellow-50 px-5 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>

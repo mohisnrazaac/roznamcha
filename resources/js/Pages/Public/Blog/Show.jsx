@@ -5,6 +5,7 @@ import SeoHead from '../../../Components/SeoHead';
 import BlogCTA from '../../../Components/Blog/BlogCTA';
 import UseInRoznamchaWidget from '../../../Components/Blog/UseInRoznamchaWidget';
 import SchoolFeeIncreaseCalculator from '../../../Components/Calculators/SchoolFeeIncreaseCalculator';
+import DailyMoneySnapshot from '../../../Components/Daily/DailyMoneySnapshot';
 
 const getReturnPath = (url, slug) => {
     if (!url && slug) {
@@ -33,6 +34,11 @@ export default function BlogShow({ post, seo, jsonLd }) {
     return (
         <PublicLayout variant="inner">
             <SeoHead {...seo} jsonLd={jsonLd} />
+
+            <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-10">
+                {/* Snapshot lives above every blog post so old stories feel freshly updated daily. */}
+                <DailyMoneySnapshot variant="blog" />
+            </div>
 
             <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
                 <header className="space-y-3">
@@ -74,6 +80,9 @@ export default function BlogShow({ post, seo, jsonLd }) {
                     className="post-content space-y-6 text-lg leading-relaxed text-slate-800 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-slate-200 [&_a]:text-[#001a4a] [&_a]:underline-offset-2 [&_a:hover]:underline [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_li]:marker:text-[#001a4a] [&_table]:w-full [&_table]:border-collapse [&_table]:rounded-2xl [&_th]:text-left [&_th]:bg-slate-100 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_td]:border [&_td]:border-slate-200 [&_thead]:border-b [&_tbody_tr:nth-child(odd)]:bg-slate-50"
                     dangerouslySetInnerHTML={{ __html: post?.content ?? '' }}
                 />
+
+                {/* Tool CTAs close the loop by pointing every blog session back into Roznamcha. */}
+                <BlogCTA variant="tool-links" />
 
                 <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6 text-sm text-slate-500">
                     <Link href={route('public.blog.index')} className="font-semibold text-[#001a4a] hover:underline">

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
 use App\Http\Controllers\Admin\AiLogsController as AdminAiLogsController;
+use App\Http\Controllers\Admin\DailyMoneySnapshotController as AdminDailyMoneySnapshotController;
 use App\Http\Controllers\MaintenanceTriggerController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PublicPageController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\AiKharchaController;
 use App\Http\Controllers\AiRationController;
 use App\Http\Controllers\AiReminderController;
 use App\Http\Controllers\AiReportController;
+use App\Http\Controllers\DailyReturnSnapshotController;
 
 $maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
 
@@ -58,6 +60,7 @@ Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->
 Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
     ->middleware('track.blog.view')
     ->name('public.blog.show');
+Route::get('/daily-return/snapshot', [DailyReturnSnapshotController::class, 'show'])->name('daily-return.snapshot');
 Route::get('/blog/rss.xml', [RssController::class, 'blog'])->name('public.blog.rss');
 Route::get('/sitemap.xml', [SitemapController::class, 'show'])->name('public.sitemap');
 
@@ -170,6 +173,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::match(['DELETE', 'POST'], '/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('/ai-logs', [AdminAiLogsController::class, 'index'])->name('ai-logs.index');
+    Route::get('/daily-return', [AdminDailyMoneySnapshotController::class, 'index'])->name('daily-return.index');
+    Route::post('/daily-return/snapshots', [AdminDailyMoneySnapshotController::class, 'store'])->name('daily-return.snapshots.store');
 
     Route::prefix('blog')->name('blog.')->group(function () {
         Route::get('/posts', [AdminBlogPostController::class, 'index'])->name('posts.index');

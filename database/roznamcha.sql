@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 10, 2026 at 10:33 AM
+-- Generation Time: Jan 16, 2026 at 04:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,22 @@ SET time_zone = "+00:00";
 --
 -- Database: `roznamcha`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ai_usage_logs`
+--
+
+CREATE TABLE `ai_usage_logs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `module` varchar(255) NOT NULL,
+  `used_on_date` date NOT NULL,
+  `request_count` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -190,6 +206,80 @@ INSERT INTO `categories` (`id`, `name`, `description`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `daily_ai_insights`
+--
+
+CREATE TABLE `daily_ai_insights` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `insight_date` date NOT NULL,
+  `ai_text` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `daily_ai_insights`
+--
+
+INSERT INTO `daily_ai_insights` (`id`, `user_id`, `insight_date`, `ai_text`, `created_at`, `updated_at`) VALUES
+(1, 2, '2026-01-16', 'AI service unavailable. Add AI_API_KEY to the environment to enable responses.', '2026-01-16 09:39:51', '2026-01-16 09:39:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `daily_money_snapshots`
+--
+
+CREATE TABLE `daily_money_snapshots` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `snapshot_date` date NOT NULL,
+  `expense_summary_text` text DEFAULT NULL,
+  `inflation_status_text` text DEFAULT NULL,
+  `saving_tip_text` text DEFAULT NULL,
+  `today_update_line` text DEFAULT NULL,
+  `yesterday_change_line` text DEFAULT NULL,
+  `kharcha_cta_label` text DEFAULT NULL,
+  `kharcha_cta_url` text DEFAULT NULL,
+  `ration_cta_label` text DEFAULT NULL,
+  `ration_cta_url` text DEFAULT NULL,
+  `last_updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `daily_money_snapshots`
+--
+
+INSERT INTO `daily_money_snapshots` (`id`, `snapshot_date`, `expense_summary_text`, `inflation_status_text`, `saving_tip_text`, `today_update_line`, `yesterday_change_line`, `kharcha_cta_label`, `kharcha_cta_url`, `ration_cta_label`, `ration_cta_url`, `last_updated_at`, `created_at`, `updated_at`) VALUES
+(1, '2026-01-16', '“پاکستان میں مجموعی مہنگائی 5.6 فیصد سال‌ بہ‌ سال ریکارڈ کی گئی ہے، جبکہ ماہ‌ بہ‌ ماہ قیمتیں معمولی کمی پر ہیں۔ شہریوں کیلئے خوراک اور غیر‌مجلد خدمات کی قیمتوں میں نرمی دیکھی گئی ہے، مگر رہائش اور یوٹیلیٹی اخراجات پر دباو برقرار ہے.', 'قابلِ تشویش اشیائے خورو نوش کا ہفتہ وار حساس قیمت انڈیکس (SPI) 0.12 فیصد بڑھا ہے، جو بتاتا ہے چند اشیاء کی قیمتیں ہفتہ وار سطح پر اوپر جا رہی ہیں. چینی، کوکنگ آئل اور دالوں جیسے اسٹاپلز میں اتارچڑھاؤ کا رجحان جاری ہے.”', 'کھانا پکانے کے تیل اور پھل و سبزی کی قیمتیں گزشتہ مدت کی نسبت نرم ہیں، جس سے بنیادی خوراک پر ماہانہ بجٹ میں کچھ راحت مل سکتی ہے. ماہانہ کھانے پینے کی اشیاء کے اخراجات پر نظر رکھنے سے بچت کا موقع بڑھ سکتا ہے.', 'مودی تازہ CPI ڈیٹا کے مطابق سالانہ انفلیشن سست ہوکر 5.6 فیصد ہو گئی ہے، جو گزشتہ ماہ 6.1 فیصد تھی — قلیل مدت میں قیمتوں پر کچھ سکون ہے', 'گزشتہ ماہ کے مقابلے میں مہنگائی کی رفتار میں کمی دیکھی گئی ہے، خاص طور پر خوراک اور غیر‌مجمد خدمات کے اخراجات میں نرمی آئی ہے، جس سے گھریلو بجٹ پر دباو تھوڑا کم ہوا ہے', 'اپنا خرچ یہاں دیکھیں', 'http://127.0.0.1:8000/kharcha-map', 'اپنا ماہانہ بجٹ بنائیں', 'http://127.0.0.1:8000/ration-brain', '2026-01-16 09:36:19', '2026-01-16 09:36:19', '2026-01-16 09:36:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `daily_visit_streaks`
+--
+
+CREATE TABLE `daily_visit_streaks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `last_visited_on` date DEFAULT NULL,
+  `streak_count` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `daily_visit_streaks`
+--
+
+INSERT INTO `daily_visit_streaks` (`id`, `user_id`, `last_visited_on`, `streak_count`, `created_at`, `updated_at`) VALUES
+(1, 2, '2026-01-16', 1, '2026-01-16 09:39:51', '2026-01-16 09:39:51');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `events`
 --
 
@@ -201,6 +291,13 @@ CREATE TABLE `events` (
   `meta` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`meta`)),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`id`, `user_id`, `session_id`, `name`, `meta`, `created_at`) VALUES
+(1, 2, 'jLZ9EZ2nJUFO7nMS8w8kZxiUlgvs2p45ITkjCrVK', 'blog_view', '{\"post_id\":3,\"slug\":\"upcoming-mehngai-forecast\",\"path\":\"blog\\/upcoming-mehngai-forecast\",\"ref\":\"http:\\/\\/127.0.0.1:8000\\/blog\"}', '2026-01-16 14:40:21');
 
 -- --------------------------------------------------------
 
@@ -377,7 +474,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (26, '2025_12_19_110514_create_blog_categories_table', 6),
 (27, '2025_12_19_110518_create_blog_category_post_table', 7),
 (28, '2025_12_01_000000_create_events_table', 8),
-(29, '2025_12_01_000010_add_feature_hooks_to_blog_posts_table', 9);
+(29, '2025_12_01_000010_add_feature_hooks_to_blog_posts_table', 9),
+(30, '2025_11_01_000020_create_ration_prices_table', 10),
+(31, '2026_01_11_000000_create_ai_usage_logs_table', 10),
+(32, '2026_02_20_000000_create_daily_money_snapshots_table', 11),
+(33, '2026_02_20_000100_create_daily_ai_insights_table', 11),
+(34, '2026_02_20_000200_create_daily_visit_streaks_table', 11);
 
 -- --------------------------------------------------------
 
@@ -594,8 +696,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('4U6094MoTqwLHAKW3IF6e3KmwzA69qyQ4qFFy9tO', 2, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSEMyZGVQbWc5R2taM29nc3RwSVF5SG5LT3NVcjFWbEVXdHVWVTdMeSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MTA4OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYmxvZy9ob3ctcGFraXN0YW5pLWZhbWlsaWVzLWNhbi1jb250cm9sLW1vbnRobHktZXhwZW5zZXMtd2l0aG91dC1jdXR0aW5nLXRoZWlyLWRpZ25pdHkiO3M6NToicm91dGUiO3M6MTY6InB1YmxpYy5ibG9nLnNob3ciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1767854213),
-('c2IoZeucxFAi99qp9BuY2tuSWGVUZ1y17CXzu76c', NULL, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUDBJcmIzY1pNVXVQMDBqYjc5R1I0ZFlEejhUaVBka2E2YjVJdmJVdyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3Rlcj9yZXR1cm5fdG89JTJGb25ib2FyZGluZyI7czo1OiJyb3V0ZSI7czo4OiJyZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MTA6ImFjdGl2YXRpb24iO2E6Mjp7czo2OiJyZXR1cm4iO3M6MTE6Ii9vbmJvYXJkaW5nIjtzOjg6ImNvbXBsZXRlIjtzOjMxOiIvYmxvZy91cGNvbWluZy1tZWhuZ2FpLWZvcmVjYXN0Ijt9fQ==', 1768025811);
+('jLZ9EZ2nJUFO7nMS8w8kZxiUlgvs2p45ITkjCrVK', 2, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVkpXZUIxZVJldExveVpPN1pISGFhRXI0NTlyck83ckdoQkF4RDV1ciI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYWlseS1yZXR1cm4vc25hcHNob3QiO3M6NToicm91dGUiO3M6MjE6ImRhaWx5LXJldHVybi5zbmFwc2hvdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1768575879);
 
 -- --------------------------------------------------------
 
@@ -654,6 +755,14 @@ INSERT INTO `user_settings` (`id`, `user_id`, `key`, `value`, `created_at`, `upd
 --
 
 --
+-- Indexes for table `ai_usage_logs`
+--
+ALTER TABLE `ai_usage_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `ai_usage_logs_unique` (`user_id`,`module`,`used_on_date`),
+  ADD KEY `ai_usage_logs_used_on_date_module_index` (`used_on_date`,`module`);
+
+--
 -- Indexes for table `announcements`
 --
 ALTER TABLE `announcements`
@@ -703,6 +812,27 @@ ALTER TABLE `cache_locks`
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `categories_name_unique` (`name`);
+
+--
+-- Indexes for table `daily_ai_insights`
+--
+ALTER TABLE `daily_ai_insights`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `daily_ai_insights_user_id_insight_date_unique` (`user_id`,`insight_date`);
+
+--
+-- Indexes for table `daily_money_snapshots`
+--
+ALTER TABLE `daily_money_snapshots`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `daily_money_snapshots_snapshot_date_unique` (`snapshot_date`);
+
+--
+-- Indexes for table `daily_visit_streaks`
+--
+ALTER TABLE `daily_visit_streaks`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `daily_visit_streaks_user_id_unique` (`user_id`);
 
 --
 -- Indexes for table `events`
@@ -862,6 +992,12 @@ ALTER TABLE `user_settings`
 --
 
 --
+-- AUTO_INCREMENT for table `ai_usage_logs`
+--
+ALTER TABLE `ai_usage_logs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
@@ -886,10 +1022,28 @@ ALTER TABLE `categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `daily_ai_insights`
+--
+ALTER TABLE `daily_ai_insights`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `daily_money_snapshots`
+--
+ALTER TABLE `daily_money_snapshots`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `daily_visit_streaks`
+--
+ALTER TABLE `daily_visit_streaks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `expenses`
@@ -931,7 +1085,7 @@ ALTER TABLE `kharcha_entries`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `ration_entries`
@@ -992,6 +1146,12 @@ ALTER TABLE `user_settings`
 --
 
 --
+-- Constraints for table `ai_usage_logs`
+--
+ALTER TABLE `ai_usage_logs`
+  ADD CONSTRAINT `ai_usage_logs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `blog_category_post`
 --
 ALTER TABLE `blog_category_post`
@@ -1004,6 +1164,18 @@ ALTER TABLE `blog_category_post`
 ALTER TABLE `blog_posts`
   ADD CONSTRAINT `blog_posts_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `blog_posts_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `daily_ai_insights`
+--
+ALTER TABLE `daily_ai_insights`
+  ADD CONSTRAINT `daily_ai_insights_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `daily_visit_streaks`
+--
+ALTER TABLE `daily_visit_streaks`
+  ADD CONSTRAINT `daily_visit_streaks_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `events`
