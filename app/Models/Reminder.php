@@ -1,14 +1,18 @@
 <?php
 
+// Purpose: Reminder ownership scoping helpers. Date: 2026-02-22. Author: Codex.
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Concerns\BelongsToUser;
 
 class Reminder extends Model
 {
     use HasFactory;
+    use BelongsToUser;
     protected $fillable = [
         'user_id',
         'household_id',
@@ -41,11 +45,6 @@ class Reminder extends Model
         'due_date' => 'date',
         'is_done' => 'boolean',
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function household(): BelongsTo
     {

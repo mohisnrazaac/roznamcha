@@ -1,10 +1,12 @@
 /* global route */
 
+// Purpose: Fetch AI insights with stable CSRF handling & routes. Date: 2026-02-22. Author: Codex.
+
 const AI_ENDPOINTS = {
-  kharcha: () => resolveAiRoute('ai.kharcha', '/panel/ai/kharcha'),
-  ration: () => resolveAiRoute('ai.ration', '/panel/ai/ration'),
-  reminder: () => resolveAiRoute('ai.reminder', '/panel/ai/reminder'),
-  report: () => resolveAiRoute('ai.report', '/panel/ai/report'),
+  kharcha: () => resolveAiRoute('ai.kharcha', '/ai/kharcha'),
+  ration: () => resolveAiRoute('ai.ration', '/ai/ration'),
+  reminder: () => resolveAiRoute('ai.reminder', '/ai/reminder'),
+  report: () => resolveAiRoute('ai.report', '/ai/report'),
 };
 
 export async function fetchAiInsight(module, payload = {}) {
@@ -28,6 +30,7 @@ export async function fetchAiInsight(module, payload = {}) {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'X-CSRF-TOKEN': token,
+      'X-Requested-With': 'XMLHttpRequest',
     },
     credentials: 'same-origin',
     body: JSON.stringify(payload),
@@ -64,11 +67,20 @@ export function aiStatusLabel(state) {
 function resolveAiRoute(name, fallback) {
   if (typeof route === 'function') {
     try {
-      return route(name);
+      return normalizeToRelative(route(name));
     } catch (error) {
       // route helper available but name unresolved; fall through
     }
   }
 
   return fallback;
+}
+
+function normalizeToRelative(url) {
+  try {
+    const parsed = new URL(url, window.location.origin);
+    return parsed.pathname + parsed.search;
+  } catch (error) {
+    return url;
+  }
 }

@@ -1,3 +1,5 @@
+// Purpose: Admin form for global default categories. Date: 2026-02-22. Author: Codex.
+
 import React from 'react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, useForm } from '@inertiajs/react';
@@ -21,7 +23,7 @@ export default function CategoriesCreate() {
             ← Back to categories
           </Link>
           <h1 className="mt-2 text-xl font-semibold">Add Category</h1>
-          <p className="text-sm text-slate-400">Describe a spending bucket for your household cockpit.</p>
+          <p className="text-sm text-slate-400">These become global defaults for every user account.</p>
         </div>
 
         <form onSubmit={submit} className="max-w-xl space-y-5">

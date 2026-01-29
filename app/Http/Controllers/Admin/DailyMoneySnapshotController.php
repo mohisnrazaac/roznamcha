@@ -4,28 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DailyMoneySnapshot;
+use App\Services\DailyMoneySnapshotService;
 use App\Services\DailyReturnHookService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
- * Simple CMS surface for editing the copy that powers the daily hooks.
+ * Admin surface that lets staff rerun the midnight Daily Money Snapshot automation without touching cron.
+ * The same Urdu copy keeps the Daily Return widget sticky, so we only expose a manual override for operational safety.
  */
 class DailyMoneySnapshotController extends Controller
 {
     public function index(DailyReturnHookService $service): Response
     {
-        $today = now()->toDateString();
+        $timezone = config('daily_snapshot.timezone', config('app.timezone'));
 
         $snapshot = DailyMoneySnapshot::query()
-            ->where('snapshot_date', $today)
+            ->orderByDesc('snapshot_date')
             ->first();
 
         $history = DailyMoneySnapshot::query()
             ->orderByDesc('snapshot_date')
-            ->limit(30)
+            ->limit(14)
             ->get()
             ->map(fn (DailyMoneySnapshot $record) => [
                 'id' => $record->id,
@@ -35,54 +38,52 @@ class DailyMoneySnapshotController extends Controller
                 'saving_tip_text' => $record->saving_tip_text,
                 'today_update_line' => $record->today_update_line,
                 'yesterday_change_line' => $record->yesterday_change_line,
+                'source_metadata' => $record->source_metadata,
                 'last_updated_at' => optional($record->last_updated_at ?? $record->updated_at)->toDateTimeString(),
             ]);
 
+        $nextRun = now($timezone)
+            ->startOfDay()
+            ->addDay()
+            ->setTime(0, (int) config('daily_snapshot.cron_minute', 5))
+            ->setTimezone(config('app.timezone'));
+
         return Inertia::render('Admin/DailyReturn/Index', [
             'snapshot' => [
-                'snapshot_date' => $snapshot?->snapshot_date?->toDateString() ?? $today,
+                'snapshot_date' => $snapshot?->snapshot_date?->toDateString(),
                 'expense_summary_text' => $snapshot?->expense_summary_text,
                 'inflation_status_text' => $snapshot?->inflation_status_text,
                 'saving_tip_text' => $snapshot?->saving_tip_text,
                 'today_update_line' => $snapshot?->today_update_line,
                 'yesterday_change_line' => $snapshot?->yesterday_change_line,
-                'kharcha_cta_label' => $snapshot?->kharcha_cta_label,
-                'kharcha_cta_url' => $snapshot?->kharcha_cta_url,
-                'ration_cta_label' => $snapshot?->ration_cta_label,
-                'ration_cta_url' => $snapshot?->ration_cta_url,
+                'source_metadata' => $snapshot?->source_metadata,
             ],
             'history' => $history,
             'preview' => $service->buildPayload(),
-            'status' => session('status'),
+            'flash' => session('flash'),
+            'next_run_at' => $nextRun->toDateTimeString(),
         ]);
     }
 
     /**
-     * Upsert keeps exactly one snapshot per date as per the CMS requirement.
+     * Manual trigger shares logic with cron so operators can recover failed 12 AM runs without duplicating effort.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(DailyMoneySnapshotService $snapshotService): RedirectResponse
     {
-        $data = $request->validate([
-            'snapshot_date' => ['required', 'date'],
-            'expense_summary_text' => ['nullable', 'string'],
-            'inflation_status_text' => ['nullable', 'string'],
-            'saving_tip_text' => ['nullable', 'string'],
-            'today_update_line' => ['nullable', 'string'],
-            'yesterday_change_line' => ['nullable', 'string'],
-            'kharcha_cta_label' => ['nullable', 'string'],
-            'kharcha_cta_url' => ['nullable', 'string'],
-            'ration_cta_label' => ['nullable', 'string'],
-            'ration_cta_url' => ['nullable', 'string'],
-        ]);
+        try {
+            $snapshot = $snapshotService->generate();
 
-        DailyMoneySnapshot::updateOrCreate(
-            ['snapshot_date' => $data['snapshot_date']],
-            array_merge(
-                collect($data)->except('snapshot_date')->toArray(),
-                ['last_updated_at' => now()]
-            )
-        );
+            return back()->with('flash', [
+                'type' => 'success',
+                'message' => "آج کا اسنیپ شاٹ خودکار طور پر {$snapshot->snapshot_date?->toDateString()} کیلئے محفوظ ہو گیا۔",
+            ]);
+        } catch (Throwable $exception) {
+            Log::error('Manual snapshot generation failed', ['error' => $exception->getMessage()]);
 
-        return back()->with('status', 'Daily snapshot updated.');
+            return back()->with('flash', [
+                'type' => 'error',
+                'message' => 'API سے ڈیٹا نہیں ملا، براہ کرم لاگز چیک کریں۔',
+            ]);
+        }
     }
 }

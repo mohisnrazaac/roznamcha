@@ -1,10 +1,13 @@
 <?php
 
+// Purpose: Enforce multi-tenant scoping for kharcha records. Date: 2026-02-22. Author: Codex.
+
 namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Household;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
@@ -22,11 +25,13 @@ class ExpenseController extends Controller
 
         $dateColumn = $this->dateColumn();
         $noteColumn = $this->noteColumn();
+        $requestedUser = $user->isAdmin() ? $request->integer('user_id') : null;
 
         $expensesQuery = Expense::query()
-            ->with('category')
+            ->with(['category', 'user'])
             ->forHousehold($household)
-            ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id));
+            ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
+            ->when($user->isAdmin() && $requestedUser, fn ($query) => $query->where('user_id', $requestedUser));
 
         if ($filters['category'] ?? null) {
             $expensesQuery->where('category_id', $filters['category']);
@@ -55,19 +60,25 @@ class ExpenseController extends Controller
                     'id' => $expense->category->id,
                     'name' => $expense->category->name,
                 ] : null,
+                'owner' => $expense->user ? [
+                    'id' => $expense->user->id,
+                    'name' => $expense->user->name,
+                    'email' => $expense->user->email,
+                ] : null,
             ]);
 
         $now = Carbon::now();
         $monthStart = $now->copy()->startOfMonth();
+        $totalsQueryBase = Expense::query()
+            ->forHousehold($household)
+            ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
+            ->when($user->isAdmin() && $requestedUser, fn ($query) => $query->where('user_id', $requestedUser));
+
         $totals = [
-            'month' => Expense::query()
-                ->forHousehold($household)
-                ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
+            'month' => (clone $totalsQueryBase)
                 ->whereBetween($dateColumn, [$monthStart->toDateString(), $now->toDateString()])
                 ->sum('amount'),
-            'today' => Expense::query()
-                ->forHousehold($household)
-                ->when(! $user->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
+            'today' => (clone $totalsQueryBase)
                 ->whereDate($dateColumn, $now->toDateString())
                 ->sum('amount'),
         ];
@@ -78,16 +89,22 @@ class ExpenseController extends Controller
 
         return Inertia::render('Kharcha/Index', [
             'expenses' => $expenses,
-            'categories' => Category::orderBy('name')->get(['id', 'name', 'color']),
-            'filters' => $filters,
+            'categories' => $this->categoryOptions($user, ['id', 'name', 'color']),
+            'filters' => [
+                ...$filters,
+                'user_id' => $requestedUser,
+            ],
             'totals' => $totals,
+            'users' => $user->isAdmin()
+                ? User::orderBy('name')->get(['id', 'name', 'email'])
+                : [],
         ]);
     }
 
-    public function create(): Response
+    public function create(Request $request): Response
     {
         return Inertia::render('Kharcha/Create', [
-            'categories' => Category::orderBy('name')->get(['id', 'name']),
+            'categories' => $this->categoryOptions($request->user(), ['id', 'name']),
         ]);
     }
 
@@ -137,6 +154,7 @@ class ExpenseController extends Controller
 
     public function edit(Expense $expense): Response
     {
+        $this->assertExpenseOwner(request(), $expense);
         $this->authorize('update', $expense);
 
         return Inertia::render('Kharcha/Edit', [
@@ -147,12 +165,13 @@ class ExpenseController extends Controller
                 'category_id' => $expense->category_id,
                 'note' => $expense->{$this->noteColumn()} ?? null,
             ],
-            'categories' => Category::orderBy('name')->get(['id', 'name']),
+            'categories' => $this->categoryOptions(request()->user(), ['id', 'name']),
         ]);
     }
 
     public function update(Request $request, Expense $expense)
     {
+        $this->assertExpenseOwner($request, $expense);
         $this->authorize('update', $expense);
 
         $validated = $request->validate([
@@ -187,6 +206,7 @@ class ExpenseController extends Controller
 
     public function destroy(Expense $expense)
     {
+        $this->assertExpenseOwner(request(), $expense);
         $this->authorize('delete', $expense);
         $expense->delete();
 
@@ -218,5 +238,21 @@ class ExpenseController extends Controller
     private function householdColumn(): ?string
     {
         return Schema::hasColumn('expenses', 'household_id') ? 'household_id' : null;
+    }
+
+    private function assertExpenseOwner(Request $request, Expense $expense): void
+    {
+        if (! $request->user()->isAdmin() && (int) $expense->user_id !== (int) $request->user()->id) {
+            abort(404);
+        }
+    }
+
+    private function categoryOptions(User $user, array $columns = ['id', 'name'])
+    {
+        return Category::query()
+            ->visibleTo($user)
+            ->orderByDesc('is_default')
+            ->orderBy('name')
+            ->get($columns);
     }
 }

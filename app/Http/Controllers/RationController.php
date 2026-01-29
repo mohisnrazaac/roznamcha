@@ -1,15 +1,19 @@
 <?php
 
+// Purpose: Enforce multi-tenant ration scoping + defaults handling. Date: 2026-02-22. Author: Codex.
+
 namespace App\Http\Controllers;
 
 use App\Models\Household;
 use App\Models\RationItem;
 use App\Models\RationPrice;
+use App\Models\User;
 use App\Services\InflationService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,18 +37,38 @@ class RationController extends Controller
         $nameColumn = $this->nameColumn();
         $statusColumn = $this->statusColumn();
         $pricesTableExists = $this->pricesTableExists();
+        $supportsDefaults = Schema::hasColumn('ration_items', 'is_default');
 
-        $items = RationItem::query()
+        $itemsQuery = RationItem::query()
             ->when($householdColumn, function ($query) use ($householdColumn, $household) {
                 return $query->where($householdColumn, $household?->id);
             })
-            ->when(! $user?->isAdmin(), fn ($query) => $query->where('user_id', $user->id))
             ->when($pricesTableExists, function ($query) {
                 $query->with(['prices' => fn ($relation) => $relation->orderByDesc('priced_at')->limit(12)]);
             })
+            ->with('user');
+
+        if (! $user?->isAdmin()) {
+            if ($supportsDefaults) {
+                $itemsQuery->where(function ($query) use ($user) {
+                    $query->where('is_default', true)
+                        ->orWhere('user_id', $user->id);
+                });
+            } else {
+                $itemsQuery->where('user_id', $user->id);
+            }
+        } else {
+            $requestedUser = $request->filled('user_id') ? (int) $request->input('user_id') : null;
+            if ($requestedUser) {
+                $itemsQuery->where('user_id', $requestedUser);
+            }
+        }
+
+        $items = $itemsQuery
+            ->orderByDesc('is_default')
             ->orderBy($nameColumn)
             ->get()
-            ->map(function (RationItem $item) use ($lastMonthRange, $nameColumn, $statusColumn, $pricesTableExists) {
+            ->map(function (RationItem $item) use ($lastMonthRange, $nameColumn, $statusColumn, $pricesTableExists, $user) {
                 $prices = $pricesTableExists ? $item->prices : collect();
                 $latest = $prices->sortByDesc('priced_at')->first();
                 $previous = $prices
@@ -69,11 +93,26 @@ class RationController extends Controller
                     'last_month_price' => $previous?->price,
                     'delta_percent' => $delta,
                     'is_active' => $statusColumn ? (bool) $item->{$statusColumn} : true,
+                    'is_default' => (bool) ($item->is_default ?? false),
+                    'owner' => $item->user ? [
+                        'id' => $item->user->id,
+                        'name' => $item->user->name,
+                        'email' => $item->user->email,
+                    ] : null,
+                    'can_manage' => ($item->is_default ?? false)
+                        ? $user?->isAdmin()
+                        : true,
                 ];
             });
 
         return Inertia::render('Ration/Index', [
             'items' => $items,
+            'filters' => $user?->isAdmin() ? [
+                'user_id' => $request->integer('user_id'),
+            ] : [],
+            'users' => $user?->isAdmin()
+                ? User::query()->orderBy('name')->get(['id', 'name', 'email'])
+                : [],
         ]);
     }
 
@@ -98,6 +137,7 @@ class RationController extends Controller
         }
 
         $validated = $request->validate($rules);
+        $this->assertNoDefaultDuplicate($validated['name']);
 
         $household = app()->bound('currentHousehold') ? app('currentHousehold') : null;
 
@@ -116,6 +156,8 @@ class RationController extends Controller
         if ($column = $this->householdColumn()) {
             $attributes[$column] = $household?->id;
         }
+
+        $attributes['is_default'] = false;
 
         $item = RationItem::create($attributes);
 
@@ -187,6 +229,12 @@ class RationController extends Controller
             $payload[$this->statusColumn()] = $validated['is_active'] ?? true;
         }
 
+        if (($ration->is_default ?? false) && ! $request->user()->isAdmin()) {
+            abort(404);
+        }
+
+        $this->assertNoDefaultDuplicate($validated['name'], $ration->getKey());
+
         $ration->update($payload);
 
         return redirect()->route('panel.ration.index')->with('success', 'Ration item updated.');
@@ -222,6 +270,10 @@ class RationController extends Controller
 
     public function destroy(RationItem $ration): RedirectResponse
     {
+        if (($ration->is_default ?? false) && ! $request->user()->isAdmin()) {
+            abort(404);
+        }
+
         $this->authorize('delete', $ration);
 
         $ration->delete();
@@ -252,5 +304,28 @@ class RationController extends Controller
     private function pricesTableExists(): bool
     {
         return Schema::hasTable('ration_prices');
+    }
+
+    private function assertNoDefaultDuplicate(string $name, ?int $ignoreId = null): void
+    {
+        if (! Schema::hasColumn('ration_items', 'is_default')) {
+            return;
+        }
+
+        $column = $this->nameColumn();
+        $normalized = RationItem::normalizeName($name);
+
+        $defaults = RationItem::query()
+            ->defaults()
+            ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+            ->pluck($column)
+            ->map(fn ($value) => RationItem::normalizeName($value))
+            ->all();
+
+        if (in_array($normalized, $defaults, true)) {
+            throw ValidationException::withMessages([
+                'name' => 'This ration item already exists as a default entry.',
+            ]);
+        }
     }
 }

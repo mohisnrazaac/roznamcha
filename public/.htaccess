@@ -4,8 +4,6 @@
     </IfModule>
 
     RewriteEngine On
-    # Update RewriteBase if Laravel lives in a subfolder (e.g., /apps/roznamcha/public)
-    RewriteBase /
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -25,6 +23,10 @@
     RewriteRule ^ - [L]
 
     # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_URI} ^features/?$
+    RewriteRule ^ index.php [L]
+
+    RewriteCond %{REQUEST_URI} !^features/.+
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]

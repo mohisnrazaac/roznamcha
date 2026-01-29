@@ -7,4 +7,5 @@ return [
         'ur' => 'اردو',
     ],
     'enable_households' => env('ROZNAMCHA_ENABLE_HOUSEHOLDS', false),
+    'youtube_demo_url' => env('ROZNAMCHA_YOUTUBE_DEMO_URL'),
 ];

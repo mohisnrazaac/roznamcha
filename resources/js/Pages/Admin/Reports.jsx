@@ -1,9 +1,12 @@
+// Purpose: Reports dashboard with admin user filtering support. Date: 2026-02-22. Author: Codex.
+
 import React, { useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 
 export default function Reports({
-    user,
+    authUser,
+    subjectUser,
     monthLabel,
     totalSpend,
     rationDaysLeft,
@@ -11,12 +14,17 @@ export default function Reports({
     health = {},
     breakdown = [],
     recentActivity = [],
+    filters = {},
+    users = [],
 }) {
     const { props } = usePage();
     const translations = props.translations ?? {};
     const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
     const [isGenerating, setIsGenerating] = useState(false);
     const downloadUrl = props?.flash?.report_download_url ?? null;
+    const [selectedUser, setSelectedUser] = useState(filters.user_id ?? '');
+    const role = (authUser?.role ?? '').toLowerCase();
+    const isAdmin = role.includes('admin');
 
     const generateReport = (event) => {
         event.preventDefault();
@@ -31,8 +39,22 @@ export default function Reports({
         );
     };
 
+    const applyUserFilter = (event) => {
+        event.preventDefault();
+        router.get(
+            route('reports.index'),
+            selectedUser ? { user_id: selectedUser } : {},
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const resetUserFilter = () => {
+        setSelectedUser('');
+        router.get(route('reports.index'), {}, { preserveState: true, preserveScroll: true });
+    };
+
     return (
-        <ControlRoomLayout active="reports" user={user}>
+        <ControlRoomLayout active="reports" user={authUser}>
             <div className="p-6 md:p-10 text-white space-y-10">
                 <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div>
@@ -40,6 +62,11 @@ export default function Reports({
                         <p className="text-sm text-slate-400">
                             Monthly survival report for {monthLabel}. Designed for the household CFO.
                         </p>
+                        {isAdmin && subjectUser && (
+                            <p className="text-xs text-slate-500">
+                                Viewing data for {subjectUser.name} ({subjectUser.email})
+                            </p>
+                        )}
                     </div>
                     <form onSubmit={generateReport} className="flex items-center gap-2">
                         <input
@@ -57,6 +84,44 @@ export default function Reports({
                         </button>
                     </form>
                 </header>
+
+                {isAdmin && (
+                    <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                        <form onSubmit={applyUserFilter} className="flex flex-col gap-3 md:flex-row md:items-center">
+                            <label htmlFor="reports-user-filter" className="text-sm font-semibold text-slate-200">
+                                Filter by user
+                            </label>
+                            <select
+                                id="reports-user-filter"
+                                value={selectedUser}
+                                onChange={(event) => setSelectedUser(event.target.value)}
+                                className="flex-1 rounded-lg border border-slate-500 bg-slate-900 px-3 py-2 text-sm text-white"
+                            >
+                                <option value="">My account</option>
+                                {users.map((userOption) => (
+                                    <option key={userOption.id} value={userOption.id}>
+                                        {userOption.name} ({userOption.email})
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="flex gap-2">
+                                <button
+                                    type="submit"
+                                    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white"
+                                >
+                                    Apply
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={resetUserFilter}
+                                    className="rounded-lg border border-slate-500 px-4 py-2 text-sm font-semibold text-slate-200"
+                                >
+                                    Reset
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+                )}
 
                 {downloadUrl ? (
                     <div className="rounded-xl border border-emerald-400 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">

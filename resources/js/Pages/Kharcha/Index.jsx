@@ -1,3 +1,5 @@
+// Purpose: Kharcha admin filters + owner visibility. Date: 2026-02-22. Author: Codex.
+
 import React, { useEffect, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
@@ -5,7 +7,7 @@ import { deleteResource } from '@/lib/inertia';
 import AiInsightCard from '@/Components/AiInsightCard';
 import { fetchAiInsight } from '@/ai';
 
-export default function KharchaIndex({ expenses, categories, filters = {}, totals = {} }) {
+export default function KharchaIndex({ expenses, categories, filters = {}, totals = {}, users = [] }) {
   const { props } = usePage();
   const translations = props.translations ?? {};
   const kharcha = translations.kharcha ?? {};
@@ -18,10 +20,14 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
 
   const currency = commons.currency ?? '₨';
 
+  const role = (props.auth?.user?.role ?? '').toLowerCase();
+  const isAdmin = role.includes('admin');
+
   const [form, setForm] = useState({
     from: filters.from ?? '',
     to: filters.to ?? '',
     category: filters.category ?? '',
+    user_id: filters.user_id ?? '',
   });
 
   const [aiState, setAiState] = useState({ loading: true, data: null, error: '' });
@@ -64,7 +70,7 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
   };
 
   const clearFilters = () => {
-    setForm({ from: '', to: '', category: '' });
+    setForm({ from: '', to: '', category: '', user_id: '' });
     router.get(route('panel.kharcha.index'), {}, { preserveState: true, preserveScroll: true });
   };
 
@@ -146,7 +152,11 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
         <section className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
           <form onSubmit={applyFilters} className="space-y-4">
             <p className="text-sm font-semibold text-slate-200">{commons.filters}</p>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-slate-900">
+            <div
+              className={`grid grid-cols-1 gap-4 text-slate-900 ${
+                isAdmin ? 'md:grid-cols-5' : 'md:grid-cols-4'
+              }`}
+            >
               <input
                 type="date"
                 name="from"
@@ -176,6 +186,21 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
                   </option>
                 ))}
               </select>
+              {isAdmin && (
+                <select
+                  name="user_id"
+                  value={form.user_id}
+                  onChange={handleChange}
+                  className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                >
+                  <option value="">All users</option>
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name} ({user.email})
+                    </option>
+                  ))}
+                </select>
+              )}
               <div className="flex gap-2">
                 <button
                   type="submit"
@@ -209,6 +234,7 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
                   <th className="px-4 py-3 text-left">{kharcha.tx_date}</th>
                   <th className="px-4 py-3 text-left">{commons.category}</th>
                   <th className="px-4 py-3 text-left">{commons.note}</th>
+                  {isAdmin && <th className="px-4 py-3 text-left">User</th>}
                   <th className="px-4 py-3 text-right">{commons.amount}</th>
                   <th className="px-4 py-3 text-right">{actionsLabel}</th>
                 </tr>
@@ -216,7 +242,7 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
               <tbody className="divide-y divide-slate-800 text-slate-200">
                 {rows.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-4 py-6 text-center text-slate-500">
+                    <td colSpan={isAdmin ? 6 : 5} className="px-4 py-6 text-center text-slate-500">
                       {kharcha.no_rows}
                     </td>
                   </tr>
@@ -228,6 +254,18 @@ export default function KharchaIndex({ expenses, categories, filters = {}, total
                       <span className="inline-flex items-center gap-2">{expense.category?.name ?? '—'}</span>
                     </td>
                     <td className="px-4 py-3 text-slate-400">{expense.note ?? '—'}</td>
+                    {isAdmin && (
+                      <td className="px-4 py-3 text-slate-400">
+                        {expense.owner ? (
+                          <div>
+                            <p className="text-white font-semibold">{expense.owner.name}</p>
+                            <p className="text-xs text-slate-500">{expense.owner.email}</p>
+                          </div>
+                        ) : (
+                          <span className="text-xs uppercase tracking-wide text-slate-500">Unknown</span>
+                        )}
+                      </td>
+                    )}
                     <td className="px-4 py-3 text-right font-semibold">
                       {currency} {Number(expense.amount ?? 0).toLocaleString()}
                     </td>

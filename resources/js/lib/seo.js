@@ -99,6 +99,18 @@ export const seoContent = {
         type: 'article',
         schemaName: 'Roznamcha Terms of Service',
     },
+    features: {
+        title: 'Roznamcha Features – Preview Kharcha Map, Ration Brain, and AI Insights',
+        description:
+            'See every Roznamcha module before signing up: Kharcha Map, Ration Brain, Survival Reports, Reminders, Daily Money Snapshot, and AI Insights.',
+        path: '/features',
+        url: `${SITE_URL}/features`,
+        canonical: `${SITE_URL}/features`,
+        image: DEFAULT_OG_IMAGE,
+        keywords: ['Roznamcha features', 'Pakistan kharcha app demo', 'ration brain preview', 'daily money snapshot', 'AI insights Roznamcha'],
+        type: 'article',
+        schemaName: 'Roznamcha Features',
+    },
 };
 
 export const buildWebPageSchema = ({ schemaName, title, description, path, inLanguage }) => ({
@@ -113,3 +125,24 @@ export const buildWebPageSchema = ({ schemaName, title, description, path, inLan
         '@id': `${SITE_URL}#website`,
     },
 });
+
+export const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE_URL}#organization`,
+    name: 'Roznamcha',
+    url: SITE_URL,
+    logo: `${SITE_URL}/icons/appicon.png`,
+    sameAs: ['https://web.facebook.com/roznamcha.pk/'],
+};
+
+export const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}#website`,
+    url: SITE_URL,
+    name: 'Roznamcha',
+    publisher: {
+        '@id': `${SITE_URL}#organization`,
+    },
+};

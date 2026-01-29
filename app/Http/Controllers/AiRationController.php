@@ -1,5 +1,7 @@
 <?php
 
+// Purpose: Provide AI insights scoped to user + defaults. Date: 2026-02-22. Author: Codex.
+
 namespace App\Http\Controllers;
 
 use App\AI\PromptLibrary;
@@ -16,12 +18,21 @@ class AiRationController extends Controller
         $user = $request->user();
         $nameColumn = $this->nameColumn();
 
-        $items = RationItem::query()
+        $itemsQuery = RationItem::query()
             ->with(['prices' => fn ($query) => $query->orderByDesc('priced_at')->limit(6)])
-            ->where('user_id', $user->id)
+            ->when(
+                Schema::hasColumn('ration_items', 'is_default'),
+                fn ($query) => $query->where(function ($builder) use ($user) {
+                    $builder->where('is_default', true)
+                        ->orWhere('user_id', $user->id);
+                }),
+                fn ($query) => $query->where('user_id', $user->id)
+            )
             ->orderBy($nameColumn)
             ->limit(50)
-            ->get()
+            ->get();
+
+        $items = $itemsQuery
             ->map(function (RationItem $item) use ($nameColumn) {
                 return [
                     'id' => $item->id,

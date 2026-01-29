@@ -1,10 +1,13 @@
 <?php
 
+// Purpose: Reports dashboard scoped per user with admin filters. Date: 2026-02-22. Author: Codex.
+
 namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Reminder;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,18 +19,32 @@ class ReportController extends Controller
 {
     public function index(Request $request): Response
     {
-        $user = $request->user();
+        $authUser = $request->user();
+        $subjectUser = $authUser;
+        $filterUserId = $authUser->isAdmin() ? $request->integer('user_id') : null;
+
+        if ($filterUserId) {
+            $subjectUser = User::findOrFail($filterUserId);
+        }
+
         $month = Carbon::now();
 
-        $totals = $this->spendTotals($user);
-        $breakdown = $this->categoryBreakdown($user);
-        $recentActivity = $this->recentExpenses($user);
+        $totals = $this->spendTotals($subjectUser);
+        $breakdown = $this->categoryBreakdown($subjectUser);
+        $recentActivity = $this->recentExpenses($subjectUser);
         $rationDaysLeft = null;
-        $upcomingFees = $this->upcomingReminders($user);
-        $health = $this->healthReminderSnapshot($user);
+        $upcomingFees = $this->upcomingReminders($subjectUser);
+        $health = $this->healthReminderSnapshot($subjectUser);
 
         return Inertia::render('Admin/Reports', [
-            'user' => $user,
+            'authUser' => $authUser,
+            'subjectUser' => [
+                'id' => $subjectUser->id,
+                'name' => $subjectUser->name,
+                'email' => $subjectUser->email,
+            ],
+            'filters' => $authUser->isAdmin() ? ['user_id' => $filterUserId] : [],
+            'users' => $authUser->isAdmin() ? User::orderBy('name')->get(['id', 'name', 'email']) : [],
             'monthLabel' => $month->format('F Y'),
             'totalSpend' => (float) $totals['total_spend'],
             'rationDaysLeft' => $rationDaysLeft,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 
 const moduleCards = [
@@ -40,6 +40,22 @@ const adminCards = [
 
 export default function Dashboard({ authUser }) {
     const isSuperAdmin = authUser?.role === 'admin';
+    const { data, setData, post, processing, errors, reset } = useForm({
+        old_password: '',
+        password: '',
+        password_confirmation: '',
+    });
+
+    const handlePasswordUpdate = (event) => {
+        event.preventDefault();
+
+        post('/admin/update-password', {
+            preserveScroll: true,
+            onSuccess: () => {
+                reset('old_password', 'password', 'password_confirmation');
+            },
+        });
+    };
 
     return (
         <ControlRoomLayout active="dashboard" user={authUser}>
@@ -104,6 +120,76 @@ export default function Dashboard({ authUser }) {
                         </div>
                     </section>
                 )}
+
+                <section className="space-y-4 rounded-2xl border border-slate-900 bg-slate-900/60 p-6">
+                    <div>
+                        <p className="text-xs uppercase tracking-wide text-yellow-300">Security</p>
+                        <h2 className="mt-1 text-lg font-semibold text-white">Update admin password</h2>
+                        <p className="text-sm text-slate-400">
+                            Enter your current password and choose a new one (min 8 characters). Saving logs out other sessions.
+                        </p>
+                    </div>
+                    <form className="space-y-5" onSubmit={handlePasswordUpdate}>
+                        <div>
+                            <label htmlFor="old_password" className="text-sm font-medium text-slate-200">
+                                Old Password
+                            </label>
+                            <input
+                                id="old_password"
+                                type="password"
+                                value={data.old_password}
+                                onChange={(event) => setData('old_password', event.target.value)}
+                                className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-900/80 px-4 py-2 text-white focus:border-yellow-300 focus:outline-none focus:ring-0"
+                                autoComplete="current-password"
+                                required
+                            />
+                            {errors.old_password && <p className="mt-2 text-sm text-red-400">{errors.old_password}</p>}
+                        </div>
+                        <div>
+                            <label htmlFor="password" className="text-sm font-medium text-slate-200">
+                                New Password
+                            </label>
+                            <input
+                                id="password"
+                                type="password"
+                                value={data.password}
+                                onChange={(event) => setData('password', event.target.value)}
+                                className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-900/80 px-4 py-2 text-white focus:border-yellow-300 focus:outline-none focus:ring-0"
+                                autoComplete="new-password"
+                                minLength={8}
+                                required
+                            />
+                            {errors.password && <p className="mt-2 text-sm text-red-400">{errors.password}</p>}
+                        </div>
+                        <div>
+                            <label htmlFor="password_confirmation" className="text-sm font-medium text-slate-200">
+                                Confirm Password
+                            </label>
+                            <input
+                                id="password_confirmation"
+                                type="password"
+                                value={data.password_confirmation}
+                                onChange={(event) => setData('password_confirmation', event.target.value)}
+                                className="mt-1 w-full rounded-xl border border-slate-700 bg-slate-900/80 px-4 py-2 text-white focus:border-yellow-300 focus:outline-none focus:ring-0"
+                                autoComplete="new-password"
+                                required
+                            />
+                            {errors.password_confirmation && (
+                                <p className="mt-2 text-sm text-red-400">{errors.password_confirmation}</p>
+                            )}
+                        </div>
+                        <div className="flex flex-col gap-2 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+                            <p>Submitting will sign you out to confirm the change.</p>
+                            <button
+                                type="submit"
+                                disabled={processing}
+                                className="inline-flex items-center rounded-xl bg-yellow-300 px-5 py-2 text-sm font-semibold text-slate-900 transition hover:bg-yellow-200 disabled:opacity-70"
+                            >
+                                {processing ? 'Updating…' : 'Update password'}
+                            </button>
+                        </div>
+                    </form>
+                </section>
             </div>
         </ControlRoomLayout>
     );

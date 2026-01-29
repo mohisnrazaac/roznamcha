@@ -1,4 +1,6 @@
 import React from 'react';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { organizationSchema, websiteSchema } from '../lib/seo';
 
 const variantStyles = {
     landing: {
@@ -22,49 +24,130 @@ const variantStyles = {
 
 export default function PublicLayout({ children, variant = 'landing' }) {
     const styles = variantStyles[variant] ?? variantStyles.landing;
-    const path = typeof window !== 'undefined' ? window.location.pathname : '';
+    const { url = '', props } = usePage();
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const path = (url || '').split('?')[0] ?? '';
+    const user = props?.auth?.user ?? null;
+    const structuredData = React.useMemo(() => [organizationSchema, websiteSchema], []);
 
     const isLinkActive = (hrefMatch) => path === hrefMatch || path.startsWith(`${hrefMatch}/`);
 
     const linkClasses = (hrefMatch) =>
         `text-sm font-medium transition-colors ${
-            isLinkActive(hrefMatch) ? 'text-yellow-300' : 'text-white hover:text-yellow-200'
+            isLinkActive(hrefMatch) ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-200'
         }`;
 
-    const loginClasses =
-        variant === 'landing'
-            ? 'text-sm font-semibold text-yellow-300 hover:text-white transition-colors'
-            : linkClasses('/login');
+    const navLinks = [
+        { href: '/', label: 'Home' },
+        { href: '/features', label: 'Features' },
+        { href: '/blog', label: 'Blog' },
+        { href: '/about', label: 'About' },
+        { href: '/contact', label: 'Contact' },
+    ];
+
+    const ctaClasses = {
+        primary:
+            'inline-flex items-center justify-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-[#001a4a] shadow-lg transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-200',
+        secondary:
+            'inline-flex items-center justify-center rounded-full border border-white/40 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
+    };
+
+    const renderActions = (variant = 'desktop') => {
+        const extraClasses = variant === 'mobile' ? 'w-full' : '';
+        return user ? (
+            <>
+                <Link href={route('dashboard')} className={`${ctaClasses.primary} ${extraClasses}`}>
+                    Open App
+                </Link>
+                <Link
+                    href={route('logout')}
+                    method="post"
+                    as="button"
+                    className={`${ctaClasses.secondary} ${extraClasses}`}
+                >
+                    Logout
+                </Link>
+            </>
+        ) : (
+            <>
+                <Link href="/register" className={`${ctaClasses.primary} ${extraClasses}`}>
+                    Sign up (Free)
+                </Link>
+                <Link href="/login" className={`${ctaClasses.secondary} ${extraClasses}`}>
+                    Login
+                </Link>
+            </>
+        );
+    };
 
     return (
         <div className={styles.wrapper}>
+            <Head>
+                {structuredData.map((schema, index) => (
+                    <script
+                        // eslint-disable-next-line react/no-danger
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+                        key={`public-schema-${index}`}
+                        type="application/ld+json"
+                    />
+                ))}
+            </Head>
             <header className="bg-[#001a4a] text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <a href="/" className="flex items-center gap-3" aria-label="Roznamcha home">
-                        <img
-                            src="/icons/appicon.png"
-                            alt="Roznamcha logo"
-                            className="w-11 h-11 rounded-2xl border border-white/20 object-cover bg-white/10"
-                        />
-                        {styles.label}
-                    </a>
-                    <nav className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-sm">
-                        <a href="/" className={linkClasses('/')}>
-                            Home
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+                    <div className="flex items-center justify-between gap-4">
+                        <a href="/" className="flex items-center gap-3" aria-label="Roznamcha home">
+                            <img
+                                src="/icons/appicon.png"
+                                alt="Roznamcha logo"
+                                className="w-11 h-11 rounded-2xl border border-white/20 object-cover bg-white/10"
+                            />
+                            {styles.label}
                         </a>
-                        <a href="/blog" className={linkClasses('/blog')}>
-                            Blog
-                        </a>
-                        <a href="/about" className={linkClasses('/about')}>
-                            About
-                        </a>
-                        <a href="/contact" className={linkClasses('/contact')}>
-                            Contact
-                        </a>
-                        <a href="/login" className={loginClasses}>
-                            Login
-                        </a>
-                    </nav>
+                        <button
+                            type="button"
+                            className="sm:hidden inline-flex items-center rounded-full border border-white/40 px-3 py-2 text-white transition hover:bg-white/10"
+                            onClick={() => setIsMenuOpen((prev) => !prev)}
+                            aria-controls="public-nav"
+                            aria-expanded={isMenuOpen}
+                        >
+                            <span className="sr-only">Toggle navigation</span>
+                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {isMenuOpen ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                                )}
+                            </svg>
+                        </button>
+                        <div className="hidden sm:flex sm:items-center sm:gap-8">
+                            <nav className="flex items-center gap-6 text-sm" aria-label="Primary navigation">
+                                {navLinks.map((link) => (
+                                    <Link key={link.href} href={link.href} className={linkClasses(link.href)}>
+                                        {link.label}
+                                    </Link>
+                                ))}
+                            </nav>
+                            <div className="flex items-center gap-3">{renderActions()}</div>
+                        </div>
+                    </div>
+                    <div
+                        id="public-nav"
+                        className={`mt-4 sm:hidden ${isMenuOpen ? 'flex flex-col gap-4' : 'hidden'}`}
+                    >
+                        <nav className="flex flex-col gap-3 text-sm" aria-label="Mobile navigation">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className={linkClasses(link.href)}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </nav>
+                        <div className="flex flex-col gap-3">{renderActions('mobile')}</div>
+                    </div>
                 </div>
             </header>
 

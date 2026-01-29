@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+// Purpose: Run production migrations and seeding for multi-tenant fixes. Date: 2026-02-22. Author: Codex.
+
 use Illuminate\Contracts\Console\Kernel;
 use Throwable;
 
@@ -46,10 +48,32 @@ $kernel = $app->make(Kernel::class);
 header('Content-Type: text/plain; charset=utf-8');
 
 try {
-    $kernel->call('migrate', ['--force' => true]);
-    echo "Migrations executed successfully.\n\n";
-    echo $kernel->output();
+    // $kernel->call('migrate', ['--force' => true]);
+    // echo "Migrations executed successfully.\n\n";
+    // echo $kernel->output();
+
+    $commands = [
+        ['migrate', ['--force' => true]],
+        ['db:seed', ['--class' => 'DefaultRationItemsSeeder', '--force' => true]],
+    ];
+
+    foreach ($commands as [$artisanCommand, $options]) {
+        $kernel->call($artisanCommand, $options);
+        echo strtoupper($artisanCommand)." completed.\n";
+    }
+
+    try {
+        $kernel->call('ziggy:generate', ['path' => 'resources/js/ziggy.js']);
+        echo "ZIGGY:GENERATE completed.\n";
+    } catch (Throwable $ziggyError) {
+        echo "Skipping ziggy:generate: ".$ziggyError->getMessage()."\n";
+    }
+
+    $kernel->call('optimize:clear');
+    echo "OPTIMIZE:CLEAR completed.\n";
+
+    echo "\nAll deployment migrations and seeds executed successfully.\n";
 } catch (Throwable $exception) {
     http_response_code(500);
-    echo "Migration failed: ".$exception->getMessage()."\n";
+    echo "Migration runner failed: ".$exception->getMessage()."\n";
 }

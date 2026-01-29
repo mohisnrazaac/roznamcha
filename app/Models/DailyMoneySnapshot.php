@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Stores CMS-managed copy for the daily hooks so marketing can refresh the card without deploying.
+ * Stores the Urdu copy that powers the Daily Return snapshot so visitors find timely Pakistan context at 12 AM.
+ * Automation writes these lines nightly, but we keep the model flexible so admin overrides remain possible.
  */
 class DailyMoneySnapshot extends Model
 {
@@ -23,11 +24,13 @@ class DailyMoneySnapshot extends Model
         'kharcha_cta_url',
         'ration_cta_label',
         'ration_cta_url',
+        'source_metadata',
         'last_updated_at',
     ];
 
     protected $casts = [
         'snapshot_date' => 'date',
+        'source_metadata' => 'array',
         'last_updated_at' => 'datetime',
     ];
 }

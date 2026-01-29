@@ -1,23 +1,23 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-Laravel application code lives in `app/` (controllers, jobs, listeners, policies). HTTP routes are registered in `routes/web.php`. Inertia screens stay in `resources/js/Pages`, reused React components in `resources/js/Components`, and static assets elsewhere under `resources/` before Vite emits them to `public/`. Database migrations, factories, and seeders sit within `database/`, translations in `lang/`, and automated tests split between `tests/Feature` for HTTP flows and `tests/Unit` for isolated services.
+Laravel source code lives in `app/` and mirrors the `App\` namespaces for controllers, jobs, listeners, and policies. Web routes belong in `routes/web.php`, while API routes and console kernels follow Laravel defaults under `routes/api.php` and `app/Console`. Frontend screens reside in `resources/js/Pages`, shared components in `resources/js/Components`, and Tailwind-first assets under `resources/` before Vite outputs to `public/`. Database migrations, factories, and seeders are contained in `database/`, translations in `lang/`, and PHPUnit specs in `tests/Feature` or `tests/Unit`.
 
 ## Build, Test, and Development Commands
-- `composer run setup` — initial bootstrap: installs PHP/NPM deps, copies `.env`, and runs migrations.
-- `composer run dev` — serves Laravel with Vite HMR for full-stack development.
-- `php artisan migrate` — applies new migrations after schema changes.
-- `composer run test` or `php artisan test --parallel` — executes the PHPUnit suite; ensure green before merging.
-- `npm run build` — compiles production assets; run ahead of releases or staging drops.
+- `composer run setup` — installs PHP/NPM dependencies, copies `.env`, and runs migrations for a clean bootstrap.
+- `composer run dev` — starts the Laravel server, Vite, and HMR for full-stack development.
+- `php artisan migrate` — applies new schema changes; re-run whenever migrations change.
+- `composer run test` (or `php artisan test --parallel`) — executes the full PHPUnit suite.
+- `npm run build` — compiles production-ready frontend assets.
 
 ## Coding Style & Naming Conventions
-`.editorconfig` enforces UTF-8, LF endings, and four-space PHP indentation. Match class names to their `App\...` namespace, keep database tables and columns snake_case, and follow Laravel resource naming patterns (e.g., `ExpenseReportController`). React files are PascalCase, while props/state remain camelCase. Format PHP with `./vendor/bin/pint`, rely on the Vite ESLint preset for JS/TS, and extend Tailwind only via `tailwind.config.js`.
+The repository follows `.editorconfig`: UTF-8, LF, and four-space indentation for PHP. Match classes to their `App\...` namespaces, keep database tables and columns snake_case, and name React components with PascalCase filenames plus camelCase props/state. Format PHP using `./vendor/bin/pint`, rely on the Vite ESLint preset for JS/TS, and extend styling only via `tailwind.config.js`.
 
 ## Testing Guidelines
-Write feature tests that extend `Tests\TestCase`, hit HTTP routes, and `use RefreshDatabase` when mutating data. Unit tests stay DB-free and mock external integrations. Name every test class `*Test.php`, prefer factories such as `User::factory()->verified()`, and keep fixtures minimal. Run `composer run test` locally before opening any PR and record manual QA steps when UI work is involved.
+Feature tests extend `Tests\TestCase` and should `use RefreshDatabase` when they touch persistence. Unit tests avoid the database and mock integrations. Name every test file `*Test.php`, prefer factories like `User::factory()->verified()`, and run `composer run test` (or `php artisan test --parallel`) before opening a pull request. Document any manual QA whenever UI flows change.
 
 ## Commit & Pull Request Guidelines
-Commits should use present-tense subjects near 55 characters (e.g., `Tighten expense policy checks`) with optional bodies for rationale. Pull requests must describe what changed, why it matters, and how reviewers can verify (commands, screenshots, or screencasts). Call out schema updates, new env keys, or artisan scripts reviewers must run, and confirm both `composer run test` and `npm run build` in the PR template with related issue links.
+Write commit subjects in present tense around 55 characters (e.g., `Tighten expense policy checks`) and add contextual bodies when helpful. Pull requests must describe what changed, why it matters, and how reviewers can verify it. Reference related issues, list commands executed (such as `composer run test` or `npm run build`), call out schema or env updates, and include screenshots or screencasts for frontend work.
 
 ## Security & Configuration Tips
-Never commit `.env`, SQL dumps, or secrets—defaults belong in `.env.example`. Operate artisan/composer/npm commands from `/Applications/XAMPP/xamppfiles/htdocs/roznamcha`. Keep config/route caching disabled during development, scrub sensitive values from logs or screenshots, and document any new toggles so operators can mirror production setups quickly.
+Never commit `.env`, SQL dumps, or credentials; keep sanitized defaults in `.env.example`. Run artisan/composer/npm commands from `/Applications/XAMPP/xamppfiles/htdocs/roznamcha` for consistent local paths. Leave config and route caching disabled during development, scrub sensitive data from logs, and document new feature flags so operators can mirror production quickly.

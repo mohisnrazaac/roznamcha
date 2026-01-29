@@ -1,9 +1,12 @@
 <?php
 
+// Purpose: Multi-tenant reminders with admin filters and ownership checks. Date: 2026-02-22. Author: Codex.
+
 namespace App\Http\Controllers;
 
 use App\Models\Household;
 use App\Models\Reminder;
+use App\Models\User;
 use App\Support\ReminderScheduler;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
@@ -19,10 +22,13 @@ class ReminderController extends Controller
 {
     protected array $types = ['finance', 'health', 'faith', 'other'];
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
         /** @var Household|null $household */
         $household = app()->bound('currentHousehold') ? app('currentHousehold') : null;
+        $user = $request->user();
+        $isAdmin = $user->isAdmin();
+        $filterUserId = $isAdmin ? $request->integer('user_id') : null;
 
         $householdColumn = $this->householdColumn();
         $activeColumn = $this->activeColumn();
@@ -30,14 +36,19 @@ class ReminderController extends Controller
         $nextRunColumn = $this->nextRunColumn();
         $notesColumn = $this->notesColumn();
 
-        $reminders = Reminder::query()
+        $remindersQuery = Reminder::query()
+            ->with('user')
             ->when($householdColumn, function ($query) use ($householdColumn, $household) {
                 return $query->where($householdColumn, $household?->id);
             })
+            ->when(! $isAdmin, fn ($query) => $query->where('user_id', $user->id))
+            ->when($isAdmin && $filterUserId, fn ($query) => $query->where('user_id', $filterUserId))
             ->when($activeColumn, fn ($query) => $query->orderByDesc($activeColumn))
-            ->orderBy('title')
+            ->orderBy('title');
+
+        $reminders = $remindersQuery
             ->get()
-            ->map(function (Reminder $reminder) use ($scheduleColumn, $nextRunColumn, $activeColumn, $notesColumn) {
+            ->map(function (Reminder $reminder) use ($scheduleColumn, $nextRunColumn, $activeColumn, $notesColumn, $user) {
                 $timezone = $this->timezoneColumn() ? $reminder->{$this->timezoneColumn()} : config('app.timezone');
 
                 $nextRun = $nextRunColumn ? $reminder->{$nextRunColumn} : null;
@@ -55,6 +66,12 @@ class ReminderController extends Controller
                     'notes' => $notesColumn ? $reminder->{$notesColumn} : null,
                     'next_run_at' => $nextRun?->toIso8601String(),
                     'next_run_display' => $nextRunDisplay,
+                    'owner' => $reminder->user ? [
+                        'id' => $reminder->user->id,
+                        'name' => $reminder->user->name,
+                        'email' => $reminder->user->email,
+                    ] : null,
+                    'can_manage' => $user->isAdmin() || $reminder->user_id === $user->id,
                 ];
             });
 
@@ -63,6 +80,8 @@ class ReminderController extends Controller
             'meta' => [
                 'types' => $this->types,
             ],
+            'filters' => $isAdmin ? ['user_id' => $filterUserId] : [],
+            'users' => $isAdmin ? User::orderBy('name')->get(['id', 'name', 'email']) : [],
         ]);
     }
 
@@ -262,9 +281,14 @@ class ReminderController extends Controller
     {
         $household = app()->bound('currentHousehold') ? app('currentHousehold') : null;
         $column = $this->householdColumn();
+        $user = request()->user();
 
         if ($column && $household && $reminder->{$column} !== $household->id) {
-            abort(403);
+            abort(404);
+        }
+
+        if ($user && ! $user->isAdmin() && (int) $reminder->user_id !== (int) $user->id) {
+            abort(404);
         }
     }
 

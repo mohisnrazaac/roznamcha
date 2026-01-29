@@ -1,3 +1,5 @@
+// Purpose: Shared control room navigation with updated multi-tenant links. Date: 2026-02-22. Author: Codex.
+
 import React from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 
@@ -6,6 +8,7 @@ const baseLinks = (translations) => [
     { name: translations?.kharcha?.title ?? 'Kharcha Map', routeName: 'panel.kharcha.index', slug: 'kharcha' },
     { name: translations?.ration?.title ?? 'Ration Brain', routeName: 'panel.ration.index', slug: 'ration' },
     { name: translations?.reminders?.title ?? 'Reminders', routeName: 'panel.reminders.index', slug: 'reminders' },
+    { name: 'My Categories', routeName: 'panel.categories.index', slug: 'panel-categories' },
     { name: translations?.reports?.title ?? 'Reports', routeName: 'reports.index', slug: 'reports' },
     { name: 'Users', routeName: 'admin.users.index', slug: 'users', adminOnly: true },
     { name: 'Categories', routeName: 'admin.categories.index', slug: 'categories', adminOnly: true },

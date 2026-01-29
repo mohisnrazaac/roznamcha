@@ -1,12 +1,17 @@
 <?php
 
+// Purpose: Kharcha entry scoping for multi-tenant enforcement. Date: 2026-02-22. Author: Codex.
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Concerns\BelongsToUser;
 
 class KharchaEntry extends Model
 {
+    use BelongsToUser;
+
     protected $fillable = [
         'user_id',
         'category_id',
@@ -21,11 +26,6 @@ class KharchaEntry extends Model
         'date' => 'date',
         'amount' => 'decimal:2',
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function category(): BelongsTo
     {

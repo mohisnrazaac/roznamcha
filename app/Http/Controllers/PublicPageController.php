@@ -44,7 +44,13 @@ class PublicPageController extends Controller
         return Inertia::render('Public/Home', [
             'latestPosts' => $latestPosts,
             'showAiBanner' => $showAiBanner,
+            'youtubeDemoUrl' => config('roznamcha.youtube_demo_url'),
         ]);
+    }
+
+    public function features(): Response
+    {
+        return Inertia::render('Public/Features');
     }
 
     public function kharchaMap(): Response

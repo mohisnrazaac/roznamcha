@@ -1,5 +1,7 @@
 <?php
 
+// Purpose: Expense ownership scoping + shared helpers. Date: 2026-02-22. Author: Codex.
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -7,10 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Concerns\BelongsToUser;
 
 class Expense extends Model
 {
     use HasFactory;
+    use BelongsToUser;
 
     protected $fillable = [
         'user_id',
@@ -29,11 +33,6 @@ class Expense extends Model
         'date' => 'date',
         'amount' => 'decimal:2',
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function household(): BelongsTo
     {

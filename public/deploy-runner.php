@@ -15,6 +15,11 @@ $commands = [
     'npm run build',
 ];
 
+$commands[] = 'php artisan route:clear';
+$commands[] = 'php artisan config:clear';
+$commands[] = 'php artisan cache:clear';
+$commands[] = 'php artisan view:clear';
+
 if (shouldRunOptimize()) {
     $commands[] = 'php artisan optimize:clear';
     $commands[] = 'php artisan optimize';

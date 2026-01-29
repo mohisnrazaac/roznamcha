@@ -1,13 +1,31 @@
-import React from 'react';
+// Purpose: Admin categories list with owner filters for auditing. Date: 2026-02-22. Author: Codex.
+
+import React, { useState } from 'react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, router } from '@inertiajs/react';
 import { deleteResource } from '@/lib/inertia';
 
-export default function CategoriesIndex({ categories }) {
+export default function CategoriesIndex({ categories, filters = {}, users = [] }) {
+  const [selectedUser, setSelectedUser] = useState(filters.user_id ?? '');
+
   const handleDelete = (id) => {
     if (confirm('Delete this category?')) {
       deleteResource(`/admin/categories/${id}`);
     }
+  };
+
+  const applyFilter = (event) => {
+    event.preventDefault();
+    router.get(
+      route('admin.categories.index'),
+      selectedUser ? { user_id: selectedUser } : {},
+      { preserveState: true, preserveScroll: true },
+    );
+  };
+
+  const resetFilter = () => {
+    setSelectedUser('');
+    router.get(route('admin.categories.index'), {}, { preserveState: true, preserveScroll: true });
   };
 
   return (
@@ -27,12 +45,46 @@ export default function CategoriesIndex({ categories }) {
           </Link>
         </div>
 
+        <section className="mb-6 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <form onSubmit={applyFilter} className="flex flex-col gap-3 md:flex-row md:items-center">
+            <label className="text-sm font-semibold text-slate-200" htmlFor="admin-category-user">
+              Filter by user
+            </label>
+            <select
+              id="admin-category-user"
+              value={selectedUser}
+              onChange={(event) => setSelectedUser(event.target.value)}
+              className="flex-1 rounded-lg border border-slate-500 bg-slate-900 px-3 py-2 text-sm text-white"
+            >
+              <option value="">All records</option>
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name} ({user.email})
+                </option>
+              ))}
+            </select>
+            <div className="flex gap-2">
+              <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
+                Apply
+              </button>
+              <button
+                type="button"
+                onClick={resetFilter}
+                className="rounded-lg border border-slate-500 px-4 py-2 text-sm font-semibold text-slate-200"
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        </section>
+
         <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60">
           <table className="min-w-full text-sm">
             <thead className="bg-slate-800/80 text-slate-300">
               <tr>
                 <th className="px-4 py-3 text-left font-medium">Name</th>
                 <th className="px-4 py-3 text-left font-medium">Description</th>
+                <th className="px-4 py-3 text-left font-medium">Owner</th>
                 <th className="px-4 py-3 text-left font-medium">Created</th>
                 <th className="px-4 py-3 text-right font-medium">Actions</th>
               </tr>
@@ -41,8 +93,25 @@ export default function CategoriesIndex({ categories }) {
               {categories.length ? (
                 categories.map((category) => (
                   <tr key={category.id} className="hover:bg-slate-800/40">
-                    <td className="px-4 py-3 font-medium text-white">{category.name}</td>
+                    <td className="px-4 py-3 font-medium text-white">
+                      {category.name}
+                      {category.is_default && (
+                        <span className="ml-2 rounded-full bg-slate-800 px-2 py-0.5 text-[10px] uppercase tracking-wide text-slate-200">
+                          Default
+                        </span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-slate-300">{category.description || '—'}</td>
+                    <td className="px-4 py-3 text-slate-400">
+                      {category.owner ? (
+                        <div>
+                          <p className="font-semibold text-white">{category.owner.name}</p>
+                          <p className="text-xs text-slate-500">{category.owner.email}</p>
+                        </div>
+                      ) : (
+                        <span className="text-xs uppercase tracking-wide text-slate-500">Global</span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-slate-400">{category.created_at}</td>
                     <td className="px-4 py-3 text-right">
                       <div className="inline-flex items-center gap-2">
@@ -65,7 +134,7 @@ export default function CategoriesIndex({ categories }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-center text-slate-400">
+                  <td colSpan={5} className="px-4 py-6 text-center text-slate-400">
                     No categories created yet.
                   </td>
                 </tr>

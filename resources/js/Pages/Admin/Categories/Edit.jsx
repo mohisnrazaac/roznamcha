@@ -1,3 +1,5 @@
+// Purpose: Admin edit form for category records with ownership context. Date: 2026-02-22. Author: Codex.
+
 import React, { useEffect } from 'react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
 import { Link, useForm } from '@inertiajs/react';
@@ -28,7 +30,7 @@ export default function CategoriesEdit({ category }) {
             ← Back to categories
           </Link>
           <h1 className="mt-2 text-xl font-semibold">Edit Category</h1>
-          <p className="text-sm text-slate-400">Update the name or description for this category.</p>
+          <p className="text-sm text-slate-400">Defaults apply to everyone. User-owned entries keep their owner.</p>
         </div>
 
         <form onSubmit={submit} className="max-w-xl space-y-5">

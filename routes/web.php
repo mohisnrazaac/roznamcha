@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\KharchaController;
 use App\Http\Controllers\RationController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Panel\CategoryController as PanelCategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SurvivalReportController;
@@ -20,6 +22,7 @@ use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
 use App\Http\Controllers\Admin\AiLogsController as AdminAiLogsController;
 use App\Http\Controllers\Admin\DailyMoneySnapshotController as AdminDailyMoneySnapshotController;
+use App\Http\Controllers\Admin\PasswordController as AdminPasswordController;
 use App\Http\Controllers\MaintenanceTriggerController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PublicPageController;
@@ -46,6 +49,7 @@ if ($maintenanceEnabled) {
 
 // Public marketing pages
 Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
+Route::get('/features', [PublicPageController::class, 'features'])->name('public.features');
 Route::get('/kharcha-map', [PublicPageController::class, 'kharchaMap'])->name('public.kharcha-map');
 Route::get('/ration-brain', [PublicPageController::class, 'rationBrain'])->name('public.ration-brain');
 Route::get('/survival-report', [PublicPageController::class, 'survivalReport'])->name('public.survival-report');
@@ -88,6 +92,14 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
 Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
 
+Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])
+    ->middleware(['guest', 'throttle:5,1'])
+    ->name('password.email');
+
 Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
@@ -121,6 +133,8 @@ Route::middleware(['auth', 'set.household'])->prefix('panel')->name('panel.')->g
     Route::post('reminders/{reminder}/toggle', [ReminderController::class, 'toggle'])->name('reminders.toggle');
 
     Route::post('reports/survival', [SurvivalReportController::class, 'generate'])->name('reports.survival');
+
+    Route::resource('categories', PanelCategoryController::class)->except(['show']);
 });
 
 Route::redirect('/kharcha', '/panel/kharcha')->middleware('auth');
@@ -191,6 +205,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/categories/{category}', [AdminBlogCategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category}', [AdminBlogCategoryController::class, 'destroy'])->name('categories.destroy');
     });
+
 });
+
+Route::post('/admin/update-password', [AdminPasswordController::class, 'update'])
+    ->middleware(['auth', 'throttle:3,1'])
+    ->name('admin.password.update');
 
 require __DIR__.'/auth.php';

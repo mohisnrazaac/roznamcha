@@ -1,3 +1,5 @@
+// Purpose: Ration panel UX updates for multi-tenant scoping. Date: 2026-02-22. Author: Codex.
+
 import React, { useEffect, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import ControlRoomLayout from '@/Layouts/ControlRoomLayout';
@@ -5,7 +7,7 @@ import { deleteResource } from '@/lib/inertia';
 import AiInsightCard from '@/Components/AiInsightCard';
 import { fetchAiInsight } from '@/ai';
 
-export default function RationIndex({ items = [] }) {
+export default function RationIndex({ items = [], users = [], filters = {} }) {
   const { props } = usePage();
   const translations = props.translations ?? {};
   const ration = translations.ration ?? {};
@@ -17,7 +19,11 @@ export default function RationIndex({ items = [] }) {
   const deleteConfirm = actions.confirm_delete ?? 'Delete this ration item?';
   const actionsLabel = commons?.actions_label ?? editLabel ?? 'Actions';
 
+  const role = (props.auth?.user?.role ?? '').toLowerCase();
+  const isAdmin = role.includes('admin');
+
   const [aiState, setAiState] = useState({ loading: true, data: null, error: '' });
+  const [selectedUser, setSelectedUser] = useState(filters.user_id ?? '');
 
   useEffect(() => {
     let active = true;
@@ -54,6 +60,20 @@ export default function RationIndex({ items = [] }) {
     deleteResource(route('panel.ration.destroy', { ration: itemId }), {
       preserveScroll: true,
     });
+  };
+
+  const onFilterSubmit = (event) => {
+    event.preventDefault();
+    router.get(
+      route('panel.ration.index'),
+      selectedUser ? { user_id: selectedUser } : {},
+      { preserveState: true, preserveScroll: true },
+    );
+  };
+
+  const resetFilters = () => {
+    setSelectedUser('');
+    router.get(route('panel.ration.index'), {}, { preserveState: true, preserveScroll: true });
   };
 
   return (
@@ -102,11 +122,50 @@ export default function RationIndex({ items = [] }) {
           )}
         </AiInsightCard>
 
+        {isAdmin && (
+          <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+            <form onSubmit={onFilterSubmit} className="flex flex-col gap-3 text-slate-900 md:flex-row md:items-center">
+              <label className="text-sm font-semibold text-slate-200" htmlFor="user_id">
+                Filter by user
+              </label>
+              <select
+                id="user_id"
+                value={selectedUser}
+                onChange={(event) => setSelectedUser(event.target.value)}
+                className="rounded-lg border border-slate-400 px-3 py-2 text-sm flex-1"
+              >
+                <option value="">All users</option>
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.name} ({user.email})
+                  </option>
+                ))}
+              </select>
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  className="rounded-lg bg-[#003a8c] px-4 py-2 text-sm font-semibold text-white"
+                >
+                  Apply
+                </button>
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="rounded-lg border border-slate-500 px-4 py-2 text-sm font-semibold text-slate-200"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </section>
+        )}
+
         <section className="rounded-2xl border border-slate-800 bg-slate-900/70 overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-800 text-sm">
             <thead className="bg-slate-900/80 text-xs uppercase text-slate-400">
               <tr>
                 <th className="px-4 py-3 text-left">{ration.title}</th>
+                {isAdmin && <th className="px-4 py-3 text-left">User</th>}
                 <th className="px-4 py-3 text-left">{ration.latest_price}</th>
                 <th className="px-4 py-3 text-left">{ration.last_month_price}</th>
                 <th className="px-4 py-3 text-left">{ration.delta}</th>
@@ -117,7 +176,7 @@ export default function RationIndex({ items = [] }) {
             <tbody className="divide-y divide-slate-800 text-slate-100">
               {items.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-6 text-center text-slate-500">
+                  <td colSpan={isAdmin ? 7 : 6} className="px-4 py-6 text-center text-slate-500">
                     {ration.empty}
                   </td>
                 </tr>
@@ -126,8 +185,23 @@ export default function RationIndex({ items = [] }) {
                 <tr key={item.id} className="hover:bg-slate-800/30">
                   <td className="px-4 py-3">
                     <p className="font-semibold">{item.name}</p>
-                    <p className="text-xs text-slate-400">{item.unit}</p>
+                    <p className="text-xs text-slate-400">
+                      {item.unit}
+                      {item.is_default && <span className="ml-2 rounded-full bg-slate-800 px-2 py-0.5 text-[10px] uppercase">Default</span>}
+                    </p>
                   </td>
+                  {isAdmin && (
+                    <td className="px-4 py-3 text-slate-300">
+                      {item.owner ? (
+                        <div>
+                          <p className="font-semibold text-white">{item.owner.name}</p>
+                          <p className="text-xs text-slate-400">{item.owner.email}</p>
+                        </div>
+                      ) : (
+                        <span className="text-xs uppercase tracking-wide text-slate-500">Global</span>
+                      )}
+                    </td>
+                  )}
                   <td className="px-4 py-3">{formatCurrency(item.latest_price, currency)}</td>
                   <td className="px-4 py-3 text-slate-300">{formatCurrency(item.last_month_price, currency)}</td>
                   <td className="px-4 py-3">
@@ -145,14 +219,16 @@ export default function RationIndex({ items = [] }) {
                     <div className="flex items-center justify-end gap-4 text-xs font-semibold">
                       <Link
                         href={route('panel.ration.edit', item.id)}
-                        className="text-yellow-300 hover:text-yellow-200"
+                        className={`text-yellow-300 hover:text-yellow-200 ${item.can_manage ? '' : 'pointer-events-none opacity-40'}`}
+                        aria-disabled={!item.can_manage}
                       >
                         {editLabel}
                       </Link>
                       <button
                         type="button"
                         onClick={() => confirmDelete(item.id)}
-                        className="text-red-300 hover:text-red-200"
+                        className={`text-red-300 hover:text-red-200 ${item.can_manage ? '' : 'pointer-events-none opacity-40'}`}
+                        disabled={!item.can_manage}
                       >
                         {deleteLabel}
                       </button>
