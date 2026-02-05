@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
+import ChatWidget from '../Components/Chat/ChatWidget';
 
 export default function AppLayout({ children }) {
   const { url } = usePage();
@@ -122,6 +123,7 @@ export default function AppLayout({ children }) {
           © 2025 Roznamcha • Privacy • Support
         </footer>
       </div>
+      <ChatWidget />
     </div>
   );
 }

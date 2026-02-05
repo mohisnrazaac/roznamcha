@@ -30,11 +30,13 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogPublicController;
 use App\Http\Controllers\RssController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\PublicTools\RationCostEstimatorController;
 use App\Http\Controllers\AiKharchaController;
 use App\Http\Controllers\AiRationController;
 use App\Http\Controllers\AiReminderController;
 use App\Http\Controllers\AiReportController;
 use App\Http\Controllers\DailyReturnSnapshotController;
+use App\Http\Controllers\ChatController;
 
 $maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
 
@@ -59,6 +61,8 @@ Route::post('/contact', [ContactController::class, 'send'])->name('public.contac
 Route::get('/privacy-policy', [PublicPageController::class, 'privacyPolicy'])->name('public.privacy');
 Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms');
 Route::view('/offline', 'offline')->name('offline');
+Route::get('/tools/ration-cost-estimator', [RationCostEstimatorController::class, 'show'])
+    ->name('public.tools.ration-cost-estimator');
 Route::get('/blog', [BlogPublicController::class, 'index'])->name('public.blog.index');
 Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->name('public.blog.category');
 Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
@@ -144,6 +148,10 @@ Route::redirect('/reminders', '/panel/reminders')->middleware('auth');
 Route::get('/reports', [ReportController::class, 'index'])
     ->middleware('auth')
     ->name('reports.index');
+
+Route::post('/chat', [ChatController::class, 'sendMessage'])
+    ->middleware('web')
+    ->name('chat.send');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

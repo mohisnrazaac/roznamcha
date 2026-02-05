@@ -95,10 +95,12 @@ BlogCTA.propTypes = {
 function defaultCtaLinks() {
     const kharchaUrl = safeRoute('public.kharcha-map');
     const rationUrl = safeRoute('public.ration-brain');
+    const rationEstimatorUrl = safeRoute('public.tools.ration-cost-estimator');
 
     return [
         { label: 'اپنا خرچ یہاں دیکھیں', href: kharchaUrl ?? '/kharcha-map' },
         { label: 'اپنا ماہانہ بجٹ بنائیں', href: rationUrl ?? '/ration-brain' },
+        { label: 'راشن لاگت کا اندازہ لگائیں', href: rationEstimatorUrl ?? '/tools/ration-cost-estimator' },
     ];
 }
 

@@ -128,6 +128,12 @@ export default function Home({ latestPosts = [], showAiBanner = false, youtubeDe
                                 Sign up (Free)
                             </Link>
                             <Link
+                                href="/tools/ration-cost-estimator"
+                                className="inline-flex items-center justify-center rounded-full border border-yellow-200/60 px-5 py-2.5 text-base font-semibold text-yellow-100 transition hover:bg-white/10"
+                            >
+                                Ration Cost Estimator
+                            </Link>
+                            <Link
                                 href="/features"
                                 className="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
                             >
@@ -247,6 +253,7 @@ export default function Home({ latestPosts = [], showAiBanner = false, youtubeDe
                     </p>
                     <div className="flex flex-wrap gap-3">
                         <InternalLink href={route('public.features')} label="Features" />
+                        <InternalLink href="/tools/ration-cost-estimator" label="Ration Cost Estimator" />
                         <InternalLink href={route('public.kharcha-map')} label="Kharcha Map" />
                         <InternalLink href={route('public.ration-brain')} label="Ration Brain" />
                         <InternalLink href={route('public.survival-report')} label="Survival Report" />

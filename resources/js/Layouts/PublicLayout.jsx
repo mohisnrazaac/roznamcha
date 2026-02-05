@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { organizationSchema, websiteSchema } from '../lib/seo';
+import ChatWidget from '../Components/Chat/ChatWidget';
 
 const variantStyles = {
     landing: {
@@ -40,6 +41,7 @@ export default function PublicLayout({ children, variant = 'landing' }) {
     const navLinks = [
         { href: '/', label: 'Home' },
         { href: '/features', label: 'Features' },
+        { href: '/tools/ration-cost-estimator', label: 'Tools' },
         { href: '/blog', label: 'Blog' },
         { href: '/about', label: 'About' },
         { href: '/contact', label: 'Contact' },
@@ -180,6 +182,7 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                 </div>
                 <p>© 2025 Roznamcha. All rights reserved.</p>
             </footer>
+            <ChatWidget />
         </div>
     );
 }

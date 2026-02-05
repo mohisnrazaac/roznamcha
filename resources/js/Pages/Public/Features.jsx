@@ -98,11 +98,31 @@ export default function Features() {
                         >
                             Sign up (Free)
                         </Link>
+                        <Link
+                            href="/tools/ration-cost-estimator"
+                            className="inline-flex items-center rounded-full border border-[#001a4a]/20 px-5 py-2.5 text-sm font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
+                        >
+                            Try Ration Cost Estimator
+                        </Link>
                         <Link href="/login" className="text-sm font-semibold text-[#001a4a] underline-offset-4 hover:underline">
                             Login
                         </Link>
                     </div>
                 </header>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                    <p className="text-xs uppercase tracking-[0.35em] text-[#001a4a]/70">Public Tools</p>
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Ration Cost Estimator</h2>
+                    <p className="text-base text-slate-600">
+                        Estimate monthly ration costs in Pakistan using base prices for atta, rice, oil, sugar, and daal — no login required.
+                    </p>
+                    <Link
+                        href="/tools/ration-cost-estimator"
+                        className="inline-flex items-center font-semibold text-[#001a4a] hover:underline"
+                    >
+                        Open the tool →
+                    </Link>
+                </section>
 
                 {modules.map((module) => (
                     <ModuleCard key={module.key} module={module} />

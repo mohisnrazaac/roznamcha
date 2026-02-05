@@ -17,6 +17,14 @@ export default function BlogIndex({ posts, categories, seo }) {
                     <p className="text-base text-slate-700">
                         Fresh guidance on taming ration bills, keeping kharcha visible, and surviving inflation without losing Urdu-first clarity.
                     </p>
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                        <Link
+                            href="/tools/ration-cost-estimator"
+                            className="inline-flex items-center rounded-full border border-[#001a4a]/20 px-4 py-2 text-sm font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
+                        >
+                            Try Ration Cost Estimator
+                        </Link>
+                    </div>
                 </header>
 
                 <div className="grid gap-10 lg:grid-cols-[2fr,1fr]">
@@ -60,6 +68,19 @@ export default function BlogIndex({ posts, categories, seo }) {
                     </div>
 
                     <aside className="space-y-6">
+                        <div className="rounded-2xl border border-slate-200 bg-[#001a4a] p-6 text-white space-y-3">
+                            <p className="text-xs uppercase tracking-[0.3em] text-yellow-200">Public Tool</p>
+                            <h2 className="text-lg font-semibold">Ration Cost Estimator</h2>
+                            <p className="text-sm text-white/80">
+                                Estimate your monthly ration spend in Pakistan. No login required.
+                            </p>
+                            <Link
+                                href="/tools/ration-cost-estimator"
+                                className="inline-flex items-center justify-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-[#001a4a]"
+                            >
+                                Open the tool
+                            </Link>
+                        </div>
                         <div className="rounded-2xl border border-slate-200 bg-white p-6 space-y-3">
                             <h2 className="text-lg font-semibold text-[#001a4a]">Categories</h2>
                             <ul className="space-y-2 text-sm">
