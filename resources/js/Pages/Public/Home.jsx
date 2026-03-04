@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import SeoHead from '../../Components/SeoHead';
 import DailyMoneySnapshot from '../../Components/Daily/DailyMoneySnapshot';
+import AskRozaGuestWidget from '../../Components/Activation/AskRozaGuestWidget';
 import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
 const heroBullets = ['خرچ کا ریکارڈ', 'راشن کی قیمتوں پر نظر', 'مہینے کے آخر میں Survival Report'];
@@ -134,6 +135,18 @@ export default function Home({ latestPosts = [], showAiBanner = false, youtubeDe
                                 Ration Cost Estimator
                             </Link>
                             <Link
+                                href="/tools/school-fees-planner"
+                                className="inline-flex items-center justify-center rounded-full border border-yellow-200/60 px-5 py-2.5 text-base font-semibold text-yellow-100 transition hover:bg-white/10"
+                            >
+                                School Fees Planner
+                            </Link>
+                            <Link
+                                href="/tools/electricity-bill-estimator"
+                                className="inline-flex items-center justify-center rounded-full border border-yellow-200/60 px-5 py-2.5 text-base font-semibold text-yellow-100 transition hover:bg-white/10"
+                            >
+                                Electricity Bill Estimator
+                            </Link>
+                            <Link
                                 href="/features"
                                 className="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
                             >
@@ -146,6 +159,9 @@ export default function Home({ latestPosts = [], showAiBanner = false, youtubeDe
                             </p>
                             <p className="text-yellow-100/80">Basic encryption + access control</p>
                         </div>
+
+                        {/* ROZNAMCHA-ACTIVATION: guest Ask Roza widget above fold to convert browsing into saved actions. */}
+                        <AskRozaGuestWidget sourceUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/'} />
                     </div>
                     <DailyMoneySnapshot className="shadow-2xl ring-1 ring-yellow-200/60" />
                 </div>
@@ -254,6 +270,8 @@ export default function Home({ latestPosts = [], showAiBanner = false, youtubeDe
                     <div className="flex flex-wrap gap-3">
                         <InternalLink href={route('public.features')} label="Features" />
                         <InternalLink href="/tools/ration-cost-estimator" label="Ration Cost Estimator" />
+                        <InternalLink href="/tools/school-fees-planner" label="School Fees Planner" />
+                        <InternalLink href="/tools/electricity-bill-estimator" label="Electricity Bill Estimator" />
                         <InternalLink href={route('public.kharcha-map')} label="Kharcha Map" />
                         <InternalLink href={route('public.ration-brain')} label="Ration Brain" />
                         <InternalLink href={route('public.survival-report')} label="Survival Report" />

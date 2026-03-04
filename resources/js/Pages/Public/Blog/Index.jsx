@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import PublicLayout from '../../../Layouts/PublicLayout';
 import SeoHead from '../../../Components/SeoHead';
+import AskRozaGuestWidget from '../../../Components/Activation/AskRozaGuestWidget';
 
 export default function BlogIndex({ posts, categories, seo }) {
     const items = posts?.data ?? [];
@@ -26,6 +27,9 @@ export default function BlogIndex({ posts, categories, seo }) {
                         </Link>
                     </div>
                 </header>
+
+                {/* ROZNAMCHA-ACTIVATION: Ask Roza guest prompt near first fold on blog index. */}
+                <AskRozaGuestWidget sourceUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/blog'} />
 
                 <div className="grid gap-10 lg:grid-cols-[2fr,1fr]">
                     <div className="space-y-6">

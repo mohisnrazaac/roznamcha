@@ -30,6 +30,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogPublicController;
 use App\Http\Controllers\RssController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\PublicTools\SchoolFeesPlannerController;
+use App\Http\Controllers\PublicTools\ElectricityBillEstimatorController;
 use App\Http\Controllers\PublicTools\RationCostEstimatorController;
 use App\Http\Controllers\AiKharchaController;
 use App\Http\Controllers\AiRationController;
@@ -37,6 +39,9 @@ use App\Http\Controllers\AiReminderController;
 use App\Http\Controllers\AiReportController;
 use App\Http\Controllers\DailyReturnSnapshotController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\GuestStateController;
+use App\Http\Controllers\AskRozaController;
+use App\Http\Controllers\ToolSnapshotController;
 
 $maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
 
@@ -63,6 +68,14 @@ Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms
 Route::view('/offline', 'offline')->name('offline');
 Route::get('/tools/ration-cost-estimator', [RationCostEstimatorController::class, 'show'])
     ->name('public.tools.ration-cost-estimator');
+Route::get('/tools/school-fees-planner', [SchoolFeesPlannerController::class, 'show'])
+    ->name('public.tools.school-fees-planner');
+Route::post('/tools/school-fees-planner/calculate', [SchoolFeesPlannerController::class, 'schoolFeesPlanner'])
+    ->name('public.tools.school-fees-planner.calculate');
+Route::get('/tools/electricity-bill-estimator', [ElectricityBillEstimatorController::class, 'show'])
+    ->name('public.tools.electricity-bill-estimator');
+Route::post('/tools/electricity-bill-estimator/calculate', [ElectricityBillEstimatorController::class, 'electricityEstimator'])
+    ->name('public.tools.electricity-bill-estimator.calculate');
 Route::get('/blog', [BlogPublicController::class, 'index'])->name('public.blog.index');
 Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->name('public.blog.category');
 Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
@@ -76,6 +89,11 @@ Route::post('/events/blog-cta-click', [EventController::class, 'blogCtaClick'])
     ->middleware('track.blog.cta')
     ->name('events.blog-cta-click');
 Route::post('/events', [EventController::class, 'store'])->name('events.store');
+Route::post('/guest/stash', [GuestStateController::class, 'stash'])->name('guest.stash');
+Route::post('/guest/ask-roza', [AskRozaController::class, 'ask'])->name('guest.askRoza');
+Route::post('/tools/snapshots', [ToolSnapshotController::class, 'store'])
+    ->middleware('auth')
+    ->name('tools.snapshots.store');
 
 Route::get('/maintenance/clear-caches', function (Request $request) {
     $token = config('maintenance.secret', env('MAINTENANCE_TRIGGER_SECRET'));

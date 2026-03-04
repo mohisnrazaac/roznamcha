@@ -1,11 +1,14 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import PublicLayout from '../../../Layouts/PublicLayout';
 import SeoHead from '../../../Components/SeoHead';
 import BlogCTA from '../../../Components/Blog/BlogCTA';
 import UseInRoznamchaWidget from '../../../Components/Blog/UseInRoznamchaWidget';
 import SchoolFeeIncreaseCalculator from '../../../Components/Calculators/SchoolFeeIncreaseCalculator';
 import DailyMoneySnapshot from '../../../Components/Daily/DailyMoneySnapshot';
+import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
+import MiniCalculatorBlock from '../../../Components/Activation/MiniCalculatorBlock';
+import useScrollDepthTrigger from '../../../Components/Activation/hooks/useScrollDepthTrigger';
 
 const getReturnPath = (url, slug) => {
     if (!url && slug) {
@@ -24,12 +27,18 @@ const getReturnPath = (url, slug) => {
 };
 
 export default function BlogShow({ post, seo, jsonLd }) {
+    const { internalLinks } = usePage().props;
     const featureHooks = post?.feature_hooks ?? {};
     const returnPath = getReturnPath(post?.url, post?.slug);
     const promiseText = featureHooks?.primaryCategory
         ? `Track ${featureHooks.primaryCategory} costs in Roznamcha in 10 seconds.`
         : 'Track this expense in Roznamcha in 10 seconds.';
     const showCalculator = featureHooks?.calculator === 'school_fee_increase';
+    const showMiniCalculator = useScrollDepthTrigger(0.7);
+    const relatedToolKeys = internalLinks?.mappings?.blog_to_related_tools?.[post?.slug] ?? [];
+    const relatedTools = relatedToolKeys
+        .map((key) => internalLinks?.tools?.[key])
+        .filter((item) => item?.title && item?.href);
 
     return (
         <PublicLayout variant="inner">
@@ -81,8 +90,14 @@ export default function BlogShow({ post, seo, jsonLd }) {
                     dangerouslySetInnerHTML={{ __html: post?.content ?? '' }}
                 />
 
+                {showMiniCalculator ? (
+                    // ROZNAMCHA-ACTIVATION: delayed mini interaction appears near end-of-article depth.
+                    <MiniCalculatorBlock postSlug={post?.slug} />
+                ) : null}
+
                 {/* Tool CTAs close the loop by pointing every blog session back into Roznamcha. */}
                 <BlogCTA variant="tool-links" />
+                <RelatedLinksBlock relatedTools={relatedTools} />
 
                 <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6 text-sm text-slate-500">
                     <Link href={route('public.blog.index')} className="font-semibold text-[#001a4a] hover:underline">

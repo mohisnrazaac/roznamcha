@@ -1,6 +1,8 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
+import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
+import SaveWall from '../../../Components/Activation/SaveWall';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -20,11 +22,19 @@ export default function RationCostEstimator({
     comparisonPlaceholderPercent,
     defaultHouseholdSize,
     items,
+    relatedLinks,
+    activationPrefill,
 }) {
-    const [householdSize, setHouseholdSize] = React.useState(defaultHouseholdSize ?? 4);
+    const { auth } = usePage().props;
+    const isAuthenticated = Boolean(auth?.user);
+    const prefillInputs = activationPrefill?.inputs ?? {};
+    const [householdSize, setHouseholdSize] = React.useState(
+        clampNumber(prefillInputs.householdSize ?? defaultHouseholdSize ?? 4, 1)
+    );
     const [quantities, setQuantities] = React.useState(() =>
         (items ?? []).reduce((acc, item) => {
-            acc[item.key] = item.default_quantity ?? 0;
+            const prefilled = prefillInputs?.quantities?.[item.key];
+            acc[item.key] = prefilled ?? item.default_quantity ?? 0;
             return acc;
         }, {})
     );
@@ -109,18 +119,15 @@ export default function RationCostEstimator({
                         This is {comparisonPlaceholderPercent}% higher than last month.
                     </div>
 
-                    <div className="space-y-3">
-                        <p className="text-sm text-white/80">Save this estimate for next month</p>
-                        <Link
-                            href="/register"
-                            className="inline-flex items-center justify-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-[#001a4a] shadow-lg transition hover:bg-white"
-                        >
-                            Save this
-                        </Link>
-                        <p className="text-xs text-white/70">
-                            No login required to use this tool. Sign up only if you want to store it.
-                        </p>
-                    </div>
+                    {/* ROZNAMCHA-ACTIVATION: result-adjacent save wall replaces passive sidebar CTA. */}
+                    <SaveWall
+                        toolKey="ration_cost_estimator"
+                        inputs={{ householdSize, quantities, source: activationPrefill?.source ?? 'direct' }}
+                        results={{ total, currency, currencySymbol, comparisonPlaceholderPercent }}
+                        isAuthenticated={isAuthenticated}
+                        saveEndpoint="tools.snapshots.store"
+                        returnUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/tools/ration-cost-estimator'}
+                    />
                 </aside>
             </div>
 
@@ -128,6 +135,11 @@ export default function RationCostEstimator({
                 {/* Extension point: plug in live market prices or household-based scaling rules here later. */}
                 Base prices are configurable and can be updated without redeploying the estimator UI.
             </div>
+
+            <RelatedLinksBlock
+                relatedTools={relatedLinks?.relatedTools ?? []}
+                relatedBlogs={relatedLinks?.relatedBlogs ?? []}
+            />
         </ToolLayout>
     );
 }
