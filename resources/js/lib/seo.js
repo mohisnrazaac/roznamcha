@@ -111,6 +111,30 @@ export const seoContent = {
         type: 'article',
         schemaName: 'Roznamcha Features',
     },
+    schoolFeesPlanner: {
+        title: 'School Fees Planner Pakistan – Real monthly school cost calculator | Roznamcha',
+        description:
+            'Calculate your real monthly school fee burden in Pakistan by including tuition, annual charges, and exam fees with an inflation buffer for the next academic year.',
+        path: '/tools/school-fees-planner',
+        url: `${SITE_URL}/tools/school-fees-planner`,
+        canonical: `${SITE_URL}/tools/school-fees-planner`,
+        image: DEFAULT_OG_IMAGE,
+        keywords: ['school fees planner Pakistan', 'school fee calculator PKR', 'tuition budget planner', 'household education costs', 'Pakistan school fee inflation'],
+        type: 'article',
+        schemaName: 'School Fees Planner',
+    },
+    electricityBillEstimator: {
+        title: 'Electricity Bill Estimator Pakistan – Progressive slab calculator | Roznamcha',
+        description:
+            'Estimate your Pakistan electricity bill using progressive slab rates, GST, and surcharge placeholders, then compare against a last-year baseline.',
+        path: '/tools/electricity-bill-estimator',
+        url: `${SITE_URL}/tools/electricity-bill-estimator`,
+        canonical: `${SITE_URL}/tools/electricity-bill-estimator`,
+        image: DEFAULT_OG_IMAGE,
+        keywords: ['electricity bill estimator Pakistan', 'units to bill calculator', 'WAPDA slab calculator', 'electricity tariff comparison', 'household utility planning'],
+        type: 'article',
+        schemaName: 'Electricity Bill Estimator',
+    },
 };
 
 export const buildWebPageSchema = ({ schemaName, title, description, path, inLanguage }) => ({

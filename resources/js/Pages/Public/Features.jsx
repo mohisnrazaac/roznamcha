@@ -104,24 +104,44 @@ export default function Features() {
                         >
                             Try Ration Cost Estimator
                         </Link>
+                        <Link
+                            href="/tools/school-fees-planner"
+                            className="inline-flex items-center rounded-full border border-[#001a4a]/20 px-5 py-2.5 text-sm font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
+                        >
+                            School Fees Planner
+                        </Link>
+                        <Link
+                            href="/tools/electricity-bill-estimator"
+                            className="inline-flex items-center rounded-full border border-[#001a4a]/20 px-5 py-2.5 text-sm font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
+                        >
+                            Electricity Bill Estimator
+                        </Link>
                         <Link href="/login" className="text-sm font-semibold text-[#001a4a] underline-offset-4 hover:underline">
                             Login
                         </Link>
                     </div>
                 </header>
 
-                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
+                <section id="public-tools" className="bg-white border border-slate-200 rounded-2xl p-6 space-y-5 scroll-mt-24">
                     <p className="text-xs uppercase tracking-[0.35em] text-[#001a4a]/70">Public Tools</p>
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">Ration Cost Estimator</h2>
-                    <p className="text-base text-slate-600">
-                        Estimate monthly ration costs in Pakistan using base prices for atta, rice, oil, sugar, and daal — no login required.
-                    </p>
-                    <Link
-                        href="/tools/ration-cost-estimator"
-                        className="inline-flex items-center font-semibold text-[#001a4a] hover:underline"
-                    >
-                        Open the tool →
-                    </Link>
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Guest-Mode Calculators (No Login Required)</h2>
+                    <div className="grid gap-4 md:grid-cols-3">
+                        <ToolCard
+                            title="Ration Cost Estimator"
+                            description="Estimate monthly ration costs in Pakistan using configurable base prices for essentials."
+                            href="/tools/ration-cost-estimator"
+                        />
+                        <ToolCard
+                            title="School Fees Planner"
+                            description="Convert tuition, annual charges, and exam fees into a real monthly reserve target."
+                            href="/tools/school-fees-planner"
+                        />
+                        <ToolCard
+                            title="Electricity Bill Estimator"
+                            description="Estimate bills using progressive slab rates, GST, and tariff comparison against last year."
+                            href="/tools/electricity-bill-estimator"
+                        />
+                    </div>
                 </section>
 
                 {modules.map((module) => (
@@ -182,5 +202,17 @@ function ModuleCard({ module }) {
                 Try it — Sign up →
             </Link>
         </section>
+    );
+}
+
+function ToolCard({ title, description, href }) {
+    return (
+        <article className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+            <h3 className="text-lg font-semibold text-[#001a4a]">{title}</h3>
+            <p className="text-sm text-slate-600">{description}</p>
+            <Link href={href} className="inline-flex items-center font-semibold text-[#001a4a] hover:underline">
+                Open the tool →
+            </Link>
+        </article>
     );
 }

@@ -41,7 +41,7 @@ export default function PublicLayout({ children, variant = 'landing' }) {
     const navLinks = [
         { href: '/', label: 'Home' },
         { href: '/features', label: 'Features' },
-        { href: '/tools/ration-cost-estimator', label: 'Tools' },
+        { href: '/features#public-tools', label: 'Tools' },
         { href: '/blog', label: 'Blog' },
         { href: '/about', label: 'About' },
         { href: '/contact', label: 'Contact' },
