@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        @php
+            $isPublicHome = request()->routeIs('public.home');
+            $homeTitle = "Roznamcha – Pakistan’s Urdu-first household budget & kharcha tracker - Roznamcha";
+            $homeDescription = 'Roznamcha helps Pakistani families track monthly expenses, compare ration costs, manage reminders, and understand real household budgets with practical local insights.';
+        @endphp
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,7 +18,10 @@
         <meta name="theme-color" content="#061325">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <title>Roznamcha</title>
+        <title inertia>{{ $isPublicHome ? $homeTitle : 'Roznamcha' }}</title>
+        @if ($isPublicHome)
+            <meta name="description" content="{{ $homeDescription }}" inertia="description">
+        @endif
 
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-5EPHFZLH71"></script>

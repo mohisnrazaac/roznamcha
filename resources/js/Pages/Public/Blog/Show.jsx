@@ -90,6 +90,17 @@ export default function BlogShow({ post, seo, jsonLd }) {
                     dangerouslySetInnerHTML={{ __html: post?.content ?? '' }}
                 />
 
+                <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-7 text-slate-700">
+                    <p>
+                        Written by{' '}
+                        <Link href={route('public.about')} className="font-semibold text-[#001a4a] hover:underline">
+                            Mohsin
+                        </Link>
+                        , Founder of Roznamcha.pk. Mohsin is a Software Architect with 19 years of experience and builds practical tools and content
+                        for Pakistani households to manage expenses, ration costs, and everyday budgeting.
+                    </p>
+                </section>
+
                 {showMiniCalculator ? (
                     // ROZNAMCHA-ACTIVATION: delayed mini interaction appears near end-of-article depth.
                     <MiniCalculatorBlock postSlug={post?.slug} />

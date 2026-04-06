@@ -5,7 +5,7 @@ export const seoContent = {
     home: {
         title: 'Roznamcha – Pakistan’s Urdu-first household budget & kharcha tracker',
         description:
-            'Roznamcha helps Pakistani households log kharcha, monitor ration prices, and plan monthly survival reports in plain Urdu so every rupee is accountable.',
+            'Roznamcha helps Pakistani families track monthly expenses, compare ration costs, manage reminders, and understand real household budgets with practical local insights.',
         path: '/',
         url: SITE_URL,
         canonical: SITE_URL,

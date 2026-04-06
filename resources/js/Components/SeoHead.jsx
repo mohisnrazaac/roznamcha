@@ -17,7 +17,7 @@ export default function SeoHead({
 
     return (
         <Head title={title}>
-            <meta name="description" content={description} />
+            <meta name="description" content={description} head-key="description" />
             {keywordContent && <meta name="keywords" content={keywordContent} />}
             <link rel="canonical" href={canonical} />
 
