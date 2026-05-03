@@ -8,6 +8,7 @@ const baseLinks = (translations) => [
     { name: translations?.kharcha?.title ?? 'Kharcha Map', routeName: 'panel.kharcha.index', slug: 'kharcha' },
     { name: translations?.ration?.title ?? 'Ration Brain', routeName: 'panel.ration.index', slug: 'ration' },
     { name: translations?.reminders?.title ?? 'Reminders', routeName: 'panel.reminders.index', slug: 'reminders' },
+    { name: 'Budget Templates', href: '/templates', slug: 'templates' },
     { name: 'My Categories', routeName: 'panel.categories.index', slug: 'panel-categories' },
     { name: translations?.reports?.title ?? 'Reports', routeName: 'reports.index', slug: 'reports' },
     { name: 'Users', routeName: 'admin.users.index', slug: 'users', adminOnly: true },

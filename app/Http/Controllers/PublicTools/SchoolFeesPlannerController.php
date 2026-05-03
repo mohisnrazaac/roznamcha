@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PublicTools;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -11,10 +12,13 @@ use Inertia\Response;
 
 class SchoolFeesPlannerController extends Controller
 {
+    use BuildsPublicSeo;
+
     public function show(Request $request): Response
     {
         $config = config('public_tools.school_fees_planner', []);
         $activation = $this->resolveActivationState($request, 'school_fees_planner');
+        $seo = $this->publicSeo('schoolFeesPlanner');
 
         return Inertia::render('Public/Tools/SchoolFeesPlanner', [
             'defaults' => [
@@ -26,6 +30,8 @@ class SchoolFeesPlannerController extends Controller
                 'inflation_buffer_percentage' => (float) ($activation['inputs']['inflation_buffer_percentage'] ?? $config['defaults']['inflation_buffer_percentage'] ?? 12),
             ],
             'activationPrefill' => $activation,
+            'seo' => $seo,
+            'jsonLd' => $this->publicWebPageSchema($seo),
         ]);
     }
 

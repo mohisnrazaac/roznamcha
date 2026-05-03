@@ -7,6 +7,7 @@ export default function SeoHead({
     description,
     url = SITE_URL,
     canonical = SITE_URL,
+    robots = 'index,follow',
     type = 'website',
     keywords = [],
     image = DEFAULT_OG_IMAGE,
@@ -17,9 +18,10 @@ export default function SeoHead({
 
     return (
         <Head title={title}>
-            <meta name="description" content={description} />
+            <meta name="description" content={description} head-key="description" />
+            <meta name="robots" content={robots} />
             {keywordContent && <meta name="keywords" content={keywordContent} />}
-            <link rel="canonical" href={canonical} />
+            <link rel="canonical" href={canonical} head-key="canonical" />
 
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
@@ -35,6 +37,7 @@ export default function SeoHead({
 
             {jsonLd && (
                 <script
+                    head-key="page-jsonld"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />

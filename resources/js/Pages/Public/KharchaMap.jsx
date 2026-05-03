@@ -41,9 +41,9 @@ const faqs = [
     },
 ];
 
-export default function KharchaMap() {
-    const seo = seoContent.kharchaMap;
-    const jsonLd = buildWebPageSchema(seo);
+export default function KharchaMap({ seo: seoProp, jsonLd: jsonLdProp }) {
+    const seo = seoProp ?? seoContent.kharchaMap;
+    const jsonLd = jsonLdProp ?? buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">

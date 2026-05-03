@@ -12,7 +12,7 @@ class RssController extends Controller
     {
         $xml = Cache::remember('rss:blog', now()->addHours(6), function () {
             $posts = BlogPost::query()
-                ->published()
+                ->publicArchiveVisible()
                 ->with('categories')
                 ->orderByDesc('published_at')
                 ->orderByDesc('id')
@@ -24,7 +24,7 @@ class RssController extends Controller
             return view('rss.blog', [
                 'posts' => $posts,
                 'siteUrl' => $siteUrl,
-                'description' => 'Roznamcha blog on Pakistani household budgets, ration strategy, and inflation survival.',
+                'description' => 'Practical guides on household budgeting, ration planning, and month-end pressure for Pakistani families.',
             ])->render();
         });
 

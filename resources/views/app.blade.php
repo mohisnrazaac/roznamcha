@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        @php
+            $pageSeo = data_get($page ?? [], 'props.seo');
+            $pageJsonLd = data_get($page ?? [], 'props.jsonLd');
+            $serverTitle = data_get($pageSeo, 'title', 'Roznamcha');
+            $serverDescription = data_get($pageSeo, 'description');
+            $serverCanonical = data_get($pageSeo, 'canonical');
+            $serverRobots = data_get($pageSeo, 'robots');
+            $siteUrl = rtrim(config('app.url', 'https://roznamcha.pk'), '/');
+        @endphp
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,10 +22,29 @@
         <meta name="theme-color" content="#061325">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <title>Roznamcha</title>
+        <title inertia>{{ $serverTitle }}</title>
+        @if ($serverDescription)
+            <meta name="description" content="{{ $serverDescription }}" inertia="description">
+        @endif
+        @if ($serverCanonical)
+            <link rel="canonical" href="{{ $serverCanonical }}" inertia="canonical">
+        @endif
+        @if ($serverRobots)
+            <meta name="robots" content="{{ $serverRobots }}" inertia="robots">
+        @endif
+        @if ($pageJsonLd)
+            <script type="application/ld+json" inertia="page-jsonld">
+                {!! json_encode($pageJsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+            </script>
+        @endif
 
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-5EPHFZLH71"></script>
+        <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8709269992599634"
+            crossorigin="anonymous"
+        ></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -36,6 +64,12 @@
         {{-- Inject Ziggy route() helper into window --}}
         @routes
 
+        @php
+            if (! file_exists(public_path('build/manifest.json')) && file_exists(public_path('build/.vite/manifest.json'))) {
+                \Illuminate\Support\Facades\Vite::useManifestFilename('.vite/manifest.json');
+            }
+        @endphp
+
         {{-- Vite / React refresh --}}
         @viteReactRefresh
         @vite('resources/js/app.jsx')
@@ -45,41 +79,24 @@
             $organizationSchema = [
                 '@context' => 'https://schema.org',
                 '@type' => 'Organization',
-                '@id' => 'https://roznamcha.pk#organization',
+                '@id' => "{$siteUrl}#organization",
                 'name' => 'Roznamcha',
-                'url' => 'https://roznamcha.pk',
-                'logo' => 'https://roznamcha.pk/icons/appicon.png',
-                'description' => 'Urdu-first Pakistani platform for household budgeting, ration planning, and inflation insights.',
+                'url' => $siteUrl,
+                'logo' => "{$siteUrl}/icons/appicon.png",
                 'sameAs' => [
-                    'https://www.facebook.com/roznamchaPK',
-                    'https://www.twitter.com/roznamchaPK',
-                    'https://www.linkedin.com/company/roznamcha',
-                ],
-                'contactPoint' => [
-                    [
-                        '@type' => 'ContactPoint',
-                        'contactType' => 'customer support',
-                        'telephone' => '+92-21-111-ROZ-NAM',
-                        'email' => 'support@roznamcha.pk',
-                        'availableLanguage' => ['en', 'ur'],
-                    ],
+                    'https://web.facebook.com/roznamcha.pk/',
                 ],
             ];
 
             $websiteSchema = [
                 '@context' => 'https://schema.org',
                 '@type' => 'WebSite',
-                '@id' => 'https://roznamcha.pk#website',
+                '@id' => "{$siteUrl}#website",
                 'name' => 'Roznamcha',
-                'url' => 'https://roznamcha.pk',
+                'url' => $siteUrl,
                 'description' => 'Roznamcha helps Pakistani families track kharcha, ration, and inflation in Urdu.',
                 'publisher' => [
-                    '@id' => 'https://roznamcha.pk#organization',
-                ],
-                'potentialAction' => [
-                    '@type' => 'SearchAction',
-                    'target' => 'https://roznamcha.pk/search?q={query}',
-                    'query-input' => 'required name=query',
+                    '@id' => "{$siteUrl}#organization",
                 ],
             ];
         @endphp
@@ -89,17 +106,6 @@
         </script>
         <script type="application/ld+json">
             {!! json_encode($websiteSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-        </script>
-        <script type="application/ld+json">
-            {!! json_encode([
-                '@context' => 'https://schema.org',
-                '@type' => 'Organization',
-                'name' => 'Roznamcha',
-                'url' => 'https://roznamcha.pk',
-                'sameAs' => [
-                    'https://facebook.com/roznamcha.pk',
-                ],
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
         </script>
     </head>
     <body class="antialiased bg-gray-50 text-gray-900 min-h-screen">

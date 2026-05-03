@@ -41,9 +41,9 @@ const faqs = [
     },
 ];
 
-export default function RationBrain() {
-    const seo = seoContent.rationBrain;
-    const jsonLd = buildWebPageSchema(seo);
+export default function RationBrain({ seo: seoProp, jsonLd: jsonLdProp }) {
+    const seo = seoProp ?? seoContent.rationBrain;
+    const jsonLd = jsonLdProp ?? buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">

@@ -50,7 +50,7 @@ class AskRozaController extends Controller
             ->values();
 
         $posts = BlogPost::query()
-            ->published()
+            ->publicArchiveVisible()
             ->orderByDesc('published_at')
             ->limit(20)
             ->get(['id', 'title', 'slug', 'excerpt', 'content']);

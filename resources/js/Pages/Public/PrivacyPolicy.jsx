@@ -43,9 +43,9 @@ const sections = [
     },
 ];
 
-export default function PrivacyPolicy() {
-    const seo = seoContent.privacy;
-    const jsonLd = buildWebPageSchema(seo);
+export default function PrivacyPolicy({ seo: seoProp, jsonLd: jsonLdProp, contactEmail = 'support@roznamcha.pk' }) {
+    const seo = seoProp ?? seoContent.privacy;
+    const jsonLd = jsonLdProp ?? buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">
@@ -76,7 +76,11 @@ export default function PrivacyPolicy() {
                 <div className="bg-[#fff9ef] border border-yellow-200 rounded-2xl p-6 space-y-3">
                     <h2 className="text-xl font-semibold text-[#001a4a]">Need clarification?</h2>
                     <p className="text-base text-slate-700">
-                        Email privacy@roznamcha.pk or message the{' '}
+                        Email{' '}
+                        <a href={`mailto:${contactEmail}`} className="font-semibold text-[#001a4a] hover:underline">
+                            {contactEmail}
+                        </a>{' '}
+                        or message the{' '}
                         <Link href={route('public.contact')} className="font-semibold text-[#001a4a] hover:underline">
                             support team
                         </Link>{' '}

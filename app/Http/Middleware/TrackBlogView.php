@@ -23,6 +23,7 @@ class TrackBlogView
 
             if ($slug !== '') {
                 $post = BlogPost::query()
+                    ->publiclyVisible()
                     ->where('slug', $slug)
                     ->first(['id', 'slug']);
 

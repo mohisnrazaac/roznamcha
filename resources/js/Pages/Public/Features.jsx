@@ -66,7 +66,7 @@ const modules = [
     {
         key: 'daily-hooks',
         title: 'Daily Money Snapshot (Daily Hooks)',
-        description: 'Fresh CMS + AI notes show what changed in inflation today so you stay engaged.',
+        description: 'Daily snapshots surface relevant money changes without making users hunt through the app.',
         bullets: ['آج کا خرچ خلاصہ', 'مہنگائی کا فوری ہیلپ لائن', 'گھر کی سٹریکس سنبھالیں'],
     },
     {
@@ -77,9 +77,9 @@ const modules = [
     },
 ];
 
-export default function Features() {
-    const seo = seoContent.features;
-    const jsonLd = buildWebPageSchema(seo);
+export default function Features({ seo: seoProp, jsonLd: jsonLdProp }) {
+    const seo = seoProp ?? seoContent.features;
+    const jsonLd = jsonLdProp ?? buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">
@@ -116,16 +116,48 @@ export default function Features() {
                         >
                             Electricity Bill Estimator
                         </Link>
+                        <Link
+                            href="/templates"
+                            className="inline-flex items-center rounded-full border border-yellow-300 bg-yellow-50 px-5 py-2.5 text-sm font-semibold text-[#8c5a00] hover:bg-yellow-100"
+                        >
+                            Browse Smart Budget Templates
+                        </Link>
                         <Link href="/login" className="text-sm font-semibold text-[#001a4a] underline-offset-4 hover:underline">
                             Login
                         </Link>
                     </div>
                 </header>
 
+                <section className="overflow-hidden rounded-[2rem] border border-[#001a4a]/10 bg-[linear-gradient(135deg,_#fff8ea_0%,_#ffffff_58%,_#eef4ff_100%)] p-6 shadow-sm">
+                    <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+                        <div className="space-y-3">
+                            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Public growth surface</p>
+                            <h2 className="text-3xl font-semibold text-[#001a4a]">Smart Budget Templates turn curiosity into saved household habits</h2>
+                            <p className="text-base leading-7 text-slate-600">
+                                These template pages are open to guests, built for practical planning, and let people preview a salary-based survival plan first before deciding whether to save it for next month.
+                            </p>
+                        </div>
+                        <div className="rounded-[1.5rem] border border-[#001a4a]/10 bg-white p-5 shadow-sm">
+                            <p className="text-sm font-semibold text-[#001a4a]">Featured entry points</p>
+                            <div className="mt-4 space-y-3 text-sm text-slate-600">
+                                <Link href="/templates/50k-salary-survival-guide" className="block rounded-2xl border border-slate-200 px-4 py-3 font-semibold text-[#001a4a] hover:border-[#001a4a]/30 hover:bg-slate-50">
+                                    50k Salary Survival Guide
+                                </Link>
+                                <Link href="/templates/student-budget" className="block rounded-2xl border border-slate-200 px-4 py-3 font-semibold text-[#001a4a] hover:border-[#001a4a]/30 hover:bg-slate-50">
+                                    Student Budget
+                                </Link>
+                                <Link href="/templates/joint-family-budget" className="block rounded-2xl border border-slate-200 px-4 py-3 font-semibold text-[#001a4a] hover:border-[#001a4a]/30 hover:bg-slate-50">
+                                    Joint Family Budget
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section id="public-tools" className="bg-white border border-slate-200 rounded-2xl p-6 space-y-5 scroll-mt-24">
                     <p className="text-xs uppercase tracking-[0.35em] text-[#001a4a]/70">Public Tools</p>
                     <h2 className="text-2xl font-semibold text-[#001a4a]">Guest-Mode Calculators (No Login Required)</h2>
-                    <div className="grid gap-4 md:grid-cols-3">
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                         <ToolCard
                             title="Ration Cost Estimator"
                             description="Estimate monthly ration costs in Pakistan using configurable base prices for essentials."
@@ -140,6 +172,11 @@ export default function Features() {
                             title="Electricity Bill Estimator"
                             description="Estimate bills using progressive slab rates, GST, and tariff comparison against last year."
                             href="/tools/electricity-bill-estimator"
+                        />
+                        <ToolCard
+                            title="Smart Budget Templates"
+                            description="Preview salary-based Pakistani household budgets that guests can browse now and save after signup."
+                            href="/templates"
                         />
                     </div>
                 </section>
@@ -185,8 +222,8 @@ function ModuleCard({ module }) {
                         className="h-full w-full object-contain"
                     />
                 ) : (
-                    <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-[#001a4a]">
-                        Screenshot placeholder — update via CMS later.
+                    <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,_#fff6d8_0%,_#ffffff_100%)] px-6 text-center text-sm font-semibold text-[#001a4a]">
+                        Roznamcha module preview
                     </div>
                 )}
             </div>

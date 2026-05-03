@@ -29,7 +29,9 @@ use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogPublicController;
 use App\Http\Controllers\RssController;
-use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\SeoPageController;
+use App\Http\Controllers\SeoSitemapController;
+use App\Http\Controllers\TemplateSitemapController;
 use App\Http\Controllers\PublicTools\SchoolFeesPlannerController;
 use App\Http\Controllers\PublicTools\ElectricityBillEstimatorController;
 use App\Http\Controllers\PublicTools\RationCostEstimatorController;
@@ -41,6 +43,7 @@ use App\Http\Controllers\DailyReturnSnapshotController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\GuestStateController;
 use App\Http\Controllers\AskRozaController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\ToolSnapshotController;
 
 $maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
@@ -53,6 +56,27 @@ if ($maintenanceEnabled) {
             ->name('maintenance.trigger.run');
     });
 }
+
+Route::get('/ads.txt', function () {
+    $path = public_path('ads.txt');
+
+    abort_unless(is_file($path), 404);
+
+    return response(file_get_contents($path), 200, [
+        'Content-Type' => 'text/plain; charset=UTF-8',
+        'Cache-Control' => 'public, max-age=3600',
+        'X-Content-Type-Options' => 'nosniff',
+    ]);
+})->withoutMiddleware([
+    \Illuminate\Cookie\Middleware\EncryptCookies::class,
+    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    \Illuminate\Session\Middleware\StartSession::class,
+    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
+    \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    \App\Http\Middleware\HandleInertiaRequests::class,
+    \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+])->name('public.ads-txt');
 
 // Public marketing pages
 Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
@@ -76,14 +100,21 @@ Route::get('/tools/electricity-bill-estimator', [ElectricityBillEstimatorControl
     ->name('public.tools.electricity-bill-estimator');
 Route::post('/tools/electricity-bill-estimator/calculate', [ElectricityBillEstimatorController::class, 'electricityEstimator'])
     ->name('public.tools.electricity-bill-estimator.calculate');
+Route::get('/petrol-price-{city}-today', [SeoPageController::class, 'petrol'])->name('seo.petrol');
+Route::get('/electricity-bill-calculator-{disco}', [SeoPageController::class, 'electricity'])->name('seo.electricity');
+Route::get('/ration-cost-for-{size}-people-pakistan', [SeoPageController::class, 'ration'])->name('seo.ration');
+Route::get('/templates', [TemplateController::class, 'index'])->name('templates.index');
+Route::get('/templates/{slug}/download', [TemplateController::class, 'download'])->name('templates.download');
+Route::get('/templates/{slug}', [TemplateController::class, 'show'])->name('templates.show');
 Route::get('/blog', [BlogPublicController::class, 'index'])->name('public.blog.index');
 Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->name('public.blog.category');
+Route::get('/blog/rss.xml', [RssController::class, 'blog'])->name('public.blog.rss');
 Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
     ->middleware('track.blog.view')
     ->name('public.blog.show');
 Route::get('/daily-return/snapshot', [DailyReturnSnapshotController::class, 'show'])->name('daily-return.snapshot');
-Route::get('/blog/rss.xml', [RssController::class, 'blog'])->name('public.blog.rss');
-Route::get('/sitemap.xml', [SitemapController::class, 'show'])->name('public.sitemap');
+Route::get('/sitemap.xml', [SeoSitemapController::class, 'index'])->name('public.sitemap');
+Route::get('/templates-sitemap.xml', [TemplateSitemapController::class, 'show'])->name('public.templates-sitemap');
 
 Route::post('/events/blog-cta-click', [EventController::class, 'blogCtaClick'])
     ->middleware('track.blog.cta')
@@ -94,6 +125,9 @@ Route::post('/guest/ask-roza', [AskRozaController::class, 'ask'])->name('guest.a
 Route::post('/tools/snapshots', [ToolSnapshotController::class, 'store'])
     ->middleware('auth')
     ->name('tools.snapshots.store');
+Route::post('/templates/save', [TemplateController::class, 'saveTemplate'])
+    ->middleware('auth')
+    ->name('templates.save');
 
 Route::get('/maintenance/clear-caches', function (Request $request) {
     $token = config('maintenance.secret', env('MAINTENANCE_TRIGGER_SECRET'));

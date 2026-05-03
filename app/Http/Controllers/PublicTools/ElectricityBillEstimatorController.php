@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PublicTools;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,10 +13,13 @@ use Inertia\Response;
 
 class ElectricityBillEstimatorController extends Controller
 {
+    use BuildsPublicSeo;
+
     public function show(Request $request): Response
     {
         $config = config('public_tools.electricity_bill_estimator', []);
         $activation = $this->resolveActivationState($request, 'electricity_bill_estimator');
+        $seo = $this->publicSeo('electricityBillEstimator');
 
         return Inertia::render('Public/Tools/ElectricityBillEstimator', [
             'defaults' => [
@@ -25,6 +29,8 @@ class ElectricityBillEstimatorController extends Controller
             'categories' => ['protected', 'unprotected'],
             'gst_percentage' => ($config['gst_rate'] ?? 0.17) * 100,
             'activationPrefill' => $activation,
+            'seo' => $seo,
+            'jsonLd' => $this->publicWebPageSchema($seo),
         ]);
     }
 

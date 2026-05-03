@@ -37,9 +37,9 @@ const sections = [
     },
 ];
 
-export default function Terms() {
-    const seo = seoContent.terms;
-    const jsonLd = buildWebPageSchema(seo);
+export default function Terms({ seo: seoProp, jsonLd: jsonLdProp, contactEmail = 'support@roznamcha.pk' }) {
+    const seo = seoProp ?? seoContent.terms;
+    const jsonLd = jsonLdProp ?? buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="inner">
@@ -73,10 +73,10 @@ export default function Terms() {
                     <h2 className="text-xl font-semibold text-[#001a4a]">Questions or disputes</h2>
                     <p className="text-base text-slate-700">
                         Contact{' '}
-                        <a href="mailto:legal@roznamcha.pk" className="text-[#001a4a] font-semibold hover:underline">
-                            legal@roznamcha.pk
+                        <a href={`mailto:${contactEmail}`} className="text-[#001a4a] font-semibold hover:underline">
+                            {contactEmail}
                         </a>{' '}
-                        or message our{' '}
+                        or message the{' '}
                         <Link href={route('public.contact')} className="font-semibold text-[#001a4a] hover:underline">
                             support desk
                         </Link>{' '}

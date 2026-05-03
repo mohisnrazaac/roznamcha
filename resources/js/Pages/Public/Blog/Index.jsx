@@ -16,7 +16,7 @@ export default function BlogIndex({ posts, categories, seo }) {
                     <p className="text-xs uppercase tracking-[0.35em] text-[#001a4a]/70">Roznamcha Blog</p>
                     <h1 className="text-3xl font-bold text-[#001a4a]">Daily survival notes for Pakistani households</h1>
                     <p className="text-base text-slate-700">
-                        Fresh guidance on taming ration bills, keeping kharcha visible, and surviving inflation without losing Urdu-first clarity.
+                        Practical guides on household budgeting, ration planning, and month-end pressure for Pakistani families.
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-3">
                         <Link

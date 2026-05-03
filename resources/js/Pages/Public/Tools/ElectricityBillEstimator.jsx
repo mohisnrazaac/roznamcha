@@ -56,9 +56,9 @@ const calculatorJsonLd = {
         'Guest-mode Pakistan electricity bill estimator using progressive slab rates, GST, and surcharge placeholders with last-year comparison.',
 };
 
-export default function ElectricityBillEstimator({ defaults, categories = [], gstPercentage = 17, gst_percentage, activationPrefill }) {
-    const seo = seoContent.electricityBillEstimator;
-    const pageSchema = buildWebPageSchema(seo);
+export default function ElectricityBillEstimator({ defaults, categories = [], gstPercentage = 17, gst_percentage, activationPrefill, seo: seoProp, jsonLd: jsonLdProp }) {
+    const seo = seoProp ?? seoContent.electricityBillEstimator;
+    const pageSchema = jsonLdProp ?? buildWebPageSchema(seo);
     const effectiveGst = gst_percentage ?? gstPercentage;
     const { auth } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);

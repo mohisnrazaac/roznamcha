@@ -3,7 +3,6 @@
 return [
     'currency' => 'PKR',
     'currency_symbol' => 'Rs',
-    'comparison_placeholder_percent' => 12,
     'default_household_size' => 4,
 
     // Future price automation can replace these base prices with live market data

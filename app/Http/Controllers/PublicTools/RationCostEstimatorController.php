@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PublicTools;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
@@ -12,11 +13,14 @@ use Throwable;
 
 class RationCostEstimatorController extends Controller
 {
+    use BuildsPublicSeo;
+
     public function show(Request $request): Response
     {
         $config = config('ration_cost_estimator');
         $relatedLinks = $this->relatedLinksForTool('ration-cost-estimator');
         $activation = $this->resolveActivationState($request, 'ration_cost_estimator');
+        $seo = $this->publicSeo('rationCostEstimator');
 
         $familySizeFromQuery = (int) $request->query('family_size');
         $familySizeFromState = (int) ($activation['inputs']['householdSize'] ?? 0);
@@ -29,11 +33,12 @@ class RationCostEstimatorController extends Controller
         return Inertia::render('Public/Tools/RationCostEstimator', [
             'currency' => $config['currency'] ?? 'PKR',
             'currencySymbol' => $config['currency_symbol'] ?? 'Rs',
-            'comparisonPlaceholderPercent' => $config['comparison_placeholder_percent'] ?? 12,
             'defaultHouseholdSize' => $defaultHouseholdSize,
             'items' => $config['items'] ?? [],
             'relatedLinks' => $relatedLinks,
             'activationPrefill' => $activation,
+            'seo' => $seo,
+            'jsonLd' => $this->publicWebPageSchema($seo),
         ]);
     }
 

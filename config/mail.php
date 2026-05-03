@@ -116,6 +116,8 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
-    'contact_to' => env('CONTACT_NOTIFICATION_EMAIL', 'micasony@gmail.com'),
+    'public_contact_email' => env('PUBLIC_CONTACT_EMAIL', 'support@roznamcha.pk'),
+
+    'contact_to' => env('CONTACT_NOTIFICATION_EMAIL', env('PUBLIC_CONTACT_EMAIL', 'support@roznamcha.pk')),
 
 ];

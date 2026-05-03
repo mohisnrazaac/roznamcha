@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMessageMail;
+use App\Seo\SeoPageUrlGenerator;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,12 +16,48 @@ use Throwable;
 
 class ContactController extends Controller
 {
+    public function __construct(
+        private readonly SeoPageUrlGenerator $urlGenerator,
+    ) {
+    }
+
     public function show(Request $request): Response
     {
         $timestamp = now()->timestamp;
+        $url = $this->urlGenerator->routeUrl('public.contact');
+        $siteUrl = $this->urlGenerator->baseUrl();
+        $publicContactEmail = (string) config('mail.public_contact_email', 'support@roznamcha.pk');
+        $seo = [
+            'title' => 'Contact Roznamcha.pk',
+            'description' => 'Contact Roznamcha.pk for support, feedback, corrections, and partnership inquiries related to household budgeting tools.',
+            'url' => $url,
+            'canonical' => $url,
+            'type' => 'website',
+        ];
 
         return Inertia::render('Public/Contact', [
             'formTimestamp' => $timestamp,
+            'contactEmail' => $publicContactEmail,
+            'seo' => $seo,
+            'jsonLd' => [
+                '@context' => 'https://schema.org',
+                '@type' => 'ContactPage',
+                '@id' => "{$url}#webpage",
+                'name' => $seo['title'],
+                'url' => $url,
+                'description' => $seo['description'],
+                'email' => $publicContactEmail,
+                'inLanguage' => 'en',
+                'mainEntity' => [
+                    '@type' => 'Organization',
+                    'name' => 'Roznamcha',
+                    'email' => $publicContactEmail,
+                    'url' => $siteUrl,
+                ],
+                'isPartOf' => [
+                    '@id' => "{$siteUrl}#website",
+                ],
+            ],
         ]);
     }
 
@@ -50,7 +87,7 @@ class ContactController extends Controller
             ]);
         }
 
-        $recipient = config('mail.contact_to', 'micasony@gmail.com');
+        $recipient = (string) config('mail.contact_to', config('mail.public_contact_email', 'support@roznamcha.pk'));
 
         try {
             Mail::to($recipient)->send(new ContactMessageMail(
@@ -68,7 +105,9 @@ class ContactController extends Controller
             ]);
 
             throw ValidationException::withMessages([
-                'message' => __('We could not deliver your message right now. Please try again later or email support@roznamcha.pk.'),
+                'message' => __('We could not deliver your message right now. Please try again later or email :email.', [
+                    'email' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
+                ]),
             ]);
         }
 

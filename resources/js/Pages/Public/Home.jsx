@@ -1,393 +1,318 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import SeoHead from '../../Components/SeoHead';
-import DailyMoneySnapshot from '../../Components/Daily/DailyMoneySnapshot';
-import AskRozaGuestWidget from '../../Components/Activation/AskRozaGuestWidget';
 import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
-const heroBullets = ['خرچ کا ریکارڈ', 'راشن کی قیمتوں پر نظر', 'مہینے کے آخر میں Survival Report'];
-
-const socialProofTestimonials = [
+const firstClickPages = [
     {
-        quote: 'Roznamcha reminded us to log kharcha nightly so the ration bill never surprises the family budget.',
-        author: 'Ayesha, Lahore',
+        title: 'Ration Cost Estimator',
+        href: '/tools/ration-cost-estimator',
+        body: 'Start with a staple-basket estimate, see what drives the total, and use it before the next market trip.',
     },
     {
-        quote: 'My husband checks the Survival Report before every payday to stay calm about school fees.',
-        author: 'Imran, Karachi',
+        title: 'School Fees Planner',
+        href: '/tools/school-fees-planner',
+        body: 'Turn tuition, annual charges, and exam fees into a monthly reserve target before the term bill lands.',
     },
     {
-        quote: 'It keeps dadi and I aligned on groceries without pushing another WhatsApp list.',
-        author: 'Rida, Faisalabad',
-    },
-];
-
-const metricBadges = [
-    'Households using Roznamcha: (coming soon)',
-    'Daily snapshots generated: (coming soon)',
-    'Built for Pakistan: Urdu-first workflows',
-];
-
-const kharchaBullets = [
-    'Record daily expenses',
-    'See monthly spending totals',
-    'Spot unnecessary spending',
-    'Plan a realistic monthly budget',
-    'Understand where most money goes',
-];
-
-const rationBullets = [
-    'Track ration item prices over months',
-    'Monitor inflation on essential goods',
-    'Create your own ration list',
-    'Avoid sudden surprises in grocery budget',
-];
-
-const survivalBullets = [
-    'Month-end summary of all expenses',
-    'Identify overspending areas',
-    'Get a projected next-month estimate',
-    'Understand inflation impact on your home',
-];
-
-const faqs = [
-    {
-        question: 'How can I manage my monthly household budget in Pakistan effectively?',
-        answer: 'Effective budgeting starts with categorizing your income into fixed costs like rent and bills, and variable costs like groceries and fuel. Many families follow the 50/30/20 rule: 50% for needs, 30% for wants, and 20% for savings. Regularly tracking these categories helps identify overspending areas and ensures your monthly salary lasts until the next payday.',
+        title: 'Electricity Bill Estimator',
+        href: '/tools/electricity-bill-estimator',
+        body: 'Stress-test a 100, 200, or 300-unit month before the bill arrives and forces cuts elsewhere.',
     },
     {
-        question: 'What is the best way to track daily expenses (Kharcha) on a mobile phone?',
-        answer: 'The most reliable method is to record every transaction immediately, from small grocery bills to large utility payments. Using a digital ledger or expense diary allows you to see real-time spending patterns. This transparency is crucial for Pakistani households to stay within their budget limits and avoid the stress of running out of cash by the month-end.',
-    },
-    {
-        question: 'How can I monitor the changing prices of daily ration items in Pakistan?',
-        answer: 'Keeping a personal record of prices for staples like atta, ghee, and sugar allows you to spot inflation trends early. By comparing prices from different months or markets, you can make smarter purchasing decisions, such as buying in bulk when prices are lower. Monitoring these fluctuations is essential for maintaining a stable household food budget during high inflation.',
-    },
-    {
-        question: 'What is a survival report and why is it useful for households?',
-        answer: 'A survival report is a summary that evaluates your financial health at the end of the month by comparing total income against all expenses. It highlights whether you lived within your means or overspent. For families in Pakistan, this report serves as a monthly audit, providing the data needed to adjust spending and plan better for the upcoming month.',
-    },
-    {
-        question: 'How much money should a middle-class family in Pakistan save monthly?',
-        answer: 'Financial experts generally recommend saving at least 10% to 20% of your net monthly income. Building an emergency fund that covers three to six months of expenses is vital for protection against unexpected costs like medical bills or inflation spikes. Consistently setting aside even small amounts each month significantly improves long-term financial security for the household.',
+        title: '50k Salary Survival Guide',
+        href: '/templates/50k-salary-survival-guide',
+        body: 'Open a survival-first budget example built for a tight salary instead of a generic lifestyle template.',
     },
 ];
 
-const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-        },
-    })),
+const proofCards = [
+    {
+        eyebrow: 'Approved flagship page',
+        title: 'Ration Cost Estimator',
+        href: '/tools/ration-cost-estimator',
+        description: 'A stronger public utility page with methodology, examples, and honest planning guidance.',
+    },
+    {
+        eyebrow: 'Public tool',
+        title: 'School Fees Planner',
+        href: '/tools/school-fees-planner',
+        description: 'Useful when a school expense feels manageable on paper but keeps breaking the month in practice.',
+    },
+    {
+        eyebrow: 'Public tool',
+        title: 'Electricity Bill Estimator',
+        href: '/tools/electricity-bill-estimator',
+        description: 'Useful before a hot month, an appliance change, or a billing jump starts pushing the budget off course.',
+    },
+    {
+        eyebrow: 'Template preview',
+        title: '50k Salary Survival Guide',
+        href: '/templates/50k-salary-survival-guide',
+        description: 'Shows what a tighter salary plan can look like without forcing users into sign-up first.',
+    },
+    {
+        eyebrow: 'Core product page',
+        title: 'Kharcha Map',
+        href: '/kharcha-map',
+        description: 'Explains how Roznamcha makes rent, ration, fees, transport, and daily leaks visible in one monthly picture.',
+    },
+    {
+        eyebrow: 'Core product page',
+        title: 'Survival Report',
+        href: '/survival-report',
+        description: 'Explains how the app translates household numbers into a clearer month-end survival view.',
+    },
+];
+
+const pressureJourneys = [
+    {
+        title: 'Groceries keep slipping every month',
+        description: 'Open the ration estimator first when the market trip feels unpredictable and the basket total has become harder to trust.',
+        href: '/tools/ration-cost-estimator',
+        action: 'Estimate ration cost',
+    },
+    {
+        title: 'School costs arrive in lumps, not just monthly fees',
+        description: 'Use the fees planner when annual charges, admission costs, or exam fees keep hitting like surprises.',
+        href: '/tools/school-fees-planner',
+        action: 'Plan school fees',
+    },
+    {
+        title: 'Electricity is about to squeeze the month',
+        description: 'Use the bill estimator before a high-usage month so the household can plan around it instead of reacting late.',
+        href: '/tools/electricity-bill-estimator',
+        action: 'Estimate electricity pressure',
+    },
+    {
+        title: 'The whole month feels unclear',
+        description: 'Start with the Survival Report or Kharcha Map when the problem is not one bill, but how everything piles up together.',
+        href: '/survival-report',
+        action: 'See the survival view',
+    },
+];
+
+const trustPoints = [
+    {
+        title: 'Public pages first',
+        body: 'The strongest calculators, guides, and explainers are already open. You do not need an account to see whether Roznamcha is useful.',
+    },
+    {
+        title: 'Planning aids, not fake precision',
+        body: 'Household totals can change by city, usage pattern, school policy, brand, and shop. The aim is a better plan, not a false promise of exactness.',
+    },
+    {
+        title: 'Built for Pakistan-specific pressure',
+        body: 'The public surface is centered on ration cost, school fees, electricity pressure, and month-end survival instead of generic personal-finance slogans.',
+    },
+];
+
+const guideLabels = {
+    'ghar-ka-monthly-budget': 'Budget guide',
+    'pakistani-family-monthly-expense-control': 'Expense control guide',
+    'pakistani-household-essential-expenses-2026': 'Household cost guide',
 };
 
-export default function Home({ latestPosts = [], showAiBanner = false, youtubeDemoUrl = null }) {
-    const seo = seoContent.home;
-    const jsonLd = buildWebPageSchema(seo);
+export default function Home({ featuredGuides = [], seo: seoProp, jsonLd: jsonLdProp }) {
+    const seo = seoProp ?? seoContent.home;
+    const jsonLd = jsonLdProp ?? buildWebPageSchema(seo);
 
     return (
         <PublicLayout variant="landing">
             <SeoHead {...seo} jsonLd={jsonLd} />
-            <Head>
-                <script
-                    key="faq-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-                />
-            </Head>
 
             <section className="bg-[#000f2d] text-white">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 grid gap-10 lg:grid-cols-[minmax(0,1fr),420px]">
+                <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1fr),380px] lg:px-8 lg:py-24">
                     <div className="space-y-6">
-                        <p className="text-xs uppercase tracking-[0.5em] text-yellow-200/80">Pakistan survival cockpit</p>
-                        <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
-                            Stay ahead of ration shocks, utility hikes, and end-of-month panic.
+                        <p className="text-xs uppercase tracking-[0.45em] text-yellow-200/80">Pakistan household budgeting platform</p>
+                        <h1 className="max-w-4xl text-3xl font-bold leading-tight sm:text-4xl">
+                            Roznamcha helps Pakistani households plan ration, school fees, electricity bills, and month-end survival with practical public pages.
                         </h1>
-                        <p className="text-base sm:text-lg text-yellow-100/90">
-                            Roznamcha is the Urdu-first household console that keeps your kharcha map, ration brain, reminders, and survival report front and center.
-                            <span className="block">Sign up before the month slips away.</span>
+                        <p className="max-w-3xl text-base leading-7 text-yellow-100/90 sm:text-lg">
+                            This is not a generic finance landing page. It is a public resource hub for families trying to keep groceries, bills, and monthly planning under control before the month runs short.
                         </p>
-                        <ul className="space-y-2">
-                            {heroBullets.map((item) => (
-                                <li key={item} className="flex items-center gap-3 text-lg text-yellow-200/90">
-                                    <span className="h-2 w-2 rounded-full bg-yellow-300" />
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
-                        <div className="flex flex-wrap gap-3">
-                            <Link
-                                href="/register"
-                                className="inline-flex items-center justify-center rounded-full bg-yellow-300 px-5 py-2.5 text-base font-semibold text-[#001a4a] shadow-lg transition hover:bg-white"
-                            >
-                                Sign up (Free)
-                            </Link>
-                            <Link
-                                href="/tools/ration-cost-estimator"
-                                className="inline-flex items-center justify-center rounded-full border border-yellow-200/60 px-5 py-2.5 text-base font-semibold text-yellow-100 transition hover:bg-white/10"
-                            >
-                                Ration Cost Estimator
-                            </Link>
-                            <Link
-                                href="/tools/school-fees-planner"
-                                className="inline-flex items-center justify-center rounded-full border border-yellow-200/60 px-5 py-2.5 text-base font-semibold text-yellow-100 transition hover:bg-white/10"
-                            >
-                                School Fees Planner
-                            </Link>
-                            <Link
-                                href="/tools/electricity-bill-estimator"
-                                className="inline-flex items-center justify-center rounded-full border border-yellow-200/60 px-5 py-2.5 text-base font-semibold text-yellow-100 transition hover:bg-white/10"
-                            >
-                                Electricity Bill Estimator
-                            </Link>
-                            <Link
-                                href="/features"
-                                className="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
-                            >
-                                See Features
-                            </Link>
-                        </div>
-                        <div className="rounded-2xl border border-white/20 bg-white/5 p-4 text-sm leading-relaxed">
-                            <p className="font-semibold">
-                                آپ کا ڈیٹا آپ کا ہے — ہم آپ کا ڈیٹا فروخت نہیں کرتے۔
-                            </p>
-                            <p className="text-yellow-100/80">Basic encryption + access control</p>
+
+                        <div className="grid gap-3 md:grid-cols-3">
+                            <StatCard
+                                title="What it covers"
+                                body="Ration pressure, school-fee reserves, electricity shocks, and the wider monthly budget picture."
+                            />
+                            <StatCard
+                                title="Who it helps"
+                                body="Households that need a clearer plan before the next market trip, school payment, or utility bill."
+                            />
+                            <StatCard
+                                title="What it does not claim"
+                                body="These are planning aids, not exact market or billing guarantees. The goal is a more honest monthly plan."
+                            />
                         </div>
 
-                        {/* ROZNAMCHA-ACTIVATION: guest Ask Roza widget above fold to convert browsing into saved actions. */}
-                        <AskRozaGuestWidget sourceUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/'} />
+                        <div className="flex flex-wrap gap-3">
+                            <Link
+                                href="/tools/ration-cost-estimator"
+                                className="inline-flex items-center justify-center rounded-full bg-yellow-300 px-5 py-2.5 text-base font-semibold text-[#001a4a] shadow-lg transition hover:bg-white"
+                            >
+                                Start with ration planning
+                            </Link>
+                            <Link
+                                href="/survival-report"
+                                className="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
+                            >
+                                See the survival view
+                            </Link>
+                            <Link
+                                href="/templates/50k-salary-survival-guide"
+                                className="inline-flex items-center justify-center rounded-full border border-yellow-200/60 px-5 py-2.5 text-base font-semibold text-yellow-100 transition hover:bg-white/10"
+                            >
+                                Open a real budget example
+                            </Link>
+                        </div>
                     </div>
-                    <DailyMoneySnapshot className="shadow-2xl ring-1 ring-yellow-200/60" />
+
+                    <section className="rounded-[2rem] border border-white/15 bg-white/8 p-6 shadow-2xl backdrop-blur-sm">
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-yellow-200/80">Best First Clicks</p>
+                        <h2 className="mt-3 text-2xl font-semibold text-white">Open a useful page, not a promise</h2>
+                        <p className="mt-3 text-sm leading-6 text-yellow-100/85">
+                            These are the clearest starting points for both reviewers and households under active budget pressure.
+                        </p>
+                        <div className="mt-6 space-y-3">
+                            {firstClickPages.map((page) => (
+                                <Link
+                                    key={page.href}
+                                    href={page.href}
+                                    className="block rounded-2xl border border-white/10 bg-white/10 px-4 py-4 transition hover:bg-white/15"
+                                >
+                                    <p className="text-sm font-semibold text-white">{page.title}</p>
+                                    <p className="mt-1 text-sm leading-6 text-yellow-100/80">{page.body}</p>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
                 </div>
             </section>
 
-            <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 space-y-12">
-                {showAiBanner && (
-                    <div className="rounded-2xl border border-yellow-200 bg-yellow-50 px-5 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <p className="text-sm font-semibold text-yellow-900">🔥 New: AI Budget Advisor (Free for all users)</p>
-                            <p className="text-sm text-yellow-800">
-                                Roznamcha now includes AI-powered money tips. Track inflation, control groceries, and survive the month smarter.
-                            </p>
-                        </div>
-                        <Link
-                            href={route('register')}
-                            className="inline-flex items-center justify-center rounded-full bg-[#001a4a] px-4 py-2 text-sm font-semibold text-white shadow hover:bg-[#012261]"
-                        >
-                            Sign up (Free)
-                        </Link>
+            <section className="mx-auto max-w-6xl space-y-10 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+                <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:p-8">
+                    <div className="flex flex-col gap-3">
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Proof Of Value</p>
+                        <h2 className="text-3xl font-semibold text-[#001a4a]">The strongest public pages are already live</h2>
+                        <p className="max-w-3xl text-base leading-7 text-slate-600">
+                            The homepage now points toward the pages that best demonstrate real household usefulness. The focus is on practical tools, a stronger template preview, and the clearest product explainer pages.
+                        </p>
                     </div>
-                )}
+                    <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                        {proofCards.map((page) => (
+                            <ProofCard key={page.href} page={page} />
+                        ))}
+                    </div>
+                </section>
 
-                <SocialProofSection testimonials={socialProofTestimonials} metricBadges={metricBadges} />
-                <DemoSection youtubeDemoUrl={youtubeDemoUrl} />
+                <section className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr),minmax(0,0.85fr)]">
+                    <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Start With The Pressure You Already Feel</p>
+                        <h2 className="mt-2 text-3xl font-semibold text-[#001a4a]">Most households do not need everything at once</h2>
+                        <div className="mt-6 grid gap-4 md:grid-cols-2">
+                            {pressureJourneys.map((item) => (
+                                <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                                    <h3 className="text-xl font-semibold text-[#001a4a]">{item.title}</h3>
+                                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
+                                    <Link href={item.href} className="mt-4 inline-flex items-center text-sm font-semibold text-[#001a4a] hover:underline">
+                                        {item.action} →
+                                    </Link>
+                                </article>
+                            ))}
+                        </div>
+                    </section>
 
-                <Section
-                    title="Roznamcha keeps daily inflation honest"
-                    body="Money slips away when there is no clear record. Roznamcha helps you stay in control of daily expenses, grocery prices, and unexpected costs. You can check where you spent more, how ration prices changed, and what to expect next month. The goal is simple: make life easier and help families survive monthly inflation with confidence."
-                />
-
-                <FeatureBlock
-                    title="Track Every Rupee with Kharcha Map"
-                    body="Kharcha Map gives you a clean breakdown of your daily, weekly, and monthly expenses. It shows how much went into groceries, fuel, school fees, bills, and other categories. Over time, you’ll see spending patterns that help you cut unnecessary costs. It’s built in Urdu so every family member can understand it easily."
-                    bullets={kharchaBullets}
-                    link={route('public.kharcha-map')}
-                />
-
-                <FeatureBlock
-                    title="Know Your Ration Prices with Ration Brain"
-                    body="Ration Brain helps you track changes in grocery prices. Whether it's dal, atta, chawal, ghee, or cheeni, you can keep a record of what you paid last time and how much prices changed. This makes grocery shopping smarter and more predictable, especially during high inflation."
-                    bullets={rationBullets}
-                    link={route('public.ration-brain')}
-                />
-
-                <FeatureBlock
-                    title="Get a Clear Survival Report at Month-End"
-                    body="The Survival Report gives you a summary of your income, expenses, and the overall health of your budget. It shows what you saved, where you overspent, and what to expect in the coming month. It works like a monthly audit of your household."
-                    bullets={survivalBullets}
-                    link={route('public.survival-report')}
-                />
-
-                {latestPosts.length > 0 && (
-                    <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                            <div>
-                                <h2 className="text-2xl font-semibold text-[#001a4a]">Latest from the Blog</h2>
-                                <p className="text-sm text-slate-500">
-                                    Daily Roznamcha commentary on ration strategy, inflation, and Pakistani household survival.
-                                </p>
+                    <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Trust And Limits</p>
+                        <h2 className="mt-2 text-3xl font-semibold text-[#001a4a]">Useful even before sign-in</h2>
+                        <div className="mt-6 space-y-4">
+                            {trustPoints.map((item) => (
+                                <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                                    <h3 className="text-lg font-semibold text-[#001a4a]">{item.title}</h3>
+                                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.body}</p>
+                                </article>
+                            ))}
+                        </div>
+                        <div className="mt-6 rounded-2xl border border-[#001a4a]/10 bg-[#001a4a] p-5 text-white">
+                            <p className="text-lg font-semibold">Create an account only when you want saved history.</p>
+                            <p className="mt-2 text-sm leading-6 text-white/80">
+                                The public pages should prove the value first. Sign up later if you want to store your own numbers, reopen them next month, and keep a longer household record.
+                            </p>
+                            <div className="mt-4 flex flex-wrap gap-3">
+                                <Link
+                                    href="/register"
+                                    className="inline-flex items-center rounded-full bg-yellow-300 px-5 py-2.5 text-sm font-semibold text-[#001a4a] hover:bg-white"
+                                >
+                                    Create free account
+                                </Link>
+                                <Link
+                                    href="/features"
+                                    className="inline-flex items-center rounded-full border border-white/25 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
+                                >
+                                    Review features
+                                </Link>
                             </div>
-                            <Link href={route('public.blog.index')} className="text-sm font-semibold text-[#001a4a] hover:underline">
-                                View all →
+                        </div>
+                    </section>
+                </section>
+
+                {featuredGuides.length > 0 && (
+                    <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:p-8">
+                        <div className="flex flex-wrap items-end justify-between gap-3">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Useful Reading</p>
+                                <h2 className="mt-2 text-3xl font-semibold text-[#001a4a]">Open a guide when you need fuller context</h2>
+                            </div>
+                            <Link href="/blog/ghar-ka-monthly-budget" className="text-sm font-semibold text-[#001a4a] hover:underline">
+                                Read the main budget guide →
                             </Link>
                         </div>
-                        <div className="space-y-4">
-                            {latestPosts.map((post) => (
-                                <article key={post.id} className="rounded-xl border border-slate-200 p-4">
-                                    <p className="text-xs uppercase tracking-wide text-slate-500">{post.published_label}</p>
-                                    <h3 className="text-xl font-semibold text-[#001a4a]">
-                                        <Link href={post.url} className="hover:underline">
-                                            {post.title}
+                        <div className="mt-8 grid gap-4 lg:grid-cols-3">
+                            {featuredGuides.map((guide) => (
+                                <article key={guide.id} className="rounded-2xl border border-slate-200 p-5">
+                                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
+                                        {guideLabels[guide.slug] ?? 'Guide'}
+                                    </p>
+                                    <h3 className="mt-2 text-xl font-semibold text-[#001a4a]">
+                                        <Link href={guide.url} className="hover:underline">
+                                            {guide.title}
                                         </Link>
                                     </h3>
-                                    <p className="text-sm text-slate-600">{post.excerpt}</p>
+                                    {guide.published_label ? (
+                                        <p className="mt-2 text-sm text-slate-500">{guide.published_label}</p>
+                                    ) : null}
+                                    <p className="mt-3 text-sm leading-6 text-slate-600">{guide.excerpt}</p>
                                 </article>
                             ))}
                         </div>
                     </section>
                 )}
-
-                <Section
-                    title="Designed for Pakistani Homes"
-                    body="Roznamcha is made for our local needs. Every feature, every label, and every screen is built with Urdu language and Pakistani lifestyle in mind. No complex terms. No foreign budgeting style. Just a simple tool that anyone can use."
-                />
-
-                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4" aria-labelledby="faq-heading">
-                    <h2 id="faq-heading" className="text-2xl font-semibold text-[#001a4a]">
-                        Frequently Asked Questions
-                    </h2>
-                    <div className="space-y-4">
-                        {faqs.map((faq) => (
-                            <div key={faq.question} className="border border-slate-200 rounded-xl p-4 space-y-2">
-                                <h3 className="text-lg font-semibold text-[#001a4a]">{faq.question}</h3>
-                                <p className="text-base text-slate-700">{faq.answer}</p>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="bg-[#001a4a] text-yellow-200 rounded-2xl p-6 space-y-4">
-                    <h2 className="text-2xl font-semibold">Explore Roznamcha Features</h2>
-                    <p className="text-sm text-yellow-100">
-                        Google and people both understand Roznamcha better when these links stay visible.
-                    </p>
-                    <div className="flex flex-wrap gap-3">
-                        <InternalLink href={route('public.features')} label="Features" />
-                        <InternalLink href="/tools/ration-cost-estimator" label="Ration Cost Estimator" />
-                        <InternalLink href="/tools/school-fees-planner" label="School Fees Planner" />
-                        <InternalLink href="/tools/electricity-bill-estimator" label="Electricity Bill Estimator" />
-                        <InternalLink href={route('public.kharcha-map')} label="Kharcha Map" />
-                        <InternalLink href={route('public.ration-brain')} label="Ration Brain" />
-                        <InternalLink href={route('public.survival-report')} label="Survival Report" />
-                        <InternalLink href={route('public.about')} label="About" />
-                        <InternalLink href={route('public.contact')} label="Contact" />
-                    </div>
-                </section>
             </section>
         </PublicLayout>
     );
 }
 
-function SocialProofSection({ testimonials, metricBadges: badges }) {
+function StatCard({ title, body }) {
     return (
-        <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">Trusted by Pakistani households</h2>
-                    <p className="text-sm text-slate-500">Placeholder signals while we ship analytics and public stats.</p>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                    {badges.map((badge) => (
-                        <MetricBadge key={badge} label={badge} />
-                    ))}
-                </div>
-            </div>
-            <div className="grid gap-4 md:grid-cols-3">
-                {testimonials.map((testimonial) => (
-                    <TestimonialCard key={testimonial.author} quote={testimonial.quote} author={testimonial.author} />
-                ))}
-            </div>
-        </section>
-    );
-}
-
-function DemoSection({ youtubeDemoUrl }) {
-    const hasEmbed = Boolean(youtubeDemoUrl);
-    return (
-        <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-            <div>
-                <h2 className="text-2xl font-semibold text-[#001a4a]">Roznamcha Demo (Coming Soon)</h2>
-                <p className="text-base text-slate-600">یہاں آپ جلد YouTube پر مکمل ڈیمو دیکھ سکیں گے۔</p>
-            </div>
-            <div className="aspect-video w-full overflow-hidden rounded-2xl border border-dashed border-yellow-300 bg-[#fff9ef]">
-                {hasEmbed ? (
-                    <iframe
-                        title="Roznamcha demo"
-                        src={youtubeDemoUrl}
-                        className="h-full w-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    />
-                ) : (
-                    <div className="flex h-full w-full flex-col items-center justify-center gap-3 text-center text-[#001a4a]">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#001a4a] text-2xl font-semibold">
-                            ▶
-                        </div>
-                        <p className="text-base font-semibold">YouTube demo will be embedded here</p>
-                        <p className="text-sm text-slate-600">Set ROZNAMCHA_YOUTUBE_DEMO_URL to replace this block.</p>
-                    </div>
-                )}
-            </div>
-        </section>
-    );
-}
-
-function TestimonialCard({ quote, author }) {
-    return (
-        <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 flex flex-col gap-3">
-            <p className="text-base text-[#001a4a]">&ldquo;{quote}&rdquo;</p>
-            <p className="text-sm font-semibold text-slate-600">{author}</p>
-        </article>
-    );
-}
-
-function MetricBadge({ label }) {
-    return (
-        <div className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-[#001a4a]">
-            {label}
+        <div className="rounded-2xl border border-white/15 bg-white/5 p-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-yellow-200/75">{title}</p>
+            <p className="mt-2 text-sm leading-6 text-yellow-100/90">{body}</p>
         </div>
     );
 }
 
-function Section({ title, body }) {
+function ProofCard({ page }) {
     return (
-        <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-            <h2 className="text-2xl font-semibold text-[#001a4a]">{title}</h2>
-            <p className="text-base text-slate-700">{body}</p>
-        </section>
-    );
-}
-
-function FeatureBlock({ title, body, bullets, link }) {
-    return (
-        <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-            <h2 className="text-2xl font-semibold text-[#001a4a]">{title}</h2>
-            <p className="text-base text-slate-700">{body}</p>
-            <ul className="list-disc pl-5 space-y-2 text-slate-700">
-                {bullets.map((item) => (
-                    <li key={item}>{item}</li>
-                ))}
-            </ul>
-            <Link href={link} className="text-sm font-semibold text-[#001a4a] hover:underline">
-                Learn more →
+        <article className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c5a00]">{page.eyebrow}</p>
+            <h3 className="mt-3 text-xl font-semibold text-[#001a4a]">{page.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{page.description}</p>
+            <Link href={page.href} className="mt-5 inline-flex items-center text-sm font-semibold text-[#001a4a] hover:underline">
+                Open page →
             </Link>
-        </section>
-    );
-}
-
-function InternalLink({ href, label }) {
-    return (
-        <Link
-            href={href}
-            className="inline-flex items-center rounded-full border border-yellow-200 px-4 py-2 text-sm font-semibold text-yellow-100 hover:bg-white/10"
-        >
-            {label}
-        </Link>
+        </article>
     );
 }

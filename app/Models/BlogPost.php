@@ -4,17 +4,29 @@ namespace App\Models;
 
 use App\Support\BlogContentRenderer;
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogPost extends Model
 {
     use HasFactory;
+
+    public const RESERVED_PUBLIC_SLUGS = [
+        'create-post',
+    ];
+
+    public const PUBLIC_SITEMAP_CACHE_KEY = 'sitemap:xml:v2';
+
+    public const LEGACY_PUBLIC_SITEMAP_CACHE_KEYS = [
+        'sitemap:xml',
+    ];
 
     protected $fillable = [
         'title',
@@ -73,7 +85,7 @@ class BlogPost extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function scopePublished($query)
+    public function scopePublished(Builder $query): Builder
     {
         return $query
             ->where(function ($inner) {
@@ -84,6 +96,97 @@ class BlogPost extends Model
                             ->where('published_at', '<=', now());
                     });
             });
+    }
+
+    public function scopePubliclyVisible(Builder $query): Builder
+    {
+        $query = $query
+            ->published()
+            ->whereNotNull('slug')
+            ->where('slug', '!=', '')
+            ->whereNotIn('slug', static::reservedPublicSlugs());
+
+        $driver = $query->getConnection()->getDriverName();
+
+        if ($driver === 'sqlite') {
+            return $query
+                ->whereRaw("slug NOT GLOB '*[^a-z0-9-]*'")
+                ->where('slug', 'not like', '-%')
+                ->where('slug', 'not like', '%-')
+                ->where('slug', 'not like', '%--%');
+        }
+
+        return $query->whereRaw("slug REGEXP '^[a-z0-9]+(-[a-z0-9]+)*$'");
+    }
+
+    public static function reservedPublicSlugs(): array
+    {
+        return self::RESERVED_PUBLIC_SLUGS;
+    }
+
+    public static function publicSitemapCacheKey(): string
+    {
+        return self::PUBLIC_SITEMAP_CACHE_KEY;
+    }
+
+    public static function forgetPublicSitemapCache(): void
+    {
+        foreach (array_unique([self::PUBLIC_SITEMAP_CACHE_KEY, ...self::LEGACY_PUBLIC_SITEMAP_CACHE_KEYS]) as $key) {
+            Cache::forget($key);
+        }
+    }
+
+    public static function normalizeSlugCandidate(?string $value): string
+    {
+        return Str::slug((string) $value);
+    }
+
+    public static function isReservedPublicSlug(?string $value): bool
+    {
+        $slug = static::normalizeSlugCandidate($value);
+
+        return $slug !== '' && in_array($slug, static::reservedPublicSlugs(), true);
+    }
+
+    public static function hasValidPublicSlug(?string $value): bool
+    {
+        $slug = trim((string) $value);
+
+        if ($slug === '' || Str::slug($slug) !== $slug) {
+            return false;
+        }
+
+        return ! in_array($slug, static::reservedPublicSlugs(), true);
+    }
+
+    public static function noindexPublicSlugs(): array
+    {
+        return array_values(array_filter(config('blog_cleanup.noindex_slugs', []), 'is_string'));
+    }
+
+    public static function redirectMap(): array
+    {
+        return array_filter(config('blog_cleanup.redirects', []), fn ($value, $key) => is_string($key) && is_string($value), ARRAY_FILTER_USE_BOTH);
+    }
+
+    public static function redirectTargetSlug(string $slug): ?string
+    {
+        $target = static::redirectMap()[$slug] ?? null;
+
+        return is_string($target) && $target !== '' ? $target : null;
+    }
+
+    public static function archiveExcludedPublicSlugs(): array
+    {
+        return array_values(array_unique([
+            ...static::noindexPublicSlugs(),
+            ...array_keys(static::redirectMap()),
+        ]));
+    }
+
+    public static function shouldNoindexPublicSlug(string $slug): bool
+    {
+        return in_array($slug, static::noindexPublicSlugs(), true);
     }
 
     public function isVisible(): bool
@@ -99,6 +202,30 @@ class BlogPost extends Model
         }
 
         return true;
+    }
+
+    public function isPubliclyVisible(): bool
+    {
+        return $this->isVisible() && static::hasValidPublicSlug($this->slug);
+    }
+
+    public function isPublicArchiveVisible(): bool
+    {
+        return $this->isPubliclyVisible()
+            && ! in_array($this->slug, static::archiveExcludedPublicSlugs(), true);
+    }
+
+    public function scopePublicArchiveVisible(Builder $query): Builder
+    {
+        $query = $query->publiclyVisible();
+
+        $excludedSlugs = static::archiveExcludedPublicSlugs();
+
+        if ($excludedSlugs === []) {
+            return $query;
+        }
+
+        return $query->whereNotIn('slug', $excludedSlugs);
     }
 
     public function renderedContent(): Attribute

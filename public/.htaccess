@@ -26,6 +26,9 @@
     RewriteCond %{REQUEST_URI} ^features/?$
     RewriteRule ^ index.php [L]
 
+    # Route XML sitemap endpoints through Laravel even if stale static files exist.
+    RewriteRule ^(sitemap\.xml|templates-sitemap\.xml)$ index.php [L]
+
     RewriteCond %{REQUEST_URI} !^features/.+
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

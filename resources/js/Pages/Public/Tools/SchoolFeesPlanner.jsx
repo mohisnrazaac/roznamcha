@@ -27,8 +27,8 @@ const faqItems = [
         answer: 'No. Guests can calculate instantly. Sign up only if you want to save the estimate inside your household ledger later.',
     },
     {
-        question: 'What is the inflation buffer used for?',
-        answer: 'It projects a safer monthly reserve for the next academic year by applying a configurable percentage on your current real monthly cost.',
+        question: 'What is the planning margin used for?',
+        answer: 'It projects a safer monthly reserve for the next academic year by applying a configurable percentage to your current real monthly cost.',
     },
 ];
 
@@ -53,12 +53,12 @@ const calculatorJsonLd = {
     operatingSystem: 'Any',
     url: 'https://roznamcha.pk/tools/school-fees-planner',
     description:
-        'Guest-mode calculator for tuition, annual charges, exam fees, and inflation-aware monthly school fee planning in Pakistan.',
+        'Guest-mode calculator for tuition, annual charges, exam fees, and monthly school fee planning in Pakistan.',
 };
 
-export default function SchoolFeesPlanner({ defaults, activationPrefill }) {
-    const seo = seoContent.schoolFeesPlanner;
-    const pageSchema = buildWebPageSchema(seo);
+export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: seoProp, jsonLd: jsonLdProp }) {
+    const seo = seoProp ?? seoContent.schoolFeesPlanner;
+    const pageSchema = jsonLdProp ?? buildWebPageSchema(seo);
     const { auth } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);
     const prefilledInputs = activationPrefill?.inputs ?? {};
@@ -151,7 +151,7 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill }) {
         <ToolLayout
             title="School Fees Planner"
             subtitle="Calculate the real monthly school cost before annual charges and exam months catch your household off guard."
-            description="Guest mode tool for Pakistan households: tuition + annual charges + exam fees + inflation buffer projection."
+            description="Guest mode tool for Pakistan households: tuition + annual charges + exam fees + planning margin projection."
         >
             <SeoHead {...seo} jsonLd={pageSchema} />
             <Head>
@@ -218,7 +218,7 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill }) {
                         onChange={(e) => handleChange('exam_frequency', e.target.value)}
                     />
                     <Field
-                        label="Inflation buffer (%)"
+                        label="Planning margin (%)"
                         type="number"
                         min="0"
                         value={form.inflation_buffer_percentage}

@@ -200,6 +200,14 @@ class BlogPostController extends Controller
             ]);
         }
 
+        $publicSlugCandidate = BlogPost::normalizeSlugCandidate($data['slug'] ?: $data['title']);
+
+        if (BlogPost::isReservedPublicSlug($publicSlugCandidate)) {
+            throw ValidationException::withMessages([
+                'slug' => 'Choose a different slug. This slug is reserved for non-public blog paths.',
+            ]);
+        }
+
         return $data;
     }
 
@@ -250,7 +258,7 @@ class BlogPostController extends Controller
 
     protected function flushBlogCaches(): void
     {
-        Cache::forget('sitemap:xml');
+        BlogPost::forgetPublicSitemapCache();
         Cache::forget('rss:blog');
     }
 }

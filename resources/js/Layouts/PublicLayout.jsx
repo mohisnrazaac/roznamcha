@@ -1,6 +1,5 @@
 import React from 'react';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { organizationSchema, websiteSchema } from '../lib/seo';
+import { Link, usePage } from '@inertiajs/react';
 import ChatWidget from '../Components/Chat/ChatWidget';
 
 const variantStyles = {
@@ -27,9 +26,11 @@ export default function PublicLayout({ children, variant = 'landing' }) {
     const styles = variantStyles[variant] ?? variantStyles.landing;
     const { url = '', props } = usePage();
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isToolsMenuOpen, setIsToolsMenuOpen] = React.useState(false);
+    const [isMobileToolsMenuOpen, setIsMobileToolsMenuOpen] = React.useState(false);
     const path = (url || '').split('?')[0] ?? '';
     const user = props?.auth?.user ?? null;
-    const structuredData = React.useMemo(() => [organizationSchema, websiteSchema], []);
+    const featuresToolsHref = `${route('public.features')}#public-tools`;
 
     const isLinkActive = (hrefMatch) => path === hrefMatch || path.startsWith(`${hrefMatch}/`);
 
@@ -41,11 +42,63 @@ export default function PublicLayout({ children, variant = 'landing' }) {
     const navLinks = [
         { href: '/', label: 'Home' },
         { href: '/features', label: 'Features' },
-        { href: '/features#public-tools', label: 'Tools' },
+        { href: '/templates', label: 'Templates' },
         { href: '/blog', label: 'Blog' },
         { href: '/about', label: 'About' },
         { href: '/contact', label: 'Contact' },
     ];
+
+    const toolMenuLinks = [
+        {
+            href: featuresToolsHref,
+            label: 'All Public Tools',
+            description: 'Calculators and public planners',
+        },
+        {
+            href: '/tools/ration-cost-estimator',
+            label: 'Ration Cost Estimator',
+            description: 'Guest grocery planning tool',
+        },
+        {
+            href: '/tools/school-fees-planner',
+            label: 'School Fees Planner',
+            description: 'School cost planning page',
+        },
+        {
+            href: '/tools/electricity-bill-estimator',
+            label: 'Electricity Bill Estimator',
+            description: 'Progressive slab estimator',
+        },
+        {
+            href: '/survival-report',
+            label: 'Survival Report',
+            description: 'Month-end pressure and budget health view',
+        },
+        {
+            href: '/kharcha-map',
+            label: 'Kharcha Map',
+            description: 'See where the household budget is leaking',
+        },
+        {
+            href: '/templates/50k-salary-survival-guide',
+            label: '50k Salary Guide',
+            description: 'A stronger survival-first budget example',
+        },
+    ];
+
+    const isToolsMenuActive =
+        path.startsWith('/tools') ||
+        path.startsWith('/petrol-price-') ||
+        path.startsWith('/electricity-bill-calculator-') ||
+        path.startsWith('/ration-cost-for-');
+
+    const toolsMenuClasses = `text-sm font-medium transition-colors ${
+        isToolsMenuActive ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-200'
+    }`;
+
+    const toolsSubmenuLinkClasses =
+        'block rounded-2xl border border-white/10 px-4 py-3 transition hover:border-yellow-200/40 hover:bg-white/10';
+    const isHashLink = (href) => typeof href === 'string' && href.includes('#');
 
     const ctaClasses = {
         primary:
@@ -84,16 +137,6 @@ export default function PublicLayout({ children, variant = 'landing' }) {
 
     return (
         <div className={styles.wrapper}>
-            <Head>
-                {structuredData.map((schema, index) => (
-                    <script
-                        // eslint-disable-next-line react/no-danger
-                        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-                        key={`public-schema-${index}`}
-                        type="application/ld+json"
-                    />
-                ))}
-            </Head>
             <header className="bg-[#001a4a] text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
                     <div className="flex items-center justify-between gap-4">
@@ -128,6 +171,65 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                                         {link.label}
                                     </Link>
                                 ))}
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setIsToolsMenuOpen(true)}
+                                    onMouseLeave={() => setIsToolsMenuOpen(false)}
+                                    onFocusCapture={() => setIsToolsMenuOpen(true)}
+                                    onBlurCapture={(event) => {
+                                        if (!event.currentTarget.contains(event.relatedTarget)) {
+                                            setIsToolsMenuOpen(false);
+                                        }
+                                    }}
+                                >
+                                    <button
+                                        type="button"
+                                        className={`${toolsMenuClasses} inline-flex items-center gap-2`}
+                                        onClick={() => setIsToolsMenuOpen((prev) => !prev)}
+                                        aria-expanded={isToolsMenuOpen}
+                                        aria-haspopup="menu"
+                                        aria-controls="public-tools-menu"
+                                    >
+                                        Tools
+                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    {isToolsMenuOpen ? (
+                                        <div
+                                            id="public-tools-menu"
+                                            className="absolute left-1/2 top-full z-30 w-[28rem] -translate-x-1/2 pt-4"
+                                        >
+                                            <div className="rounded-[1.5rem] border border-white/10 bg-[#01265d] p-4 shadow-2xl">
+                                                <div className="grid gap-3 sm:grid-cols-2">
+                                                    {toolMenuLinks.map((item) => (
+                                                        isHashLink(item.href) ? (
+                                                            <a
+                                                                key={item.href}
+                                                                href={item.href}
+                                                                className={toolsSubmenuLinkClasses}
+                                                                onClick={() => setIsToolsMenuOpen(false)}
+                                                            >
+                                                                <span className="block text-sm font-semibold text-white">{item.label}</span>
+                                                                <span className="mt-1 block text-xs text-white/65">{item.description}</span>
+                                                            </a>
+                                                        ) : (
+                                                            <Link
+                                                                key={item.href}
+                                                                href={item.href}
+                                                                className={toolsSubmenuLinkClasses}
+                                                                onClick={() => setIsToolsMenuOpen(false)}
+                                                            >
+                                                                <span className="block text-sm font-semibold text-white">{item.label}</span>
+                                                                <span className="mt-1 block text-xs text-white/65">{item.description}</span>
+                                                            </Link>
+                                                        )
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : null}
+                                </div>
                             </nav>
                             <div className="flex items-center gap-3">{renderActions()}</div>
                         </div>
@@ -147,6 +249,52 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                                     {link.label}
                                 </Link>
                             ))}
+                            <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+                                <button
+                                    type="button"
+                                    className={`${toolsMenuClasses} flex w-full items-center justify-between`}
+                                    onClick={() => setIsMobileToolsMenuOpen((prev) => !prev)}
+                                    aria-expanded={isMobileToolsMenuOpen}
+                                >
+                                    <span>Tools</span>
+                                    <svg className={`h-4 w-4 transition-transform ${isMobileToolsMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {isMobileToolsMenuOpen ? (
+                                    <div className="mt-3 space-y-2">
+                                        {toolMenuLinks.map((item) => (
+                                            isHashLink(item.href) ? (
+                                                <a
+                                                    key={item.href}
+                                                    href={item.href}
+                                                    className="block rounded-xl border border-white/10 px-3 py-3 text-sm text-white/85 transition hover:bg-white/10"
+                                                    onClick={() => {
+                                                        setIsMobileToolsMenuOpen(false);
+                                                        setIsMenuOpen(false);
+                                                    }}
+                                                >
+                                                    <span className="block font-semibold text-white">{item.label}</span>
+                                                    <span className="mt-1 block text-xs text-white/60">{item.description}</span>
+                                                </a>
+                                            ) : (
+                                                <Link
+                                                    key={item.href}
+                                                    href={item.href}
+                                                    className="block rounded-xl border border-white/10 px-3 py-3 text-sm text-white/85 transition hover:bg-white/10"
+                                                    onClick={() => {
+                                                        setIsMobileToolsMenuOpen(false);
+                                                        setIsMenuOpen(false);
+                                                    }}
+                                                >
+                                                    <span className="block font-semibold text-white">{item.label}</span>
+                                                    <span className="mt-1 block text-xs text-white/60">{item.description}</span>
+                                                </Link>
+                                            )
+                                        ))}
+                                    </div>
+                                ) : null}
+                            </div>
                         </nav>
                         <div className="flex flex-col gap-3">{renderActions('mobile')}</div>
                     </div>
@@ -180,7 +328,7 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                         Facebook
                     </a>
                 </div>
-                <p>© 2025 Roznamcha. All rights reserved.</p>
+                <p>© 2026 Roznamcha. All rights reserved.</p>
             </footer>
             <ChatWidget />
         </div>

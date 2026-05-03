@@ -2,21 +2,18 @@ import React, { useEffect } from 'react';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import SeoHead from '../../Components/SeoHead';
-import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
 const contactReasons = [
-    'Trouble entering expenses inside Kharcha Map',
-    'Questions about tracking grocery prices in Ration Brain',
-    'Ideas for new Survival Report insights or reminders',
+    'Feedback about the product or user experience',
+    'Corrections to content, tools, or public information on the site',
+    'Support questions about using Roznamcha features',
+    'Partnership inquiries from communities, NGOs, or media teams',
     'Bug reports, billing issues, or suspected data problems',
-    'Partnerships with NGOs, community groups, or media',
 ];
 
-export default function Contact() {
+export default function Contact({ seo, jsonLd, contactEmail = 'support@roznamcha.pk' }) {
     const { props } = usePage();
     const { formTimestamp, flash = {} } = props;
-    const seo = seoContent.contact;
-    const jsonLd = buildWebPageSchema(seo);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
@@ -49,8 +46,8 @@ export default function Contact() {
                 <header className="space-y-2 text-center">
                     <h1 className="text-3xl font-bold text-[#001a4a]">Contact Roznamcha</h1>
                     <p className="text-base text-slate-700">
-                        Reach us for support, feedback, partnerships, or any ideas that make Kharcha Map, Ration Brain, and the Survival Report more
-                        useful for Pakistani households.
+                        For questions, feedback, corrections, partnership inquiries, or support, please contact Roznamcha using the form below or by
+                        email. We keep this page straightforward so people can reach a real contact point without guessing where to ask for help.
                     </p>
                 </header>
 
@@ -124,11 +121,13 @@ export default function Contact() {
                     <h2 className="text-xl font-semibold text-[#001a4a]">How to reach us</h2>
                     <p className="text-base text-slate-700">
                         Email{' '}
-                        <a href="mailto:support@roznamcha.pk" className="text-[#001a4a] font-semibold">
-                            support@roznamcha.pk
+                        <a href={`mailto:${contactEmail}`} className="text-[#001a4a] font-semibold">
+                            {contactEmail}
                         </a>{' '}
-                        for direct help. The same team reads the in-app contact form, so feel free to use whichever is easier. WhatsApp and social
-                        support will arrive later once we can guarantee timely responses there as well.
+                        for direct help. The same team reviews the contact form submissions, so use whichever option is easier for you.
+                    </p>
+                    <p className="text-sm text-slate-600">
+                        We review messages and try to respond within a reasonable time.
                     </p>
                 </section>
 
@@ -147,31 +146,22 @@ export default function Contact() {
                         We reply within two working days, often sooner. Your email, phone, or message content stays private and is used only to solve
                         your request. We do not share support conversations with third parties.
                     </p>
+                    <p className="text-base text-slate-700">
+                        Do not send sensitive personal financial information through this page or form.
+                    </p>
                 </section>
 
                 <div className="text-sm text-slate-600 text-center space-y-2">
                     <p>
-                        Need product details first? Visit the{' '}
-                        <Link href={route('public.home')} className="font-semibold text-[#001a4a] hover:underline">
-                            Home
-                        </Link>{' '}
-                        page or explore{' '}
-                        <Link href={route('public.kharcha-map')} className="font-semibold text-[#001a4a] hover:underline">
-                            Kharcha Map
-                        </Link>
-                        ,{' '}
-                        <Link href={route('public.ration-brain')} className="font-semibold text-[#001a4a] hover:underline">
-                            Ration Brain
-                        </Link>{' '}
-                        and{' '}
-                        <Link href={route('public.survival-report')} className="font-semibold text-[#001a4a] hover:underline">
-                            Survival Report
-                        </Link>
-                        . Learn more about the story on the{' '}
+                        Need more context first? Visit the{' '}
                         <Link href={route('public.about')} className="font-semibold text-[#001a4a] hover:underline">
                             About
                         </Link>{' '}
-                        page.
+                        page and read the{' '}
+                        <Link href={route('public.privacy')} className="font-semibold text-[#001a4a] hover:underline">
+                            Privacy Policy
+                        </Link>
+                        .
                     </p>
                 </div>
             </section>

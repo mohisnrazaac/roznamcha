@@ -71,6 +71,7 @@ class HandleInertiaRequests extends Middleware
                 return [
                     'title' => $link['title'],
                     'href' => $href,
+                    'description' => $link['description'] ?? null,
                 ];
             })
             ->filter()
