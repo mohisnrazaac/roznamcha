@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 16, 2026 at 04:32 PM
+-- Generation Time: Mar 29, 2026 at 10:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -147,6 +147,56 @@ INSERT INTO `blog_posts` (`id`, `title`, `slug`, `excerpt`, `content`, `content_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `budget_templates`
+--
+
+CREATE TABLE `budget_templates` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `base_salary_target` int(10) UNSIGNED NOT NULL,
+  `is_premium` tinyint(1) NOT NULL DEFAULT 0,
+  `price` int(10) UNSIGNED DEFAULT NULL,
+  `template_json` longtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `budget_templates`
+--
+
+INSERT INTO `budget_templates` (`id`, `title`, `slug`, `category`, `base_salary_target`, `is_premium`, `price`, `template_json`, `created_at`, `updated_at`) VALUES
+(1, '50k Salary Survival Guide', '50k-salary-survival-guide', 'salary_based', 50000, 0, NULL, NULL, '2026-03-27 05:55:24', '2026-03-27 05:55:24'),
+(2, '100k Family Budget', '100k-family-budget', 'family', 100000, 1, 1499, NULL, '2026-03-27 05:55:24', '2026-03-27 05:55:24'),
+(3, 'Student Budget', 'student-budget', 'student', 25000, 0, NULL, '{\"salary\":25000,\"family_size\":1,\"source\":\"fallback\",\"generated_at\":\"2026-03-27T11:36:51+00:00\",\"categories\":[{\"category\":\"Atta\",\"amount\":3800,\"percentage\":15.22},{\"category\":\"Ghee\",\"amount\":2200,\"percentage\":8.7},{\"category\":\"Sugar\",\"amount\":1100,\"percentage\":4.35},{\"category\":\"Electricity (Protected Slab Estimate)\",\"amount\":3000,\"percentage\":11.96},{\"category\":\"Gas\",\"amount\":1400,\"percentage\":5.43},{\"category\":\"Daal, Sabzi, and Kitchen Basics\",\"amount\":5200,\"percentage\":20.65},{\"category\":\"Transport\",\"amount\":2400,\"percentage\":9.78},{\"category\":\"Medicine and Emergencies\",\"amount\":1900,\"percentage\":7.61},{\"category\":\"Mobile and Internet\",\"amount\":1100,\"percentage\":4.35},{\"category\":\"Rent and Household Buffer\",\"amount\":2900,\"percentage\":11.96}],\"saving_tips\":[\"Pull one weekly bazaar trip out of the month and buy only essentials with a written list.\",\"Keep electricity units inside the protected slab by batching ironing and water-motor use on fixed days.\",\"Reserve 5,000 PKR on payday before fuel top-ups and chai cash start leaking through the month.\"]}', '2026-03-27 05:55:24', '2026-03-27 06:36:51'),
+(4, 'Joint Family Budget', 'joint-family-budget', 'joint_family', 150000, 1, 2499, NULL, '2026-03-27 05:55:24', '2026-03-27 05:55:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `budget_template_user`
+--
+
+CREATE TABLE `budget_template_user` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `budget_template_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `household_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `saved_at` timestamp NULL DEFAULT NULL,
+  `last_viewed_at` timestamp NULL DEFAULT NULL,
+  `last_downloaded_at` timestamp NULL DEFAULT NULL,
+  `pro_unlocked_at` timestamp NULL DEFAULT NULL,
+  `purchase_provider` varchar(255) DEFAULT NULL,
+  `purchase_reference` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cache`
 --
 
@@ -161,8 +211,11 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('laravel-cache-admin@local.test|127.0.0.1', 'i:1;', 1762584490),
-('laravel-cache-admin@local.test|127.0.0.1:timer', 'i:1762584490;', 1762584490);
+('laravel-cache-5c785c036466adea360111aa28563bfd556b5fba', 'i:1;', 1774611112),
+('laravel-cache-5c785c036466adea360111aa28563bfd556b5fba:timer', 'i:1774611112;', 1774611112),
+('laravel-cache-budget-template:3:1774608924', 'a:6:{s:6:\"salary\";i:25000;s:11:\"family_size\";i:1;s:6:\"source\";s:8:\"fallback\";s:12:\"generated_at\";s:25:\"2026-03-27T11:36:51+00:00\";s:10:\"categories\";a:10:{i:0;a:3:{s:8:\"category\";s:4:\"Atta\";s:6:\"amount\";i:3800;s:10:\"percentage\";d:15.22;}i:1;a:3:{s:8:\"category\";s:4:\"Ghee\";s:6:\"amount\";i:2200;s:10:\"percentage\";d:8.7;}i:2;a:3:{s:8:\"category\";s:5:\"Sugar\";s:6:\"amount\";i:1100;s:10:\"percentage\";d:4.35;}i:3;a:3:{s:8:\"category\";s:37:\"Electricity (Protected Slab Estimate)\";s:6:\"amount\";i:3000;s:10:\"percentage\";d:11.96;}i:4;a:3:{s:8:\"category\";s:3:\"Gas\";s:6:\"amount\";i:1400;s:10:\"percentage\";d:5.43;}i:5;a:3:{s:8:\"category\";s:31:\"Daal, Sabzi, and Kitchen Basics\";s:6:\"amount\";i:5200;s:10:\"percentage\";d:20.65;}i:6;a:3:{s:8:\"category\";s:9:\"Transport\";s:6:\"amount\";i:2400;s:10:\"percentage\";d:9.78;}i:7;a:3:{s:8:\"category\";s:24:\"Medicine and Emergencies\";s:6:\"amount\";i:1900;s:10:\"percentage\";d:7.61;}i:8;a:3:{s:8:\"category\";s:19:\"Mobile and Internet\";s:6:\"amount\";i:1100;s:10:\"percentage\";d:4.35;}i:9;a:3:{s:8:\"category\";s:25:\"Rent and Household Buffer\";s:6:\"amount\";i:2900;s:10:\"percentage\";d:11.96;}}s:11:\"saving_tips\";a:3:{i:0;s:89:\"Pull one weekly bazaar trip out of the month and buy only essentials with a written list.\";i:1;s:103:\"Keep electricity units inside the protected slab by batching ironing and water-motor use on fixed days.\";i:2;s:94:\"Reserve 5,000 PKR on payday before fuel top-ups and chai cash start leaking through the month.\";}}', 2089971411),
+('laravel-cache-sitemap:templates:xml', 's:1189:\"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n    <url>\n        <loc>http://127.0.0.1/templates</loc>\n                <changefreq>daily</changefreq>\n        <priority>0.9</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/templates/student-budget</loc>\n                    <lastmod>2026-03-27T11:36:51+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.8</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/templates/50k-salary-survival-guide</loc>\n                    <lastmod>2026-03-27T10:55:24+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.8</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/templates/100k-family-budget</loc>\n                    <lastmod>2026-03-27T10:55:24+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.8</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/templates/joint-family-budget</loc>\n                    <lastmod>2026-03-27T10:55:24+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.8</priority>\n    </url>\n</urlset>\n\";', 1774648099),
+('laravel-cache-sitemap:xml', 's:2635:\"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n    <url>\n        <loc>http://127.0.0.1</loc>\n                <changefreq>weekly</changefreq>\n        <priority>1.0</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/kharcha-map</loc>\n                <changefreq>monthly</changefreq>\n        <priority>0.9</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/ration-brain</loc>\n                <changefreq>monthly</changefreq>\n        <priority>0.9</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/survival-report</loc>\n                <changefreq>monthly</changefreq>\n        <priority>0.9</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/about</loc>\n                <changefreq>yearly</changefreq>\n        <priority>0.7</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/contact</loc>\n                <changefreq>yearly</changefreq>\n        <priority>0.7</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/privacy-policy</loc>\n                <changefreq>yearly</changefreq>\n        <priority>0.5</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/terms</loc>\n                <changefreq>yearly</changefreq>\n        <priority>0.5</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/blog</loc>\n                <changefreq>daily</changefreq>\n        <priority>0.8</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/blog/upcoming-mehngai-forecast</loc>\n                    <lastmod>2025-12-23T08:17:48+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.7</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/blog/how-pakistani-families-can-control-monthly-expenses-without-cutting-their-dignity</loc>\n                    <lastmod>2025-12-21T09:49:00+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.7</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/blog/create-post</loc>\n                    <lastmod>2025-12-21T09:09:15+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.7</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/blog/title</loc>\n                    <lastmod>2025-12-21T09:04:49+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.7</priority>\n    </url>\n    <url>\n        <loc>http://127.0.0.1/blog/how-to-stretch-ration-for-30-days</loc>\n                    <lastmod>2025-12-20T08:17:48+00:00</lastmod>\n                <changefreq>weekly</changefreq>\n        <priority>0.7</priority>\n    </url>\n</urlset>\n\";', 1774648099);
 
 -- --------------------------------------------------------
 
@@ -186,6 +239,8 @@ CREATE TABLE `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL
@@ -195,13 +250,14 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `description`, `created_at`, `updated_at`, `color`) VALUES
-(1, 'Ration', NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
-(2, 'Fuel', NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
-(3, 'School', NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
-(4, 'Medicine', NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
-(5, 'Utilities', NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
-(6, 'Electronics', 'Electronics', '2025-11-09 03:22:11', '2025-11-09 03:28:20', NULL);
+INSERT INTO `categories` (`id`, `name`, `description`, `is_default`, `user_id`, `created_at`, `updated_at`, `color`) VALUES
+(1, 'Ration', NULL, 1, NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
+(2, 'Fuel', NULL, 1, NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
+(3, 'School', NULL, 1, NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
+(4, 'Medicine', NULL, 1, NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
+(5, 'Utilities', NULL, 1, NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29', NULL),
+(6, 'Electronics', 'Electronics', 1, NULL, '2025-11-09 03:22:11', '2025-11-09 03:28:20', NULL),
+(7, 'Smart watches', 'smart watches with electrionics', 0, 6, '2026-01-29 09:04:56', '2026-01-29 09:05:10', NULL);
 
 -- --------------------------------------------------------
 
@@ -223,7 +279,8 @@ CREATE TABLE `daily_ai_insights` (
 --
 
 INSERT INTO `daily_ai_insights` (`id`, `user_id`, `insight_date`, `ai_text`, `created_at`, `updated_at`) VALUES
-(1, 2, '2026-01-16', 'AI service unavailable. Add AI_API_KEY to the environment to enable responses.', '2026-01-16 09:39:51', '2026-01-16 09:39:51');
+(1, 2, '2026-01-16', 'AI service unavailable. Add AI_API_KEY to the environment to enable responses.', '2026-01-16 09:39:51', '2026-01-16 09:39:51'),
+(2, 6, '2026-01-31', 'AI service unavailable. Add AI_API_KEY to the environment to enable responses.', '2026-01-31 08:43:01', '2026-01-31 08:43:01');
 
 -- --------------------------------------------------------
 
@@ -239,6 +296,7 @@ CREATE TABLE `daily_money_snapshots` (
   `saving_tip_text` text DEFAULT NULL,
   `today_update_line` text DEFAULT NULL,
   `yesterday_change_line` text DEFAULT NULL,
+  `source_metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Structured references that explain how the 12 AM automation built each Urdu line.' CHECK (json_valid(`source_metadata`)),
   `kharcha_cta_label` text DEFAULT NULL,
   `kharcha_cta_url` text DEFAULT NULL,
   `ration_cta_label` text DEFAULT NULL,
@@ -252,8 +310,10 @@ CREATE TABLE `daily_money_snapshots` (
 -- Dumping data for table `daily_money_snapshots`
 --
 
-INSERT INTO `daily_money_snapshots` (`id`, `snapshot_date`, `expense_summary_text`, `inflation_status_text`, `saving_tip_text`, `today_update_line`, `yesterday_change_line`, `kharcha_cta_label`, `kharcha_cta_url`, `ration_cta_label`, `ration_cta_url`, `last_updated_at`, `created_at`, `updated_at`) VALUES
-(1, '2026-01-16', '“پاکستان میں مجموعی مہنگائی 5.6 فیصد سال‌ بہ‌ سال ریکارڈ کی گئی ہے، جبکہ ماہ‌ بہ‌ ماہ قیمتیں معمولی کمی پر ہیں۔ شہریوں کیلئے خوراک اور غیر‌مجلد خدمات کی قیمتوں میں نرمی دیکھی گئی ہے، مگر رہائش اور یوٹیلیٹی اخراجات پر دباو برقرار ہے.', 'قابلِ تشویش اشیائے خورو نوش کا ہفتہ وار حساس قیمت انڈیکس (SPI) 0.12 فیصد بڑھا ہے، جو بتاتا ہے چند اشیاء کی قیمتیں ہفتہ وار سطح پر اوپر جا رہی ہیں. چینی، کوکنگ آئل اور دالوں جیسے اسٹاپلز میں اتارچڑھاؤ کا رجحان جاری ہے.”', 'کھانا پکانے کے تیل اور پھل و سبزی کی قیمتیں گزشتہ مدت کی نسبت نرم ہیں، جس سے بنیادی خوراک پر ماہانہ بجٹ میں کچھ راحت مل سکتی ہے. ماہانہ کھانے پینے کی اشیاء کے اخراجات پر نظر رکھنے سے بچت کا موقع بڑھ سکتا ہے.', 'مودی تازہ CPI ڈیٹا کے مطابق سالانہ انفلیشن سست ہوکر 5.6 فیصد ہو گئی ہے، جو گزشتہ ماہ 6.1 فیصد تھی — قلیل مدت میں قیمتوں پر کچھ سکون ہے', 'گزشتہ ماہ کے مقابلے میں مہنگائی کی رفتار میں کمی دیکھی گئی ہے، خاص طور پر خوراک اور غیر‌مجمد خدمات کے اخراجات میں نرمی آئی ہے، جس سے گھریلو بجٹ پر دباو تھوڑا کم ہوا ہے', 'اپنا خرچ یہاں دیکھیں', 'http://127.0.0.1:8000/kharcha-map', 'اپنا ماہانہ بجٹ بنائیں', 'http://127.0.0.1:8000/ration-brain', '2026-01-16 09:36:19', '2026-01-16 09:36:19', '2026-01-16 09:36:19');
+INSERT INTO `daily_money_snapshots` (`id`, `snapshot_date`, `expense_summary_text`, `inflation_status_text`, `saving_tip_text`, `today_update_line`, `yesterday_change_line`, `source_metadata`, `kharcha_cta_label`, `kharcha_cta_url`, `ration_cta_label`, `ration_cta_url`, `last_updated_at`, `created_at`, `updated_at`) VALUES
+(1, '2026-01-16', '“پاکستان میں مجموعی مہنگائی 5.6 فیصد سال‌ بہ‌ سال ریکارڈ کی گئی ہے، جبکہ ماہ‌ بہ‌ ماہ قیمتیں معمولی کمی پر ہیں۔ شہریوں کیلئے خوراک اور غیر‌مجلد خدمات کی قیمتوں میں نرمی دیکھی گئی ہے، مگر رہائش اور یوٹیلیٹی اخراجات پر دباو برقرار ہے.', 'قابلِ تشویش اشیائے خورو نوش کا ہفتہ وار حساس قیمت انڈیکس (SPI) 0.12 فیصد بڑھا ہے، جو بتاتا ہے چند اشیاء کی قیمتیں ہفتہ وار سطح پر اوپر جا رہی ہیں. چینی، کوکنگ آئل اور دالوں جیسے اسٹاپلز میں اتارچڑھاؤ کا رجحان جاری ہے.”', 'کھانا پکانے کے تیل اور پھل و سبزی کی قیمتیں گزشتہ مدت کی نسبت نرم ہیں، جس سے بنیادی خوراک پر ماہانہ بجٹ میں کچھ راحت مل سکتی ہے. ماہانہ کھانے پینے کی اشیاء کے اخراجات پر نظر رکھنے سے بچت کا موقع بڑھ سکتا ہے.', 'مودی تازہ CPI ڈیٹا کے مطابق سالانہ انفلیشن سست ہوکر 5.6 فیصد ہو گئی ہے، جو گزشتہ ماہ 6.1 فیصد تھی — قلیل مدت میں قیمتوں پر کچھ سکون ہے', 'گزشتہ ماہ کے مقابلے میں مہنگائی کی رفتار میں کمی دیکھی گئی ہے، خاص طور پر خوراک اور غیر‌مجمد خدمات کے اخراجات میں نرمی آئی ہے، جس سے گھریلو بجٹ پر دباو تھوڑا کم ہوا ہے', NULL, 'اپنا خرچ یہاں دیکھیں', 'http://127.0.0.1:8000/kharcha-map', 'اپنا ماہانہ بجٹ بنائیں', 'http://127.0.0.1:8000/ration-brain', '2026-01-16 09:36:19', '2026-01-16 09:36:19', '2026-01-16 09:36:19'),
+(2, '2026-01-20', 'گھر کے اخراجات آج بھی حالیہ مارکیٹ رپورٹس کے مطابق پچھلے ہفتے کی طرح متوازن رہنے کی امید ہے۔', 'تازہ CPI کے مطابق مہنگائی کی رفتار 12.6% ہے، اس لیے ہفتے کے پلان میں تھوڑا بفر رکھیں۔', 'گھر کا ماہانہ بجٹ اپ ڈیٹ کریں تاکہ اچانک بل آنے پر کنٹرول رہے۔', 'آج کی صورتحال مستحکم ہے، گھر کا خرچ لاگ بک ضرور اپ ڈیٹ کریں۔', 'کل کے مقابلے میں بڑے فرق کی اطلاع نہیں ملی، پھر بھی خریداری کی فہرست مختصر رکھیں۔', '{\"inflation\":{\"value\":12.6325318530452,\"source\":\"https:\\/\\/api.worldbank.org\\/v2\\/country\\/PAK\\/indicator\\/FP.CPI.TOTL.ZG?format=json&per_page=1\",\"fetched_at\":\"2026-01-20T13:37:36+00:00\"},\"snapshot_generated_for\":\"2026-01-20\"}', NULL, NULL, NULL, NULL, '2026-01-20 08:37:41', '2026-01-20 08:37:41', '2026-01-20 08:37:41'),
+(3, '2026-03-28', 'گھر کے خرچ کا دباؤ 12.6% سالانہ مہنگائی کے ساتھ برقرار ہے، اس لیے راشن اور بلوں میں بفر رکھیں۔', 'حساس قیمت انڈیکس 7.0 پوائنٹ اوپر گیا جبکہ سالانہ مہنگائی 12.6% پر ہے۔', 'گھر کا ماہانہ بجٹ اپ ڈیٹ کریں تاکہ اچانک بل آنے پر کنٹرول رہے۔', 'ڈالر آج 279.20 روپے میں ٹریڈ ہو رہا ہے، اسی کے مطابق درآمدی اشیاء کی قیمت دیکھیں۔', 'کل کے مقابلے میں حساس قیمت انڈیکس میں تھوڑا اضافہ ہوا (±7.0).', '{\"inflation\":{\"value\":12.6325318530452,\"source\":\"https:\\/\\/api.worldbank.org\\/v2\\/country\\/PK\\/indicator\\/FP.CPI.TOTL.ZG?format=json&per_page=10\",\"fetched_at\":\"2026-03-28T09:36:31+00:00\"},\"spi\":{\"value\":7.02,\"source\":\"https:\\/\\/www.pbs.gov.pk\\/price-statistics\\/\",\"fetched_at\":\"2026-03-28T09:36:33+00:00\",\"as_of\":\"Misc. goods and services\"},\"currency\":{\"value\":279.20360802,\"source\":\"https:\\/\\/latest.currency-api.pages.dev\\/v1\\/currencies\\/usd.json\",\"fetched_at\":\"2026-03-28T09:36:33+00:00\"},\"snapshot_generated_for\":\"2026-03-28\"}', NULL, NULL, NULL, NULL, '2026-03-28 04:36:33', '2026-03-28 04:36:33', '2026-03-28 04:36:33');
 
 -- --------------------------------------------------------
 
@@ -275,7 +335,8 @@ CREATE TABLE `daily_visit_streaks` (
 --
 
 INSERT INTO `daily_visit_streaks` (`id`, `user_id`, `last_visited_on`, `streak_count`, `created_at`, `updated_at`) VALUES
-(1, 2, '2026-01-16', 1, '2026-01-16 09:39:51', '2026-01-16 09:39:51');
+(1, 2, '2026-01-16', 1, '2026-01-16 09:39:51', '2026-01-16 09:39:51'),
+(2, 6, '2026-01-31', 1, '2026-01-31 08:43:01', '2026-01-31 08:43:01');
 
 -- --------------------------------------------------------
 
@@ -297,7 +358,15 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `user_id`, `session_id`, `name`, `meta`, `created_at`) VALUES
-(1, 2, 'jLZ9EZ2nJUFO7nMS8w8kZxiUlgvs2p45ITkjCrVK', 'blog_view', '{\"post_id\":3,\"slug\":\"upcoming-mehngai-forecast\",\"path\":\"blog\\/upcoming-mehngai-forecast\",\"ref\":\"http:\\/\\/127.0.0.1:8000\\/blog\"}', '2026-01-16 14:40:21');
+(1, 2, 'jLZ9EZ2nJUFO7nMS8w8kZxiUlgvs2p45ITkjCrVK', 'blog_view', '{\"post_id\":3,\"slug\":\"upcoming-mehngai-forecast\",\"path\":\"blog\\/upcoming-mehngai-forecast\",\"ref\":\"http:\\/\\/127.0.0.1:8000\\/blog\"}', '2026-01-16 14:40:21'),
+(2, NULL, 'rYrVAEuRgNYXK7Lw84eXqniXCDbUCOPioSVrgQJC', 'blog_view', '{\"post_id\":6,\"slug\":\"how-pakistani-families-can-control-monthly-expenses-without-cutting-their-dignity\",\"path\":\"blog\\/how-pakistani-families-can-control-monthly-expenses-without-cutting-their-dignity\",\"ref\":\"http:\\/\\/127.0.0.1:8000\\/blog\"}', '2026-02-12 09:58:36'),
+(3, NULL, 'rYrVAEuRgNYXK7Lw84eXqniXCDbUCOPioSVrgQJC', 'blog_view', '{\"post_id\":6,\"slug\":\"how-pakistani-families-can-control-monthly-expenses-without-cutting-their-dignity\",\"path\":\"blog\\/how-pakistani-families-can-control-monthly-expenses-without-cutting-their-dignity\",\"ref\":null}', '2026-02-12 10:45:01'),
+(4, NULL, 'rYrVAEuRgNYXK7Lw84eXqniXCDbUCOPioSVrgQJC', 'blog_view', '{\"post_id\":1,\"slug\":\"how-to-stretch-ration-for-30-days\",\"path\":\"blog\\/how-to-stretch-ration-for-30-days\",\"ref\":\"http:\\/\\/127.0.0.1:8000\\/blog\"}', '2026-02-12 10:45:12'),
+(5, NULL, 'rYrVAEuRgNYXK7Lw84eXqniXCDbUCOPioSVrgQJC', 'blog_view', '{\"post_id\":1,\"slug\":\"how-to-stretch-ration-for-30-days\",\"path\":\"blog\\/how-to-stretch-ration-for-30-days\",\"ref\":null}', '2026-02-12 10:46:08'),
+(6, NULL, 'rYrVAEuRgNYXK7Lw84eXqniXCDbUCOPioSVrgQJC', 'blog_view', '{\"post_id\":1,\"slug\":\"how-to-stretch-ration-for-30-days\",\"path\":\"blog\\/how-to-stretch-ration-for-30-days\",\"ref\":null}', '2026-02-12 10:47:04'),
+(7, NULL, 'rYrVAEuRgNYXK7Lw84eXqniXCDbUCOPioSVrgQJC', 'blog_view', '{\"post_id\":3,\"slug\":\"upcoming-mehngai-forecast\",\"path\":\"blog\\/upcoming-mehngai-forecast\",\"ref\":\"http:\\/\\/127.0.0.1:8000\\/blog\"}', '2026-02-12 10:47:17'),
+(8, NULL, '5fnsD32NnMMfPDiz6Jluz3S5I9K1LKA3tLgmlI4Z', 'blog_view', '{\"post_id\":3,\"slug\":\"upcoming-mehngai-forecast\",\"path\":\"blog\\/upcoming-mehngai-forecast\",\"ref\":null}', '2026-02-14 05:11:55'),
+(9, 2, '8TBVz9iW70o0tn538ZmMuRnHoz50Q8WTlY1Xn3ik', 'budget_template_viewed', '{\"template_id\":3,\"slug\":\"student-budget\",\"authenticated\":true}', '2026-03-27 11:36:51');
 
 -- --------------------------------------------------------
 
@@ -327,7 +396,9 @@ INSERT INTO `expenses` (`id`, `user_id`, `category_id`, `date`, `description`, `
 (3, 1, 3, '2025-10-25', 'Fee advance', 15000.00, NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29'),
 (4, 1, 4, '2025-10-24', 'BP tablets', 1450.00, NULL, '2025-10-27 12:51:29', '2025-10-27 12:51:29'),
 (6, 2, 1, '2025-11-08', 'went to jauharabad2', 1002.00, NULL, '2025-11-08 02:38:28', '2025-11-08 02:39:35'),
-(7, 2, 1, '2025-11-01', 'atta was finished so we have to do this', 112.00, NULL, '2025-11-08 02:39:22', '2025-11-08 02:39:22');
+(7, 2, 1, '2025-11-01', 'atta was finished so we have to do this', 112.00, NULL, '2025-11-08 02:39:22', '2025-11-08 02:39:22'),
+(9, 6, 6, '2026-01-29', 'tablet', 125460.00, NULL, '2026-01-29 07:33:20', '2026-01-29 07:33:20'),
+(10, 6, 2, '2026-01-07', 'from lahore to karachi', 500.00, NULL, '2026-01-29 09:02:59', '2026-01-29 09:02:59');
 
 -- --------------------------------------------------------
 
@@ -479,7 +550,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2026_01_11_000000_create_ai_usage_logs_table', 10),
 (32, '2026_02_20_000000_create_daily_money_snapshots_table', 11),
 (33, '2026_02_20_000100_create_daily_ai_insights_table', 11),
-(34, '2026_02_20_000200_create_daily_visit_streaks_table', 11);
+(34, '2026_02_20_000200_create_daily_visit_streaks_table', 11),
+(35, '2026_02_21_000001_update_daily_money_snapshots_table', 12),
+(36, '2026_02_22_000001_update_ration_items_for_defaults', 13),
+(37, '2026_02_22_000002_add_user_scoping_to_categories', 13),
+(38, '2026_02_22_120000_create_slab_rates_table', 14),
+(39, '2026_03_27_000000_create_budget_templates_table', 15),
+(40, '2026_03_27_000100_create_budget_template_user_table', 16);
 
 -- --------------------------------------------------------
 
@@ -492,6 +569,13 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `password_reset_tokens`
+--
+
+INSERT INTO `password_reset_tokens` (`email`, `token`, `created_at`) VALUES
+('micasony@gmail.com', '$2y$12$cXqKjF7IyaU5RU7Fy3BN5OLGmO0l/3XK//1s3pWr1ZC46tTPRZ7j6', '2026-03-27 06:30:52');
 
 -- --------------------------------------------------------
 
@@ -545,9 +629,10 @@ INSERT INTO `ration_history` (`id`, `ration_item_id`, `change_date`, `change_typ
 
 CREATE TABLE `ration_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `item_name` varchar(255) NOT NULL,
   `unit` varchar(255) DEFAULT NULL,
+  `is_default` tinyint(1) NOT NULL DEFAULT 0,
   `stock_quantity` decimal(10,2) NOT NULL DEFAULT 0.00,
   `daily_usage` decimal(10,2) NOT NULL DEFAULT 0.00,
   `price_per_unit` decimal(12,2) DEFAULT NULL,
@@ -559,10 +644,23 @@ CREATE TABLE `ration_items` (
 -- Dumping data for table `ration_items`
 --
 
-INSERT INTO `ration_items` (`id`, `user_id`, `item_name`, `unit`, `stock_quantity`, `daily_usage`, `price_per_unit`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Atta', 'kg', 15.00, 1.50, 110.00, '2025-10-27 12:51:29', '2025-10-27 12:51:29'),
-(2, 1, 'Sugar', 'kg', 6.00, 0.40, 180.00, '2025-10-27 12:51:29', '2025-10-27 12:51:29'),
-(3, 1, 'Cooking Oil', 'litre', 3.00, 0.20, 520.00, '2025-10-27 12:51:29', '2025-10-27 12:51:29');
+INSERT INTO `ration_items` (`id`, `user_id`, `item_name`, `unit`, `is_default`, `stock_quantity`, `daily_usage`, `price_per_unit`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Atta', 'kg', 0, 15.00, 1.50, 110.00, '2025-10-27 12:51:29', '2025-10-27 12:51:29'),
+(2, 1, 'Sugar', 'kg', 0, 6.00, 0.40, 180.00, '2025-10-27 12:51:29', '2025-10-27 12:51:29'),
+(3, 1, 'Cooking Oil', 'litre', 0, 3.00, 0.20, 520.00, '2025-10-27 12:51:29', '2025-10-27 12:51:29'),
+(5, 6, 'Bajra', 'kg', 0, 0.00, 0.00, NULL, '2026-01-29 07:29:47', '2026-01-29 07:29:47'),
+(6, 6, 'Atta', 'kg', 0, 0.00, 0.00, NULL, '2026-01-29 07:30:15', '2026-01-29 07:30:15'),
+(7, NULL, 'Wheat Flour', 'kg', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(8, NULL, 'Rice', 'kg', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(9, NULL, 'Sugar', 'kg', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(10, NULL, 'Cooking Oil', 'liter', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(11, NULL, 'Milk', 'liter', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(12, NULL, 'Eggs', 'dozen', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(13, NULL, 'Chicken', 'kg', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(14, NULL, 'Lentils', 'kg', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(15, NULL, 'Tea', 'pack', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(16, NULL, 'Salt', 'kg', 1, 0.00, 0.00, NULL, '2026-01-29 09:01:37', '2026-01-29 09:01:37'),
+(17, 6, 'Dry fruit', 'kg', 0, 0.00, 0.00, NULL, '2026-01-29 09:03:40', '2026-01-29 09:03:40');
 
 -- --------------------------------------------------------
 
@@ -579,6 +677,15 @@ CREATE TABLE `ration_prices` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ration_prices`
+--
+
+INSERT INTO `ration_prices` (`id`, `ration_item_id`, `household_id`, `price`, `priced_at`, `created_at`, `updated_at`) VALUES
+(1, 5, NULL, 150.00, '2025-12-02', '2026-01-29 07:29:47', '2026-01-29 07:29:47'),
+(2, 6, NULL, 200.00, '2025-12-05', '2026-01-29 07:30:15', '2026-01-29 07:30:15'),
+(3, 17, NULL, 5000.00, '2026-01-20', '2026-01-29 09:03:40', '2026-01-29 09:03:40');
 
 -- --------------------------------------------------------
 
@@ -614,7 +721,9 @@ CREATE TABLE `reminders` (
 INSERT INTO `reminders` (`id`, `user_id`, `household_id`, `title`, `type`, `schedule_cron`, `next_run_at`, `last_notified_at`, `starts_on`, `ends_on`, `timezone`, `is_active`, `due_date`, `reminder_type`, `is_done`, `notes`, `created_at`, `updated_at`) VALUES
 (1, 2, NULL, 'done', 'other', '*/2 * * * *', '2025-11-08 09:30:00', NULL, NULL, NULL, 'UTC', 1, NULL, 'finance', 1, 'sdf sd sfssd sddsf sd', '2025-11-08 04:05:44', '2025-11-08 04:29:22'),
 (2, 2, NULL, 'new reminder', 'other', '*/2 * * * *', '2025-11-08 09:30:00', NULL, NULL, NULL, 'UTC', 1, NULL, 'finance', 1, 'please send email', '2025-11-08 04:11:16', '2025-11-08 04:29:22'),
-(3, 2, NULL, 'can you send now', 'finance', '0 15 * * *', '2025-11-08 10:00:00', NULL, '2025-11-08', '2025-11-08', 'Asia/Karachi', 1, NULL, 'finance', 0, 'i am from roznamcha', '2025-11-08 04:36:51', '2025-11-08 04:36:51');
+(3, 2, NULL, 'can you send now', 'finance', '0 15 * * *', '2025-11-08 10:00:00', NULL, '2025-11-08', '2025-11-08', 'Asia/Karachi', 1, NULL, 'finance', 0, 'i am from roznamcha', '2025-11-08 04:36:51', '2025-11-08 04:36:51'),
+(4, 6, NULL, 'Take dry fruit', 'health', '0 20 * * *', '2026-01-29 15:00:00', NULL, '2026-01-21', '2026-02-07', 'Asia/Karachi', 1, NULL, 'health', 0, 'Testing it', '2026-01-29 09:04:22', '2026-01-29 09:04:22'),
+(5, 3, NULL, 'Playing with cards', 'faith', '0 20 * * 1', NULL, NULL, '2026-01-01', '2026-01-30', 'Asia/Karachi', 1, NULL, 'faith', 0, 'Choose Daily / Weekly / Monthly and a time, or switch to Custom for advanced cron syntax.', '2026-01-29 09:14:48', '2026-01-29 09:14:48');
 
 -- --------------------------------------------------------
 
@@ -696,7 +805,37 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('jLZ9EZ2nJUFO7nMS8w8kZxiUlgvs2p45ITkjCrVK', 2, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVkpXZUIxZVJldExveVpPN1pISGFhRXI0NTlyck83ckdoQkF4RDV1ciI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYWlseS1yZXR1cm4vc25hcHNob3QiO3M6NToicm91dGUiO3M6MjE6ImRhaWx5LXJldHVybi5zbmFwc2hvdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1768575879);
+('PgB7rkzQ2envTAlN0luN0PBFKqF4xZgRRE7CmyNA', 2, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVzlCNlFMbzlJOXJFS0k1b0M3cjZXaE9LcjE0RE5NTTlYQkxBQldJMyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYWlseS1yZXR1cm4iO3M6NToicm91dGUiO3M6MjQ6ImFkbWluLmRhaWx5LXJldHVybi5pbmRleCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1774690593);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slab_rates`
+--
+
+CREATE TABLE `slab_rates` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `min_units` int(10) UNSIGNED NOT NULL,
+  `max_units` int(10) UNSIGNED DEFAULT NULL,
+  `rate_per_unit` decimal(10,2) NOT NULL,
+  `category` varchar(32) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `slab_rates`
+--
+
+INSERT INTO `slab_rates` (`id`, `min_units`, `max_units`, `rate_per_unit`, `category`, `created_at`, `updated_at`) VALUES
+(1, 1, 100, 10.00, 'protected', '2026-02-22 01:46:32', '2026-02-22 01:46:32'),
+(2, 101, 200, 14.00, 'protected', '2026-02-22 01:46:32', '2026-02-22 01:46:32'),
+(3, 201, NULL, 18.00, 'protected', '2026-02-22 01:46:32', '2026-02-22 01:46:32'),
+(4, 1, 100, 16.50, 'unprotected', '2026-02-22 01:46:32', '2026-02-22 01:46:32'),
+(5, 101, 200, 22.00, 'unprotected', '2026-02-22 01:46:32', '2026-02-22 01:46:32'),
+(6, 201, 300, 28.00, 'unprotected', '2026-02-22 01:46:32', '2026-02-22 01:46:32'),
+(7, 301, 700, 34.00, 'unprotected', '2026-02-22 01:46:32', '2026-02-22 01:46:32'),
+(8, 701, NULL, 40.00, 'unprotected', '2026-02-22 01:46:32', '2026-02-22 01:46:32');
 
 -- --------------------------------------------------------
 
@@ -722,8 +861,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Roznamcha Demo', 'demo@roznamcha.test', '$2y$12$4tFNv9zDuC2UqztS3fEkzepbjWGh8An6dvzdncMpztsQnhAwotSxe', 'admin', NULL, NULL, '2025-10-27 12:46:36', '2025-10-27 12:51:29'),
-(2, 'Super Admin', 'micasony@gmail.com', '$2y$12$pC7RyZjygKofOxiNfejir.y1ah9lDuzwO5baa7Ik3g/CEPzdueSni', 'admin', NULL, NULL, '2025-10-27 12:50:27', '2025-10-28 06:53:00'),
-(3, 'roznamcha', 'test@roznamcha.com', '$2y$12$9Jcx7xMou36O9lgcC/b3w.xPIplAUpp8XgvawpwTQL/nAzsOjbZbO', 'user', NULL, NULL, '2025-10-27 12:55:59', '2025-10-27 12:55:59'),
+(2, 'Super Admin', 'micasony@gmail.com', '$2y$12$9GlZrcKHQaJDSPleA9kFlOmoi5dg9Mch9b7/9kVDO0.agNCy.we1O', 'admin', NULL, NULL, '2025-10-27 12:50:27', '2026-03-27 06:33:38'),
+(3, 'roznamcha', 'test@roznamcha.com', '$2y$12$AC.Ho4dbVAZhUd7CfWLGneW0rg0Q0.IcZNYtjRtP/znLAO/FOL0t2', 'user', NULL, NULL, '2025-10-27 12:55:59', '2025-10-27 12:55:59'),
 (4, 'sarim', 'sarimnadeem@gmail.com', '$2y$12$/OzliHhnlqbKtnOKyfXXje4xDYs6WxRB8DRsyaQ2r/uhuqiW7UzKK', 'user', NULL, NULL, '2025-11-09 03:21:34', '2025-11-09 03:21:34'),
 (6, 'mohain', 'mohisnrazaac@gmail.com', '$2y$12$AC.Ho4dbVAZhUd7CfWLGneW0rg0Q0.IcZNYtjRtP/znLAO/FOL0t2', 'user', NULL, NULL, '2025-12-17 01:45:47', '2025-12-17 01:45:47');
 
@@ -795,6 +934,24 @@ ALTER TABLE `blog_posts`
   ADD KEY `blog_posts_published_at_index` (`published_at`);
 
 --
+-- Indexes for table `budget_templates`
+--
+ALTER TABLE `budget_templates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `budget_templates_slug_unique` (`slug`),
+  ADD KEY `budget_templates_category_index` (`category`),
+  ADD KEY `budget_templates_is_premium_index` (`is_premium`);
+
+--
+-- Indexes for table `budget_template_user`
+--
+ALTER TABLE `budget_template_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `budget_template_user_budget_template_id_user_id_unique` (`budget_template_id`,`user_id`),
+  ADD KEY `budget_template_user_household_id_foreign` (`household_id`),
+  ADD KEY `budget_template_user_user_id_saved_at_index` (`user_id`,`saved_at`);
+
+--
 -- Indexes for table `cache`
 --
 ALTER TABLE `cache`
@@ -811,7 +968,8 @@ ALTER TABLE `cache_locks`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `categories_name_unique` (`name`);
+  ADD UNIQUE KEY `categories_name_unique` (`name`),
+  ADD KEY `categories_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `daily_ai_insights`
@@ -974,6 +1132,13 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `slab_rates`
+--
+ALTER TABLE `slab_rates`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slab_rates_category_min_units_index` (`category`,`min_units`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1016,40 +1181,52 @@ ALTER TABLE `blog_posts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `budget_templates`
+--
+ALTER TABLE `budget_templates`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `budget_template_user`
+--
+ALTER TABLE `budget_template_user`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `daily_ai_insights`
 --
 ALTER TABLE `daily_ai_insights`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `daily_money_snapshots`
 --
 ALTER TABLE `daily_money_snapshots`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `daily_visit_streaks`
 --
 ALTER TABLE `daily_visit_streaks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1085,7 +1262,7 @@ ALTER TABLE `kharcha_entries`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `ration_entries`
@@ -1103,19 +1280,19 @@ ALTER TABLE `ration_history`
 -- AUTO_INCREMENT for table `ration_items`
 --
 ALTER TABLE `ration_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `ration_prices`
 --
 ALTER TABLE `ration_prices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `reminders`
 --
 ALTER TABLE `reminders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `reports_cache`
@@ -1128,6 +1305,12 @@ ALTER TABLE `reports_cache`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `slab_rates`
+--
+ALTER TABLE `slab_rates`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1164,6 +1347,20 @@ ALTER TABLE `blog_category_post`
 ALTER TABLE `blog_posts`
   ADD CONSTRAINT `blog_posts_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `blog_posts_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `budget_template_user`
+--
+ALTER TABLE `budget_template_user`
+  ADD CONSTRAINT `budget_template_user_budget_template_id_foreign` FOREIGN KEY (`budget_template_id`) REFERENCES `budget_templates` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `budget_template_user_household_id_foreign` FOREIGN KEY (`household_id`) REFERENCES `households` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `budget_template_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `categories`
+--
+ALTER TABLE `categories`
+  ADD CONSTRAINT `categories_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `daily_ai_insights`
