@@ -22,10 +22,12 @@ class BlogPost extends Model
         'create-post',
     ];
 
-    public const PUBLIC_SITEMAP_CACHE_KEY = 'sitemap:xml:v2';
+    public const PUBLIC_SITEMAP_CACHE_KEY = 'sitemap:xml:v3';
 
     public const LEGACY_PUBLIC_SITEMAP_CACHE_KEYS = [
         'sitemap:xml',
+        'sitemap:xml:v2',
+        'sitemap:templates:xml',
     ];
 
     protected $fillable = [

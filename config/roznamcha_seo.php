@@ -16,9 +16,14 @@ return [
     ],
 
     'search_surface' => [
-        // Phase 2 AdSense cleanup: keep weak public groups usable for direct visitors,
-        // but remove them from search until they earn indexable quality again.
+        // Temporary AdSense approval cleanup: programmatic/template detail pages noindexed until content depth is upgraded.
         'noindex_page_types' => ['petrol', 'electricity', 'ration'],
+        'noindex_template_slugs' => [
+            'student-budget',
+            '50k-salary-survival-guide',
+            '100k-family-budget',
+            'joint-family-budget',
+        ],
         'noindex_blog_category_slugs' => [
             'fuel-prices-hike',
             'household-tips',

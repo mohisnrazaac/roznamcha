@@ -214,7 +214,7 @@ class SmartBudgetTemplatesTest extends TestCase
         );
     }
 
-    public function test_template_sitemap_lists_template_index_and_template_detail_pages(): void
+    public function test_template_sitemap_lists_template_index_without_temporary_noindex_details(): void
     {
         $response = $this->get('/templates-sitemap.xml');
 
@@ -222,7 +222,7 @@ class SmartBudgetTemplatesTest extends TestCase
         $response->assertSee(route('templates.index', [], true), false);
 
         foreach (BudgetTemplate::query()->pluck('slug') as $slug) {
-            $response->assertSee(route('templates.show', ['slug' => $slug], true), false);
+            $response->assertDontSee(route('templates.show', ['slug' => $slug], true), false);
         }
     }
 }

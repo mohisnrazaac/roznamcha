@@ -4,14 +4,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\BudgetTemplate;
+use App\Seo\SearchSurfacePolicy;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 
 class TemplateSitemapController extends Controller
 {
+    public function __construct(private readonly SearchSurfacePolicy $searchSurfacePolicy)
+    {
+    }
+
     public function show(): Response
     {
-        $xml = Cache::remember('sitemap:templates:xml', now()->addHours(6), function () {
+        $xml = Cache::remember('sitemap:templates:xml:v2', now()->addHours(6), function () {
             $urls = [
                 [
                     'loc' => route('templates.index', [], true),
@@ -21,6 +26,7 @@ class TemplateSitemapController extends Controller
             ];
 
             $templates = BudgetTemplate::query()
+                ->whereNotIn('slug', $this->searchSurfacePolicy->noindexTemplateSlugs())
                 ->orderBy('base_salary_target')
                 ->orderBy('title')
                 ->get(['slug', 'updated_at']);

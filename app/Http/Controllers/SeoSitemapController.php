@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
 use App\Models\BudgetTemplate;
+use App\Seo\SearchSurfacePolicy;
 use App\Seo\SeoPageUrlGenerator;
 use App\Seo\SeoSnapshotService;
 use Illuminate\Http\Response;
@@ -17,6 +18,7 @@ class SeoSitemapController extends Controller
     public function __construct(
         private readonly SeoPageUrlGenerator $urlGenerator,
         private readonly SeoSnapshotService $snapshotService,
+        private readonly SearchSurfacePolicy $searchSurfacePolicy,
     ) {
     }
 
@@ -155,6 +157,7 @@ class SeoSitemapController extends Controller
         }
 
         return BudgetTemplate::query()
+            ->whereNotIn('slug', $this->searchSurfacePolicy->noindexTemplateSlugs())
             ->orderBy('base_salary_target')
             ->orderBy('title')
             ->get(['slug', 'updated_at'])

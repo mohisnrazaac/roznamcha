@@ -19,6 +19,7 @@ class SeoSnapshotService
         private readonly OfficialPetrolNoticeService $officialPetrolNoticeService,
         private readonly PakFuelCityPriceScraperService $pakFuelCityPriceScraperService,
         private readonly PakWheelsFuelPriceScraperService $pakWheelsFuelPriceScraperService,
+        private readonly SearchSurfacePolicy $searchSurfacePolicy,
     ) {
     }
 
@@ -345,11 +346,7 @@ class SeoSnapshotService
 
     private function isPageTypeForcedNoindex(string $pageType): bool
     {
-        return in_array(
-            $pageType,
-            config('roznamcha_seo.search_surface.noindex_page_types', []),
-            true
-        );
+        return $this->searchSurfacePolicy->isProgrammaticPageTypeNoindexed($pageType);
     }
 
     private function toDatabasePayload(array $snapshot): array

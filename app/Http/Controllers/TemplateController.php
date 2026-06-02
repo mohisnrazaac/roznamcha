@@ -7,6 +7,7 @@ use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use App\Models\BudgetTemplate;
 use App\Models\BudgetTemplateSave;
 use App\Models\Household;
+use App\Seo\SearchSurfacePolicy;
 use App\Seo\SeoPageUrlGenerator;
 use App\Support\EventRecorder;
 use App\TemplateServices\DownloadService;
@@ -28,6 +29,7 @@ class TemplateController extends Controller
         private DownloadService $downloadService,
         private EventRecorder $events,
         private readonly SeoPageUrlGenerator $urlGenerator,
+        private readonly SearchSurfacePolicy $searchSurfacePolicy,
     ) {
     }
 
@@ -261,6 +263,7 @@ class TemplateController extends Controller
             'image' => "{$siteUrl}/favicon.ico",
             'type' => 'article',
             'schemaName' => $template->title,
+            'robots' => $this->searchSurfacePolicy->robotsForTemplate($template->slug),
         ];
     }
 
