@@ -39,7 +39,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         }
 
         $response->assertSee($this->publicUrl('/blog/published-approval-check'), false);
-        $this->assertSame(15, substr_count($response->getContent(), '<url>'));
+        $this->assertSame(16, substr_count($response->getContent(), '<url>'));
     }
 
     public function test_template_sitemap_keeps_index_page_but_excludes_template_details(): void
@@ -84,6 +84,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             '/ration-brain',
             '/survival-report',
             '/tools/ration-cost-estimator',
+            '/tools/monthly-household-budget-calculator',
             '/tools/school-fees-planner',
             '/tools/electricity-bill-estimator',
             '/templates',
@@ -130,6 +131,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             $this->publicUrl('/ration-brain'),
             $this->publicUrl('/survival-report'),
             $this->publicUrl('/tools/ration-cost-estimator'),
+            $this->publicUrl('/tools/monthly-household-budget-calculator'),
             $this->publicUrl('/tools/school-fees-planner'),
             $this->publicUrl('/tools/electricity-bill-estimator'),
             $this->publicUrl('/templates'),

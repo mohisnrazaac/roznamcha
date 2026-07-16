@@ -105,6 +105,12 @@ export default function Features({ seo: seoProp, jsonLd: jsonLdProp }) {
                             Try Ration Cost Estimator
                         </Link>
                         <Link
+                            href="/tools/monthly-household-budget-calculator"
+                            className="inline-flex items-center rounded-full border border-[#001a4a]/20 px-5 py-2.5 text-sm font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
+                        >
+                            Household Budget Calculator
+                        </Link>
+                        <Link
                             href="/tools/school-fees-planner"
                             className="inline-flex items-center rounded-full border border-[#001a4a]/20 px-5 py-2.5 text-sm font-semibold text-[#001a4a] hover:bg-[#001a4a]/5"
                         >
@@ -157,11 +163,16 @@ export default function Features({ seo: seoProp, jsonLd: jsonLdProp }) {
                 <section id="public-tools" className="bg-white border border-slate-200 rounded-2xl p-6 space-y-5 scroll-mt-24">
                     <p className="text-xs uppercase tracking-[0.35em] text-[#001a4a]/70">Public Tools</p>
                     <h2 className="text-2xl font-semibold text-[#001a4a]">Guest-Mode Calculators (No Login Required)</h2>
-                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                         <ToolCard
                             title="Ration Cost Estimator"
                             description="Estimate monthly ration costs in Pakistan using configurable base prices for essentials."
                             href="/tools/ration-cost-estimator"
+                        />
+                        <ToolCard
+                            title="Household Budget Calculator"
+                            description="Plan rent, groceries, school fees, transport, and bills to see your surplus or deficit."
+                            href="/tools/monthly-household-budget-calculator"
                         />
                         <ToolCard
                             title="School Fees Planner"

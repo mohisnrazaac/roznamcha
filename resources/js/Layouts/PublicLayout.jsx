@@ -60,6 +60,11 @@ export default function PublicLayout({ children, variant = 'landing' }) {
             description: 'Guest grocery planning tool',
         },
         {
+            href: '/tools/monthly-household-budget-calculator',
+            label: 'Budget Calculator',
+            description: 'Monthly income & expense planner',
+        },
+        {
             href: '/tools/school-fees-planner',
             label: 'School Fees Planner',
             description: 'School cost planning page',

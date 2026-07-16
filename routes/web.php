@@ -35,6 +35,7 @@ use App\Http\Controllers\TemplateSitemapController;
 use App\Http\Controllers\PublicTools\SchoolFeesPlannerController;
 use App\Http\Controllers\PublicTools\ElectricityBillEstimatorController;
 use App\Http\Controllers\PublicTools\RationCostEstimatorController;
+use App\Http\Controllers\PublicTools\MonthlyHouseholdBudgetCalculatorController;
 use App\Http\Controllers\AiKharchaController;
 use App\Http\Controllers\AiRationController;
 use App\Http\Controllers\AiReminderController;
@@ -92,6 +93,10 @@ Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms
 Route::view('/offline', 'offline')->name('offline');
 Route::get('/tools/ration-cost-estimator', [RationCostEstimatorController::class, 'show'])
     ->name('public.tools.ration-cost-estimator');
+Route::get('/tools/monthly-household-budget-calculator', [MonthlyHouseholdBudgetCalculatorController::class, 'show'])
+    ->name('public.tools.monthly-household-budget-calculator');
+Route::post('/tools/monthly-household-budget-calculator/calculate', [MonthlyHouseholdBudgetCalculatorController::class, 'calculate'])
+    ->name('public.tools.monthly-household-budget-calculator.calculate');
 Route::get('/tools/school-fees-planner', [SchoolFeesPlannerController::class, 'show'])
     ->name('public.tools.school-fees-planner');
 Route::post('/tools/school-fees-planner/calculate', [SchoolFeesPlannerController::class, 'schoolFeesPlanner'])

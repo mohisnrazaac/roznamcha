@@ -1,6 +1,17 @@
 <?php
 
 return [
+    'monthly_household_budget_calculator' => [
+        'defaults' => [
+            'monthly_income' => 85000,
+            'rent' => 20000,
+            'ration' => 25000,
+            'utilities' => 12000,
+            'education' => 8000,
+            'transport' => 6000,
+            'misc' => 4000,
+        ],
+    ],
     'school_fees_planner' => [
         'defaults' => [
             'children_count' => 2,

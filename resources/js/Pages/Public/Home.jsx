@@ -11,9 +11,9 @@ const firstClickPages = [
         body: 'Start with a staple-basket estimate, see what drives the total, and use it before the next market trip.',
     },
     {
-        title: 'School Fees Planner',
-        href: '/tools/school-fees-planner',
-        body: 'Turn tuition, annual charges, and exam fees into a monthly reserve target before the term bill lands.',
+        title: 'Monthly Household Budget Calculator',
+        href: '/tools/monthly-household-budget-calculator',
+        body: 'Plan rent, groceries, school fees, transport, and utility bills to see your surplus or deficit in guest mode.',
     },
     {
         title: 'Electricity Bill Estimator',
@@ -36,9 +36,9 @@ const proofCards = [
     },
     {
         eyebrow: 'Public tool',
-        title: 'School Fees Planner',
-        href: '/tools/school-fees-planner',
-        description: 'Useful when a school expense feels manageable on paper but keeps breaking the month in practice.',
+        title: 'Monthly Household Budget Calculator',
+        href: '/tools/monthly-household-budget-calculator',
+        description: 'Useful to get a high-level breakdown of all variable and fixed costs against your net monthly salary.',
     },
     {
         eyebrow: 'Public tool',
@@ -74,10 +74,10 @@ const pressureJourneys = [
         action: 'Estimate ration cost',
     },
     {
-        title: 'School costs arrive in lumps, not just monthly fees',
-        description: 'Use the fees planner when annual charges, admission costs, or exam fees keep hitting like surprises.',
-        href: '/tools/school-fees-planner',
-        action: 'Plan school fees',
+        title: 'The monthly salary budget feels out of control',
+        description: 'Use the monthly household budget planner to allocate income across rent, utilities, ration, and education.',
+        href: '/tools/monthly-household-budget-calculator',
+        action: 'Calculate monthly budget',
     },
     {
         title: 'Electricity is about to squeeze the month',

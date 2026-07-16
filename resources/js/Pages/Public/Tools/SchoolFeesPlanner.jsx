@@ -341,14 +341,12 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: se
                 </div>
             </div>
 
-            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 space-y-4" itemScope itemType="https://schema.org/FAQPage">
+            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
                 <h2 className="text-xl font-semibold text-[#001a4a]">School Fees Planner FAQs</h2>
                 {faqItems.map((faq) => (
-                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                        <h3 className="font-semibold text-slate-800" itemProp="name">{faq.question}</h3>
-                        <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                            <p className="text-sm text-slate-600 mt-1" itemProp="text">{faq.answer}</p>
-                        </div>
+                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
+                        <h3 className="font-semibold text-slate-800">{faq.question}</h3>
+                        <p className="text-sm text-slate-600 mt-1">{faq.answer}</p>
                     </div>
                 ))}
             </section>

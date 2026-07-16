@@ -158,6 +158,11 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                 />
             </Head>
 
+            {/* AD POSITION HOLDER: Top Leaderboard 728x90 */}
+            <div className="hidden md:flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-3 rounded-xl mb-6 text-xs" style={{ minHeight: '90px' }} aria-label="Ad Space">
+                <span>[Ad Space: Leaderboard 728x90]</span>
+            </div>
+
             <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
                 <form
                     onSubmit={handleSubmit}
@@ -288,17 +293,39 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                             Save this estimation
                         </Link>
                     </section>
+
+                    {/* AD POSITION HOLDER: Sidebar Inline 300x250 */}
+                    <div className="flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-6 rounded-xl text-xs" style={{ minHeight: '250px' }} aria-label="Ad Space">
+                        <span>[Ad Space: Sidebar Inline 300x250]</span>
+                    </div>
                 </div>
             </div>
 
-            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 space-y-4" itemScope itemType="https://schema.org/FAQPage">
+            {/* SECTION B: Rich text/HTML container optimized for SEO reading */}
+            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6">
+                <div>
+                    <h2 className="text-2xl font-bold text-[#001a4a]">Understanding NEPRA Tariff Slabs</h2>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                        Electricity billing in Pakistan is governed by NEPRA's progressive slab rates, which categorize residential consumers into 'Protected' and 'Unprotected' groups. Understanding how these slabs function is critical to planning your monthly energy budget.
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">
+                        For 'Protected' users (who use less than 200 units consecutively for 6 months), the per-unit rates are heavily subsidized. However, once you cross the 200-unit threshold, your category shifts to 'Unprotected', where per-unit rates increase significantly for each slab (e.g., 1–100, 101–200, 201–300, and so on).
+                    </p>
+                </div>
+                <div className="border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Surcharges, Fuel Price Adjustments (FPA), and Taxes</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                        A common source of confusion in Pakistani utility bills is the difference between the base tariff slab rate and the final payable bill. The final bill includes various surcharges, Fuel Price Adjustments (FPA), and Government Taxes (including GST at 17% or higher, Excise Duty, and TV License fees). Since FPA varies month-to-month based on generation costs, keeping a buffer in your utility budget is highly recommended.
+                    </p>
+                </div>
+            </section>
+
+            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
                 <h2 className="text-xl font-semibold text-[#001a4a]">Electricity Bill Estimator FAQs</h2>
                 {faqItems.map((faq) => (
-                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0" itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
-                        <h3 className="font-semibold text-slate-800" itemProp="name">{faq.question}</h3>
-                        <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                            <p className="text-sm text-slate-600 mt-1" itemProp="text">{faq.answer}</p>
-                        </div>
+                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
+                        <h3 className="font-semibold text-slate-800">{faq.question}</h3>
+                        <p className="text-sm text-slate-600 mt-1">{faq.answer}</p>
                     </div>
                 ))}
             </section>

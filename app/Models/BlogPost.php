@@ -28,6 +28,7 @@ class BlogPost extends Model
         'sitemap:xml',
         'sitemap:xml:v2',
         'sitemap:templates:xml',
+        'sitemap:templates:xml:v2',
     ];
 
     protected $fillable = [
@@ -166,6 +167,11 @@ class BlogPost extends Model
         return array_values(array_filter(config('blog_cleanup.noindex_slugs', []), 'is_string'));
     }
 
+    public static function removedPublicSlugs(): array
+    {
+        return array_values(array_filter(config('blog_cleanup.remove_slugs', []), 'is_string'));
+    }
+
     public static function redirectMap(): array
     {
         return array_filter(config('blog_cleanup.redirects', []), fn ($value, $key) => is_string($key) && is_string($value), ARRAY_FILTER_USE_BOTH);
@@ -182,6 +188,7 @@ class BlogPost extends Model
     {
         return array_values(array_unique([
             ...static::noindexPublicSlugs(),
+            ...static::removedPublicSlugs(),
             ...array_keys(static::redirectMap()),
         ]));
     }

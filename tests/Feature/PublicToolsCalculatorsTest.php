@@ -10,6 +10,28 @@ class PublicToolsCalculatorsTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_school_fees_planner_renders_a_single_faq_page_schema_aligned_with_visible_faqs(): void
+    {
+        $response = $this->get('/tools/school-fees-planner');
+
+        $response->assertOk();
+
+        $html = $response->getContent();
+
+        $faqPageOccurrences = substr_count($html, '"@type":"FAQPage"');
+        $faqPageScripts = preg_match_all('/<script[^>]*type="application\\/ld\\+json"[^>]*>.*?"@type":"FAQPage".*?<\\/script>/s', $html);
+
+        $this->assertLessThanOrEqual(1, $faqPageOccurrences);
+        $this->assertLessThanOrEqual(1, $faqPageScripts);
+        $this->assertStringNotContainsString('itemType="https://schema.org/FAQPage"', $html);
+
+        if ($faqPageOccurrences > 0) {
+            $this->assertStringContainsString('Why does the real monthly school cost look higher than tuition?', $html);
+            $this->assertStringContainsString('Does this planner store my school fee data?', $html);
+            $this->assertStringContainsString('What is the planning margin used for?', $html);
+        }
+    }
+
     public function test_school_fees_planner_page_loads_for_guests(): void
     {
         $this->get('/tools/school-fees-planner')->assertOk();
@@ -39,6 +61,28 @@ class PublicToolsCalculatorsTest extends TestCase
     public function test_electricity_bill_estimator_page_loads_for_guests(): void
     {
         $this->get('/tools/electricity-bill-estimator')->assertOk();
+    }
+
+    public function test_electricity_bill_estimator_renders_a_single_faq_page_schema_aligned_with_visible_faqs(): void
+    {
+        $response = $this->get('/tools/electricity-bill-estimator');
+
+        $response->assertOk();
+
+        $html = $response->getContent();
+
+        $faqPageOccurrences = substr_count($html, '"@type":"FAQPage"');
+        $faqPageScripts = preg_match_all('/<script[^>]*type="application\\/ld\\+json"[^>]*>.*?"@type":"FAQPage".*?<\\/script>/s', $html);
+
+        $this->assertLessThanOrEqual(1, $faqPageOccurrences);
+        $this->assertLessThanOrEqual(1, $faqPageScripts);
+        $this->assertStringNotContainsString('itemType="https://schema.org/FAQPage"', $html);
+
+        if ($faqPageOccurrences > 0) {
+            $this->assertStringContainsString('Does this estimator use fixed slab values in code?', $html);
+            $this->assertStringContainsString('Why is this an estimate and not my exact bill?', $html);
+            $this->assertStringContainsString('Can I use this without creating an account?', $html);
+        }
     }
 
     public function test_electricity_bill_estimator_returns_expected_structure(): void
@@ -81,5 +125,60 @@ class PublicToolsCalculatorsTest extends TestCase
         $json = $response->json();
         $this->assertSame(2000.0, (float) $json['slab_cost']);
         $this->assertGreaterThan((float) $json['slab_cost'], (float) $json['total_bill']);
+    }
+
+    public function test_monthly_household_budget_calculator_page_loads_for_guests(): void
+    {
+        $this->get('/tools/monthly-household-budget-calculator')->assertOk();
+    }
+
+    public function test_monthly_household_budget_calculator_renders_a_single_faq_page_schema_aligned_with_visible_faqs(): void
+    {
+        $response = $this->get('/tools/monthly-household-budget-calculator');
+
+        $response->assertOk();
+
+        $html = $response->getContent();
+
+        $faqPageOccurrences = substr_count($html, '"@type":"FAQPage"');
+        $faqPageScripts = preg_match_all('/<script[^>]*type="application\\/ld\\+json"[^>]*>.*?"@type":"FAQPage".*?<\\/script>/s', $html);
+
+        $this->assertLessThanOrEqual(1, $faqPageOccurrences);
+        $this->assertLessThanOrEqual(1, $faqPageScripts);
+
+        if ($faqPageOccurrences > 0) {
+            $this->assertStringContainsString('What is a normal savings rate for a Pakistani household?', $html);
+            $this->assertStringContainsString('How can I reduce variable household expenses in Pakistan?', $html);
+            $this->assertStringContainsString('Can I use this budget planner without signing up?', $html);
+        }
+    }
+
+    public function test_monthly_household_budget_calculator_calculates_server_side_output(): void
+    {
+        $response = $this->postJson('/tools/monthly-household-budget-calculator/calculate', [
+            'monthly_income' => 100000,
+            'rent' => 25000,
+            'ration' => 30000,
+            'utilities' => 15000,
+            'education' => 10000,
+            'transport' => 5000,
+            'misc' => 5000,
+        ]);
+
+        $response
+            ->assertOk()
+            ->assertJson([
+                'total_expenses' => 90000.0,
+                'surplus_deficit' => 10000.0,
+                'savings_rate' => 10.0,
+                'shares' => [
+                    'rent' => 27.78,
+                    'ration' => 33.33,
+                    'utilities' => 16.67,
+                    'education' => 11.11,
+                    'transport' => 5.56,
+                    'misc' => 5.56,
+                ]
+            ]);
     }
 }

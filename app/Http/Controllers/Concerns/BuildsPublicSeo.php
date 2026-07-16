@@ -123,6 +123,16 @@ trait BuildsPublicSeo
                 'type' => 'article',
                 'schemaName' => 'Ration Cost Estimator',
             ],
+            'monthlyHouseholdBudgetCalculator' => [
+                'title' => 'Monthly Household Budget Calculator Pakistan – Ghar ka budget planner | Roznamcha',
+                'description' => 'Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.',
+                'url' => $this->publicUrlGenerator()->routeUrl('public.tools.monthly-household-budget-calculator'),
+                'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.monthly-household-budget-calculator'),
+                'image' => $defaultImage,
+                'keywords' => ['monthly household budget calculator Pakistan', 'ghar ka budget calculator PKR', 'monthly budget planner', 'Pakistan household expense tracker', 'salary planning Pakistan'],
+                'type' => 'article',
+                'schemaName' => 'Monthly Household Budget Calculator',
+            ],
             default => [
                 'title' => 'Roznamcha',
                 'description' => 'Roznamcha helps Pakistani households manage budgets, kharcha, and daily money pressure.',

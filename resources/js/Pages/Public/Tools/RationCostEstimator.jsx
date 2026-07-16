@@ -172,6 +172,11 @@ export default function RationCostEstimator({
                 />
             </Head>
 
+            {/* AD POSITION HOLDER: Top Leaderboard 728x90 */}
+            <div className="hidden md:flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-3 rounded-xl mb-6 text-xs" style={{ minHeight: '90px' }} aria-label="Ad Space">
+                <span>[Ad Space: Leaderboard 728x90]</span>
+            </div>
+
             <section className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                     <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0b2b6f]/70">Who It Helps</p>
@@ -289,6 +294,11 @@ export default function RationCostEstimator({
                         saveEndpoint="tools.snapshots.store"
                         returnUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/tools/ration-cost-estimator'}
                     />
+
+                    {/* AD POSITION HOLDER: Sidebar Inline 300x250 */}
+                    <div className="flex items-center justify-center border border-dashed border-slate-700 bg-white/5 text-white/50 py-6 rounded-xl text-xs" style={{ minHeight: '250px' }} aria-label="Ad Space">
+                        <span>[Ad Space: Sidebar Inline 300x250]</span>
+                    </div>
                 </aside>
             </div>
 
@@ -443,6 +453,25 @@ export default function RationCostEstimator({
                             Read Ghar Ka Monthly Budget
                         </Link>
                     </div>
+                </div>
+            </section>
+
+            {/* SECTION B: Rich text/HTML container optimized for SEO reading */}
+            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6">
+                <div>
+                    <h2 className="text-2xl font-bold text-[#001a4a]">How Utility Store Prices Differ from Open Market</h2>
+                    <p className="mt-3 text-sm leading-7 text-[#001a4a]/85">
+                        In Pakistan, purchasing grocery items through the government-subsidized Utility Stores Corporation (USC) network represents a major avenue for cost reduction. However, understanding the pricing differences between these stores and the open retail market is crucial for sturdier planning.
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-[#001a4a]/85">
+                        Essential staples like subsidized wheat flour (atta), sugar, and ghee are offered at lower rates to targeted beneficiaries under special relief packages. While this offers significant relief, supply constraints, queuing times, and brand limitations often mean families must still purchase a portion of their monthly basket from neighborhood kiryana stores or wholesale markets at standard market rates.
+                    </p>
+                </div>
+                <div className="border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Staples Planning and Grocery Inflation in Pakistan</h3>
+                    <p className="mt-3 text-sm leading-7 text-[#001a4a]/85">
+                        Staples like wheat, rice, ghee/oil, and sugar form the baseline of every Pakistani household's nutrition. Fluctuations in international fuel costs and local transport tariffs directly push these prices upward. Because food costs represent a highly visible, recurring daily outflow, estimating your baseline staple requirements before shopping is the sturdiest way to manage grocery inflation without sacrificing quality.
+                    </p>
                 </div>
             </section>
 
