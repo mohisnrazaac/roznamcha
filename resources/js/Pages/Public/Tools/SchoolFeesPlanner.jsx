@@ -167,6 +167,11 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: se
                 />
             </Head>
 
+            {/* AD POSITION HOLDER: Top Leaderboard 728x90 */}
+            <div className="hidden md:flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-3 rounded-xl mb-6 text-xs" style={{ minHeight: '90px' }} aria-label="Ad Space">
+                <span>[Ad Space: Leaderboard 728x90]</span>
+            </div>
+
             <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
                 <form
                     onSubmit={handleSubmit}
@@ -338,8 +343,32 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: se
                             Save this for my household
                         </Link>
                     </section>
+
+                    {/* AD POSITION HOLDER: Sidebar Inline 300x250 */}
+                    <div className="flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-6 rounded-xl text-xs" style={{ minHeight: '250px' }} aria-label="Ad Space">
+                        <span>[Ad Space: Sidebar Inline 300x250]</span>
+                    </div>
                 </div>
             </div>
+
+            {/* SECTION B: Rich text/HTML container optimized for SEO reading */}
+            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6">
+                <div>
+                    <h2 className="text-2xl font-bold text-[#001a4a]">Amortizing Annual School Charges in Pakistan</h2>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                        Education represents one of the largest seasonal cash flow strains for middle-income Pakistani families. While monthly tuition is often tracked, families are frequently caught off guard by annual admission updates, registration fees, technology charges, and textbook bundles that land at the start of the academic term.
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">
+                        To avoid taking emergency loans, the best practice is to calculate the sum of all school fees over a 12-month cycle and amortize the non-tuition charges into a monthly saving reserve. This turns sudden seasonal bills into predictable monthly allocations.
+                    </p>
+                </div>
+                <div className="border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Preparing for Annual Education Fee Inflation</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                        Private school fees in major cities like Karachi, Lahore, and Islamabad typically increase by 10% to 15% annually. Standardizing a buffer percentage in your budget (typically 12% to cover both inflation and auxiliary expenses like transport and uniform changes) ensures your reserve target remains sufficient for the next term.
+                    </p>
+                </div>
+            </section>
 
             <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
                 <h2 className="text-xl font-semibold text-[#001a4a]">School Fees Planner FAQs</h2>
