@@ -177,6 +177,26 @@ export default function RationCostEstimator({
                 <span>[Ad Space: Leaderboard 728x90]</span>
             </div>
 
+            {/* Editorial Context Block */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8 space-y-4 shadow-sm">
+                <h2 className="text-xl font-bold text-[#001a4a]">Why standard budgeting templates fail in Pakistan’s markets</h2>
+                <p className="text-sm leading-6 text-slate-700">
+                    Grocery budgeting in Pakistan is highly challenging due to volatile, fluctuating prices of essential commodities like cooking oil, sugar, and flour. A static checklist doesn't help when retail karyana shop prices shift weekly.
+                </p>
+                <p className="text-sm leading-6 text-slate-700">
+                    This tool matches local market data with your household size, allowing you to establish a realistic monthly planning margin. By calculating your base requirements before you shop, you avoid reactive purchases and protect your family budget from sudden price hikes.
+                </p>
+                <div className="border-t border-slate-100 pt-4">
+                    <h3 className="text-base font-semibold text-[#001a4a] mb-2">How to Use the Ration Cost Estimator</h3>
+                    <ol className="list-decimal pl-5 text-sm text-slate-600 space-y-1">
+                        <li><strong>Select Your Household Size:</strong> The estimator uses average consumption baselines for Pakistani families to calculate daily and weekly quantities for staples.</li>
+                        <li><strong>Adjust Unit Prices:</strong> We pre-fill average wholesale/retail rates, but you can override them with the exact prices from your neighborhood market.</li>
+                        <li><strong>Review the Total Ration Cost:</strong> See an itemized breakdown of flour (atta), pulses (daal), cooking oil (ghee), and tea (chai) to identify the highest cost drivers.</li>
+                        <li><strong>Export to Your Ledger:</strong> Save these values directly to your Roznamcha workspace to automatically monitor actual grocery spending against your estimate.</li>
+                    </ol>
+                </div>
+            </div>
+
             <section className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                     <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0b2b6f]/70">Who It Helps</p>

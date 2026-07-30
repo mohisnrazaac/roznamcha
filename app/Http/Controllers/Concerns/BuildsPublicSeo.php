@@ -123,6 +123,16 @@ trait BuildsPublicSeo
                 'type' => 'article',
                 'schemaName' => 'Ration Cost Estimator',
             ],
+            'expenseTrackerPakistan' => [
+                'title' => 'Best Monthly Expense Tracker in Pakistan | Roznamcha',
+                'description' => 'Track daily kharcha, ration costs, and utility bill slabs with the best monthly expense tracker designed specifically for Pakistani household budgets.',
+                'url' => $this->publicUrlGenerator()->routeUrl('public.features.expense-tracker-pakistan'),
+                'canonical' => $this->publicUrlGenerator()->routeUrl('public.features.expense-tracker-pakistan'),
+                'image' => $defaultImage,
+                'keywords' => ['monthly expense tracker Pakistan', 'kharcha tracker', 'Pakistan household expense app', 'Urdu budgeting tool'],
+                'type' => 'article',
+                'schemaName' => 'Monthly Expense Tracker Pakistan',
+            ],
             'monthlyHouseholdBudgetCalculator' => [
                 'title' => 'Monthly Household Budget Calculator Pakistan – Ghar ka budget planner | Roznamcha',
                 'description' => 'Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.',

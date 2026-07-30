@@ -82,6 +82,7 @@ Route::get('/ads.txt', function () {
 // Public marketing pages
 Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
 Route::get('/features', [PublicPageController::class, 'features'])->name('public.features');
+Route::get('/features/monthly-expense-tracker-pakistan', [PublicPageController::class, 'expenseTrackerPakistan'])->name('public.features.expense-tracker-pakistan');
 Route::get('/kharcha-map', [PublicPageController::class, 'kharchaMap'])->name('public.kharcha-map');
 Route::get('/ration-brain', [PublicPageController::class, 'rationBrain'])->name('public.ration-brain');
 Route::get('/survival-report', [PublicPageController::class, 'survivalReport'])->name('public.survival-report');

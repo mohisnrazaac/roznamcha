@@ -159,6 +159,18 @@ export const seoContent = {
         type: 'article',
         schemaName: 'Ration Cost Estimator',
     },
+    expenseTrackerPakistan: {
+        title: 'Best Monthly Expense Tracker in Pakistan | Roznamcha',
+        description:
+            'Track daily kharcha, ration costs, and utility bill slabs with the best monthly expense tracker designed specifically for Pakistani household budgets.',
+        path: '/features/monthly-expense-tracker-pakistan',
+        url: `${SITE_URL}/features/monthly-expense-tracker-pakistan`,
+        canonical: `${SITE_URL}/features/monthly-expense-tracker-pakistan`,
+        image: DEFAULT_OG_IMAGE,
+        keywords: ['monthly expense tracker Pakistan', 'kharcha tracker', 'Pakistan household expense app', 'Urdu budgeting tool'],
+        type: 'article',
+        schemaName: 'Monthly Expense Tracker Pakistan',
+    },
 };
 
 export const buildWebPageSchema = ({ schemaName, title, description, path, inLanguage }) => ({

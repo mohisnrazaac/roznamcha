@@ -219,6 +219,26 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
                 <span>[Ad Space: Leaderboard 728x90]</span>
             </div>
 
+            {/* Editorial Context Block */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8 space-y-4 shadow-sm">
+                <h2 className="text-xl font-bold text-[#001a4a]">Monthly Household Budget Calculator: Map Your Income to Essential Squeezes</h2>
+                <p className="text-sm leading-6 text-slate-700">
+                    <strong>A Reality Check for Salaried Households:</strong> Budgeting is not about restricting your lifestyle; it is about allocating limited resources to competing needs. For salaried classes in Pakistan, the primary challenges are fixed overheads (rent, school fees) and volatile running expenses (ration, petrol, electricity).
+                </p>
+                <p className="text-sm leading-6 text-slate-700">
+                    This calculator helps you map your exact salary range (from Rs. 50,000 to Rs. 150,000+) against actual cost baselines. It gives you an immediate picture of where your salary stretches and where you need a planning buffer.
+                </p>
+                <div className="border-t border-slate-100 pt-4">
+                    <h3 className="text-base font-semibold text-[#001a4a] mb-2">How to Use the Monthly Household Budget Calculator</h3>
+                    <ol className="list-decimal pl-5 text-sm text-slate-600 space-y-1">
+                        <li><strong>Enter Your Net Take-Home Pay:</strong> Use your final salary after tax deductions.</li>
+                        <li><strong>Distribute Core Fixed Costs:</strong> Input your rent, school fees, and debt commitments.</li>
+                        <li><strong>Allocate Volatile Variable Costs:</strong> Set estimates for grocery, petrol, and medical budgets.</li>
+                        <li><strong>Save Your Baseline:</strong> Connect these settings with the <strong>Kharcha Map</strong> to measure actual vs. planned expenses in real-time.</li>
+                    </ol>
+                </div>
+            </div>
+
             <section className="grid gap-6 md:grid-cols-3">
                 {budgetScenarios.map((scenario) => (
                     <button

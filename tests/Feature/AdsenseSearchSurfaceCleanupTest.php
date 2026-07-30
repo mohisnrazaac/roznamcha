@@ -39,7 +39,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         }
 
         $response->assertSee($this->publicUrl('/blog/published-approval-check'), false);
-        $this->assertSame(16, substr_count($response->getContent(), '<url>'));
+        $this->assertSame(17, substr_count($response->getContent(), '<url>'));
     }
 
     public function test_template_sitemap_keeps_index_page_but_excludes_template_details(): void
@@ -80,6 +80,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         $corePaths = [
             '/',
             '/features',
+            '/features/monthly-expense-tracker-pakistan',
             '/kharcha-map',
             '/ration-brain',
             '/survival-report',
@@ -127,6 +128,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         return [
             $this->publicUrl('/'),
             $this->publicUrl('/features'),
+            $this->publicUrl('/features/monthly-expense-tracker-pakistan'),
             $this->publicUrl('/kharcha-map'),
             $this->publicUrl('/ration-brain'),
             $this->publicUrl('/survival-report'),

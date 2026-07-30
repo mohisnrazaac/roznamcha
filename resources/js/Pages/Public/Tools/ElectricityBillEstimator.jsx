@@ -163,6 +163,26 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                 <span>[Ad Space: Leaderboard 728x90]</span>
             </div>
 
+            {/* Editorial Context Block */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8 space-y-4 shadow-sm">
+                <h2 className="text-xl font-bold text-[#001a4a]">Electricity Bill Estimator: Anticipate Unit Slabs & Surcharges</h2>
+                <p className="text-sm leading-6 text-slate-700">
+                    <strong>Understanding NEPRA's Progressive Slabs:</strong> Pakistani electricity bills are governed by a progressive slab structure. Crossing a single unit threshold (such as moving from 200 to 201 units, or 300 to 301 units) doesn't just charge the extra unit at a higher rate—it recalculates your entire bill on a significantly higher tariff bracket.
+                </p>
+                <p className="text-sm leading-6 text-slate-700">
+                    This tool simulates your monthly bill based on current NEPRA consumer categories (Protected vs. Unprotected) and adjustable surcharges. By tracking your daily meter readings, you can adjust your household usage before you cross into a penalizing tier.
+                </p>
+                <div className="border-t border-slate-100 pt-4">
+                    <h3 className="text-base font-semibold text-[#001a4a] mb-2">How to Use the Electricity Bill Estimator</h3>
+                    <ol className="list-decimal pl-5 text-sm text-slate-600 space-y-1">
+                        <li><strong>Check Your Protected Status:</strong> If you consume under 200 units consistently for 6 months, you remain in the subsidized Protected category.</li>
+                        <li><strong>Input Estimated Monthly Units:</strong> Enter your expected unit consumption based on your meter readings.</li>
+                        <li><strong>Preview Taxes and FPA:</strong> See a breakdown of Fuel Price Adjustments (FPA), financing surcharges, and GST.</li>
+                        <li><strong>Optimize Consumption:</strong> Identify how many units you need to save to drop back down to the next lower billing slab.</li>
+                    </ol>
+                </div>
+            </div>
+
             <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
                 <form
                     onSubmit={handleSubmit}

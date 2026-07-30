@@ -138,6 +138,12 @@ class PublicPageSeoHeadTest extends TestCase
                 'title' => 'Terms of Service – Roznamcha household finance platform',
                 'description' => 'Review the service terms governing paid plans, data usage, and compliance for Roznamcha users across Pakistan.',
             ],
+            [
+                'requestUrl' => route('public.features.expense-tracker-pakistan'),
+                'canonicalUrl' => $this->publicRouteUrl('public.features.expense-tracker-pakistan'),
+                'title' => 'Best Monthly Expense Tracker in Pakistan | Roznamcha',
+                'description' => 'Track daily kharcha, ration costs, and utility bill slabs with the best monthly expense tracker designed specifically for Pakistani household budgets.',
+            ],
         ];
 
         foreach ($expectations as $expectation) {

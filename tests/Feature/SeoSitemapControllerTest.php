@@ -106,6 +106,7 @@ class SeoSitemapControllerTest extends TestCase
         return [
             $this->publicUrl('/'),
             $this->publicUrl('/features'),
+            $this->publicUrl('/features/monthly-expense-tracker-pakistan'),
             $this->publicUrl('/kharcha-map'),
             $this->publicUrl('/ration-brain'),
             $this->publicUrl('/survival-report'),

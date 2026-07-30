@@ -56,6 +56,11 @@ class PublicPageController extends Controller
         return $this->renderStaticPage('Public/Features', 'features');
     }
 
+    public function expenseTrackerPakistan(): Response
+    {
+        return $this->renderStaticPage('Public/ExpenseTrackerPakistan', 'expenseTrackerPakistan');
+    }
+
     public function kharchaMap(): Response
     {
         return $this->renderStaticPage('Public/KharchaMap', 'kharchaMap');

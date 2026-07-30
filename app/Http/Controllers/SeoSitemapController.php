@@ -52,6 +52,12 @@ class SeoSitemapController extends Controller
                 'lastmod' => $staticLastmod,
             ],
             [
+                'loc' => $this->urlGenerator->routeUrl('public.features.expense-tracker-pakistan'),
+                'priority' => '0.8',
+                'changefreq' => 'weekly',
+                'lastmod' => $staticLastmod,
+            ],
+            [
                 'loc' => $this->urlGenerator->routeUrl('public.kharcha-map'),
                 'priority' => '0.9',
                 'changefreq' => 'monthly',

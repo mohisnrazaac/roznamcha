@@ -172,6 +172,26 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: se
                 <span>[Ad Space: Leaderboard 728x90]</span>
             </div>
 
+            {/* Editorial Context Block */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8 space-y-4 shadow-sm">
+                <h2 className="text-xl font-bold text-[#001a4a]">School Fees Planner: Spread the Tuition Squeeze Evenly</h2>
+                <p className="text-sm leading-6 text-slate-700">
+                    <strong>The School Fee Shock Factor:</strong> Most families do not fail their monthly budget because of daily milk or bread. They experience budget collapses during months when quarterly school fees, admission charges, exam fees, or uniform costs arrive all at once.
+                </p>
+                <p className="text-sm leading-6 text-slate-700">
+                    The School Fees Planner helps you amortize these bulk expenses. By converting irregular, heavy bills into a smooth monthly saving target, you ensure that education costs remain a predictable line item rather than a periodic crisis.
+                </p>
+                <div className="border-t border-slate-100 pt-4">
+                    <h3 className="text-base font-semibold text-[#001a4a] mb-2">How to Use the School Fees Planner</h3>
+                    <ol className="list-decimal pl-5 text-sm text-slate-600 space-y-1">
+                        <li><strong>List Each Student:</strong> Enter the monthly tuition fee for each child to build a central educational ledger.</li>
+                        <li><strong>Add Seasonal & Annual Costs:</strong> Input anticipated non-tuition costs, such as uniforms, book sets, exam fees, and transport charges.</li>
+                        <li><strong>Calculate the Monthly Planning Number:</strong> The tool aggregates all annual fees and divides them by 12, giving you a steady monthly saving target.</li>
+                        <li><strong>Set Up Reminders:</strong> Sync this target with Roznamcha's reminder dashboard to save this money systematically throughout the year.</li>
+                    </ol>
+                </div>
+            </div>
+
             <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
                 <form
                     onSubmit={handleSubmit}
