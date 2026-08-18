@@ -39,4 +39,8 @@ return [
         'api_key' => env('AI_API_KEY'),
     ],
 
+    'adsense' => [
+        'client_id' => env('ADSENSE_CLIENT_ID'),
+    ],
+
 ];

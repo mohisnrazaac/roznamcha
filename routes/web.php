@@ -93,16 +93,20 @@ Route::get('/privacy-policy', [PublicPageController::class, 'privacyPolicy'])->n
 Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms');
 Route::view('/offline', 'offline')->name('offline');
 Route::get('/tools/ration-cost-estimator', [RationCostEstimatorController::class, 'show'])
+    ->middleware('cache.public')
     ->name('public.tools.ration-cost-estimator');
 Route::get('/tools/monthly-household-budget-calculator', [MonthlyHouseholdBudgetCalculatorController::class, 'show'])
+    ->middleware('cache.public')
     ->name('public.tools.monthly-household-budget-calculator');
 Route::post('/tools/monthly-household-budget-calculator/calculate', [MonthlyHouseholdBudgetCalculatorController::class, 'calculate'])
     ->name('public.tools.monthly-household-budget-calculator.calculate');
 Route::get('/tools/school-fees-planner', [SchoolFeesPlannerController::class, 'show'])
+    ->middleware('cache.public')
     ->name('public.tools.school-fees-planner');
 Route::post('/tools/school-fees-planner/calculate', [SchoolFeesPlannerController::class, 'schoolFeesPlanner'])
     ->name('public.tools.school-fees-planner.calculate');
 Route::get('/tools/electricity-bill-estimator', [ElectricityBillEstimatorController::class, 'show'])
+    ->middleware('cache.public')
     ->name('public.tools.electricity-bill-estimator');
 Route::post('/tools/electricity-bill-estimator/calculate', [ElectricityBillEstimatorController::class, 'electricityEstimator'])
     ->name('public.tools.electricity-bill-estimator.calculate');
@@ -119,8 +123,8 @@ Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
     ->middleware('track.blog.view')
     ->name('public.blog.show');
 Route::get('/daily-return/snapshot', [DailyReturnSnapshotController::class, 'show'])->name('daily-return.snapshot');
-Route::get('/sitemap.xml', [SeoSitemapController::class, 'index'])->name('public.sitemap');
-Route::get('/templates-sitemap.xml', [TemplateSitemapController::class, 'show'])->name('public.templates-sitemap');
+Route::get('/sitemap.xml', [SeoSitemapController::class, 'index'])->middleware('cache.public')->name('public.sitemap');
+Route::get('/templates-sitemap.xml', [TemplateSitemapController::class, 'show'])->middleware('cache.public')->name('public.templates-sitemap');
 
 Route::post('/events/blog-cta-click', [EventController::class, 'blogCtaClick'])
     ->middleware('track.blog.cta')

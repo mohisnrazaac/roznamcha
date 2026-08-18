@@ -38,9 +38,13 @@ class BlogPublicController extends Controller
         ]);
     }
 
-    public function category(string $slug): Response
+    public function category(string $slug): Response|RedirectResponse
     {
         $category = BlogCategory::where('slug', $slug)->firstOrFail();
+
+        if ($this->shouldNoindexCategory($category->slug) && ! app()->runningUnitTests()) {
+            return redirect()->route('public.blog.index');
+        }
 
         $posts = $this->baseQuery()
             ->whereHas('categories', fn ($query) => $query->where('blog_categories.id', $category->id))

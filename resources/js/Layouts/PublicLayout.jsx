@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import ChatWidget from '../Components/Chat/ChatWidget';
+import CookieConsent from '../Components/CookieConsent';
 
 const variantStyles = {
     landing: {
@@ -312,6 +313,12 @@ export default function PublicLayout({ children, variant = 'landing' }) {
 
             <footer className="bg-transparent text-center px-4 py-8 text-sm text-slate-500 space-y-2">
                 <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm font-medium">
+                    <a href="/about" className="text-[#001a4a] hover:underline">
+                        About Us
+                    </a>
+                    <a href="/contact" className="text-[#001a4a] hover:underline">
+                        Contact Us
+                    </a>
                     <a href="/privacy-policy" className="text-[#001a4a] hover:underline">
                         Privacy Policy
                     </a>
@@ -333,9 +340,11 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                         Facebook
                     </a>
                 </div>
+                <p className="text-xs text-slate-400">Developed and managed remotely out of Karachi, Pakistan</p>
                 <p>© 2026 Roznamcha. All rights reserved.</p>
             </footer>
             <ChatWidget />
+            <CookieConsent />
         </div>
     );
 }

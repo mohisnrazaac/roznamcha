@@ -40,11 +40,11 @@
 
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-5EPHFZLH71"></script>
-        <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8709269992599634"
-            crossorigin="anonymous"
-        ></script>
+        @if (config('services.adsense.client_id'))
+            <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+            <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ urlencode(config('services.adsense.client_id')) }}" crossorigin="anonymous"></script>
+        @endif
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}

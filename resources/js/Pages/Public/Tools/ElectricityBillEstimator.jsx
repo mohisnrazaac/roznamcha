@@ -4,6 +4,7 @@ import ToolLayout from '../../../Layouts/ToolLayout';
 import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import SaveWall from '../../../Components/Activation/SaveWall';
+import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -158,10 +159,7 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                 />
             </Head>
 
-            {/* AD POSITION HOLDER: Top Leaderboard 728x90 */}
-            <div className="hidden md:flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-3 rounded-xl mb-6 text-xs" style={{ minHeight: '90px' }} aria-label="Ad Space">
-                <span>[Ad Space: Leaderboard 728x90]</span>
-            </div>
+
 
             {/* Editorial Context Block */}
             <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8 space-y-4 shadow-sm">
@@ -293,6 +291,8 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                         />
                     ) : null}
 
+                    <FinancialDisclaimer />
+
                     <section className="rounded-2xl border border-[#001a4a]/10 bg-gradient-to-br from-white to-blue-50 p-6 shadow-sm">
                         <p className="text-xs uppercase tracking-[0.25em] text-blue-700">Ask Roza: Electricity Insight</p>
                         <p className="text-sm text-slate-700 mt-2">
@@ -314,10 +314,7 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                         </Link>
                     </section>
 
-                    {/* AD POSITION HOLDER: Sidebar Inline 300x250 */}
-                    <div className="flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-6 rounded-xl text-xs" style={{ minHeight: '250px' }} aria-label="Ad Space">
-                        <span>[Ad Space: Sidebar Inline 300x250]</span>
-                    </div>
+
                 </div>
             </div>
 

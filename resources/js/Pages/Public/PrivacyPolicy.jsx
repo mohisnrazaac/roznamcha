@@ -41,6 +41,15 @@ const sections = [
             'Update contact preferences or opt out of non-essential communication.',
         ],
     },
+    {
+        title: 'Google AdSense and third-party advertising',
+        body: 'We use third-party advertising companies, specifically Google AdSense, to serve ads when you visit our website. These companies may use cookies and web beacons to collect non-personal data to show you relevant advertisements.',
+        bullets: [
+            'Google, as a third-party vendor, uses cookies to serve ads on Roznamcha.',
+            'Google\'s use of the advertising cookie enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the Internet.',
+            'Users may opt out of personalized advertising by visiting Google Ads Settings (https://adssettings.google.com) or via Network Advertising Initiative (https://optout.networkadvertising.org).',
+        ],
+    },
 ];
 
 export default function PrivacyPolicy({ seo: seoProp, jsonLd: jsonLdProp, contactEmail = 'support@roznamcha.pk' }) {

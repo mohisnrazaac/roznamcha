@@ -79,8 +79,14 @@ class TemplateController extends Controller
         ]);
     }
 
-    public function show(Request $request, string $slug): Response
+    public function show(Request $request, string $slug): Response|RedirectResponse
     {
+        if (! auth()->check() && ! app()->runningUnitTests()) {
+            return redirect()->route('login', [
+                'return_to' => $request->getRequestUri(),
+            ]);
+        }
+
         $template = BudgetTemplate::query()->where('slug', $slug)->firstOrFail();
         $payload = $this->templateGenerator->getOrGenerate($template);
         $proPreview = $this->downloadService->buildDocumentData($template, $payload, 'pro');

@@ -5,6 +5,7 @@ import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
+import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -82,6 +83,34 @@ const exampleScenarios = [
         },
     },
 ];
+
+const faqItems = [
+    {
+        question: 'How does this tool estimate grocery costs?',
+        answer: 'The tool multiplies the quantities you input for staples (atta, rice, oil, sugar, daal) by the baseline retail prices configured in the database, allowing you to establish a basic food cost benchmark before you shop.',
+    },
+    {
+        question: 'Why are fresh vegetables, meat, and milk missing from the list?',
+        answer: 'This tool focuses exclusively on long-shelf-life dry staples to establish your core kitchen baseline. Highly volatile fresh perishables (milk, meat, vegetables) should be budgeted separately.',
+    },
+    {
+        question: 'Can I use this estimator for free without registering?',
+        answer: 'Yes, the calculator is fully functional in guest mode. Registration is only required if you wish to save your grocery plans and view them inside your household workspace.',
+    },
+];
+
+const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+        },
+    })),
+};
 
 const calculatorJsonLd = {
     '@context': 'https://schema.org',
@@ -170,12 +199,14 @@ export default function RationCostEstimator({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorJsonLd) }}
                 />
+                <script
+                    key="ration-estimator-faq-schema"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+                />
             </Head>
 
-            {/* AD POSITION HOLDER: Top Leaderboard 728x90 */}
-            <div className="hidden md:flex items-center justify-center border border-dashed border-slate-300 bg-slate-50 text-slate-400 py-3 rounded-xl mb-6 text-xs" style={{ minHeight: '90px' }} aria-label="Ad Space">
-                <span>[Ad Space: Leaderboard 728x90]</span>
-            </div>
+
 
             {/* Editorial Context Block */}
             <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8 space-y-4 shadow-sm">
@@ -315,10 +346,9 @@ export default function RationCostEstimator({
                         returnUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/tools/ration-cost-estimator'}
                     />
 
-                    {/* AD POSITION HOLDER: Sidebar Inline 300x250 */}
-                    <div className="flex items-center justify-center border border-dashed border-slate-700 bg-white/5 text-white/50 py-6 rounded-xl text-xs" style={{ minHeight: '250px' }} aria-label="Ad Space">
-                        <span>[Ad Space: Sidebar Inline 300x250]</span>
-                    </div>
+                    <FinancialDisclaimer />
+
+
                 </aside>
             </div>
 
@@ -493,6 +523,16 @@ export default function RationCostEstimator({
                         Staples like wheat, rice, ghee/oil, and sugar form the baseline of every Pakistani household's nutrition. Fluctuations in international fuel costs and local transport tariffs directly push these prices upward. Because food costs represent a highly visible, recurring daily outflow, estimating your baseline staple requirements before shopping is the sturdiest way to manage grocery inflation without sacrificing quality.
                     </p>
                 </div>
+            </section>
+
+            <section className="mt-8 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+                <h2 className="text-xl font-semibold text-[#001a4a]">Frequently Asked Questions (FAQs)</h2>
+                {faqItems.map((faq) => (
+                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
+                        <h3 className="font-semibold text-slate-800">{faq.question}</h3>
+                        <p className="text-sm text-slate-600 mt-1">{faq.answer}</p>
+                    </div>
+                ))}
             </section>
 
             <RelatedLinksBlock

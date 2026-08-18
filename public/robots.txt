@@ -1,9 +1,13 @@
 User-agent: *
 Allow: /
-Disallow: /dashboard
-Disallow: /panel
-Disallow: /admin
-Disallow: /auth
-Disallow: /api/internal
+Disallow: /templates/
+Disallow: /login
+Disallow: /register
+Disallow: /app/
+Disallow: /api/
+
+User-agent: Mediapartners-Google
+Allow: /
+
 Sitemap: https://roznamcha.pk/sitemap.xml
 Sitemap: https://roznamcha.pk/templates-sitemap.xml

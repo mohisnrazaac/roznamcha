@@ -12,6 +12,10 @@
 .env.*
 composer.lock
 *.log
+*.sql
+.phpunit.result.cache
+check_live.php
+check_assets_live.php
 
 # Node / React / Vite
 node_modules/
@@ -23,6 +27,7 @@ pnpm-debug.log*
 .next/
 dist/
 build/
+/bootstrap/ssr/
 
 # Deployment bundles
 deploy/

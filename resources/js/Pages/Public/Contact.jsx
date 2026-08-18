@@ -132,6 +132,13 @@ export default function Contact({ seo, jsonLd, contactEmail = 'support@roznamcha
                 </section>
 
                 <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3 text-left">
+                    <h2 className="text-xl font-semibold text-[#001a4a]">Where we operate</h2>
+                    <p className="text-base text-slate-700">
+                        Roznamcha is developed and managed remotely by a team based in <strong>Karachi, Pakistan</strong>. As an online service catering to Pakistani household budgets, our primary focus is helping families navigate regional inflation and utility slab adjustments nationwide.
+                    </p>
+                </section>
+
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3 text-left">
                     <h2 className="text-xl font-semibold text-[#001a4a]">When to contact us</h2>
                     <ul className="list-disc pl-5 space-y-1 text-slate-700">
                         {contactReasons.map((item) => (

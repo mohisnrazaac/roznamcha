@@ -34,6 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\SecurityHeaders::class,
         ]);
 
         $middleware->alias([
@@ -42,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'track.blog.view' => \App\Http\Middleware\TrackBlogView::class,
             'track.blog.cta' => \App\Http\Middleware\TrackBlogCtaClick::class,
             'ai.quota' => \App\Http\Middleware\CheckAiQuota::class,
+            'cache.public' => \App\Http\Middleware\PublicCacheHeaders::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -15,6 +15,7 @@ export default defineConfig({
         laravel({
             // this tells laravel-vite-plugin how to generate manifest and scripts for prod
             input: 'resources/js/app.jsx',
+            ssr: 'resources/js/ssr.jsx',
             refresh: true,
 
             // we make sure it knows our build dir
@@ -24,15 +25,8 @@ export default defineConfig({
     ],
 
     build: {
-        // 👇 actually write compiled assets into public/build
-        outDir: 'public/build',
-
         // 👇 Laravel expects a manifest.json to exist for @vite() helper
         manifest: true,
-
-        rollupOptions: {
-            input: 'resources/js/app.jsx',
-        },
         emptyOutDir: true,
     },
 
