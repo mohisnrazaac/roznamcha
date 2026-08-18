@@ -24,6 +24,8 @@ jobs:
       COMPOSER_ALLOW_SUPERUSER: 1
       VITE_BASE_PATH: /build/
       RUN_MIGRATIONS: 'false'
+      POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
+      POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -88,10 +90,8 @@ jobs:
           log-level: verbose
 
       - name: Call post-deploy hook
-        if: ${{ secrets.POST_DEPLOY_URL != '' }}
+        if: ${{ env.POST_DEPLOY_URL != '' }}
         env:
-          POST_DEPLOY_URL: ${{ secrets.POST_DEPLOY_URL }}
-          POST_DEPLOY_TOKEN: ${{ secrets.POST_DEPLOY_TOKEN }}
           SHOULD_RUN_MIGRATIONS: ${{ env.RUN_MIGRATIONS }}
         run: |
           if [ -z "$POST_DEPLOY_URL" ]; then
