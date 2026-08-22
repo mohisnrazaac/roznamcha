@@ -99,6 +99,18 @@ export const seoContent = {
         type: 'article',
         schemaName: 'Roznamcha Terms of Service',
     },
+    disclaimer: {
+        title: 'Disclaimer – Roznamcha planning, calculator, and content boundaries',
+        description:
+            'Understand what Roznamcha tools and articles do, what they do not guarantee, and why official notifications still matter for financial and household decisions.',
+        path: '/disclaimer',
+        url: `${SITE_URL}/disclaimer`,
+        canonical: `${SITE_URL}/disclaimer`,
+        image: DEFAULT_OG_IMAGE,
+        keywords: ['Roznamcha disclaimer', 'financial planning disclaimer Pakistan', 'calculator estimate disclaimer', 'budgeting content disclaimer'],
+        type: 'article',
+        schemaName: 'Roznamcha Disclaimer',
+    },
     features: {
         title: 'Roznamcha Features – Preview Kharcha Map, Ration Brain, and AI Insights',
         description:

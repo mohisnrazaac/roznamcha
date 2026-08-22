@@ -5,7 +5,13 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import ReactDOMServer from 'react-dom/server';
 import { route } from '../../vendor/tightenco/ziggy/dist/index.esm.js';
 import { ZiggyReact } from 'ziggy-js';
-import { Ziggy } from './ziggy';
+
+const fallbackZiggy = {
+    url: import.meta.env.VITE_APP_URL ?? 'https://roznamcha.pk',
+    defaults: {},
+    routes: {},
+    location: import.meta.env.VITE_APP_URL ?? 'https://roznamcha.pk',
+};
 
 createServer((page) =>
     createInertiaApp({
@@ -18,7 +24,7 @@ createServer((page) =>
                 import.meta.glob('./Pages/**/*.jsx'),
             ),
         setup: ({ App, props }) => {
-            const ziggyConfig = page.props.ziggy || Ziggy;
+            const ziggyConfig = page.props.ziggy || fallbackZiggy;
 
             global.route = (name, params, absolute) =>
                 route(name, params, absolute, {

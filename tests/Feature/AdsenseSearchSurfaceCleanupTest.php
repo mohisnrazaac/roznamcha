@@ -39,7 +39,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         }
 
         $response->assertSee($this->publicUrl('/blog/published-approval-check'), false);
-        $this->assertSame(17, substr_count($response->getContent(), '<url>'));
+        $this->assertSame(18, substr_count($response->getContent(), '<url>'));
     }
 
     public function test_template_sitemap_keeps_index_page_but_excludes_template_details(): void
@@ -93,6 +93,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             '/about',
             '/contact',
             '/privacy-policy',
+            '/disclaimer',
             '/terms',
         ];
 
@@ -141,6 +142,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             $this->publicUrl('/about'),
             $this->publicUrl('/contact'),
             $this->publicUrl('/privacy-policy'),
+            $this->publicUrl('/disclaimer'),
             $this->publicUrl('/terms'),
         ];
     }

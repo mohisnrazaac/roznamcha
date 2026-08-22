@@ -30,9 +30,9 @@ class HomePageFlagshipTest extends TestCase
         ]);
 
         BlogPost::factory()->published()->create([
-            'title' => 'What Pakistani Families Really Spend on Food, Electricity, Gas and Rent in 2026',
-            'slug' => 'pakistani-household-essential-expenses-2026',
-            'excerpt' => 'Essential spending guide.',
+            'title' => 'How to Use Digital Roznamcha for Business and Personal Finance',
+            'slug' => 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',
+            'excerpt' => 'Product usage guide.',
             'content' => 'Guide body',
             'content_format' => 'markdown',
         ]);
@@ -58,8 +58,8 @@ class HomePageFlagshipTest extends TestCase
             ->where('featuredGuides.0.url', route('public.blog.show', ['slug' => 'ghar-ka-monthly-budget']))
             ->where('featuredGuides.1.slug', 'pakistani-family-monthly-expense-control')
             ->where('featuredGuides.1.url', route('public.blog.show', ['slug' => 'pakistani-family-monthly-expense-control']))
-            ->where('featuredGuides.2.slug', 'pakistani-household-essential-expenses-2026')
-            ->where('featuredGuides.2.url', route('public.blog.show', ['slug' => 'pakistani-household-essential-expenses-2026']))
+            ->where('featuredGuides.2.slug', 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025')
+            ->where('featuredGuides.2.url', route('public.blog.show', ['slug' => 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025']))
         );
     }
 }

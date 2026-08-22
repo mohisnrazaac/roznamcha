@@ -3,7 +3,6 @@
 import React from 'react';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
-import InlineAd from '../../Components/Ads/InlineAd';
 import SeoHead from '../../Components/SeoHead';
 import { buildWebPageSchema } from '../../lib/seo';
 
@@ -26,7 +25,6 @@ const formatDate = (value) => {
 export default function Show({ template, budget, proPreview, guestReturnTo, seo: seoProp, jsonLd: jsonLdProp }) {
     const { auth, flash } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);
-    const templateAdSlot = import.meta.env.VITE_ADSENSE_TEMPLATE_SLOT ?? '';
     const { post, processing } = useForm({
         slug: template.slug,
         source: 'template_show',
@@ -324,12 +322,6 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
                             )}
                         </section>
 
-                        <InlineAd
-                            slot={templateAdSlot}
-                            title="Sponsored support for budget-focused households"
-                            description="This block sits inside the template reading path without disguising itself as app content."
-                            minHeight={320}
-                        />
                     </div>
                 </div>
             </section>

@@ -44,6 +44,7 @@ class PublicPageSeoHeadTest extends TestCase
             ['route' => 'public.about', 'component' => 'Public/About'],
             ['route' => 'public.contact', 'component' => 'Public/Contact'],
             ['route' => 'public.privacy', 'component' => 'Public/PrivacyPolicy'],
+            ['route' => 'public.disclaimer', 'component' => 'Public/Disclaimer'],
             ['route' => 'public.terms', 'component' => 'Public/Terms'],
         ];
 
@@ -137,6 +138,12 @@ class PublicPageSeoHeadTest extends TestCase
                 'canonicalUrl' => $this->publicRouteUrl('public.terms'),
                 'title' => 'Terms of Service – Roznamcha household finance platform',
                 'description' => 'Review the service terms governing paid plans, data usage, and compliance for Roznamcha users across Pakistan.',
+            ],
+            [
+                'requestUrl' => route('public.disclaimer'),
+                'canonicalUrl' => $this->publicRouteUrl('public.disclaimer'),
+                'title' => 'Disclaimer – Roznamcha planning, calculator, and content boundaries',
+                'description' => 'Understand what Roznamcha tools and articles do, what they do not guarantee, and why official notifications still matter for financial and household decisions.',
             ],
             [
                 'requestUrl' => route('public.features.expense-tracker-pakistan'),

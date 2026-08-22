@@ -46,7 +46,7 @@ export default function Index({ categories = [], templates = [], savedTemplates 
                                 Smart Budget Templates built for Pakistani household reality
                             </h1>
                             <p className="max-w-2xl text-base leading-7 text-slate-600">
-                                Guests can preview. Logged-in households can save, download the free PDF, and come back next month to compare what was planned against what actually happened.
+                                Browse the template library and category summaries first. Saving, full template access, and downloads start after login so the household can return to the same planning structure next month.
                             </p>
                             <div className="flex flex-wrap gap-3">
                                 <Link
@@ -67,7 +67,7 @@ export default function Index({ categories = [], templates = [], savedTemplates 
                         <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
                             <StatCard label="Templates live" value={templates.length} />
                             <StatCard label="Saved by you" value={savedTemplates.length} />
-                            <StatCard label="Guest preview" value="On" />
+                            <StatCard label="Public browsing" value="On" />
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,7 @@ export default function Index({ categories = [], templates = [], savedTemplates 
                                         </span>
                                     ) : null}
                                     <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-                                        Preview first, save later
+                                        Login required for full access
                                     </span>
                                 </div>
 
@@ -201,7 +201,7 @@ export default function Index({ categories = [], templates = [], savedTemplates 
                                     href={template.show_url}
                                     className="mt-6 inline-flex items-center text-sm font-semibold text-[#001a4a] hover:underline"
                                 >
-                                    Preview template
+                                    View template details
                                 </Link>
                             </article>
                         ))}

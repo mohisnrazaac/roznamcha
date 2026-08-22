@@ -150,10 +150,10 @@ export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
                 <ArticleNextSteps relatedTools={relatedLinks?.tools ?? []} relatedBlogs={relatedLinks?.blogs ?? []} />
 
                 <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-2 text-sm text-slate-500">
-                    <Link href={route('public.blog.index')} className="font-semibold text-[#001a4a] hover:underline">
+                    <Link href="/blog" className="font-semibold text-[#001a4a] hover:underline">
                         ← Back to blog
                     </Link>
-                    <a href={route('public.blog.rss')} className="inline-flex items-center gap-2 font-semibold text-[#001a4a]">
+                    <a href="/blog/rss.xml" className="inline-flex items-center gap-2 font-semibold text-[#001a4a]">
                         Subscribe via RSS →
                     </a>
                 </footer>

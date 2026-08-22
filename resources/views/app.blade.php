@@ -37,32 +37,128 @@
                 {!! json_encode($pageJsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
             </script>
         @endif
+        @php
+            $pagePolicies = data_get($page ?? [], 'props.pagePolicies', []);
+            $adsenseClientId = (string) config('services.adsense.client_id', '');
+            $analyticsMeasurementId = (string) config('services.analytics.ga_measurement_id', 'G-5EPHFZLH71');
+            $clarityProjectId = (string) config('services.analytics.clarity_project_id', 'v5b4l0m7s1');
+        @endphp
 
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5EPHFZLH71"></script>
-        @if (config('services.adsense.client_id'))
+        @if ($adsenseClientId && data_get($pagePolicies, 'adsAllowed'))
             <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
             <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ urlencode(config('services.adsense.client_id')) }}" crossorigin="anonymous"></script>
         @endif
         <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+          window.roznamchaPagePolicies = @json($pagePolicies);
+          window.roznamchaTrackingConfig = {
+            gaMeasurementId: @json($analyticsMeasurementId),
+            clarityProjectId: @json($clarityProjectId),
+            adsenseClientId: @json($adsenseClientId),
+          };
 
-          gtag('config', 'G-5EPHFZLH71');
-        </script>
+          (function () {
+            const policies = window.roznamchaPagePolicies || {};
+            const config = window.roznamchaTrackingConfig || {};
+            const consentCookieName = policies.consentCookieName || 'roznamcha_cookie_consent';
+            const consentModeEnabled = Boolean(policies.consentModeEnabled);
+            const adsAllowed = Boolean(policies.adsAllowed);
+            const analyticsAllowed = Boolean(policies.analyticsAllowed);
+            let analyticsLoaded = false;
+            let clarityLoaded = false;
+            let adsLoaded = false;
 
-        <script type="text/javascript">
-            (function(c,l,a,r,i,t,y){
+            const appendScript = (src, attributes = {}) => {
+              const script = document.createElement('script');
+              script.src = src;
+              script.async = true;
+              Object.entries(attributes).forEach(([key, value]) => {
+                script.setAttribute(key, value);
+              });
+              document.head.appendChild(script);
+            };
+
+            const readConsent = () => {
+              const match = document.cookie.match(new RegExp('(?:^|; )' + consentCookieName + '=([^;]+)'));
+              return match ? decodeURIComponent(match[1]) : null;
+            };
+
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function gtag() {
+              window.dataLayer.push(arguments);
+            };
+
+            const updateConsentMode = (consentState) => {
+              const granted = consentState === 'accepted';
+              window.gtag('consent', 'default', {
+                ad_storage: granted ? 'granted' : 'denied',
+                ad_user_data: granted ? 'granted' : 'denied',
+                ad_personalization: granted ? 'granted' : 'denied',
+                analytics_storage: granted ? 'granted' : 'denied',
+                functionality_storage: 'granted',
+                security_storage: 'granted',
+              });
+            };
+
+            const loadAnalytics = () => {
+              if (!analyticsAllowed || analyticsLoaded || !config.gaMeasurementId) {
+                return;
+              }
+
+              analyticsLoaded = true;
+              appendScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(config.gaMeasurementId));
+              window.gtag('js', new Date());
+              window.gtag('config', config.gaMeasurementId, {
+                anonymize_ip: true,
+                allow_google_signals: false,
+              });
+            };
+
+            const loadClarity = () => {
+              if (!analyticsAllowed || clarityLoaded || !config.clarityProjectId) {
+                return;
+              }
+
+              clarityLoaded = true;
+              (function(c,l,a,r,i,t,y){
                 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
                 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "v5b4l0m7s1");
-        </script>
+              })(window, document, 'clarity', 'script', config.clarityProjectId);
+            };
 
-        {{-- Inject Ziggy route() helper into window --}}
-        @routes
+            const loadAds = () => {
+              if (!adsAllowed || adsLoaded || !config.adsenseClientId) {
+                return;
+              }
+
+              adsLoaded = true;
+              appendScript(
+                'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(config.adsenseClientId),
+                { crossorigin: 'anonymous' }
+              );
+            };
+
+            const applyConsentState = (consentState) => {
+              updateConsentMode(consentState);
+
+              if (consentState === 'accepted') {
+                loadAnalytics();
+                loadClarity();
+                loadAds();
+              }
+            };
+
+            if (consentModeEnabled) {
+              applyConsentState(readConsent());
+              window.addEventListener('roznamcha:consent-updated', function (event) {
+                applyConsentState(event.detail?.consent ?? null);
+              });
+            } else {
+              loadAnalytics();
+              loadClarity();
+            }
+          })();
+        </script>
 
         @php
             if (! file_exists(public_path('build/manifest.json')) && file_exists(public_path('build/.vite/manifest.json'))) {
@@ -110,16 +206,6 @@
     </head>
     <body class="antialiased bg-gray-50 text-gray-900 min-h-screen">
         @inertia
-        <footer class="bg-gray-900 text-center text-sm text-white/80 py-4">
-            <a
-                href="https://facebook.com/roznamcha.pk"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="font-semibold text-yellow-300 hover:text-white transition"
-            >
-                Follow us on Facebook
-            </a>
-        </footer>
         <script>
             // Service worker registration
             if ('serviceWorker' in navigator) {

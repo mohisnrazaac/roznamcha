@@ -35,11 +35,11 @@ return [
     ],
 
     'blogs' => [
-        'pakistani-household-essential-expenses-2026' => [
-            'title' => 'What Pakistani Families Really Spend on Food, Electricity, Gas and Rent in 2026 (Budget Guide)',
+        'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025' => [
+            'title' => 'How to Use Digital Roznamcha for Business and Personal Finance',
             'route_name' => 'public.blog.show',
-            'route_params' => ['slug' => 'pakistani-household-essential-expenses-2026'],
-            'description' => 'Use a grounded essential-expense guide as a reality check before setting your next month budget.',
+            'route_params' => ['slug' => 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025'],
+            'description' => 'See how the public tools connect to the logged-in product before you start saving data.',
         ],
         'ghar-ka-monthly-budget' => [
             'title' => 'Ghar Ka Monthly Budget: A Practical Household Budget Guide for Pakistan',
@@ -70,7 +70,7 @@ return [
         'blog_related_blogs' => [
             'ghar-ka-monthly-budget',
             'pakistani-family-monthly-expense-control',
-            'pakistani-household-essential-expenses-2026',
+            'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',
         ],
     ],
 
@@ -87,12 +87,12 @@ return [
             'ration-cost-estimator' => [
                 'ghar-ka-monthly-budget',
                 'pakistani-family-monthly-expense-control',
-                'pakistani-household-essential-expenses-2026',
+                'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',
             ],
         ],
 
         'blog_to_related_tools' => [
-            'pakistani-household-essential-expenses-2026' => ['ration-cost-estimator', 'ration-brain', 'kharcha-map'],
+            'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025' => ['ration-cost-estimator', 'ration-brain', 'kharcha-map'],
             'best-monthly-budget-50000-salary-pakistan-2026' => ['kharcha-map', 'survival-report', 'ration-cost-estimator'],
             'pakistani-family-monthly-expense-control' => ['kharcha-map', 'survival-report', 'ration-cost-estimator'],
         ],

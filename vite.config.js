@@ -30,6 +30,12 @@ export default defineConfig({
         emptyOutDir: true,
     },
 
+    // Produce a deployable SSR bundle for shared hosting where node_modules
+    // is not installed alongside bootstrap/ssr.
+    ssr: {
+        noExternal: true,
+    },
+
     resolve: {
         alias: {
             'ziggy-js': path.resolve('resources/js/lib/ziggy-react.jsx'),

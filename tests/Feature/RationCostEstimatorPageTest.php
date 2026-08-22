@@ -23,7 +23,7 @@ class RationCostEstimatorPageTest extends TestCase
             ->has('items', 5)
             ->where('relatedLinks.relatedBlogs.0.title', 'Ghar Ka Monthly Budget: A Practical Household Budget Guide for Pakistan')
             ->where('relatedLinks.relatedBlogs.1.title', 'How Pakistani Families Can Control Monthly Expenses Without Cutting Their Dignity')
-            ->where('relatedLinks.relatedBlogs.2.title', 'What Pakistani Families Really Spend on Food, Electricity, Gas and Rent in 2026 (Budget Guide)')
+            ->where('relatedLinks.relatedBlogs.2.title', 'How to Use Digital Roznamcha for Business and Personal Finance')
         );
     }
 

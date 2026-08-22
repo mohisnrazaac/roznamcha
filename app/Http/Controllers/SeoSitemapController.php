@@ -23,7 +23,10 @@ class SeoSitemapController extends Controller
             fn () => view('sitemap.xml', ['urls' => $this->buildUrls()])->render()
         );
 
-        return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
+        return response($xml, 200, [
+            'Content-Type' => 'application/xml; charset=UTF-8',
+            'Cache-Control' => 'public, max-age=3600, s-maxage=3600',
+        ]);
     }
 
     protected function buildUrls(): array
@@ -131,6 +134,12 @@ class SeoSitemapController extends Controller
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.terms'),
+                'priority' => '0.5',
+                'changefreq' => 'yearly',
+                'lastmod' => $staticLastmod,
+            ],
+            [
+                'loc' => $this->urlGenerator->routeUrl('public.disclaimer'),
                 'priority' => '0.5',
                 'changefreq' => 'yearly',
                 'lastmod' => $staticLastmod,

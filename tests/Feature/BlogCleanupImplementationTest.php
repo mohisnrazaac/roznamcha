@@ -142,7 +142,7 @@ class BlogCleanupImplementationTest extends TestCase
         $this->assertArrayNotHasKey('utility-store-vs-open-market-price-comparison-2026-pakistan', $catalog);
 
         $this->assertArrayHasKey('best-monthly-budget-50000-salary-pakistan-2026', $blogToolMappings);
-        $this->assertArrayHasKey('pakistani-household-essential-expenses-2026', $blogToolMappings);
+        $this->assertArrayHasKey('how-to-use-digital-roznamcha-for-business-and-personal-finance-2025', $blogToolMappings);
         $this->assertArrayHasKey('pakistani-family-monthly-expense-control', $blogToolMappings);
         $this->assertArrayNotHasKey('cost-of-living-pakistan-2026-monthly-budget', $blogToolMappings);
         $this->assertArrayNotHasKey('inflation-household-budget-pakistan-2026', $blogToolMappings);

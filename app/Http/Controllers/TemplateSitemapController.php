@@ -10,7 +10,7 @@ class TemplateSitemapController extends Controller
 {
     public function show(): Response
     {
-        $xml = Cache::remember('sitemap:templates:xml:v2', now()->addHours(6), function () {
+        $xml = Cache::remember('sitemap:templates:xml:v3', now()->addHours(6), function () {
             return view('sitemap.xml', ['urls' => [
                 [
                     'loc' => route('templates.index', [], true),
@@ -20,6 +20,9 @@ class TemplateSitemapController extends Controller
             ]])->render();
         });
 
-        return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
+        return response($xml, 200, [
+            'Content-Type' => 'application/xml; charset=UTF-8',
+            'Cache-Control' => 'public, max-age=3600, s-maxage=3600',
+        ]);
     }
 }

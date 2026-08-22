@@ -6,48 +6,75 @@ import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
 const sections = [
     {
-        title: 'Data we collect for Pakistani households',
-        body: 'To power Kharcha Map, Ration Brain, and the Survival Report we collect the minimum data required to show your rupees clearly.',
+        title: 'Who controls this site',
+        body: 'Roznamcha.pk is the public website for Roznamcha. Questions about privacy, corrections, consent, or account data can be sent to our published support contact.',
         bullets: [
-            'Account information such as name, email, and optional household labels.',
-            'Expense, ration, and reminder entries (amounts, categories, Urdu notes).',
-            'Metadata like device type or city to diagnose bugs and improve localization.',
+            'Public-site questions can be sent to support@roznamcha.pk.',
+            'This policy covers the public website, public tools, and marketing pages.',
+            'Separate account-level records may be created if you sign up and choose to save data inside the app.',
         ],
     },
     {
-        title: 'How Roznamcha uses that information',
-        body: 'Entries stay inside your encrypted Roznamcha workspace and only surface inside dashboards or reports you intentionally generate.',
+        title: 'Data we collect on public pages',
+        body: 'We try to keep public-page collection limited, but some information is still processed automatically when you load a web page.',
         bullets: [
-            'Render charts inside Kharcha Map and month-end Survival Reports.',
-            'Send optional reminder emails or WhatsApp alerts about bills you configure.',
-            'Analyse anonymized trends to improve insights relevant to Pakistani inflation.',
+            'Server logs may include IP address, browser type, device information, requested URL, referrer, and timestamp.',
+            'If you contact us, we receive the information you enter in the contact form or email.',
+            'If you create an account, we collect the information needed to provide that account and the data you choose to store.',
         ],
     },
     {
-        title: 'Security and storage',
-        body: 'We host infrastructure in reputable cloud regions with strict firewall policies. All traffic is served via HTTPS and sensitive fields are encrypted at rest.',
+        title: 'How we use that information',
+        body: 'We use public-site data to deliver pages, keep the site secure, answer support requests, and understand whether the public pages are working.',
         bullets: [
-            'Role-based permissions so only invited household members can view entries.',
-            'Backups stored in Pakistan-friendly zones with retention limits.',
-            'Regular reviews against PECA and international privacy expectations.',
+            'Serve requested pages and files and protect the site from abuse or technical failure.',
+            'Measure whether public pages, guides, and tools are being used and whether they are working correctly.',
+            'Respond to support, correction, and compliance requests you send us.',
+        ],
+    },
+    {
+        title: 'Cookies, local storage, and similar technologies',
+        body: 'Roznamcha uses essential browser storage for basic site behavior. Optional advertising and analytics storage is held back until the visitor allows it on supported public pages.',
+        bullets: [
+            'Essential storage may be used for security, session handling, and core site behavior.',
+            'Optional cookies or similar identifiers may be used by Google and measurement providers only after the visitor allows them on this device.',
+            'Your browser may also store the local consent choice so the site can remember it.',
+        ],
+    },
+    {
+        title: 'Google advertising and third-party measurement',
+        body: 'When advertising is enabled on an eligible public page and the visitor has allowed it, Google may process cookies, web beacons, IP address, and similar identifiers to deliver and measure ads.',
+        bullets: [
+            'Google may use advertising cookies to show, limit, measure, and report ads.',
+            'Google and its partners may use information from this and other sites to personalize ads if the visitor has allowed that use.',
+            'Microsoft Clarity and Google Analytics may be used for site measurement only after the visitor has allowed optional measurement on supported public pages.',
+        ],
+    },
+    {
+        title: 'Consent choices and EEA, UK, Switzerland handling',
+        body: 'Optional advertising and analytics are not meant to load until the visitor has made a consent choice on the public site. Visitors can keep essential-only settings or allow optional advertising and measurement on supported pages.',
+        bullets: [
+            'Visitors in the EEA, UK, and Switzerland may see additional consent requirements before optional Google advertising is allowed.',
+            'You can choose essential-only settings and continue using the public site without allowing optional ads or analytics.',
+            'You can change your browser-stored choice by clearing the consent state on your device or by contacting us if you need help.',
+        ],
+    },
+    {
+        title: 'Retention, sharing, and legal requests',
+        body: 'We keep information only as long as reasonably needed for operations, support, legal compliance, and security.',
+        bullets: [
+            'We may share data with hosting, security, analytics, email, and advertising providers that help us operate the site.',
+            'We may preserve or disclose information when required by law, lawful process, or a legitimate security need.',
+            'We do not promise fixed retention periods here unless they are operationally enforced.',
         ],
     },
     {
         title: 'Your choices and rights',
-        body: 'Roznamcha honors Pakistani residents’ rights to access, export, or delete their kharcha history.',
+        body: 'You can contact us to ask for correction, deletion, export, or clarification about data you have submitted to us.',
         bullets: [
-            'Request a machine-readable export of expenses, ration logs, and reminders.',
-            'Ask us to delete your account and associated data at any time.',
-            'Update contact preferences or opt out of non-essential communication.',
-        ],
-    },
-    {
-        title: 'Google AdSense and third-party advertising',
-        body: 'We use third-party advertising companies, specifically Google AdSense, to serve ads when you visit our website. These companies may use cookies and web beacons to collect non-personal data to show you relevant advertisements.',
-        bullets: [
-            'Google, as a third-party vendor, uses cookies to serve ads on Roznamcha.',
-            'Google\'s use of the advertising cookie enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the Internet.',
-            'Users may opt out of personalized advertising by visiting Google Ads Settings (https://adssettings.google.com) or via Network Advertising Initiative (https://optout.networkadvertising.org).',
+            'You can ask us what contact-form or account information we hold about you.',
+            'You can request deletion of account data, subject to legal or security retention needs.',
+            'You can review Google ad controls through Google Ads Settings and similar provider controls.',
         ],
     },
 ];
@@ -93,7 +120,7 @@ export default function PrivacyPolicy({ seo: seoProp, jsonLd: jsonLdProp, contac
                         <Link href={route('public.contact')} className="font-semibold text-[#001a4a] hover:underline">
                             support team
                         </Link>{' '}
-                        to exercise your rights or ask about compliance.
+                        to ask about privacy, consent, corrections, or your data.
                     </p>
                 </div>
             </section>

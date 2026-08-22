@@ -111,7 +111,7 @@ const trustPoints = [
 const guideLabels = {
     'ghar-ka-monthly-budget': 'Budget guide',
     'pakistani-family-monthly-expense-control': 'Expense control guide',
-    'pakistani-household-essential-expenses-2026': 'Household cost guide',
+    'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025': 'Product guide',
 };
 
 export default function Home({ featuredGuides = [], seo: seoProp, jsonLd: jsonLdProp }) {

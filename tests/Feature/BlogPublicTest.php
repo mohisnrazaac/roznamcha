@@ -225,7 +225,7 @@ class BlogPublicTest extends TestCase
                 ->where('relatedLinks.tools.2.key', 'survival-report')
                 ->where('relatedLinks.blogs.0.key', 'ghar-ka-monthly-budget')
                 ->where('relatedLinks.blogs.1.key', 'pakistani-family-monthly-expense-control')
-                ->where('relatedLinks.blogs.2.key', 'pakistani-household-essential-expenses-2026')
+                ->where('relatedLinks.blogs.2.key', 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025')
             );
 
         $this->assertIsString($component);

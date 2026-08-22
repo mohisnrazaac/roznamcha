@@ -35,7 +35,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         App::setLocale(config('roznamcha.lang_default', 'en'));
-        Vite::prefetch(concurrency: 3);
 
         Gate::policy(Expense::class, KharchaPolicy::class);
         Gate::policy(RationItem::class, RationPolicy::class);

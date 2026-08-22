@@ -449,14 +449,14 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
                         For renting families in urban centers like Karachi, Lahore, and Islamabad, house rent represents the largest fixed commitment, typically swallowing 25% to 40% of net monthly income. 
                     </p>
                     <p className="mt-2 text-sm leading-7 text-slate-600">
-                        Utilities, however, are highly variable and present the greatest risk of budget derailment. Electricity tariffs in Pakistan operate on progressive slab rates monitored by NEPRA. A small increase in consumption that crosses from 200 to 201 units, or 300 to 301 units, shifts the entire bill to a higher base rate. Actively tracking meter readings and scheduling heavy appliances (like ACs or pumps) outside peak hours is essential to prevent utility shocks.
+                        Utilities, however, are highly variable and present the greatest risk of budget derailment. Electricity bills in Pakistan need to be checked against the current DISCO tariff, taxes, fixed charges, and billing rules in force for the relevant month. A household should track meter readings and heavy-usage periods instead of relying on a generic threshold claim alone.
                     </p>
                 </div>
 
                 <div className="border-t border-slate-100 pt-6">
                     <h3 className="text-xl font-bold text-[#001a4a]">Optimizing Ration Baskets and Educational Expenses</h3>
                     <p className="mt-3 text-sm leading-7 text-slate-600">
-                        Grocery bills (or kitchen ration) are highly vulnerable to localized price fluctuations. Flour (atta), cooking oil/ghee, sugar, rice, and pulses are staple drivers of this expense. Buying in bulk from wholesale mandi networks or taking advantage of subsidized Utility Store rates represents a sturdier savings option compared to daily purchases at local corner shops (kiryana stores).
+                        Grocery bills (or kitchen ration) are highly vulnerable to localized price fluctuations. Flour (atta), cooking oil/ghee, sugar, rice, and pulses are staple drivers of this expense. A family should compare wholesale, neighborhood, and supermarket pricing based on current local availability instead of assuming a subsidy or a single government-backed source is still active.
                     </p>
                     <p className="mt-2 text-sm leading-7 text-slate-600">
                         Education represents a non-negotiable cost for most parents. However, many budgets break because parents only prepare for monthly tuition fees, ignoring seasonal costs like annual charges, registration, books, uniforms, and exam fees. Amortizing these annual charges into a monthly savings reserve prevents sudden cost pressures from breaking your budget.
@@ -484,11 +484,11 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
                 ))}
             </section>
 
-            <RelatedLinksBlock
+                <RelatedLinksBlock
                 relatedTools={[]}
                 relatedBlogs={[
                     { title: 'Ghar Ka Monthly Budget Guide', href: '/blog/ghar-ka-monthly-budget' },
-                    { title: 'Essential Household Expenses in Pakistan', href: '/blog/pakistani-household-essential-expenses-2026' }
+                    { title: 'How Pakistani Families Can Control Monthly Expenses Without Cutting Their Dignity', href: '/blog/pakistani-family-monthly-expense-control' }
                 ]}
             />
         </ToolLayout>

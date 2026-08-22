@@ -322,6 +322,9 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                     <a href="/privacy-policy" className="text-[#001a4a] hover:underline">
                         Privacy Policy
                     </a>
+                    <a href="/disclaimer" className="text-[#001a4a] hover:underline">
+                        Disclaimer
+                    </a>
                     <a href="/terms" className="text-[#001a4a] hover:underline">
                         Terms of Service
                     </a>

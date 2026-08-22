@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -23,7 +22,6 @@ use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryContro
 use App\Http\Controllers\Admin\AiLogsController as AdminAiLogsController;
 use App\Http\Controllers\Admin\DailyMoneySnapshotController as AdminDailyMoneySnapshotController;
 use App\Http\Controllers\Admin\PasswordController as AdminPasswordController;
-use App\Http\Controllers\MaintenanceTriggerController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\ContactController;
@@ -46,17 +44,6 @@ use App\Http\Controllers\GuestStateController;
 use App\Http\Controllers\AskRozaController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\ToolSnapshotController;
-
-$maintenanceEnabled = (bool) config('maintenance.enabled', env('MAINTENANCE_PAGE_ENABLED', false));
-
-if ($maintenanceEnabled) {
-    Route::middleware('throttle:5,1')->group(function () {
-        Route::get('/maintenance/run', [MaintenanceTriggerController::class, 'show'])
-            ->name('maintenance.trigger');
-        Route::post('/maintenance/run', [MaintenanceTriggerController::class, 'run'])
-            ->name('maintenance.trigger.run');
-    });
-}
 
 Route::get('/ads.txt', function () {
     $path = public_path('ads.txt');
@@ -91,6 +78,7 @@ Route::get('/contact', [ContactController::class, 'show'])->name('public.contact
 Route::post('/contact', [ContactController::class, 'send'])->name('public.contact.send');
 Route::get('/privacy-policy', [PublicPageController::class, 'privacyPolicy'])->name('public.privacy');
 Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms');
+Route::get('/disclaimer', [PublicPageController::class, 'disclaimer'])->name('public.disclaimer');
 Route::view('/offline', 'offline')->name('offline');
 Route::get('/tools/ration-cost-estimator', [RationCostEstimatorController::class, 'show'])
     ->middleware('cache.public')
@@ -118,13 +106,23 @@ Route::get('/templates/{slug}/download', [TemplateController::class, 'download']
 Route::get('/templates/{slug}', [TemplateController::class, 'show'])->name('templates.show');
 Route::get('/blog', [BlogPublicController::class, 'index'])->name('public.blog.index');
 Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->name('public.blog.category');
-Route::get('/blog/rss.xml', [RssController::class, 'blog'])->name('public.blog.rss');
+Route::withoutMiddleware([
+    \Illuminate\Cookie\Middleware\EncryptCookies::class,
+    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    \Illuminate\Session\Middleware\StartSession::class,
+    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+    \App\Http\Middleware\HandleInertiaRequests::class,
+])->group(function () {
+    Route::get('/blog/rss.xml', [RssController::class, 'blog'])->name('public.blog.rss');
+    Route::get('/sitemap.xml', [SeoSitemapController::class, 'index'])->middleware('cache.public')->name('public.sitemap');
+    Route::get('/templates-sitemap.xml', [TemplateSitemapController::class, 'show'])->middleware('cache.public')->name('public.templates-sitemap');
+});
+
 Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
     ->middleware('track.blog.view')
     ->name('public.blog.show');
 Route::get('/daily-return/snapshot', [DailyReturnSnapshotController::class, 'show'])->name('daily-return.snapshot');
-Route::get('/sitemap.xml', [SeoSitemapController::class, 'index'])->middleware('cache.public')->name('public.sitemap');
-Route::get('/templates-sitemap.xml', [TemplateSitemapController::class, 'show'])->middleware('cache.public')->name('public.templates-sitemap');
 
 Route::post('/events/blog-cta-click', [EventController::class, 'blogCtaClick'])
     ->middleware('track.blog.cta')
@@ -138,18 +136,6 @@ Route::post('/tools/snapshots', [ToolSnapshotController::class, 'store'])
 Route::post('/templates/save', [TemplateController::class, 'saveTemplate'])
     ->middleware('auth')
     ->name('templates.save');
-
-Route::get('/maintenance/clear-caches', function (Request $request) {
-    $token = config('maintenance.secret', env('MAINTENANCE_TRIGGER_SECRET'));
-
-    abort_unless($token && hash_equals((string) $token, (string) $request->query('token')), 403);
-
-    Artisan::call('config:clear');
-    Artisan::call('route:clear');
-    Artisan::call('view:clear');
-
-    return response()->json(['status' => 'Laravel caches cleared']);
-})->name('maintenance.clear-caches');
 
 // Authentication
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');

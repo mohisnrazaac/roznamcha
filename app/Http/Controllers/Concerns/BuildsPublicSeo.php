@@ -83,6 +83,16 @@ trait BuildsPublicSeo
                 'type' => 'article',
                 'schemaName' => 'Roznamcha Terms of Service',
             ],
+            'disclaimer' => [
+                'title' => 'Disclaimer – Roznamcha planning, calculator, and content boundaries',
+                'description' => 'Understand what Roznamcha tools and articles do, what they do not guarantee, and why official notifications still matter for financial and household decisions.',
+                'url' => $this->publicUrlGenerator()->routeUrl('public.disclaimer'),
+                'canonical' => $this->publicUrlGenerator()->routeUrl('public.disclaimer'),
+                'image' => $defaultImage,
+                'keywords' => ['Roznamcha disclaimer', 'financial planning disclaimer Pakistan', 'calculator estimate disclaimer', 'budgeting content disclaimer'],
+                'type' => 'article',
+                'schemaName' => 'Roznamcha Disclaimer',
+            ],
             'smartBudgetTemplates' => [
                 'title' => 'Smart Budget Templates Pakistan | Roznamcha',
                 'description' => 'Preview survival-first monthly budget templates for Pakistani households, then save them inside Roznamcha to revisit next month.',

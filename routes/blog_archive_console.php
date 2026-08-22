@@ -2,6 +2,7 @@
 
 use App\Actions\Blog\ApplySafeArchiveBatchFixes;
 use App\Actions\Blog\ApplyPhase25CleanupDecisions;
+use App\Actions\Blog\ApplyAdsenseArticleRewrites;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 
@@ -49,3 +50,16 @@ Artisan::command('blog:apply-phase25-cleanup {--dry-run : Preview changes withou
 
     $this->info($this->option('dry-run') ? 'Dry run complete.' : 'Phase 25 cleanup decisions applied.');
 })->purpose('Apply the approved blog cleanup status changes from Phase 25.');
+
+Artisan::command('blog:apply-adsense-article-rewrites {--dry-run : Preview changes without saving them}', function (ApplyAdsenseArticleRewrites $action): void {
+    $result = $action->run((bool) $this->option('dry-run'));
+
+    foreach ($result['updates'] as $update) {
+        $this->line($update['slug'].' ['.implode(', ', $update['changed_fields']).']');
+    }
+
+    $this->newLine();
+    $this->info($this->option('dry-run')
+        ? 'Article rewrite dry run complete.'
+        : 'Five reviewed AdSense article rewrites applied.');
+})->purpose('Replace five high-risk articles with reviewed, source-led versions dated 19 August 2026.');

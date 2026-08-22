@@ -23,7 +23,7 @@ class PublicPageController extends Controller
         $featuredGuideSlugs = [
             'ghar-ka-monthly-budget',
             'pakistani-family-monthly-expense-control',
-            'pakistani-household-essential-expenses-2026',
+            'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',
         ];
 
         $featuredGuides = BlogPost::query()
@@ -130,6 +130,13 @@ class PublicPageController extends Controller
     public function terms(): Response
     {
         return $this->renderStaticPage('Public/Terms', 'terms', [
+            'contactEmail' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
+        ]);
+    }
+
+    public function disclaimer(): Response
+    {
+        return $this->renderStaticPage('Public/Disclaimer', 'disclaimer', [
             'contactEmail' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
         ]);
     }

@@ -43,4 +43,9 @@ return [
         'client_id' => env('ADSENSE_CLIENT_ID'),
     ],
 
+    'analytics' => [
+        'ga_measurement_id' => env('GA_MEASUREMENT_ID', 'G-5EPHFZLH71'),
+        'clarity_project_id' => env('CLARITY_PROJECT_ID', 'v5b4l0m7s1'),
+    ],
+
 ];
