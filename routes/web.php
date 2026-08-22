@@ -269,3 +269,16 @@ Route::post('/admin/update-password', [AdminPasswordController::class, 'update']
     ->name('admin.password.update');
 
 require __DIR__.'/auth.php';
+
+// AdSense Audit Redirects for Broken Links
+Route::redirect('/ration-cost-estimator', '/tools/ration-cost-estimator', 301);
+Route::redirect('/monthly-household-budget-calculator', '/tools/monthly-household-budget-calculator', 301);
+Route::redirect('/electricity-bill-estimator', '/tools/electricity-bill-estimator', 301);
+Route::redirect('/terms-of-service', '/terms', 301);
+Route::redirect('/50k-salary-survival-guide', '/blog/best-monthly-budget-50000-salary-pakistan-2026', 301);
+Route::redirect('/blog/ghar-ka-mahana-budget-kaise-banaye-pakistani-guide', '/blog/ghar-ka-monthly-budget', 301);
+Route::redirect('/blog/pakistan-inflation-july-2026-household-budget', '/blog/pakistan-inflation-9-2-percent-july-2026-household-budget', 301);
+Route::redirect('/blog/kameti-bc-vs-islamic-mutual-funds-gold-2026', '/blog/kameti-vs-mutual-funds-inflation-pakistan', 301);
+Route::redirect('/blog/reduce-kitchen-inflation-ration-buying-pakistan', '/blog/reduce-kitchen-inflation-ration-buying-habits-pakistan', 301);
+Route::redirect('/blog/how-to-use-digital-roznamcha-business-personal-finance-2025', '/blog/how-to-use-digital-roznamcha-for-business-and-personal-finance-2025', 301);
+Route::get('/cookie-policy', [App\Http\Controllers\PublicPageController::class, 'cookiePolicy'])->name('public.cookie-policy');

@@ -87,6 +87,17 @@ export const seoContent = {
         type: 'article',
         schemaName: 'Roznamcha Privacy Policy',
     },
+    cookiePolicy: {
+        title: 'Cookie Policy – Roznamcha.pk',
+        description: 'Learn how Roznamcha uses cookies for functionality, analytics, and Google AdSense advertising.',
+        path: '/cookie-policy',
+        url: `${SITE_URL}/cookie-policy`,
+        canonical: `${SITE_URL}/cookie-policy`,
+        image: DEFAULT_OG_IMAGE,
+        keywords: ['Roznamcha cookie policy', 'AdSense cookies', 'privacy'],
+        type: 'article',
+        schemaName: 'Roznamcha Cookie Policy',
+    },
     terms: {
         title: 'Terms of Service – Roznamcha household finance platform',
         description:

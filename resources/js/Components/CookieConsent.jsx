@@ -39,10 +39,10 @@ export default function CookieConsent() {
                 <div className="text-sm text-white/90 text-center md:text-left">
                     Roznamcha uses essential cookies to keep the site working. Optional Google advertising and analytics only load after you allow them.
                     If you stay with essential-only settings, we keep ads and non-essential measurement turned off on this device. Read our{' '}
-                    <a href="/privacy-policy" className="underline text-yellow-300 hover:text-yellow-200">
-                        Privacy Policy
+                    <a href="/cookie-policy" className="underline text-yellow-300 hover:text-yellow-200">
+                        Cookie Policy
                     </a>{' '}
-                    for cookies, IP address disclosures, and how consent works for visitors in the EEA, UK, and Switzerland.
+                    for details on how we use cookies.
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                     <button
