@@ -1,7 +1,11 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
-$app = require_once __DIR__ . '/bootstrap/app.php';
+$appPath = __DIR__;
+if (!file_exists($appPath . '/vendor/autoload.php')) {
+    $appPath = __DIR__ . '/../rozapp';
+}
+require $appPath . '/vendor/autoload.php';
+$app = require_once $appPath . '/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
@@ -117,15 +121,18 @@ You do not need to quit your private job to prepare. In fact, quitting your job 
 
 One of the costliest mistakes job seekers make is missing application deadlines or studying outdated syllabi downloaded from unverified social media groups. To prepare effectively, aspirants need a reliable, clean tracking source. Serious candidates should <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">track verified vacancies and exam patterns on SarkariTayari.pk</a> to access authentic recruitment notifications, department-specific test breakdowns, past paper answer keys, and roll number slip schedules across federal and provincial departments. Having access to verified test formats removes the guesswork, allowing you to focus your limited evening hours on the exact topics that will appear on the exam paper.
 
+> 📌 **Recommended Preparation Resource:**  
+> If you are targeting upcoming federal or provincial recruitments (BPS-11 to BPS-17) in FIA, Customs, Education, or Secretariats, access authentic syllabi, download verified <a href="https://sarkaritayari.pk/past-papers" target="_blank" rel="noopener noreferrer">Solved Past Papers & Answer Keys</a>, and test your exam readiness with timed questions on the free <a href="https://sarkaritayari.pk/ai/mock-tests" target="_blank" rel="noopener noreferrer">SarkariTayari AI Mock Test Simulator</a>.
+
 **A Practical Daily Action Plan for Financial Stability**
 
 Building long-term financial security in Pakistan cannot be accomplished by ledger management alone, nor can it be achieved through aimless career dreams. It requires a synchronized dual-engine approach that protects your current wealth while actively expanding your future income:
 
 - **Morning: Defensive Financial Tracking on Roznamcha.pk**  
-  Start your day by recording yesterday's expenses on your Roznamcha ledger. Enter your grocery outlays, transport costs, and miscellaneous spends. Once a week, take an actual physical reading from your electricity meter and run it through the DISCO bill estimator. By calculating your cumulative unit consumption before the 20th of the month, you can determine whether your household needs to throttle daytime appliance usage to stay safely within your targeted tariff slab.
+  Start your day by recording yesterday's expenses on your Roznamcha ledger. Enter your grocery outlays into the <a href="/tools/ration-cost-estimator">Ration Cost Estimator</a> to catch food inflation before it compounds. Once a week, take an actual physical reading from your electricity meter and run it through the <a href="/electricity-bill-calculator-lesco">DISCO Electricity Bill Calculator</a>. By calculating your cumulative unit consumption before the 20th of the month, you can determine whether your household needs to throttle daytime appliance usage to stay safely within your targeted tariff slab.
 
 - **Evening: Offensive Career Upskilling on SarkariTayari.pk**  
-  At night, switch from managing expenses to building income. Dedicate your two-hour study slot to your competitive exam syllabus. Check SarkariTayari.pk for new department advertisements, download past test papers for your target posts, and practice mock questions. 
+  At night, switch from managing expenses to building income. Dedicate your two-hour study slot to your competitive exam syllabus. Check <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a> for new department advertisements, download <a href="https://sarkaritayari.pk/past-papers" target="_blank" rel="noopener noreferrer">department-specific past papers</a> for your target posts, and test yourself on <a href="https://sarkaritayari.pk/ai/mock-tests" target="_blank" rel="noopener noreferrer">timed AI mock tests</a>.
 
 Financial peace of mind in our country is not inherited; it is engineered. By mastering the art of living lean on Roznamcha while ruthlessly preparing for an institutional career upgrade, you take control of your household's economic destiny. You stop being a passive recipient of inflation and start building a permanent financial shield that protects your family for decades to come.
 MARKDOWN;
@@ -155,6 +162,11 @@ if (method_exists($post, 'categories')) {
 
 if (method_exists(BlogPost::class, 'forgetPublicSitemapCache')) {
     BlogPost::forgetPublicSitemapCache();
+}
+
+if (class_exists(\Illuminate\Support\Facades\Artisan::class)) {
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
 }
 
 echo "Successfully published post ID: {$post->id}\n";

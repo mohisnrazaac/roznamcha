@@ -171,8 +171,35 @@ if BaseModel is not None:
             ),
         )
 else:
+    from dataclasses import dataclass, asdict
+
+    @dataclass
     class BlogPostPayload:  # type: ignore
-        pass
+        """Fallback payload container when pydantic is not installed."""
+        title: str
+        focus_keyword: str
+        meta_description: str
+        content_html: str
+        category_id: int = 1
+        status: str = "draft"
+        slug: Optional[str] = None
+        excerpt: Optional[str] = None
+
+        @classmethod
+        def model_validate(cls, data: Dict[str, Any]) -> "BlogPostPayload":
+            return cls(
+                title=data["title"],
+                focus_keyword=data.get("focus_keyword", ""),
+                meta_description=data.get("meta_description", ""),
+                category_id=int(data.get("category_id", 1)),
+                content_html=data["content_html"],
+                status=data.get("status", "draft"),
+                slug=data.get("slug"),
+                excerpt=data.get("excerpt"),
+            )
+
+        def model_dump(self) -> Dict[str, Any]:
+            return asdict(self)
 
 
 # ---------------------------------------------------------------------------
@@ -577,9 +604,7 @@ Provide your response strictly as a JSON object with these exact keys:
     if "category_id" not in data or not data["category_id"]:
         data["category_id"] = topic_info.get("category_id", 1)
 
-    if BaseModel is not None:
-        return BlogPostPayload.model_validate(data)
-    return data  # type: ignore
+    return BlogPostPayload.model_validate(data)
 
 
 # ---------------------------------------------------------------------------
@@ -678,9 +703,7 @@ def generate_mock_solar_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "status": "draft",
         "content_html": content,
     }
-    if BaseModel is not None:
-        return BlogPostPayload.model_validate(data)
-    return data  # type: ignore
+    return BlogPostPayload.model_validate(data)
 
 
 def generate_mock_tax_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
@@ -788,9 +811,7 @@ def generate_mock_tax_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "status": "draft",
         "content_html": content,
     }
-    if BaseModel is not None:
-        return BlogPostPayload.model_validate(data)
-    return data  # type: ignore
+    return BlogPostPayload.model_validate(data)
 
 
 def generate_mock_atta_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
@@ -900,9 +921,7 @@ def generate_mock_atta_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "status": "draft",
         "content_html": content,
     }
-    if BaseModel is not None:
-        return BlogPostPayload.model_validate(data)
-    return data  # type: ignore
+    return BlogPostPayload.model_validate(data)
 
 
 def generate_mock_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
