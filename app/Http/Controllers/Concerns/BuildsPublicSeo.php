@@ -9,12 +9,12 @@ trait BuildsPublicSeo
     protected function publicSeo(string $key): array
     {
         $siteUrl = $this->publicUrlGenerator()->baseUrl();
-        $defaultImage = "{$siteUrl}/favicon.ico";
+        $defaultImage = "{$siteUrl}/icons/appicon.png";
 
         return match ($key) {
             'home' => [
-                'title' => 'Roznamcha – Pakistan’s Urdu-first household budget & kharcha tracker',
-                'description' => 'Roznamcha helps Pakistani families track monthly expenses, compare ration costs, manage reminders, and understand real household budgets with practical local insights.',
+                'title' => 'Roznamcha – Pakistan’s Household Budget & Kharcha Tracker',
+                'description' => 'Track monthly expenses, compare ration costs, and manage household budgets with practical local insights for Pakistani families.',
                 'url' => $siteUrl,
                 'canonical' => $siteUrl,
                 'image' => $defaultImage,
@@ -24,8 +24,8 @@ trait BuildsPublicSeo
                 'inLanguage' => 'ur',
             ],
             'features' => [
-                'title' => 'Roznamcha Features – Preview Kharcha Map, Ration Brain, and AI Insights',
-                'description' => 'See the main Roznamcha modules before you register: Kharcha Map, Ration Brain, Survival Reports, Smart Budget Templates, Reminders, Daily Money Snapshot, and AI Insights.',
+                'title' => 'Roznamcha Features – Kharcha Map, Ration Brain & Tools',
+                'description' => 'Explore Roznamcha modules: Kharcha Map, Ration Brain, Survival Reports, Smart Budget Templates, and Reminders for Pakistani families.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.features'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.features'),
                 'image' => $defaultImage,
@@ -44,8 +44,8 @@ trait BuildsPublicSeo
                 'schemaName' => 'Kharcha Map',
             ],
             'rationBrain' => [
-                'title' => 'Ration Brain – Smart grocery planning for volatile Pakistani markets',
-                'description' => 'Plan atta, ghee, chawal, and sabzi costs with practical ration planning for Urdu-speaking Pakistani households.',
+                'title' => 'Ration Brain – Grocery Price Planning Pakistan | Roznamcha',
+                'description' => 'Plan atta, ghee, chawal, and grocery costs with practical monthly ration budget planning for Pakistani households.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.ration-brain'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.ration-brain'),
                 'image' => $defaultImage,
@@ -54,8 +54,8 @@ trait BuildsPublicSeo
                 'schemaName' => 'Ration Brain',
             ],
             'survivalReport' => [
-                'title' => 'Survival Report Pakistan – Month-end spending summary and pressure view | Roznamcha',
-                'description' => 'See how Roznamcha turns recorded monthly expenses into a clear total, daily average, category breakdown, and month-over-month pressure signal for Pakistani households.',
+                'title' => 'Survival Report – Month-End Spending Summary | Roznamcha',
+                'description' => 'Turn recorded monthly expenses into a clear spending total, daily average, category breakdown, and budget pressure signals.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.survival-report'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.survival-report'),
                 'image' => $defaultImage,
@@ -64,8 +64,8 @@ trait BuildsPublicSeo
                 'schemaName' => 'Survival Report',
             ],
             'privacy' => [
-                'title' => 'Privacy Policy – How Roznamcha protects Pakistani household data',
-                'description' => 'Learn how we handle kharcha logs, ration records, and household data for Urdu-first budgeting tools.',
+                'title' => 'Privacy Policy – Household Data Protection | Roznamcha',
+                'description' => 'Learn how Roznamcha protects kharcha logs, ration records, and household financial data for Pakistani families.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.privacy'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.privacy'),
                 'image' => $defaultImage,
@@ -84,14 +84,34 @@ trait BuildsPublicSeo
                 'schemaName' => 'Roznamcha Terms of Service',
             ],
             'disclaimer' => [
-                'title' => 'Disclaimer – Roznamcha planning, calculator, and content boundaries',
-                'description' => 'Understand what Roznamcha tools and articles do, what they do not guarantee, and why official notifications still matter for financial and household decisions.',
+                'title' => 'Disclaimer & Planning Boundaries | Roznamcha',
+                'description' => 'Understand what Roznamcha tools do, what they do not guarantee, and why official notifications matter for household decisions.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.disclaimer'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.disclaimer'),
                 'image' => $defaultImage,
                 'keywords' => ['Roznamcha disclaimer', 'financial planning disclaimer Pakistan', 'calculator estimate disclaimer', 'budgeting content disclaimer'],
                 'type' => 'article',
                 'schemaName' => 'Roznamcha Disclaimer',
+            ],
+            'login' => [
+                'title' => 'Log In to Roznamcha – Household Budget & Kharcha Tracker',
+                'description' => 'Log in to your Roznamcha account to manage family budgets, record daily expenses, track local inflation, and plan grocery purchases in Pakistan.',
+                'url' => "{$siteUrl}/login",
+                'canonical' => "{$siteUrl}/login",
+                'image' => $defaultImage,
+                'keywords' => ['Roznamcha login', 'expense tracker login', 'Pakistan budget sign in', 'kharcha app login'],
+                'type' => 'website',
+                'schemaName' => 'Roznamcha Login',
+            ],
+            'register' => [
+                'title' => 'Create Free Account – Roznamcha Expense Tracker Pakistan',
+                'description' => 'Join Roznamcha to take full control of monthly household expenses, track local grocery prices, and manage family finances across Pakistan.',
+                'url' => "{$siteUrl}/register",
+                'canonical' => "{$siteUrl}/register",
+                'image' => $defaultImage,
+                'keywords' => ['Roznamcha register', 'create budget account', 'free expense tracker Pakistan', 'kharcha app signup'],
+                'type' => 'website',
+                'schemaName' => 'Roznamcha Registration',
             ],
             'smartBudgetTemplates' => [
                 'title' => 'Smart Budget Templates Pakistan | Roznamcha',
@@ -104,7 +124,7 @@ trait BuildsPublicSeo
                 'schemaName' => 'Smart Budget Templates',
             ],
             'schoolFeesPlanner' => [
-                'title' => 'School Fees Planner Pakistan – Real monthly school cost calculator | Roznamcha',
+                'title' => 'School Fees Planner Pakistan – Cost Calculator | Roznamcha',
                 'description' => 'Calculate your monthly school fee burden in Pakistan by including tuition, annual charges, and exam fees with a planning margin for the next academic year.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.tools.school-fees-planner'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.school-fees-planner'),
@@ -114,7 +134,7 @@ trait BuildsPublicSeo
                 'schemaName' => 'School Fees Planner',
             ],
             'electricityBillEstimator' => [
-                'title' => 'Electricity Bill Estimator Pakistan – Progressive slab calculator | Roznamcha',
+                'title' => 'Electricity Bill Estimator Pakistan – Slab Rates | Roznamcha',
                 'description' => 'Estimate your Pakistan electricity bill using progressive slab rates, GST, and surcharge placeholders, then compare against a last-year baseline.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.tools.electricity-bill-estimator'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.electricity-bill-estimator'),
@@ -124,7 +144,7 @@ trait BuildsPublicSeo
                 'schemaName' => 'Electricity Bill Estimator',
             ],
             'rationCostEstimator' => [
-                'title' => 'Ration Cost Estimator Pakistan – Monthly grocery budget calculator | Roznamcha',
+                'title' => 'Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha',
                 'description' => 'Estimate your monthly ration cost in Pakistan using base prices for atta, rice, oil, sugar, and daal before the next grocery run.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.tools.ration-cost-estimator'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.ration-cost-estimator'),
@@ -144,7 +164,7 @@ trait BuildsPublicSeo
                 'schemaName' => 'Monthly Expense Tracker Pakistan',
             ],
             'monthlyHouseholdBudgetCalculator' => [
-                'title' => 'Monthly Household Budget Calculator Pakistan – Ghar ka budget planner | Roznamcha',
+                'title' => 'Monthly Household Budget Calculator Pakistan | Roznamcha',
                 'description' => 'Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.',
                 'url' => $this->publicUrlGenerator()->routeUrl('public.tools.monthly-household-budget-calculator'),
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.monthly-household-budget-calculator'),
@@ -152,6 +172,26 @@ trait BuildsPublicSeo
                 'keywords' => ['monthly household budget calculator Pakistan', 'ghar ka budget calculator PKR', 'monthly budget planner', 'Pakistan household expense tracker', 'salary planning Pakistan'],
                 'type' => 'article',
                 'schemaName' => 'Monthly Household Budget Calculator',
+            ],
+            'login' => [
+                'title' => 'Login to Roznamcha | Household Expense & Budget Tracker',
+                'description' => 'Log in to Roznamcha to manage household budgets, track daily kharcha, monitor ration costs, and view monthly survival reports in Pakistan.',
+                'url' => "{$siteUrl}/login",
+                'canonical' => "{$siteUrl}/login",
+                'image' => $defaultImage,
+                'keywords' => ['login roznamcha', 'pakistan expense tracker login', 'household budget sign in'],
+                'type' => 'website',
+                'schemaName' => 'Roznamcha Login',
+            ],
+            'register' => [
+                'title' => 'Register Free Account | Roznamcha Expense Tracker',
+                'description' => 'Create your free Roznamcha account to track family expenses, calculate monthly ration budgets, and protect your household against inflation in Pakistan.',
+                'url' => "{$siteUrl}/register",
+                'canonical' => "{$siteUrl}/register",
+                'image' => $defaultImage,
+                'keywords' => ['register roznamcha', 'free household budget account pakistan', 'sign up expense tracker'],
+                'type' => 'website',
+                'schemaName' => 'Roznamcha Register',
             ],
             default => [
                 'title' => 'Roznamcha',

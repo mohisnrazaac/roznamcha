@@ -51,4 +51,22 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
         $response->assertRedirect('/');
     }
+
+    public function test_authenticated_users_are_redirected_to_dashboard_when_visiting_login(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/login');
+
+        $response->assertRedirect('/dashboard');
+    }
+
+    public function test_authenticated_users_are_redirected_to_return_to_url_when_visiting_login(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/login?return_to=%2Ftemplates%2F50k-salary-survival-guide');
+
+        $response->assertRedirect('/templates/50k-salary-survival-guide');
+    }
 }

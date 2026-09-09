@@ -20,7 +20,7 @@ class PublicPageSeoHeadTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('<title inertia>About Mohsin | Founder of Roznamcha.pk</title>', false);
-        $response->assertSee('meta name="description" content="Learn about Mohsin, Founder of Roznamcha.pk, a Software Architect building practical tools and content to help Pakistani households manage budgeting, expenses, and everyday financial pressure."', false);
+        $response->assertSee('meta name="description" content="Learn about Mohsin, Founder of Roznamcha.pk, building practical tools to help Pakistani households manage budgeting and everyday financial pressure."', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicRouteUrl('public.about').'" inertia="canonical"', false);
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
     }
@@ -93,8 +93,12 @@ class PublicPageSeoHeadTest extends TestCase
         $response = $this->get(route('public.home'));
 
         $response->assertOk();
-        $response->assertSee('<title inertia>Roznamcha – Pakistan’s Urdu-first household budget &amp; kharcha tracker</title>', false);
-        $response->assertSee('meta name="description" content="Roznamcha helps Pakistani families track monthly expenses, compare ration costs, manage reminders, and understand real household budgets with practical local insights."', false);
+        $response->assertSee('<title inertia>Roznamcha – Pakistan’s Household Budget &amp; Kharcha Tracker</title>', false);
+        $response->assertSee('meta name="description" content="Track monthly expenses, compare ration costs, and manage household budgets with practical local insights for Pakistani families."', false);
+        $response->assertSee('meta name="author" content="Mohsin"', false);
+        $response->assertSee('meta property="og:title" content="Roznamcha – Pakistan’s Household Budget &amp; Kharcha Tracker"', false);
+        $response->assertSee('meta property="og:site_name" content="Roznamcha"', false);
+        $response->assertSee('meta name="twitter:card" content="summary_large_image"', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicBaseUrl().'" inertia="canonical"', false);
         $response->assertSee('type="application/ld+json" inertia="page-jsonld"', false);
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
@@ -106,8 +110,8 @@ class PublicPageSeoHeadTest extends TestCase
             [
                 'requestUrl' => route('public.features'),
                 'canonicalUrl' => $this->publicRouteUrl('public.features'),
-                'title' => 'Roznamcha Features – Preview Kharcha Map, Ration Brain, and AI Insights',
-                'description' => 'See the main Roznamcha modules before you register: Kharcha Map, Ration Brain, Survival Reports, Smart Budget Templates, Reminders, Daily Money Snapshot, and AI Insights.',
+                'title' => 'Roznamcha Features – Kharcha Map, Ration Brain & Tools',
+                'description' => 'Explore Roznamcha modules: Kharcha Map, Ration Brain, Survival Reports, Smart Budget Templates, and Reminders for Pakistani families.',
             ],
             [
                 'requestUrl' => route('public.kharcha-map'),
@@ -118,20 +122,20 @@ class PublicPageSeoHeadTest extends TestCase
             [
                 'requestUrl' => route('public.ration-brain'),
                 'canonicalUrl' => $this->publicRouteUrl('public.ration-brain'),
-                'title' => 'Ration Brain – Smart grocery planning for volatile Pakistani markets',
-                'description' => 'Plan atta, ghee, chawal, and sabzi costs with practical ration planning for Urdu-speaking Pakistani households.',
+                'title' => 'Ration Brain – Grocery Price Planning Pakistan | Roznamcha',
+                'description' => 'Plan atta, ghee, chawal, and grocery costs with practical monthly ration budget planning for Pakistani households.',
             ],
             [
                 'requestUrl' => route('public.survival-report'),
                 'canonicalUrl' => $this->publicRouteUrl('public.survival-report'),
-                'title' => 'Survival Report Pakistan – Month-end spending summary and pressure view | Roznamcha',
-                'description' => 'See how Roznamcha turns recorded monthly expenses into a clear total, daily average, category breakdown, and month-over-month pressure signal for Pakistani households.',
+                'title' => 'Survival Report – Month-End Spending Summary | Roznamcha',
+                'description' => 'Turn recorded monthly expenses into a clear spending total, daily average, category breakdown, and budget pressure signals.',
             ],
             [
                 'requestUrl' => route('public.privacy'),
                 'canonicalUrl' => $this->publicRouteUrl('public.privacy'),
-                'title' => 'Privacy Policy – How Roznamcha protects Pakistani household data',
-                'description' => 'Learn how we handle kharcha logs, ration records, and household data for Urdu-first budgeting tools.',
+                'title' => 'Privacy Policy – Household Data Protection | Roznamcha',
+                'description' => 'Learn how Roznamcha protects kharcha logs, ration records, and household financial data for Pakistani families.',
             ],
             [
                 'requestUrl' => route('public.terms'),
@@ -142,8 +146,8 @@ class PublicPageSeoHeadTest extends TestCase
             [
                 'requestUrl' => route('public.disclaimer'),
                 'canonicalUrl' => $this->publicRouteUrl('public.disclaimer'),
-                'title' => 'Disclaimer – Roznamcha planning, calculator, and content boundaries',
-                'description' => 'Understand what Roznamcha tools and articles do, what they do not guarantee, and why official notifications still matter for financial and household decisions.',
+                'title' => 'Disclaimer & Planning Boundaries | Roznamcha',
+                'description' => 'Understand what Roznamcha tools do, what they do not guarantee, and why official notifications matter for household decisions.',
             ],
             [
                 'requestUrl' => route('public.features.expense-tracker-pakistan'),
@@ -157,7 +161,7 @@ class PublicPageSeoHeadTest extends TestCase
             $response = $this->get($expectation['requestUrl']);
 
             $response->assertOk();
-            $response->assertSee("<title inertia>{$expectation['title']}</title>", false);
+            $response->assertSee('<title inertia>'.e($expectation['title']).'</title>', false);
             $response->assertSee('meta name="description" content="'.$expectation['description'].'"', false);
             $response->assertSee('link rel="canonical" href="'.$expectation['canonicalUrl'].'" inertia="canonical"', false);
             $response->assertSee('type="application/ld+json" inertia="page-jsonld"', false);
@@ -170,7 +174,7 @@ class PublicPageSeoHeadTest extends TestCase
         $response = $this->get(route('public.blog.index'));
 
         $response->assertOk();
-        $response->assertSee('<title inertia>Roznamcha Blog – Daily tips on Pakistani budgets, kharcha, and ration planning</title>', false);
+        $response->assertSee('<title inertia>Roznamcha Blog – Household Budget &amp; Kharcha Tips</title>', false);
         $response->assertSee('meta name="description" content="Practical guides on household budgeting, ration planning, and month-end pressure for Pakistani families."', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicRouteUrl('public.blog.index').'" inertia="canonical"', false);
         $response->assertDontSee('inertia="page-jsonld"', false);
@@ -218,21 +222,21 @@ class PublicPageSeoHeadTest extends TestCase
             [
                 'requestUrl' => route('public.tools.ration-cost-estimator'),
                 'canonicalUrl' => $this->publicRouteUrl('public.tools.ration-cost-estimator'),
-                'title' => 'Ration Cost Estimator Pakistan – Monthly grocery budget calculator | Roznamcha',
+                'title' => 'Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha',
                 'description' => 'Estimate your monthly ration cost in Pakistan using base prices for atta, rice, oil, sugar, and daal before the next grocery run.',
                 'expectsPageSchema' => true,
             ],
             [
                 'requestUrl' => route('public.tools.school-fees-planner'),
                 'canonicalUrl' => $this->publicRouteUrl('public.tools.school-fees-planner'),
-                'title' => 'School Fees Planner Pakistan – Real monthly school cost calculator | Roznamcha',
+                'title' => 'School Fees Planner Pakistan – Cost Calculator | Roznamcha',
                 'description' => 'Calculate your monthly school fee burden in Pakistan by including tuition, annual charges, and exam fees with a planning margin for the next academic year.',
                 'expectsPageSchema' => true,
             ],
             [
                 'requestUrl' => route('public.tools.electricity-bill-estimator'),
                 'canonicalUrl' => $this->publicRouteUrl('public.tools.electricity-bill-estimator'),
-                'title' => 'Electricity Bill Estimator Pakistan – Progressive slab calculator | Roznamcha',
+                'title' => 'Electricity Bill Estimator Pakistan – Slab Rates | Roznamcha',
                 'description' => 'Estimate your Pakistan electricity bill using progressive slab rates, GST, and surcharge placeholders, then compare against a last-year baseline.',
                 'expectsPageSchema' => true,
             ],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -15,12 +16,17 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
+    use BuildsPublicSeo;
+
     /**
      * Display the registration view.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'returnTo' => (string) ($request->query('return_to') ?: '/dashboard'),
+            'seo' => $this->publicSeo('register'),
+        ]);
     }
 
     /**
@@ -34,6 +40,7 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'return_to' => ['nullable', 'string', 'max:255'],
         ]);
 
         $user = User::create([
@@ -45,6 +52,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if ($request->filled('return_to')) {
+            return redirect($request->input('return_to'));
+        }
 
         return redirect(route('dashboard', absolute: false));
     }

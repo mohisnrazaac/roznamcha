@@ -62,6 +62,18 @@ class SmartBudgetTemplatesTest extends TestCase
         $this->assertSame($template->base_salary_target, $template->template_json['salary'] ?? null);
     }
 
+    public function test_guests_can_view_50k_salary_survival_guide_template_without_login(): void
+    {
+        $response = $this->get('/templates/50k-salary-survival-guide');
+
+        $response->assertOk();
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Templates/Show')
+            ->where('template.slug', '50k-salary-survival-guide')
+            ->has('budget.categories')
+        );
+    }
+
     public function test_student_template_replaces_negative_school_fee_output_with_safe_fallback(): void
     {
         $template = BudgetTemplate::query()->where('slug', 'student-budget')->firstOrFail();

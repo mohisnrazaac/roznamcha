@@ -8,6 +8,8 @@ export default function GuestLayout({ children }) {
                     <img
                         src="/icons/appicon.png"
                         alt="Roznamcha logo"
+                        width="64"
+                        height="64"
                         className="h-16 w-16 rounded-2xl border border-[#001a4a]/10 bg-white object-cover shadow-md"
                     />
                     <div className="text-left leading-tight hidden sm:block">

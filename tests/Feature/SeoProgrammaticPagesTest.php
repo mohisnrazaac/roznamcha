@@ -100,13 +100,13 @@ class SeoProgrammaticPagesTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->component('SEO/Electricity')
-                ->where('metaTitle', 'Electricity Bill Calculator for LESCO | Roznamcha')
+                ->where('metaTitle', 'LESCO Bill Calculator 2026: Taxes, FCA & Protected Slabs')
                 ->where('title', 'Electricity Bill Calculator for LESCO')
                 ->where('summaryText', fn (string $summary) => str_contains($summary, 'LESCO residential billing around PKR '))
                 ->where('helperContent.0.heading', 'What the LESCO estimate covers')
                 ->where('helperContent.2.heading', 'How to use the examples')
-                ->where('robots', 'noindex,follow')
-                ->where('isIndexable', false)
+                ->where('robots', 'index,follow')
+                ->where('isIndexable', true)
             );
 
         $this->get('/ration-cost-for-6-people-pakistan')

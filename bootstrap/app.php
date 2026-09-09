@@ -1,13 +1,14 @@
 <?php
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Console\Scheduling\Schedule;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
@@ -44,7 +45,16 @@ return Application::configure(basePath: dirname(__DIR__))
             'track.blog.cta' => \App\Http\Middleware\TrackBlogCtaClick::class,
             'ai.quota' => \App\Http\Middleware\CheckAiQuota::class,
             'cache.public' => \App\Http\Middleware\PublicCacheHeaders::class,
+            'agent.verify' => \App\Http\Middleware\VerifyIngestionKey::class,
         ]);
+
+        $middleware->redirectUsersTo(function (\Illuminate\Http\Request $request): string {
+            if ($request->filled('return_to')) {
+                return (string) $request->query('return_to');
+            }
+
+            return '/dashboard';
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

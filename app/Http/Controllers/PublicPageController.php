@@ -83,7 +83,7 @@ class PublicPageController extends Controller
         $publicContactEmail = (string) config('mail.public_contact_email', 'support@roznamcha.pk');
         $seo = [
             'title' => 'About Mohsin | Founder of Roznamcha.pk',
-            'description' => 'Learn about Mohsin, Founder of Roznamcha.pk, a Software Architect building practical tools and content to help Pakistani households manage budgeting, expenses, and everyday financial pressure.',
+            'description' => 'Learn about Mohsin, Founder of Roznamcha.pk, building practical tools to help Pakistani households manage budgeting and everyday financial pressure.',
             'url' => $url,
             'canonical' => $url,
             'type' => 'website',
@@ -137,6 +137,13 @@ class PublicPageController extends Controller
     public function disclaimer(): Response
     {
         return $this->renderStaticPage('Public/Disclaimer', 'disclaimer', [
+            'contactEmail' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
+        ]);
+    }
+
+    public function cookiePolicy(): Response
+    {
+        return $this->renderStaticPage('Public/CookiePolicy', 'cookiePolicy', [
             'contactEmail' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
         ]);
     }

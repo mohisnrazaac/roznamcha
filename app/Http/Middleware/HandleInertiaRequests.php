@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
-use Tighten\Ziggy\Ziggy;
 use Throwable;
-use App\Models\BlogPost;
+use Tighten\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -111,7 +111,7 @@ class HandleInertiaRequests extends Middleware
 
     protected function ziggyConfig(Request $request, ?string $routeName): array
     {
-        $ziggy = new Ziggy(null, $request->url());
+        $ziggy = new Ziggy(null, url('/'));
 
         if ($this->isPublicPage($routeName)) {
             $ziggy->filter($this->publicRouteNames($request));
@@ -178,6 +178,12 @@ class HandleInertiaRequests extends Middleware
     protected function publicRouteNames(Request $request): array
     {
         $routeNames = [
+            'login',
+            'register',
+            'password.request',
+            'password.email',
+            'password.reset',
+            'password.store',
             'public.ads-txt',
             'public.home',
             'public.features',

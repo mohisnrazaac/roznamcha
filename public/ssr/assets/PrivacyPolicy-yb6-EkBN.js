@@ -1,0 +1,100 @@
+import { j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
+import { P as PublicLayout } from "./PublicLayout-Cdp3p9pO.js";
+import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-1rNy1Vsq.js";
+import "util";
+import "stream";
+import "path";
+import "http";
+import "https";
+import "url";
+import "fs";
+import "crypto";
+import "assert";
+import "tty";
+import "zlib";
+import "events";
+import "process";
+import "./ChatWidget-DFPdtWTT.js";
+const sections = [
+  {
+    title: "Data we collect for Pakistani households",
+    body: "To power Kharcha Map, Ration Brain, and the Survival Report we collect the minimum data required to show your rupees clearly.",
+    bullets: [
+      "Account information such as name, email, and optional household labels.",
+      "Expense, ration, and reminder entries (amounts, categories, Urdu notes).",
+      "Metadata like device type or city to diagnose bugs and improve localization."
+    ]
+  },
+  {
+    title: "How Roznamcha uses that information",
+    body: "Entries stay inside your encrypted Roznamcha workspace and only surface inside dashboards or reports you intentionally generate.",
+    bullets: [
+      "Render charts inside Kharcha Map and month-end Survival Reports.",
+      "Send optional reminder emails or WhatsApp alerts about bills you configure.",
+      "Analyse anonymized trends to improve insights relevant to Pakistani inflation."
+    ]
+  },
+  {
+    title: "Security and storage",
+    body: "We host infrastructure in reputable cloud regions with strict firewall policies. All traffic is served via HTTPS and sensitive fields are encrypted at rest.",
+    bullets: [
+      "Role-based permissions so only invited household members can view entries.",
+      "Backups stored in Pakistan-friendly zones with retention limits.",
+      "Regular reviews against PECA and international privacy expectations."
+    ]
+  },
+  {
+    title: "Your choices and rights",
+    body: "Roznamcha honors Pakistani residents’ rights to access, export, or delete their kharcha history.",
+    bullets: [
+      "Request a machine-readable export of expenses, ration logs, and reminders.",
+      "Ask us to delete your account and associated data at any time.",
+      "Update contact preferences or opt out of non-essential communication."
+    ]
+  },
+  {
+    title: "Google AdSense and third-party advertising",
+    body: "We use third-party advertising companies, specifically Google AdSense, to serve ads when you visit our website. These companies may use cookies and web beacons to collect non-personal data to show you relevant advertisements.",
+    bullets: [
+      "Google, as a third-party vendor, uses cookies to serve ads on Roznamcha.",
+      "Google's use of the advertising cookie enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the Internet.",
+      "Users may opt out of personalized advertising by visiting Google Ads Settings (https://adssettings.google.com) or via Network Advertising Initiative (https://optout.networkadvertising.org)."
+    ]
+  }
+];
+function PrivacyPolicy({ seo: seoProp, jsonLd: jsonLdProp, contactEmail = "support@roznamcha.pk" }) {
+  const seo = seoProp ?? seoContent.privacy;
+  const jsonLd = jsonLdProp ?? buildWebPageSchema(seo);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(PublicLayout, { variant: "inner", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SeoHead, { ...seo, jsonLd }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs uppercase tracking-[0.4em] text-[#001a4a]/70", children: "Roznamcha" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold text-[#001a4a]", children: "Privacy Policy" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base text-slate-700", children: "See how we secure kharcha logs, encrypt ration records, and stay transparent with Pakistani households who trust us to run their Urdu-first budgeting workflows." })
+      ] }),
+      sections.map((section) => /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "bg-white border border-slate-200 rounded-2xl p-6 space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-semibold text-[#001a4a]", children: section.title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base text-slate-700", children: section.body }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "list-disc pl-5 space-y-2 text-slate-700", children: section.bullets.map((point) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: point }, point)) })
+      ] }, section.title)),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-[#fff9ef] border border-yellow-200 rounded-2xl p-6 space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-semibold text-[#001a4a]", children: "Need clarification?" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-base text-slate-700", children: [
+          "Email",
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: `mailto:${contactEmail}`, className: "font-semibold text-[#001a4a] hover:underline", children: contactEmail }),
+          " ",
+          "or message the",
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: route("public.contact"), className: "font-semibold text-[#001a4a] hover:underline", children: "support team" }),
+          " ",
+          "to exercise your rights or ask about compliance."
+        ] })
+      ] })
+    ] })
+  ] });
+}
+export {
+  PrivacyPolicy as default
+};

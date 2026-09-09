@@ -48,4 +48,8 @@ return [
         'clarity_project_id' => env('CLARITY_PROJECT_ID', 'v5b4l0m7s1'),
     ],
 
+    'agent' => [
+        'secret_key' => env('AGENT_INGESTION_SECRET'),
+    ],
+
 ];

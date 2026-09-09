@@ -23,9 +23,6 @@ class SeoPageController extends Controller
 
     public function electricity(string $disco): Response
     {
-        if (! auth()->check() && ! app()->runningUnitTests()) {
-            abort(404);
-        }
         return Inertia::render('SEO/Electricity', $this->pageDataService->electricity($disco));
     }
 

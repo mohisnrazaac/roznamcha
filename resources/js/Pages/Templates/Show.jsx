@@ -36,15 +36,13 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
             'Preview a Pakistan-specific survival budget template, save it to your household, and download the free PDF after login.',
         canonical: `https://roznamcha.pk${template.show_url}`,
         url: `https://roznamcha.pk${template.show_url}`,
-        image: 'https://roznamcha.pk/favicon.ico',
+        image: 'https://roznamcha.pk/icons/appicon.png',
         type: 'article',
         schemaName: template.title,
     };
 
     const registerHref = `/register?return_to=${encodeURIComponent(guestReturnTo)}`;
     const loginHref = `/login?return_to=${encodeURIComponent(guestReturnTo)}`;
-    const visibleGuestCategories = budget.categories.slice(0, 4);
-    const lockedGuestCategories = budget.categories.slice(4);
     const showPremiumLock = template.is_premium && !template.has_pro_access;
 
     const handleSave = () => {
@@ -168,31 +166,32 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
                             </div>
 
                             <div className="mt-6 space-y-3">
-                                {(isAuthenticated ? budget.categories : visibleGuestCategories).map((item) => (
+                                {budget.categories.map((item) => (
                                     <CategoryRow key={item.category} item={item} />
                                 ))}
                             </div>
 
-                            {!isAuthenticated && lockedGuestCategories.length > 0 ? (
-                                <div className="relative mt-4 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
-                                    <div className="space-y-3 blur-sm">
-                                        {lockedGuestCategories.slice(0, 3).map((item) => (
-                                            <CategoryRow key={item.category} item={item} />
-                                        ))}
-                                    </div>
-                                    <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-[2px]">
-                                        <div className="max-w-sm rounded-3xl bg-[#001a4a] p-6 text-center text-white shadow-xl">
-                                            <p className="text-lg font-semibold">Save this for my household</p>
-                                            <p className="mt-2 text-sm text-white/80">
-                                                Preview is open. Download and returning access start after signup.
-                                            </p>
-                                            <Link
-                                                href={registerHref}
-                                                className="mt-4 inline-flex items-center justify-center rounded-full bg-yellow-300 px-5 py-2.5 text-sm font-semibold text-[#001a4a]"
-                                            >
-                                                Save to continue
-                                            </Link>
-                                        </div>
+                            {!isAuthenticated ? (
+                                <div className="mt-6 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-6 text-center">
+                                    <p className="text-base font-semibold text-[#001a4a]">
+                                        Save this budget template for your household
+                                    </p>
+                                    <p className="mt-1 text-sm text-slate-600">
+                                        Sign up to track your monthly spending against this template, or login to download the free PDF.
+                                    </p>
+                                    <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+                                        <Link
+                                            href={registerHref}
+                                            className="inline-flex items-center justify-center rounded-full bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#012261]"
+                                        >
+                                            Save this for my household
+                                        </Link>
+                                        <Link
+                                            href={loginHref}
+                                            className="inline-flex items-center justify-center rounded-full border border-[#001a4a]/15 bg-white px-5 py-2.5 text-sm font-semibold text-[#001a4a] transition hover:bg-slate-100"
+                                        >
+                                            Login to download
+                                        </Link>
                                     </div>
                                 </div>
                             ) : null}

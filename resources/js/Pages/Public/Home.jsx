@@ -6,6 +6,11 @@ import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
 const firstClickPages = [
     {
+        title: 'Monthly Expense Tracker Pakistan',
+        href: '/features/monthly-expense-tracker-pakistan',
+        body: 'Track your daily PKR household spending, income streams, and inflation leaks.',
+    },
+    {
         title: 'Ration Cost Estimator',
         href: '/tools/ration-cost-estimator',
         body: 'Start with a staple-basket estimate, see what drives the total, and use it before the next market trip.',
@@ -28,6 +33,12 @@ const firstClickPages = [
 ];
 
 const proofCards = [
+    {
+        eyebrow: 'Approved flagship page',
+        title: 'Monthly Expense Tracker Pakistan',
+        href: '/features/monthly-expense-tracker-pakistan',
+        description: 'See how Pakistani households log daily kharcha, curb inflation leaks, and track monthly surplus.',
+    },
     {
         eyebrow: 'Approved flagship page',
         title: 'Ration Cost Estimator',

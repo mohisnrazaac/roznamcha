@@ -89,6 +89,8 @@ export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
                     <img
                         src={post.og_image_url}
                         alt={post.title || "Blog post cover image"}
+                        width="1200"
+                        height="630"
                         className="w-full rounded-[2rem] border border-slate-200 object-cover shadow-sm"
                         loading="lazy"
                     />

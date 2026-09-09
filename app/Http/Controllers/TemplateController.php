@@ -79,14 +79,8 @@ class TemplateController extends Controller
         ]);
     }
 
-    public function show(Request $request, string $slug): Response|RedirectResponse
+    public function show(Request $request, string $slug): Response
     {
-        if (! auth()->check() && ! app()->runningUnitTests()) {
-            return redirect()->route('login', [
-                'return_to' => $request->getRequestUri(),
-            ]);
-        }
-
         $template = BudgetTemplate::query()->where('slug', $slug)->firstOrFail();
         $payload = $this->templateGenerator->getOrGenerate($template);
         $proPreview = $this->downloadService->buildDocumentData($template, $payload, 'pro');
@@ -266,7 +260,7 @@ class TemplateController extends Controller
             'description' => 'Preview a Pakistan-specific survival budget template, save it to your household, and download the free PDF after login.',
             'canonical' => $url,
             'url' => $url,
-            'image' => "{$siteUrl}/favicon.ico",
+            'image' => "{$siteUrl}/icons/appicon.png",
             'type' => 'article',
             'schemaName' => $template->title,
             'robots' => $this->searchSurfacePolicy->robotsForTemplate($template->slug),

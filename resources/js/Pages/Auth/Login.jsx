@@ -2,16 +2,17 @@ import React, { useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Login({ returnTo = '/dashboard' }) {
-  const { data, setData, post, processing, errors, setDefaults } = useForm({
+  const { data, setData, post, processing, errors } = useForm({
     email: '',
     password: '',
     return_to: returnTo,
   });
 
   useEffect(() => {
-    setDefaults('return_to', returnTo);
-    setData('return_to', returnTo);
-  }, [returnTo, setDefaults, setData]);
+    if (returnTo && data.return_to !== returnTo) {
+      setData('return_to', returnTo);
+    }
+  }, [returnTo]);
 
   const submit = (event) => {
     event.preventDefault();
@@ -29,6 +30,20 @@ export default function Login({ returnTo = '/dashboard' }) {
             Track household survival with your cockpit.
           </p>
         </div>
+
+        {returnTo && returnTo.startsWith('/templates/') && (
+          <div className="mb-6 rounded-xl border border-blue-900/60 bg-blue-950/40 p-3 text-center">
+            <p className="text-xs text-slate-300">
+              Just looking to check this budget template?
+            </p>
+            <Link
+              href={returnTo}
+              className="mt-1 inline-flex items-center text-xs font-semibold text-blue-400 hover:text-blue-300 underline"
+            >
+              ← Continue viewing template without signing in
+            </Link>
+          </div>
+        )}
 
         <form onSubmit={submit} className="space-y-5">
           <div>
@@ -77,7 +92,11 @@ export default function Login({ returnTo = '/dashboard' }) {
         <p className="mt-6 text-center text-sm text-slate-400">
           New here?{' '}
           <Link
-            href={route('register', { return_to: data.return_to })}
+            href={
+              data.return_to && data.return_to !== '/dashboard'
+                ? `/register?return_to=${encodeURIComponent(data.return_to)}`
+                : '/register'
+            }
             className="font-semibold text-blue-400 hover:text-blue-300"
           >
             Sign up

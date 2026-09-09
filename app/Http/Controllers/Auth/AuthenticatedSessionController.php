@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -13,14 +14,18 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+    use BuildsPublicSeo;
+
     /**
      * Display the login view.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
         return Inertia::render('Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'returnTo' => (string) ($request->query('return_to') ?: '/dashboard'),
+            'seo' => $this->publicSeo('login'),
         ]);
     }
 
@@ -32,6 +37,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        if ($request->filled('return_to')) {
+            return redirect($request->input('return_to'));
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

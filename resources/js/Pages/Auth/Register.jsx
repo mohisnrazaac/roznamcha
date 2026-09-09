@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Register({ returnTo = '/dashboard' }) {
-  const { data, setData, post, processing, errors, setDefaults } = useForm({
+  const { data, setData, post, processing, errors } = useForm({
     name: '',
     email: '',
     password: '',
@@ -11,9 +11,10 @@ export default function Register({ returnTo = '/dashboard' }) {
   });
 
   useEffect(() => {
-    setDefaults('return_to', returnTo);
-    setData('return_to', returnTo);
-  }, [returnTo, setDefaults, setData]);
+    if (returnTo && data.return_to !== returnTo) {
+      setData('return_to', returnTo);
+    }
+  }, [returnTo]);
 
   const submit = (event) => {
     event.preventDefault();
@@ -31,6 +32,20 @@ export default function Register({ returnTo = '/dashboard' }) {
             Sign up to manage your household survival cockpit.
           </p>
         </div>
+
+        {returnTo && returnTo.startsWith('/templates/') && (
+          <div className="mb-6 rounded-xl border border-blue-900/60 bg-blue-950/40 p-3 text-center">
+            <p className="text-xs text-slate-300">
+              Just looking to check this budget template?
+            </p>
+            <Link
+              href={returnTo}
+              className="mt-1 inline-flex items-center text-xs font-semibold text-blue-400 hover:text-blue-300 underline"
+            >
+              ← Continue viewing template without signing up
+            </Link>
+          </div>
+        )}
 
         <form onSubmit={submit} className="space-y-5">
           <div>
@@ -113,7 +128,11 @@ export default function Register({ returnTo = '/dashboard' }) {
         <p className="mt-6 text-center text-sm text-slate-400">
           Already have an account?{' '}
           <Link
-            href={route('login', { return_to: data.return_to })}
+            href={
+              data.return_to && data.return_to !== '/dashboard'
+                ? `/login?return_to=${encodeURIComponent(data.return_to)}`
+                : '/login'
+            }
             className="font-semibold text-blue-400 hover:text-blue-300"
           >
             Log in

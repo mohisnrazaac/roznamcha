@@ -16,8 +16,7 @@ return [
     ],
 
     'search_surface' => [
-        // Temporary AdSense approval cleanup: programmatic/template detail pages noindexed until content depth is upgraded.
-        'noindex_page_types' => ['petrol', 'electricity', 'ration'],
+        'noindex_page_types' => ['petrol', 'ration'],
         'noindex_template_slugs' => [
             'student-budget',
             '50k-salary-survival-guide',

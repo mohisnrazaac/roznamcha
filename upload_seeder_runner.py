@@ -11,9 +11,9 @@ with open('.env') as f:
 ftp = ftplib.FTP(env['DEPLOY_FTP_HOST'])
 ftp.login(env['DEPLOY_FTP_USER'], env['DEPLOY_FTP_PASS'])
 
-print("Uploading InflationBlogPostSeeder.php...")
-with open('database/seeders/InflationBlogPostSeeder.php', 'rb') as f:
-    ftp.storbinary('STOR rozapp/database/seeders/InflationBlogPostSeeder.php', f)
+print("Uploading RewriteSmartBudgetingTipsSeeder.php...")
+with open('database/seeders/RewriteSmartBudgetingTipsSeeder.php', 'rb') as f:
+    ftp.storbinary('STOR rozapp/database/seeders/RewriteSmartBudgetingTipsSeeder.php', f)
 
 print("Uploading run_seeder.php...")
 with open('run_seeder.php', 'rb') as f:

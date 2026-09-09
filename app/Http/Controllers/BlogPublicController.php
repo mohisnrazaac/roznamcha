@@ -23,11 +23,11 @@ class BlogPublicController extends Controller
     public function index(Request $request): Response
     {
         $posts = $this->baseQuery()
-            ->paginate(10)
+            ->paginate(6)
             ->withQueryString()
             ->through(fn (BlogPost $post) => $this->transformPostSummary($post));
 
-        $categories = BlogCategory::query()
+        $categories = BlogCategory::whereHas('posts', fn ($q) => $q->publicArchiveVisible())
             ->orderBy('name')
             ->get(['id', 'name', 'slug']);
 
@@ -48,7 +48,7 @@ class BlogPublicController extends Controller
 
         $posts = $this->baseQuery()
             ->whereHas('categories', fn ($query) => $query->where('blog_categories.id', $category->id))
-            ->paginate(10)
+            ->paginate(6)
             ->withQueryString()
             ->through(fn (BlogPost $post) => $this->transformPostSummary($post));
 
@@ -238,7 +238,7 @@ class BlogPublicController extends Controller
         $url = $this->urlGenerator->routeUrl('public.blog.index');
 
         return [
-            'title' => 'Roznamcha Blog – Daily tips on Pakistani budgets, kharcha, and ration planning',
+            'title' => 'Roznamcha Blog – Household Budget & Kharcha Tips',
             'description' => 'Practical guides on household budgeting, ration planning, and month-end pressure for Pakistani families.',
             'url' => $url,
             'canonical' => $url,
@@ -286,10 +286,20 @@ class BlogPublicController extends Controller
         $seoTitle = $this->normalizeMetaText($post->seo_title);
 
         if ($seoTitle !== '' && ! $this->looksPlaceholderText($seoTitle)) {
-            return $seoTitle;
+            return Str::length($seoTitle) > 60 ? Str::limit($seoTitle, 60, '') : $seoTitle;
         }
 
-        return "{$headline} | Roznamcha Blog";
+        $fullTitle = "{$headline} | Roznamcha Blog";
+        if (Str::length($fullTitle) <= 60) {
+            return $fullTitle;
+        }
+
+        $shortTitle = "{$headline} | Roznamcha";
+        if (Str::length($shortTitle) <= 60) {
+            return $shortTitle;
+        }
+
+        return Str::limit($headline, 60, '');
     }
 
     protected function resolvedHeadline(BlogPost $post): string
@@ -317,7 +327,7 @@ class BlogPublicController extends Controller
         }
 
         if ($this->shouldFallbackDescription($description, $headline)) {
-            $description = Str::limit($this->normalizeMetaText(strip_tags($post->rendered_content)), 155);
+            $description = Str::limit($this->normalizeMetaText(strip_tags($post->rendered_content)), 140);
         }
 
         if ($this->shouldFallbackDescription($description, $headline)) {
@@ -328,7 +338,7 @@ class BlogPublicController extends Controller
             $description = "Read {$headline} on Roznamcha for practical Pakistan household budgeting and planning guidance.";
         }
 
-        return Str::limit($description, 155);
+        return Str::limit($description, 140);
     }
 
     protected function shouldFallbackDescription(string $description, string $headline): bool

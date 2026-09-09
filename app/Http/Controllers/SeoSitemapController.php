@@ -26,6 +26,7 @@ class SeoSitemapController extends Controller
         return response($xml, 200, [
             'Content-Type' => 'application/xml; charset=UTF-8',
             'Cache-Control' => 'public, max-age=3600, s-maxage=3600',
+            'X-Robots-Tag' => 'noindex, follow', // Prevents Google from indexing the sitemap as a search result
         ]);
     }
 

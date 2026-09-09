@@ -1,11 +1,11 @@
 export const SITE_URL = 'https://roznamcha.pk';
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/favicon.ico`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/icons/appicon.png`;
 
 export const seoContent = {
     home: {
-        title: 'Roznamcha – Pakistan’s Urdu-first household budget & kharcha tracker',
+        title: 'Roznamcha – Pakistan’s Household Budget & Kharcha Tracker',
         description:
-            'Roznamcha helps Pakistani families track monthly expenses, compare ration costs, manage reminders, and understand real household budgets with practical local insights.',
+            'Track monthly expenses, compare ration costs, and manage household budgets with practical local insights for Pakistani families.',
         path: '/',
         url: SITE_URL,
         canonical: SITE_URL,
@@ -28,9 +28,9 @@ export const seoContent = {
         schemaName: 'Kharcha Map',
     },
     rationBrain: {
-        title: 'Ration Brain – Smart grocery planning for volatile Pakistani markets',
+        title: 'Ration Brain – Grocery Price Planning Pakistan | Roznamcha',
         description:
-            'Plan atta, ghee, chawal, and sabzi costs with practical ration planning for Urdu-speaking Pakistani households.',
+            'Plan atta, ghee, chawal, and grocery costs with practical monthly ration budget planning for Pakistani households.',
         path: '/ration-brain',
         url: `${SITE_URL}/ration-brain`,
         canonical: `${SITE_URL}/ration-brain`,
@@ -40,9 +40,9 @@ export const seoContent = {
         schemaName: 'Ration Brain',
     },
     survivalReport: {
-        title: 'Survival Report Pakistan – Month-end spending summary and pressure view | Roznamcha',
+        title: 'Survival Report – Month-End Spending Summary | Roznamcha',
         description:
-            'See how Roznamcha turns recorded monthly expenses into a clear total, daily average, category breakdown, and month-over-month pressure signal for Pakistani households.',
+            'Turn recorded monthly expenses into a clear spending total, daily average, category breakdown, and budget pressure signals.',
         path: '/survival-report',
         url: `${SITE_URL}/survival-report`,
         canonical: `${SITE_URL}/survival-report`,
@@ -76,9 +76,9 @@ export const seoContent = {
         schemaName: 'Contact Roznamcha',
     },
     privacy: {
-        title: 'Privacy Policy – How Roznamcha protects Pakistani household data',
+        title: 'Privacy Policy – Household Data Protection | Roznamcha',
         description:
-            'Learn how we handle kharcha logs, ration records, and household data for Urdu-first budgeting tools.',
+            'Learn how Roznamcha protects kharcha logs, ration records, and household financial data for Pakistani families.',
         path: '/privacy-policy',
         url: `${SITE_URL}/privacy-policy`,
         canonical: `${SITE_URL}/privacy-policy`,
@@ -111,9 +111,9 @@ export const seoContent = {
         schemaName: 'Roznamcha Terms of Service',
     },
     disclaimer: {
-        title: 'Disclaimer – Roznamcha planning, calculator, and content boundaries',
+        title: 'Disclaimer & Planning Boundaries | Roznamcha',
         description:
-            'Understand what Roznamcha tools and articles do, what they do not guarantee, and why official notifications still matter for financial and household decisions.',
+            'Understand what Roznamcha tools do, what they do not guarantee, and why official notifications matter for household decisions.',
         path: '/disclaimer',
         url: `${SITE_URL}/disclaimer`,
         canonical: `${SITE_URL}/disclaimer`,
@@ -123,9 +123,9 @@ export const seoContent = {
         schemaName: 'Roznamcha Disclaimer',
     },
     features: {
-        title: 'Roznamcha Features – Preview Kharcha Map, Ration Brain, and AI Insights',
+        title: 'Roznamcha Features – Kharcha Map, Ration Brain & Tools',
         description:
-            'See the main Roznamcha modules before you register: Kharcha Map, Ration Brain, Survival Reports, Smart Budget Templates, Reminders, Daily Money Snapshot, and AI Insights.',
+            'Explore Roznamcha modules: Kharcha Map, Ration Brain, Survival Reports, Smart Budget Templates, and Reminders for Pakistani families.',
         path: '/features',
         url: `${SITE_URL}/features`,
         canonical: `${SITE_URL}/features`,
@@ -147,7 +147,7 @@ export const seoContent = {
         schemaName: 'Smart Budget Templates',
     },
     schoolFeesPlanner: {
-        title: 'School Fees Planner Pakistan – Real monthly school cost calculator | Roznamcha',
+        title: 'School Fees Planner Pakistan – Cost Calculator | Roznamcha',
         description:
             'Calculate your monthly school fee burden in Pakistan by including tuition, annual charges, and exam fees with a planning margin for the next academic year.',
         path: '/tools/school-fees-planner',
@@ -159,7 +159,7 @@ export const seoContent = {
         schemaName: 'School Fees Planner',
     },
     electricityBillEstimator: {
-        title: 'Electricity Bill Estimator Pakistan – Progressive slab calculator | Roznamcha',
+        title: 'Electricity Bill Estimator Pakistan – Slab Rates | Roznamcha',
         description:
             'Estimate your Pakistan electricity bill using progressive slab rates, GST, and surcharge placeholders, then compare against a last-year baseline.',
         path: '/tools/electricity-bill-estimator',
@@ -171,7 +171,7 @@ export const seoContent = {
         schemaName: 'Electricity Bill Estimator',
     },
     rationCostEstimator: {
-        title: 'Ration Cost Estimator Pakistan – Monthly grocery budget calculator | Roznamcha',
+        title: 'Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha',
         description:
             'Estimate your monthly ration cost in Pakistan using base prices for atta, rice, oil, sugar, and daal before the next grocery run.',
         path: '/tools/ration-cost-estimator',
@@ -193,6 +193,18 @@ export const seoContent = {
         keywords: ['monthly expense tracker Pakistan', 'kharcha tracker', 'Pakistan household expense app', 'Urdu budgeting tool'],
         type: 'article',
         schemaName: 'Monthly Expense Tracker Pakistan',
+    },
+    monthlyHouseholdBudgetCalculator: {
+        title: 'Monthly Household Budget Calculator Pakistan | Roznamcha',
+        description:
+            'Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.',
+        path: '/tools/monthly-household-budget-calculator',
+        url: `${SITE_URL}/tools/monthly-household-budget-calculator`,
+        canonical: `${SITE_URL}/tools/monthly-household-budget-calculator`,
+        image: DEFAULT_OG_IMAGE,
+        keywords: ['monthly household budget calculator Pakistan', 'ghar ka budget calculator PKR', 'monthly budget planner', 'Pakistan household expense tracker', 'salary planning Pakistan'],
+        type: 'article',
+        schemaName: 'Monthly Household Budget Calculator',
     },
 };
 

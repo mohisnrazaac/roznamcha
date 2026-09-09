@@ -97,7 +97,7 @@ class SsrVerificationTest extends TestCase
 
         $this->assertStringContainsString('User-agent: Mediapartners-Google', $content);
         $this->assertStringContainsString('Allow: /', $content);
-        $this->assertStringContainsString('Disallow: /templates/', $content);
+        $this->assertStringContainsString('Disallow: /login', $content);
         $this->assertStringContainsString('Sitemap: https://roznamcha.pk/sitemap.xml', $content);
         $this->assertStringContainsString('Sitemap: https://roznamcha.pk/templates-sitemap.xml', $content);
     }

@@ -2,16 +2,17 @@ import React from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, useForm } from '@inertiajs/react';
 
-export default function Login({ canResetPassword = true, status }) {
+export default function Login({ canResetPassword = true, status, returnTo = '/dashboard' }) {
   const form = useForm({
     email: '',
     password: '',
     remember: false,
+    return_to: returnTo,
   });
 
   const submit = (event) => {
     event.preventDefault();
-    form.post(route('login'), {
+    form.post('/login', {
       onFinish: () => form.reset('password'),
     });
   };
@@ -28,6 +29,20 @@ export default function Login({ canResetPassword = true, status }) {
               Your data is private. Only you see your household numbers.
             </p>
           </div>
+
+          {returnTo && returnTo.startsWith('/templates/') && (
+            <div className="rounded-xl border border-blue-200 bg-blue-50 p-3 text-center">
+              <p className="text-xs text-slate-700">
+                Just looking to check this budget template?
+              </p>
+              <Link
+                href={returnTo}
+                className="mt-1 inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700 underline"
+              >
+                ← Continue viewing template without signing in
+              </Link>
+            </div>
+          )}
 
           {status && (
             <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
@@ -99,6 +114,20 @@ export default function Login({ canResetPassword = true, status }) {
               {form.processing ? 'Signing in…' : 'Login'}
             </button>
           </form>
+
+          <p className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+            Don't have an account?{' '}
+            <Link
+              href={
+                returnTo && returnTo !== '/dashboard'
+                  ? `/register?return_to=${encodeURIComponent(returnTo)}`
+                  : '/register'
+              }
+              className="font-semibold text-[#003a8c] hover:underline"
+            >
+              Sign up
+            </Link>
+          </p>
         </div>
       </section>
     </PublicLayout>

@@ -7,32 +7,32 @@ import { seoContent, buildWebPageSchema } from '../../lib/seo';
 
 const featureImages = {
     'kharcha-map': {
-        src: '/media/features/kharcha-map-expense-tracking-pakistan.png',
+        src: '/media/features/kharcha-map-expense-tracking-pakistan.webp',
         width: 599,
         height: 410,
     },
     'ration-brain': {
-        src: '/media/features/ration-brain-grocery-price-tracking-pakistan.png',
+        src: '/media/features/ration-brain-grocery-price-tracking-pakistan.webp',
         width: 598,
         height: 366,
     },
     reminders: {
-        src: '/media/features/reminders-health-guard-bill-medicine-pakistan.png',
+        src: '/media/features/reminders-health-guard-bill-medicine-pakistan.webp',
         width: 599,
         height: 358,
     },
     reports: {
-        src: '/media/features/reports-signals-monthly-survival-report-pakistan.png',
+        src: '/media/features/reports-signals-monthly-survival-report-pakistan.webp',
         width: 598,
         height: 325,
     },
     'ai-insights': {
-        src: '/media/features/ai-insights-urdu-financial-advice-pakistan.png',
+        src: '/media/features/ai-insights-urdu-financial-advice-pakistan.webp',
         width: 598,
         height: 125,
     },
     'daily-hooks': {
-        src: '/media/features/daily-money-snapshot-daily-hooks.png',
+        src: '/media/features/daily-money-snapshot-daily-hooks.webp',
         width: 450,
         height: 744,
     },
@@ -123,6 +123,12 @@ export default function Features({ seo: seoProp, jsonLd: jsonLdProp }) {
                             Electricity Bill Estimator
                         </Link>
                         <Link
+                            href="/features/monthly-expense-tracker-pakistan"
+                            className="inline-flex items-center rounded-full border border-[#001a4a]/20 bg-[#001a4a]/5 px-5 py-2.5 text-sm font-semibold text-[#001a4a] hover:bg-[#001a4a]/10"
+                        >
+                            Monthly Expense Tracker Pakistan
+                        </Link>
+                        <Link
                             href="/templates"
                             className="inline-flex items-center rounded-full border border-yellow-300 bg-yellow-50 px-5 py-2.5 text-sm font-semibold text-[#8c5a00] hover:bg-yellow-100"
                         >
@@ -163,7 +169,12 @@ export default function Features({ seo: seoProp, jsonLd: jsonLdProp }) {
                 <section id="public-tools" className="bg-white border border-slate-200 rounded-2xl p-6 space-y-5 scroll-mt-24">
                     <p className="text-xs uppercase tracking-[0.35em] text-[#001a4a]/70">Public Tools</p>
                     <h2 className="text-2xl font-semibold text-[#001a4a]">Guest-Mode Calculators (No Login Required)</h2>
-                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                        <ToolCard
+                            title="Monthly Expense Tracker Pakistan"
+                            description="Track your daily PKR household spending, income streams, and inflation leaks."
+                            href="/features/monthly-expense-tracker-pakistan"
+                        />
                         <ToolCard
                             title="Ration Cost Estimator"
                             description="Estimate monthly ration costs in Pakistan using configurable base prices for essentials."
@@ -229,6 +240,8 @@ function ModuleCard({ module }) {
                     <img
                         src={imageMeta.src}
                         alt={`${module.title} screenshot`}
+                        width={imageMeta.width}
+                        height={imageMeta.height}
                         loading="lazy"
                         className="h-full w-full object-contain"
                     />

@@ -56,6 +56,11 @@ export default function PublicLayout({ children, variant = 'landing' }) {
             description: 'Calculators and public planners',
         },
         {
+            href: '/features/monthly-expense-tracker-pakistan',
+            label: 'Monthly Expense Tracker',
+            description: 'PKR income & expense tracking guide',
+        },
+        {
             href: '/tools/ration-cost-estimator',
             label: 'Ration Cost Estimator',
             description: 'Guest grocery planning tool',
@@ -150,6 +155,8 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                             <img
                                 src="/icons/appicon.png"
                                 alt="Roznamcha logo"
+                                width="44"
+                                height="44"
                                 className="w-11 h-11 rounded-2xl border border-white/20 object-cover bg-white/10"
                             />
                             {styles.label}
@@ -311,26 +318,32 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                 {children}
             </main>
 
-            <footer className="bg-transparent text-center px-4 py-8 text-sm text-slate-500 space-y-2">
+            <footer className="bg-transparent text-center px-4 py-8 text-sm text-slate-500 space-y-3">
                 <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm font-medium">
-                    <a href="/about" className="text-[#001a4a] hover:underline">
+                    <Link href="/features/monthly-expense-tracker-pakistan" className="text-[#001a4a] hover:underline">
+                        Monthly Expense Tracker
+                    </Link>
+                    <Link href="/blog/pakistan-sovereign-cloud-ai-trade-ecosystem-2026" className="text-[#001a4a] hover:underline">
+                        Sovereign Cloud & AI Guide
+                    </Link>
+                    <Link href="/about" className="text-[#001a4a] hover:underline">
                         About Us
-                    </a>
-                    <a href="/contact" className="text-[#001a4a] hover:underline">
+                    </Link>
+                    <Link href="/contact" className="text-[#001a4a] hover:underline">
                         Contact Us
-                    </a>
-                    <a href="/privacy-policy" className="text-[#001a4a] hover:underline">
+                    </Link>
+                    <Link href="/privacy-policy" className="text-[#001a4a] hover:underline">
                         Privacy Policy
-                    </a>
-                    <a href="/cookie-policy" className="text-[#001a4a] hover:underline">
+                    </Link>
+                    <Link href="/cookie-policy" className="text-[#001a4a] hover:underline">
                         Cookie Policy
-                    </a>
-                    <a href="/disclaimer" className="text-[#001a4a] hover:underline">
+                    </Link>
+                    <Link href="/disclaimer" className="text-[#001a4a] hover:underline">
                         Disclaimer
-                    </a>
-                    <a href="/terms" className="text-[#001a4a] hover:underline">
+                    </Link>
+                    <Link href="/terms" className="text-[#001a4a] hover:underline">
                         Terms of Service
-                    </a>
+                    </Link>
                     <a href="/sitemap.xml" className="text-[#001a4a] hover:underline">
                         Sitemap
                     </a>

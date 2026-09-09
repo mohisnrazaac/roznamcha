@@ -26,11 +26,22 @@ createServer((page) =>
         setup: ({ App, props }) => {
             const ziggyConfig = page.props.ziggy || fallbackZiggy;
 
-            global.route = (name, params, absolute) =>
-                route(name, params, absolute, {
-                    ...ziggyConfig,
-                    location: new URL(ziggyConfig.location || 'https://roznamcha.pk'),
-                });
+            global.route = (name, params, absolute) => {
+                try {
+                    return route(name, params, absolute, {
+                        ...ziggyConfig,
+                        location: new URL(ziggyConfig.location || 'https://roznamcha.pk'),
+                    });
+                } catch (err) {
+                    if (typeof name === 'string') {
+                        const query = params && typeof params === 'object' && Object.keys(params).length > 0
+                            ? '?' + new URLSearchParams(params).toString()
+                            : '';
+                        return `/${name.replace(/^\//, '')}${query}`;
+                    }
+                    return '#';
+                }
+            };
 
             return (
                 <ZiggyReact.Provider value={{ Ziggy: ziggyConfig }}>

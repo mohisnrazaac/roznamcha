@@ -1,0 +1,102 @@
+import { u as useForm, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
+import { P as PublicLayout } from "./PublicLayout-Cax6I6Hr.js";
+import "util";
+import "stream";
+import "path";
+import "http";
+import "https";
+import "url";
+import "fs";
+import "crypto";
+import "assert";
+import "tty";
+import "zlib";
+import "events";
+import "process";
+import "./ChatWidget-DFPdtWTT.js";
+function Login({ canResetPassword = true, status }) {
+  const form = useForm({
+    email: "",
+    password: "",
+    remember: false
+  });
+  const submit = (event) => {
+    event.preventDefault();
+    form.post(route("login"), {
+      onFinish: () => form.reset("password")
+    });
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(PublicLayout, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "max-w-sm mx-auto px-4 py-16", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white border border-slate-200 rounded-xl shadow-sm p-6 space-y-5", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-xl font-bold text-slate-900 mb-2", children: "Sign in to Roznamcha" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-600 text-xs leading-relaxed", children: "Your data is private. Only you see your household numbers." })
+    ] }),
+    status && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700", children: status }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: submit, className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-xs font-medium text-slate-700 mb-1", children: "Email" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "email",
+            value: form.data.email,
+            onChange: (event) => form.setData("email", event.target.value),
+            className: "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#003a8c]/30 focus:border-[#003a8c]",
+            placeholder: "you@example.com",
+            autoComplete: "username"
+          }
+        ),
+        form.errors.email && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-[11px] text-red-500", children: form.errors.email })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-xs font-medium text-slate-700 mb-1", children: "Password" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "password",
+            value: form.data.password,
+            onChange: (event) => form.setData("password", event.target.value),
+            className: "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#003a8c]/30 focus:border-[#003a8c]",
+            placeholder: "••••••••",
+            autoComplete: "current-password"
+          }
+        ),
+        form.errors.password && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-[11px] text-red-500", children: form.errors.password })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between text-xs text-slate-600", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "inline-flex items-center gap-2 select-none", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: form.data.remember,
+              onChange: (event) => form.setData("remember", event.target.checked),
+              className: "rounded border-slate-300 text-[#003a8c] focus:ring-[#003a8c]"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Remember me" })
+        ] }),
+        canResetPassword && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Link_default,
+          {
+            href: route("password.request"),
+            className: "text-[11px] text-slate-500 hover:text-slate-700",
+            children: "Forgot password?"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "submit",
+          disabled: form.processing,
+          className: "w-full bg-[#003a8c] hover:bg-[#002a66] disabled:bg-[#003a8c]/60 text-white font-semibold text-sm px-4 py-2 rounded-md shadow",
+          children: form.processing ? "Signing in…" : "Login"
+        }
+      )
+    ] })
+  ] }) }) });
+}
+export {
+  Login as default
+};

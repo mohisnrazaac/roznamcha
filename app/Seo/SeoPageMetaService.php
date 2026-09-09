@@ -41,8 +41,8 @@ class SeoPageMetaService
                 'metaDescription' => 'Check the latest petrol price update for '.$this->urlGenerator->cityLabel((string) $pageKey).' today with comparison insight and related city price pages on Roznamcha.',
             ],
             'electricity' => [
-                'metaTitle' => 'Electricity Bill Calculator for '.$this->urlGenerator->discoLabel((string) $pageKey).' | Roznamcha',
-                'metaDescription' => 'Estimate your '.$this->urlGenerator->discoLabel((string) $pageKey).' electricity bill using Roznamcha monthly usage examples and comparison context.',
+                'metaTitle' => $this->urlGenerator->discoLabel((string) $pageKey).' Bill Calculator 2026: Taxes, FCA & Protected Slabs',
+                'metaDescription' => 'Calculate your exact '.$this->urlGenerator->discoLabel((string) $pageKey).' bill using latest 2026 NEPRA rates. Includes FCA, GST, fixed charges, and 200-unit protected slab alerts.',
             ],
             'ration' => [
                 'metaTitle' => 'Ration Cost for '.(int) $pageKey.' People in Pakistan | Roznamcha',

@@ -31,11 +31,23 @@ createInertiaApp({
     });
 
     const ziggyConfig = props.initialPage.props?.ziggy ?? fallbackZiggy;
-    window.route = (name, params, absolute) =>
-      route(name, params, absolute, {
-        ...ziggyConfig,
-        location: new URL(ziggyConfig.location || window.location.href),
-      });
+    window.route = (name, params, absolute) => {
+      try {
+        return route(name, params, absolute, {
+          ...ziggyConfig,
+          location: new URL(ziggyConfig.location || window.location.href),
+        });
+      } catch (err) {
+        console.warn(`[Ziggy] Route [${name}] could not be resolved:`, err);
+        if (typeof name === 'string') {
+          const query = params && typeof params === 'object' && Object.keys(params).length > 0
+            ? '?' + new URLSearchParams(params).toString()
+            : '';
+          return `/${name.replace(/^\//, '')}${query}`;
+        }
+        return '#';
+      }
+    };
 
     createRoot(el).render(
       <ZiggyReact.Provider value={{ Ziggy: ziggyConfig }}>

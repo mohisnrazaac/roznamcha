@@ -32,6 +32,11 @@ return [
             'route_name' => 'public.tools.electricity-bill-estimator',
             'description' => 'Estimate household electricity pressure before the bill arrives or units run too high.',
         ],
+        'expense-tracker-pakistan' => [
+            'title' => 'Monthly Expense Tracker Pakistan',
+            'route_name' => 'public.features.expense-tracker-pakistan',
+            'description' => 'Track your daily PKR household spending, income streams, and inflation leaks.',
+        ],
     ],
 
     'blogs' => [
@@ -59,10 +64,17 @@ return [
             'route_params' => ['slug' => 'pakistani-family-monthly-expense-control'],
             'description' => 'Read a practical control guide that focuses on tradeoffs families can actually live with.',
         ],
+        'pakistan-sovereign-cloud-ai-trade-ecosystem-2026' => [
+            'title' => 'Pakistan Sovereign Cloud & AI Trade Ecosystem (2026)',
+            'route_name' => 'public.blog.show',
+            'route_params' => ['slug' => 'pakistan-sovereign-cloud-ai-trade-ecosystem-2026'],
+            'description' => 'Explore how sovereign cloud, local data residency, and AI infrastructure are reshaping trade and digital finance in Pakistan.',
+        ],
     ],
 
     'defaults' => [
         'blog_related_tools' => [
+            'expense-tracker-pakistan',
             'ration-cost-estimator',
             'kharcha-map',
             'survival-report',
@@ -71,15 +83,23 @@ return [
             'ghar-ka-monthly-budget',
             'pakistani-family-monthly-expense-control',
             'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',
+            'pakistan-sovereign-cloud-ai-trade-ecosystem-2026',
         ],
     ],
 
     'mappings' => [
         'tool_to_related_tools' => [
             'ration-cost-estimator' => [
+                'expense-tracker-pakistan',
                 'kharcha-map',
                 'ration-brain',
                 'survival-report',
+            ],
+            'expense-tracker-pakistan' => [
+                'kharcha-map',
+                'survival-report',
+                'ration-cost-estimator',
+                'electricity-bill-estimator',
             ],
         ],
 
@@ -89,12 +109,18 @@ return [
                 'pakistani-family-monthly-expense-control',
                 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',
             ],
+            'expense-tracker-pakistan' => [
+                'ghar-ka-monthly-budget',
+                'best-monthly-budget-50000-salary-pakistan-2026',
+                'pakistani-family-monthly-expense-control',
+            ],
         ],
 
         'blog_to_related_tools' => [
-            'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025' => ['ration-cost-estimator', 'ration-brain', 'kharcha-map'],
-            'best-monthly-budget-50000-salary-pakistan-2026' => ['kharcha-map', 'survival-report', 'ration-cost-estimator'],
-            'pakistani-family-monthly-expense-control' => ['kharcha-map', 'survival-report', 'ration-cost-estimator'],
+            'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025' => ['expense-tracker-pakistan', 'ration-cost-estimator', 'ration-brain', 'kharcha-map'],
+            'best-monthly-budget-50000-salary-pakistan-2026' => ['expense-tracker-pakistan', 'kharcha-map', 'survival-report', 'ration-cost-estimator'],
+            'pakistani-family-monthly-expense-control' => ['expense-tracker-pakistan', 'kharcha-map', 'survival-report', 'ration-cost-estimator'],
+            'pakistan-sovereign-cloud-ai-trade-ecosystem-2026' => ['expense-tracker-pakistan', 'kharcha-map', 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025'],
         ],
     ],
 ];

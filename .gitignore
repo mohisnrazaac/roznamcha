@@ -31,6 +31,14 @@ build/
 
 # Deployment bundles
 deploy/
+deploy_bundle/
+deploy_hotfix_temp/
+*.zip
+*.tar.gz
+*.patch
+scratch_page.json
+local_long_posts.json
+urls_to_check.txt
 
 # IDE / OS noise
 .idea/

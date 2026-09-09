@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use App\Http\Controllers\Controller;
 use App\Support\ActivationSession;
 use Illuminate\Http\RedirectResponse;
@@ -12,14 +13,29 @@ use Inertia\Response;
 
 class LoginController extends Controller
 {
-    public function showLogin(Request $request): Response
+    use BuildsPublicSeo;
+
+    public function showLogin(Request $request): Response|RedirectResponse
     {
+        if (Auth::check()) {
+            if ($request->filled('return_to')) {
+                return redirect($request->query('return_to'));
+            }
+
+            if (ActivationSession::hasReturn($request)) {
+                return redirect(ActivationSession::pullReturn($request));
+            }
+
+            return redirect()->route('dashboard');
+        }
+
         if ($request->filled('return_to')) {
             ActivationSession::rememberReturn($request, $request->query('return_to'));
         }
 
         return Inertia::render('Auth/Login', [
             'returnTo' => ActivationSession::currentReturn($request, '/dashboard'),
+            'seo' => $this->publicSeo('login'),
         ]);
     }
 
