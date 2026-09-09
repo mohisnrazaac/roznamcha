@@ -5,6 +5,7 @@ import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
+import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -314,7 +315,7 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                         </Link>
                     </section>
 
-
+                    <SarkariTayariPromoCard />
                 </div>
             </div>
 

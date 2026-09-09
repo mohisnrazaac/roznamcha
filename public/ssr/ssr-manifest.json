@@ -646,7 +646,10 @@
     "/build/assets/PostForm-BjRjgJiI.js"
   ],
   "resources/js/Components/SEO/SeoLandingPage.jsx": [
-    "/build/assets/SeoLandingPage-DKe47-6D.js"
+    "/build/assets/SeoLandingPage-BDz9Nxlr.js"
+  ],
+  "resources/js/Components/SarkariTayariPromoCard.jsx": [
+    "/build/assets/SarkariTayariPromoCard-0LlZm_uy.js"
   ],
   "resources/js/Components/SecondaryButton.jsx": [
     "/build/assets/DeleteUserForm-Vxl3SRY6.js"
@@ -856,13 +859,13 @@
     "/build/assets/Terms-BcXWTylL.js"
   ],
   "resources/js/Pages/Public/Tools/ElectricityBillEstimator.jsx": [
-    "/build/assets/ElectricityBillEstimator-DggfwgpU.js"
+    "/build/assets/ElectricityBillEstimator-BTYOL8EI.js"
   ],
   "resources/js/Pages/Public/Tools/MonthlyHouseholdBudgetCalculator.jsx": [
-    "/build/assets/MonthlyHouseholdBudgetCalculator-DOoL9V_j.js"
+    "/build/assets/MonthlyHouseholdBudgetCalculator-EBSUXBAC.js"
   ],
   "resources/js/Pages/Public/Tools/RationCostEstimator.jsx": [
-    "/build/assets/RationCostEstimator-D57xNPPw.js"
+    "/build/assets/RationCostEstimator-s2BfuwrN.js"
   ],
   "resources/js/Pages/Public/Tools/SchoolFeesPlanner.jsx": [
     "/build/assets/SchoolFeesPlanner-Bv1inMGt.js"
@@ -889,13 +892,13 @@
     "/build/assets/Reports-0FLtowNt.js"
   ],
   "resources/js/Pages/SEO/Electricity.jsx": [
-    "/build/assets/Electricity-Dkxby1aS.js"
+    "/build/assets/Electricity-BUbliLsM.js"
   ],
   "resources/js/Pages/SEO/Petrol.jsx": [
-    "/build/assets/Petrol-Dzn5ccgV.js"
+    "/build/assets/Petrol-CqSDAlRf.js"
   ],
   "resources/js/Pages/SEO/Ration.jsx": [
-    "/build/assets/Ration-BSciHuTz.js"
+    "/build/assets/Ration-BJ5d7EMU.js"
   ],
   "resources/js/Pages/Templates/Index.jsx": [
     "/build/assets/Index-eAaGgor_.js"

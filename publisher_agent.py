@@ -888,6 +888,7 @@ def generate_mock_atta_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "<h2>Empowering Households Through Informed Consumer Decisions</h2>",
         "<p>The battle against kitchen inflation is won in the details of daily procurement and domestic organization. In an era where macroeconomic adjustments place continuous pressure on grocery bills, families that measure, audit, and systematically plan their food purchases can safeguard their nutritional security without destabilizing their family finances.</p>",
         "<p>By understanding commodity pricing structures, taking advantage of cooperative bulk buying, and holding local market regulatory committees accountable, Pakistani households can navigate ongoing inflationary headwinds with resilience and financial dignity.</p>",
+        '<p>While budgeting apps and ration calculators help plug leakages, the safest shield against volatile food inflation and DISCO electricity tariff spikes is a pension-backed government position. You can track verified department openings, test dates, and official syllabus breakdowns directly on <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">Sarkari Tayari</a>.</p>',
     ]
 
     content = "\n".join(paragraphs)

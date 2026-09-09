@@ -6,6 +6,7 @@ import SaveWall from '../../../Components/Activation/SaveWall';
 import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
+import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -294,62 +295,64 @@ export default function RationCostEstimator({
                     </div>
                 </section>
 
-                <aside className="bg-[#001a4a] text-white rounded-2xl p-6 space-y-6 shadow-lg">
-                    <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-yellow-200">Estimate</p>
-                        <h2 className="text-3xl font-semibold mt-2">
-                            {currencySymbol} {formatCurrency(total)}
-                        </h2>
-                        <p className="text-sm text-white/80">
-                            Estimated monthly staple ration cost ({currency}) for the basket you entered.
-                        </p>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-white/10 p-4">
-                        <h3 className="text-sm font-semibold text-white">How to use this result</h3>
-                        <ul className="mt-3 space-y-2 text-sm text-white/85">
-                            <li>Use this number as your staple ration line, not as your full kitchen or food budget.</li>
-                            <li>If you usually buy in weekly trips, split this total across about four market visits instead of treating it as one rigid shop.</li>
-                            <li>Check the highest-cost items first before cutting every item equally.</li>
-                        </ul>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-[#08245d] p-4">
-                        <h3 className="text-sm font-semibold text-white">Current cost drivers</h3>
-                        <div className="mt-3 space-y-3">
-                            {breakdown.slice(0, 3).map((item) => (
-                                <div key={item.key} className="space-y-1">
-                                    <div className="flex items-center justify-between gap-3 text-sm">
-                                        <span>{item.label}</span>
-                                        <span className="text-white/80">
-                                            {currencySymbol} {formatCurrency(item.itemTotal)}
-                                        </span>
-                                    </div>
-                                    <div className="h-2 rounded-full bg-white/10">
-                                        <div
-                                            className="h-2 rounded-full bg-yellow-300"
-                                            style={{ width: `${Math.max(item.share, 6)}%` }}
-                                        />
-                                    </div>
-                                </div>
-                            ))}
+                <div className="space-y-6">
+                    <aside className="bg-[#001a4a] text-white rounded-2xl p-6 space-y-6 shadow-lg">
+                        <div>
+                            <p className="text-xs uppercase tracking-[0.3em] text-yellow-200">Estimate</p>
+                            <h2 className="text-3xl font-semibold mt-2">
+                                {currencySymbol} {formatCurrency(total)}
+                            </h2>
+                            <p className="text-sm text-white/80">
+                                Estimated monthly staple ration cost ({currency}) for the basket you entered.
+                            </p>
                         </div>
-                    </div>
 
-                    {/* ROZNAMCHA-ACTIVATION: result-adjacent save wall replaces passive sidebar CTA. */}
-                    <SaveWall
-                        toolKey="ration_cost_estimator"
-                        inputs={{ householdSize, quantities, source: activationPrefill?.source ?? 'direct' }}
-                        results={{ total, currency, currencySymbol }}
-                        isAuthenticated={isAuthenticated}
-                        saveEndpoint="tools.snapshots.store"
-                        returnUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/tools/ration-cost-estimator'}
-                    />
+                        <div className="rounded-2xl border border-white/10 bg-white/10 p-4">
+                            <h3 className="text-sm font-semibold text-white">How to use this result</h3>
+                            <ul className="mt-3 space-y-2 text-sm text-white/85">
+                                <li>Use this number as your staple ration line, not as your full kitchen or food budget.</li>
+                                <li>If you usually buy in weekly trips, split this total across about four market visits instead of treating it as one rigid shop.</li>
+                                <li>Check the highest-cost items first before cutting every item equally.</li>
+                            </ul>
+                        </div>
 
-                    <FinancialDisclaimer />
+                        <div className="rounded-2xl border border-white/10 bg-[#08245d] p-4">
+                            <h3 className="text-sm font-semibold text-white">Current cost drivers</h3>
+                            <div className="mt-3 space-y-3">
+                                {breakdown.slice(0, 3).map((item) => (
+                                    <div key={item.key} className="space-y-1">
+                                        <div className="flex items-center justify-between gap-3 text-sm">
+                                            <span>{item.label}</span>
+                                            <span className="text-white/80">
+                                                {currencySymbol} {formatCurrency(item.itemTotal)}
+                                            </span>
+                                        </div>
+                                        <div className="h-2 rounded-full bg-white/10">
+                                            <div
+                                                className="h-2 rounded-full bg-yellow-300"
+                                                style={{ width: `${Math.max(item.share, 6)}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
 
+                        {/* ROZNAMCHA-ACTIVATION: result-adjacent save wall replaces passive sidebar CTA. */}
+                        <SaveWall
+                            toolKey="ration_cost_estimator"
+                            inputs={{ householdSize, quantities, source: activationPrefill?.source ?? 'direct' }}
+                            results={{ total, currency, currencySymbol }}
+                            isAuthenticated={isAuthenticated}
+                            saveEndpoint="tools.snapshots.store"
+                            returnUrl={typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '/tools/ration-cost-estimator'}
+                        />
 
-                </aside>
+                        <FinancialDisclaimer />
+                    </aside>
+
+                    <SarkariTayariPromoCard />
+                </div>
             </div>
 
             <section className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">

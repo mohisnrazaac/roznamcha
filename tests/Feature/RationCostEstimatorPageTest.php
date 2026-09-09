@@ -12,7 +12,7 @@ class RationCostEstimatorPageTest extends TestCase
         $response = $this->get(route('public.tools.ration-cost-estimator'));
 
         $response->assertOk();
-        $response->assertSee('<title inertia>Ration Cost Estimator Pakistan – Monthly grocery budget calculator | Roznamcha</title>', false);
+        $response->assertSee('<title inertia>Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha</title>', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicRouteUrl('public.tools.ration-cost-estimator').'" inertia="canonical"', false);
         $response->assertDontSee('"@type":"FAQPage"', false);
         $response->assertDontSee('Use the buffered number when you want a safer month-end target for volatile price periods.', false);
