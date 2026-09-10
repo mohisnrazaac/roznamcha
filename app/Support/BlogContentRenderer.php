@@ -122,8 +122,29 @@ class BlogContentRenderer
                         continue;
                     }
 
-                    if (in_array($attrName, ['href', 'src'], true) && ! static::isSafeUrl($attribute->nodeValue)) {
-                        $node->removeAttribute($attrName);
+                    if (in_array($attrName, ['href', 'src'], true)) {
+                        if (! static::isSafeUrl($attribute->nodeValue)) {
+                            $node->removeAttribute($attrName);
+                        } else {
+                            $val = trim((string) $attribute->nodeValue);
+                            // Upgrade insecure HTTP links to HTTPS to prevent mixed content penalties
+                            if (str_starts_with(strtolower($val), 'http://')
+                                && ! str_contains($val, 'schema.org')
+                                && ! str_contains($val, 'w3.org')) {
+                                $val = 'https://' . substr($val, 7);
+                                $node->setAttribute($attrName, $val);
+                            }
+                            // Normalize legacy un-prefixed feature route to canonical /features/ slug
+                            if ($val === '/monthly-expense-tracker-pakistan'
+                                || $val === 'https://roznamcha.pk/monthly-expense-tracker-pakistan'
+                                || $val === 'http://roznamcha.pk/monthly-expense-tracker-pakistan') {
+                                $node->setAttribute($attrName, '/features/monthly-expense-tracker-pakistan');
+                            }
+                            if ($val === '/electricity-bill-calculator-lesco'
+                                || $val === 'https://roznamcha.pk/electricity-bill-calculator-lesco') {
+                                $node->setAttribute($attrName, '/tools/electricity-bill-estimator');
+                            }
+                        }
                     }
                 }
             }

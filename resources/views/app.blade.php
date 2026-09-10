@@ -284,6 +284,24 @@
                     <p>From Karachi and Lahore to Islamabad, Peshawar, and Quetta, households face unique regional cost structures and grocery price movements. Roznamcha empowers you to customize your expense categories according to your exact living standards, calculate emergency cash reserves, and achieve sustainable monthly financial freedom without tedious spreadsheets or confusing accounting jargon.</p>
                 </article>
             @endif
+            @if(request()->is('tools/solar-net-metering-roi-calculator'))
+                <article class="p-6 max-w-4xl mx-auto text-slate-700">
+                    <h1 class="text-3xl font-bold">Solar Net Metering &amp; ROI Calculator Pakistan (2026)</h1>
+                    <p>Calculate your turnkey solar payback period, NEPRA buyback earnings, and 10-year battery Total Cost of Ownership (TCO) across Pakistan distribution companies (DISCOs) including LESCO, IESCO, K-Electric, FESCO, MEPCO, and PESCO.</p>
+                    <p>Under NEPRA's active Net Billing regulations, self-consumed solar electricity offsets peak and off-peak grid tariffs (Rs. 42 to Rs. 71+ per unit for unprotected residential slabs), while surplus exported units are credited at the national average energy purchase price (~Rs. 11.00 per unit). Optimizing daytime self-consumption delivers the fastest payback period (typically 2.8 to 4.2 years).</p>
+                    <h2 class="text-2xl font-bold mt-4">Solar System Sizing Heuristics for Pakistani Households</h2>
+                    <p>Residential solar system capacity should align with your monthly electricity consumption patterns and sanctioned load limits. A 5kW system generates approximately 550 to 650 kWh monthly, suitable for moderate households running one inverter AC and baseline refrigeration. Larger households consuming 900 to 1,400 units monthly require 10kW to 15kW three-phase systems to offset daytime air conditioning loads.</p>
+                    <h2 class="text-2xl font-bold mt-4">Battery Storage Economics: LiFePO4 vs Tall Tubular</h2>
+                    <p>While Tall Tubular lead-acid batteries have lower upfront purchase costs, they degrade within 800 to 1,200 cycles in high ambient Pakistani temperatures, requiring 3 to 4 complete bank replacements over a 10-year period. In contrast, Lithium Iron Phosphate (LiFePO4) storage delivers 5,000 to 6,000 cycles at 90% Depth of Discharge (DoD), yielding a 35% to 40% lower cost per stored kilowatt-hour over a decade.</p>
+                    <h2 class="text-2xl font-bold mt-4">Frequently Asked Questions</h2>
+                    <h3 class="text-xl font-semibold mt-2">How long does the DISCO Green Meter process take in Pakistan?</h3>
+                    <p>Processing typically requires 45 to 90 days across distribution companies, covering NEPRA generation licensing, distribution transformer capacity checks, earthing pit resistance verification (must be below 5 ohms), and digital bidirectional meter commissioning.</p>
+                    <h3 class="text-xl font-semibold mt-2">Can on-grid inverters operate during load shedding?</h3>
+                    <p>Standard on-grid string inverters disconnect during grid outages to comply with anti-islanding safety standards. Running essential household loads during power outages requires a hybrid inverter paired with battery storage sized to handle compressor inrush currents.</p>
+                    <h3 class="text-xl font-semibold mt-2">How does self-consumption affect payback speed?</h3>
+                    <p>Because retail electricity slab tariffs (Rs. 42 to 71+/unit) far exceed the exported unit buyback rate (Rs. 11/unit), scheduling heavy daytime loads—such as water pumps, washing machines, and inverter air conditioning—delivers up to 3x higher economic value per solar kilowatt-hour generated.</p>
+                </article>
+            @endif
             <nav aria-label="Quick directory" class="p-4 text-xs text-slate-500 text-center">
                 <a href="/features/monthly-expense-tracker-pakistan">Monthly Expense Tracker Pakistan</a> |
                 <a href="/tools/ration-cost-estimator">Ration Cost Estimator</a> |

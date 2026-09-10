@@ -512,25 +512,26 @@ MANDATORY PUBLISHING RULES & OPTIMIZATION GUIDELINES:
 2. MANDATORY 3-TIER LINK GRAPH (NEVER LEAVE POSTS WITH ZERO LINKS):
    Every article MUST contain at least 5 to 7 authentic, natural HTML hyperlinks (<a> tags) distributed across the following 3 layers:
    
-   Layer A: Internal Roznamcha Public Tools (Include 2 or 3):
-     - Monthly Expense Tracker: <a href="/monthly-expense-tracker-pakistan">Monthly Expense Tracker</a>
-     - Electricity Bill Calculator: <a href="/electricity-bill-calculator-lesco">DISCO Electricity Bill Calculator</a>
-     - Ration Cost Estimator: <a href="/tools/ration-cost-estimator">Ration Cost Estimator</a>
-     - Monthly Budget Calculator: <a href="/tools/monthly-household-budget-calculator">Monthly Household Budget Calculator</a>
-     - Flagship Budget Guide: <a href="/blog/ghar-ka-monthly-budget">Ghar Ka Monthly Budget Guide</a>
-   
-   Layer B: Strategic Sister Platform Mention (Include 1 natural contextual link):
-     - When discussing government salary scales, BPS allowances, civil service security against inflation, or competitive exams, link contextually to SarkariTayari:
-       • Homepage: <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>
-       • Past Papers: <a href="https://sarkaritayari.pk/past-papers" target="_blank" rel="noopener noreferrer">authentic solved past papers</a>
-       • AI Mock Tests: <a href="https://sarkaritayari.pk/ai/mock-tests" target="_blank" rel="noopener noreferrer">SarkariTayari AI Mock Test Simulator</a>
-   
-   Layer C: Authoritative Government / Institutional Links (Include 2 or 3):
-     - Federal Board of Revenue: <a href="https://fbr.gov.pk" target="_blank" rel="noopener noreferrer">Federal Board of Revenue (FBR)</a>
-     - FBR Iris Tax Portal: <a href="https://iris.fbr.gov.pk" target="_blank" rel="noopener noreferrer">FBR Iris Online Portal</a>
-     - SECP Pension Regulations: <a href="https://www.secp.gov.pk" target="_blank" rel="noopener noreferrer">Securities and Exchange Commission of Pakistan (SECP)</a>
-     - NEPRA (for electricity tariffs): <a href="https://nepra.org.pk" target="_blank" rel="noopener noreferrer">NEPRA</a>
-     - State Bank of Pakistan: <a href="https://www.sbp.org.pk" target="_blank" rel="noopener noreferrer">State Bank of Pakistan (SBP)</a>
+    Layer A: Internal Roznamcha Public Tools (Include 2 or 3):
+      - Monthly Expense Tracker: <a href="/features/monthly-expense-tracker-pakistan">Monthly Expense Tracker</a>
+      - Solar Net Metering ROI Calculator: <a href="/tools/solar-net-metering-roi-calculator">Solar Net Metering & ROI Calculator</a>
+      - Electricity Bill Calculator: <a href="/tools/electricity-bill-estimator">DISCO Electricity Bill Estimator</a>
+      - Ration Cost Estimator: <a href="/tools/ration-cost-estimator">Ration Cost Estimator</a>
+      - Monthly Budget Calculator: <a href="/tools/monthly-household-budget-calculator">Monthly Household Budget Calculator</a>
+      - Flagship Budget Guide: <a href="/blog/ghar-ka-monthly-budget">Ghar Ka Monthly Budget Guide</a>
+    
+    Layer B: Strategic Sister Platform Mention (Include 1 natural contextual link):
+      - When discussing government salary scales, BPS allowances, civil service security against inflation, or competitive exams, link contextually to SarkariTayari:
+        • Homepage: <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>
+        • Past Papers: <a href="https://sarkaritayari.pk/past-papers" target="_blank" rel="noopener noreferrer">authentic solved past papers</a>
+        • AI Mock Tests: <a href="https://sarkaritayari.pk/ai/mock-tests" target="_blank" rel="noopener noreferrer">SarkariTayari AI Mock Test Simulator</a>
+    
+    Layer C: Authoritative Government / Institutional Links (Include 2 or 3):
+      - Federal Board of Revenue: <a href="https://fbr.gov.pk" target="_blank" rel="noopener noreferrer">Federal Board of Revenue (FBR)</a>
+      - FBR Iris Tax Portal: <a href="https://iris.fbr.gov.pk" target="_blank" rel="noopener noreferrer">FBR Iris Online Portal</a>
+      - SECP Pension Regulations: <a href="https://www.secp.gov.pk" target="_blank" rel="noopener noreferrer">Securities and Exchange Commission of Pakistan (SECP)</a>
+      - NEPRA (for electricity tariffs): <a href="https://nepra.org.pk" target="_blank" rel="noopener noreferrer">NEPRA</a>
+      - State Bank of Pakistan: <a href="https://www.sbp.org.pk" target="_blank" rel="noopener noreferrer">State Bank of Pakistan (SBP)</a>
 
 3. HIGH-CTR VISUAL CALLOUT CARD (ROZNAMCHA AMBER BOX):
    - The platform renders <blockquote> tags with an elegant amber-styled callout card.
@@ -538,7 +539,7 @@ MANDATORY PUBLISHING RULES & OPTIMIZATION GUIDELINES:
      Example:
      <blockquote>
        <p>💡 <strong>Actionable Household Rule:</strong><br>
-       Text explaining how to track expenses using Roznamcha's <a href="/monthly-expense-tracker-pakistan">Expense Tracker</a> and prepare for career upskilling on <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>.</p>
+       Text explaining how to track expenses using Roznamcha's <a href="/features/monthly-expense-tracker-pakistan">Expense Tracker</a> and prepare for career upskilling on <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>.</p>
      </blockquote>
 
 4. DATA TABLES & VERIFIED PAKISTANI CALCULATIONS:
