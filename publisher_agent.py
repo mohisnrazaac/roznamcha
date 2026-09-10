@@ -140,6 +140,11 @@ if BaseModel is not None:
             description="SEO-optimized, natural headline without robotic cliches or clickbait.",
             max_length=255,
         )
+        seo_title: Optional[str] = Field(
+            default=None,
+            description="Punchy Google search title strictly between 45 and 58 characters.",
+            max_length=65,
+        )
         focus_keyword: str = Field(
             ...,
             description="High-intent target keyword or phrase relevant to Pakistan / global audience.",
@@ -180,6 +185,7 @@ else:
         focus_keyword: str
         meta_description: str
         content_html: str
+        seo_title: Optional[str] = None
         category_id: int = 1
         status: str = "draft"
         slug: Optional[str] = None
@@ -193,6 +199,7 @@ else:
                 meta_description=data.get("meta_description", ""),
                 category_id=int(data.get("category_id", 1)),
                 content_html=data["content_html"],
+                seo_title=data.get("seo_title"),
                 status=data.get("status", "draft"),
                 slug=data.get("slug"),
                 excerpt=data.get("excerpt"),
@@ -489,40 +496,67 @@ def select_unposted_topic(
 # ---------------------------------------------------------------------------
 
 EDITORIAL_SYSTEM_INSTRUCTION = """
-You are a senior investigative economic analyst and personal finance journalist writing exclusively for Roznamcha.pk, Pakistan's leading household budgeting and inflation tracking publication.
+You are the Chief Financial Journalist and SEO Content Architect for Roznamcha.pk, Pakistan's premier household economics and financial documentation platform.
 
-MANDATORY EDITORIAL STANDARDS & ADSENSE COMPLIANCE:
-1. ZERO AI BOILERPLATE:
-   - Never use cliches such as: 'In conclusion', 'In this fast-paced world', 'Delve into', 'Let's explore', 'It is crucial to remember', 'Furthermore', 'Moreover', 'In summary', 'A testament to', 'Beacon of hope'.
-   - Avoid generic introductions. Begin directly with a grounded narrative, an impactful real-world observation, or a critical data point from Pakistan.
+Your mission is to produce authoritative, deeply researched, long-form articles (minimum 1,600 words) that rank #1 on Google, earn instant AdSense approval, and deliver actionable utility to Pakistani families and professionals.
 
-2. TONE & DEPTH:
-   - Maintain a natural, authoritative journalistic critique.
-   - Use concrete data points, numbers, Pakistani Rupee figures (Rs. / PKR), monthly percentage fluctuations, realistic grocery basket breakdowns, and recent dates.
-   - Analyze root causes (e.g., IMF structural reforms, circular debt, fuel levy, currency depreciation, supply chain bottlenecks).
+MANDATORY PUBLISHING RULES & OPTIMIZATION GUIDELINES:
 
-3. WORD COUNT TARGET:
-   - MINIMUM 1,400 WORDS. Thorough, deep, long-form guide. Do not rush or summarize prematurely.
+1. SEO TITLE TRUNCATION RULE (CRITICAL):
+   - You MUST generate TWO distinct title fields:
+     a) "title": The full journalistic headline for the article H1 (65 to 85 characters).
+     b) "seo_title": A punchy, complete search engine title strictly BETWEEN 45 AND 58 CHARACTERS.
+   - NEVER exceed 58 characters for "seo_title". If it exceeds 60 characters, the website CMS will abruptly cut it off mid-word (e.g. "Optimization St"), destroying search rankings.
+   - Do NOT add "- Roznamcha" to "seo_title" (the CMS appends it automatically).
 
-4. SEMANTIC HTML MARKUP:
-   - Format content directly as clean HTML.
-   - Use <h2> for primary section headings.
-   - Use <h3> for detailed sub-sections.
-   - Use <p> for paragraphs.
-   - Use <ul> and <li> for actionable checklists or bullet points.
-   - Include at least one informative comparison <table> with <thead> and <tbody> (e.g., comparing unit costs, price changes, or monthly budget splits).
-   - Do NOT wrap in <html>, <head>, or <body> tags.
+2. MANDATORY 3-TIER LINK GRAPH (NEVER LEAVE POSTS WITH ZERO LINKS):
+   Every article MUST contain at least 5 to 7 authentic, natural HTML hyperlinks (<a> tags) distributed across the following 3 layers:
+   
+   Layer A: Internal Roznamcha Public Tools (Include 2 or 3):
+     - Monthly Expense Tracker: <a href="/monthly-expense-tracker-pakistan">Monthly Expense Tracker</a>
+     - Electricity Bill Calculator: <a href="/electricity-bill-calculator-lesco">DISCO Electricity Bill Calculator</a>
+     - Ration Cost Estimator: <a href="/tools/ration-cost-estimator">Ration Cost Estimator</a>
+     - Monthly Budget Calculator: <a href="/tools/monthly-household-budget-calculator">Monthly Household Budget Calculator</a>
+     - Flagship Budget Guide: <a href="/blog/ghar-ka-monthly-budget">Ghar Ka Monthly Budget Guide</a>
+   
+   Layer B: Strategic Sister Platform Mention (Include 1 natural contextual link):
+     - When discussing government salary scales, BPS allowances, civil service security against inflation, or competitive exams, link contextually to SarkariTayari:
+       • Homepage: <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>
+       • Past Papers: <a href="https://sarkaritayari.pk/past-papers" target="_blank" rel="noopener noreferrer">authentic solved past papers</a>
+       • AI Mock Tests: <a href="https://sarkaritayari.pk/ai/mock-tests" target="_blank" rel="noopener noreferrer">SarkariTayari AI Mock Test Simulator</a>
+   
+   Layer C: Authoritative Government / Institutional Links (Include 2 or 3):
+     - Federal Board of Revenue: <a href="https://fbr.gov.pk" target="_blank" rel="noopener noreferrer">Federal Board of Revenue (FBR)</a>
+     - FBR Iris Tax Portal: <a href="https://iris.fbr.gov.pk" target="_blank" rel="noopener noreferrer">FBR Iris Online Portal</a>
+     - SECP Pension Regulations: <a href="https://www.secp.gov.pk" target="_blank" rel="noopener noreferrer">Securities and Exchange Commission of Pakistan (SECP)</a>
+     - NEPRA (for electricity tariffs): <a href="https://nepra.org.pk" target="_blank" rel="noopener noreferrer">NEPRA</a>
+     - State Bank of Pakistan: <a href="https://www.sbp.org.pk" target="_blank" rel="noopener noreferrer">State Bank of Pakistan (SBP)</a>
 
-5. ACTIVE LOCAL CATEGORIES:
-   - Assign category_id based on topic:
-     1 = Inflation Watch (grocery, kitchen commodities, CPI)
-     2 = Household Tips (energy saving, ration stretching, waste reduction, solar)
-     3 = Personal Finance Pakistan (salaried budget, banking, savings, tax, school fees)
-     6 = Fuel Prices Hike (petrol, diesel, LPG, transport costs)
+3. HIGH-CTR VISUAL CALLOUT CARD (ROZNAMCHA AMBER BOX):
+   - The platform renders <blockquote> tags with an elegant amber-styled callout card.
+   - You MUST include at least one prominent <blockquote> callout highlighting an actionable tool or rule:
+     Example:
+     <blockquote>
+       <p>💡 <strong>Actionable Household Rule:</strong><br>
+       Text explaining how to track expenses using Roznamcha's <a href="/monthly-expense-tracker-pakistan">Expense Tracker</a> and prepare for career upskilling on <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>.</p>
+     </blockquote>
 
-6. OUTPUT FORMAT:
-   - You MUST output valid JSON conforming strictly to the requested schema.
-   - Keys: title, focus_keyword, meta_description, category_id, status ("draft"), content_html.
+4. DATA TABLES & VERIFIED PAKISTANI CALCULATIONS:
+   - Provide at least one (and ideally two) clean, well-formatted <table> elements with <thead>, <tbody>, and clear PKR numbers.
+   - For taxes or utility bills, use the latest official statutory formulas (e.g. Finance Act 2024/2025 slabs, NEPRA protected 200-unit criteria). 
+   - Never approximate numbers lazily; verify calculations across real Pakistani income tiers (Rs. 50k, 100k, 200k, 350k, 500k, 1M).
+
+5. PRACTICAL STEP-BY-STEP WALKTHROUGH:
+   - Include a dedicated section with an ordered list (<ol> and <li>) explaining the exact practical steps a citizen must take (e.g., how to download withholding tax certificates from Jazz/Zong apps and enter them on FBR Iris).
+
+6. BUILT-IN FAQ SECTION FOR GOOGLE RICH SNIPPETS:
+   - Conclude every article with a dedicated <h2>Frequently Asked Questions (FAQs)</h2>.
+   - Include 4 to 5 high-intent questions using <h3> for questions and <p> for direct, concise answers (answering exact queries typed into Google Search).
+
+7. EDITORIAL VOICE & ADSENSE COMPLIANCE:
+   - ZERO AI Cliches: Never write 'In conclusion', 'Delve into', 'In this fast-paced world', 'It is crucial to remember', 'Moreover', 'Furthermore'.
+   - Grounded in Pakistani Reality: Write about real everyday pain points (DISCO bills, protected slabs, Sensitive Price Indicator, atta prices, EOBI, ATL non-filer penalties).
+   - Word count: 1,600 to 2,400 words. Deep, original, journalistic substance.
 """
 
 
@@ -546,19 +580,20 @@ def generate_article_with_gemini(
     topic = topic_info["topic"]
 
     prompt = f"""
-Conduct live Google Search research on the following topic and write an authoritative, exhaustive long-form journalistic article (minimum 1,400 words) for Pakistani households:
+Conduct live Google Search research on the following topic and write an authoritative, exhaustive long-form journalistic article (minimum 1,600 words) for Pakistani households:
 
 Topic: {topic}
 Target Category ID: {topic_info.get('category_id', 1)}
 
 Provide your response strictly as a JSON object with these exact keys:
 {{
-  "title": "Natural, compelling headline without buzzwords",
+  "title": "Natural, compelling headline without buzzwords (between 65 and 85 characters)",
+  "seo_title": "Punchy Google search title STRICTLY BETWEEN 45 AND 58 CHARACTERS (no truncation)",
   "focus_keyword": "Primary target keyword in Pakistan",
-  "meta_description": "150-160 character SEO summary",
+  "meta_description": "145-155 character SEO summary",
   "category_id": {topic_info.get('category_id', 1)},
   "status": "draft",
-  "content_html": "<h2>...</h2><p>...</p><table>...</table>"
+  "content_html": "<h2>...</h2><p>...</p><blockquote>...</blockquote><table>...</table><ol>...</ol><h2>Frequently Asked Questions (FAQs)</h2>..."
 }}
 """
 
@@ -603,6 +638,12 @@ Provide your response strictly as a JSON object with these exact keys:
     data["status"] = "draft"
     if "category_id" not in data or not data["category_id"]:
         data["category_id"] = topic_info.get("category_id", 1)
+
+    raw_seo_title = data.get("seo_title") or data.get("title", "")
+    safe_seo_title = raw_seo_title.strip()
+    if len(safe_seo_title) > 58:
+        safe_seo_title = safe_seo_title[:55].rstrip()
+    data["seo_title"] = safe_seo_title
 
     return BlogPostPayload.model_validate(data)
 
@@ -701,6 +742,7 @@ def generate_mock_solar_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "meta_description": meta,
         "category_id": topic_info.get("category_id", 2),
         "status": "draft",
+        "seo_title": "Solar Net Metering Pakistan 2026: ROI & Payback",
         "content_html": content,
     }
     return BlogPostPayload.model_validate(data)
@@ -809,6 +851,7 @@ def generate_mock_tax_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "meta_description": meta,
         "category_id": topic_info.get("category_id", 3),
         "status": "draft",
+        "seo_title": "Salaried Tax Slabs FY 2025-26: Tax Optimization Guide",
         "content_html": content,
     }
     return BlogPostPayload.model_validate(data)
@@ -919,6 +962,7 @@ def generate_mock_atta_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "meta_description": meta,
         "category_id": topic_info.get("category_id", 1),
         "status": "draft",
+        "seo_title": "Atta Subsidies vs Open Market: Grocery Guide 2026",
         "content_html": content,
     }
     return BlogPostPayload.model_validate(data)
@@ -977,6 +1021,12 @@ def transmit_article_to_api(
     else:
         data_dict = dict(article)
 
+    # Ensure seo_title is clean, distinct, and strictly <= 58 characters
+    raw_seo_title = data_dict.get("seo_title") or data_dict.get("title", "")
+    safe_seo_title = raw_seo_title.strip()
+    if len(safe_seo_title) > 58:
+        safe_seo_title = safe_seo_title[:55].rstrip()
+
     # Force draft status and structured fields
     payload = {
         "title": data_dict["title"],
@@ -984,7 +1034,7 @@ def transmit_article_to_api(
         "content_format": "html",
         "excerpt": data_dict.get("meta_description", ""),
         "status": "draft",
-        "seo_title": data_dict["title"],
+        "seo_title": safe_seo_title,
         "seo_description": data_dict.get("meta_description", ""),
         "seo_keywords": data_dict.get("focus_keyword", ""),
         "categories": [data_dict.get("category_id", 1)],

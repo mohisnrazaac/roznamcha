@@ -81,6 +81,11 @@ export default function PublicLayout({ children, variant = 'landing' }) {
             description: 'Progressive slab estimator',
         },
         {
+            href: '/tools/solar-net-metering-roi-calculator',
+            label: 'Solar ROI Calculator',
+            description: 'Net billing, payback & battery TCO',
+        },
+        {
             href: '/survival-report',
             label: 'Survival Report',
             description: 'Month-end pressure and budget health view',

@@ -288,6 +288,7 @@
                 <a href="/features/monthly-expense-tracker-pakistan">Monthly Expense Tracker Pakistan</a> |
                 <a href="/tools/ration-cost-estimator">Ration Cost Estimator</a> |
                 <a href="/tools/electricity-bill-estimator">Electricity Bill Estimator</a> |
+                <a href="/tools/solar-net-metering-roi-calculator">Solar Net Metering &amp; ROI Calculator</a> |
                 <a href="/tools/monthly-household-budget-calculator">Monthly Household Budget Calculator</a> |
                 <a href="/tools/school-fees-planner">School Fees Planner</a> |
                 <a href="/templates">Smart Budget Templates</a> |

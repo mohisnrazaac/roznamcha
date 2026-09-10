@@ -204,6 +204,8 @@ class HandleInertiaRequests extends Middleware
             'public.tools.school-fees-planner.calculate',
             'public.tools.electricity-bill-estimator',
             'public.tools.electricity-bill-estimator.calculate',
+            'public.tools.solar-net-metering-roi-calculator',
+            'public.tools.solar-net-metering-roi-calculator.calculate',
             'seo.petrol',
             'seo.electricity',
             'seo.ration',

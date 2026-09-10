@@ -63,6 +63,8 @@ export default function SeoLandingPage({
     noticeTitle,
     lastCheckedAt,
     theme = {},
+    interactiveWidget,
+    children,
 }) {
     const { auth } = usePage().props;
     const primarySchema = structuredData[0] ?? null;
@@ -182,14 +184,22 @@ export default function SeoLandingPage({
                         </div>
                     </div>
 
-                    <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                        {dataPoints.map((item) => (
-                            <div key={item.label} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                                <p className="text-sm font-medium text-slate-500">{item.label}</p>
-                                <p className="mt-3 text-2xl font-semibold text-[#001a4a]">{item.value}</p>
-                            </div>
-                        ))}
-                    </div>
+                    {(interactiveWidget || children) ? (
+                        <div className="mt-10">
+                            {interactiveWidget || children}
+                        </div>
+                    ) : null}
+
+                    {dataPoints && dataPoints.length > 0 ? (
+                        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                            {dataPoints.map((item) => (
+                                <div key={item.label} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                                    <p className="text-sm font-medium text-slate-500">{item.label}</p>
+                                    <p className="mt-3 text-2xl font-semibold text-[#001a4a]">{item.value}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
 
                     <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
                         <div className="space-y-6">

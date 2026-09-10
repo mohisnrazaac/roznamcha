@@ -104,6 +104,12 @@ class SeoSitemapController extends Controller
                 'lastmod' => $staticLastmod,
             ],
             [
+                'loc' => $this->urlGenerator->routeUrl('public.tools.solar-net-metering-roi-calculator'),
+                'priority' => '0.8',
+                'changefreq' => 'weekly',
+                'lastmod' => $staticLastmod,
+            ],
+            [
                 'loc' => $this->urlGenerator->routeUrl('templates.index'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',

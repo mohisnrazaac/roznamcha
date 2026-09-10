@@ -49,4 +49,12 @@ return [
             ],
         ],
     ],
+    'solar_roi_calculator' => [
+        'defaults' => [
+            'monthly_units' => 650,
+            'monthly_bill' => 32000,
+            'self_consume_ratio' => 60,
+            'buyback_rate' => 11.0,
+        ],
+    ],
 ];

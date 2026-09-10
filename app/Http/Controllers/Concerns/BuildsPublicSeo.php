@@ -143,6 +143,16 @@ trait BuildsPublicSeo
                 'type' => 'article',
                 'schemaName' => 'Electricity Bill Estimator',
             ],
+            'solarRoiCalculator' => [
+                'title' => 'Solar Net Metering & ROI Calculator Pakistan | Roznamcha',
+                'description' => 'Calculate turnkey solar payback, NEPRA buyback earnings, and battery TCO (Tubular vs LiFePO4) under current Pakistan DISCO tariffs.',
+                'url' => $this->publicUrlGenerator()->routeUrl('public.tools.solar-net-metering-roi-calculator'),
+                'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.solar-net-metering-roi-calculator'),
+                'image' => $defaultImage,
+                'keywords' => ['solar roi calculator Pakistan', 'solar net metering calculator', 'NEPRA buyback rate', 'solar payback period Pakistan', 'LiFePO4 vs tubular battery cost'],
+                'type' => 'article',
+                'schemaName' => 'Solar Net Metering & ROI Calculator',
+            ],
             'rationCostEstimator' => [
                 'title' => 'Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha',
                 'description' => 'Estimate your monthly ration cost in Pakistan using base prices for atta, rice, oil, sugar, and daal before the next grocery run.',

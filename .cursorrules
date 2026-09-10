@@ -1,0 +1,1 @@
+Always prioritize the codebase-memory MCP server tools (search_graph, trace_path, detect_changes, get_architecture) for discovering code symbols, tracing call paths, and analyzing dependencies in project "roznamcha" before editing or reading full files.

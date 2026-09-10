@@ -6,6 +6,9 @@ import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
+import SlabCliffVisualizer from '../../../Components/Calculators/SlabCliffVisualizer';
+import ApplianceBreakdown from '../../../Components/Calculators/ApplianceBreakdown';
+import { APPLIANCE_PRESETS } from '../../../lib/electricityTariff';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -70,6 +73,28 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
         units_used: prefilledInputs.units_used ?? defaults?.units_used ?? 250,
         user_category: prefilledInputs.user_category ?? defaults?.user_category ?? 'unprotected',
     });
+
+    const defaultAppliances = React.useMemo(() => {
+        const state = {};
+        APPLIANCE_PRESETS.forEach((preset) => {
+            state[preset.id] = {
+                hours: preset.defaultHours,
+                qty: preset.defaultQty,
+            };
+        });
+        return state;
+    }, []);
+
+    const [appliancesState, setAppliancesState] = React.useState(defaultAppliances);
+
+    const handleApplianceChange = (nextState, newTotal) => {
+        setAppliancesState(nextState);
+        setForm((prev) => ({
+            ...prev,
+            units_used: newTotal,
+            user_category: newTotal <= 200 ? 'protected' : 'unprotected',
+        }));
+    };
     const [result, setResult] = React.useState(prefilledResults);
     const [error, setError] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
@@ -244,6 +269,12 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                 </form>
 
                 <div className="space-y-5">
+                    {/* Component 1: Smart Slab-Cliff Visualizer & Warning Engine */}
+                    <SlabCliffVisualizer
+                        units={Math.max(1, Number(form.units_used) || 1)}
+                        disco="lesco"
+                    />
+
                     <section
                         className={[
                             'rounded-2xl border p-6 transition-all duration-500',
@@ -317,6 +348,15 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
 
                     <SarkariTayariPromoCard />
                 </div>
+            </div>
+
+            {/* Component 2: Interactive Appliance Unit Breakdown & Load Sliders */}
+            <div className="mt-8">
+                <ApplianceBreakdown
+                    appliancesState={appliancesState}
+                    onChange={handleApplianceChange}
+                    currentUnits={Math.max(1, Number(form.units_used) || 1)}
+                />
             </div>
 
             {/* SECTION B: Rich text/HTML container optimized for SEO reading */}

@@ -32,6 +32,7 @@ use App\Http\Controllers\SeoSitemapController;
 use App\Http\Controllers\TemplateSitemapController;
 use App\Http\Controllers\PublicTools\SchoolFeesPlannerController;
 use App\Http\Controllers\PublicTools\ElectricityBillEstimatorController;
+use App\Http\Controllers\PublicTools\SolarRoiCalculatorController;
 use App\Http\Controllers\PublicTools\RationCostEstimatorController;
 use App\Http\Controllers\PublicTools\MonthlyHouseholdBudgetCalculatorController;
 use App\Http\Controllers\AiKharchaController;
@@ -98,6 +99,11 @@ Route::get('/tools/electricity-bill-estimator', [ElectricityBillEstimatorControl
     ->name('public.tools.electricity-bill-estimator');
 Route::post('/tools/electricity-bill-estimator/calculate', [ElectricityBillEstimatorController::class, 'electricityEstimator'])
     ->name('public.tools.electricity-bill-estimator.calculate');
+Route::get('/tools/solar-net-metering-roi-calculator', [SolarRoiCalculatorController::class, 'show'])
+    ->middleware('cache.public')
+    ->name('public.tools.solar-net-metering-roi-calculator');
+Route::post('/tools/solar-net-metering-roi-calculator/calculate', [SolarRoiCalculatorController::class, 'calculate'])
+    ->name('public.tools.solar-net-metering-roi-calculator.calculate');
 Route::get('/petrol-price-{city}-today', [SeoPageController::class, 'petrol'])->name('seo.petrol');
 Route::get('/electricity-bill-calculator-{disco}', [SeoPageController::class, 'electricity'])->name('seo.electricity');
 Route::get('/ration-cost-for-{size}-people-pakistan', [SeoPageController::class, 'ration'])->name('seo.ration');
