@@ -1,5 +1,5 @@
-const SHELL_CACHE = 'roznamcha-shell-v3'
-const ASSET_CACHE = 'roznamcha-assets-v3'
+const SHELL_CACHE = 'roznamcha-shell-v4'
+const ASSET_CACHE = 'roznamcha-assets-v4'
 const OFFLINE_URL = '/offline'
 const VITE_MANIFEST = '/build/manifest.json'
 
@@ -12,6 +12,8 @@ const CORE_PAGES = [
   '/kharcha-map',
   '/ration-brain',
   '/survival-report',
+  '/tools/solar-net-metering-roi-calculator',
+  '/tools/electricity-bill-estimator',
   '/privacy-policy',
   '/terms',
 ]
