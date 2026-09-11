@@ -665,7 +665,7 @@ def generate_mock_solar_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         "<h2>Deconstructing the Net Metering Billing Equation</h2>",
         "<p>Under Pakistan's active net metering structure, a bidirectional meter records both imported energy (electricity consumed from the DISCO during cloudy periods and nighttime) and exported energy (surplus solar kilowatt-hours injected back into the national grid). At the end of each monthly billing cycle, the distribution utility reconciles the account. If the total exported units exceed imported units, the net credit is carried forward to subsequent billing cycles. Crucially, imported units are billed at the prevailing consumer tier rate—which routinely exceeds Rs. 58 to Rs. 71 per unit for unprotected residential slabs once surcharges, electricity duties, and sales tax are added—whereas exported energy is credited at NEPRA's predetermined national average energy purchase price (EPP), currently benchmarked between Rs. 21 and Rs. 27 per unit.</p>",
         "<p>This differential between the retail consumption rate and the wholesale buyback tariff represents the single most important metric for calculating return on investment. For an urban homeowner operating an 8 kW on-grid setup producing approximately 950 units per month, self-consuming 600 units during peak solar generation hours eliminates retail imports that would otherwise have been billed at top-tier unprotected rates. The remaining 350 exported units generate a fiscal credit that cushions evening air conditioning consumption. The financial efficiency of a solar system in Pakistan is therefore maximized not by oversized export arrays, but by aligning daytime household energy consumption directly with peak irradiance hours.</p>",
-        "<h2>Capital Expenditure and System Payback Benchmark (2026)</h2>",
+        "<h2>Capital Expenditure and System Payback Breakdown for 2026</h2>",
         """<table>
 <thead>
   <tr>
@@ -969,6 +969,108 @@ def generate_mock_atta_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
     return BlogPostPayload.model_validate(data)
 
 
+def generate_mock_fuel_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
+    """Generate 1,500+ word pre-vetted article on Fuel Price Deregulation and Commuter Budgeting in Pakistan."""
+    title = topic_info["default_title"]
+    keyword = topic_info["focus_keyword"]
+    meta = topic_info["meta_description"]
+
+    paragraphs = [
+        "<p>Every fortnight across Pakistan, the calendar is marked by a familiar wave of collective economic unease. As midnight approaches on the 15th and last day of each month, drivers queue up at fuel stations across Karachi, Lahore, Rawalpindi, and Peshawar, waiting to fill their motorcycle tanks or hatchback fuel reservoirs before revised petroleum rates take effect. Over the past two years, the cost of Motor Spirit (petrol) and High-Speed Diesel (HSD) has moved from a predictable utility expenditure into one of the most volatile and destabilizing line items on the Pakistani household balance sheet. With international crude oil price fluctuations compounding against currency devaluations and escalating Petroleum Development Levy (PDL) mandates, commuting expenses have fundamentally reshaped urban family budgets.</p>",
+        "<p>The ongoing policy discussion surrounding complete petroleum deregulation represents a historic turning point in Pakistan's fiscal architecture. Under standard regulatory frameworks, the federal government benchmarked inland freight equalization margins (IFEM) and enforced uniform nationwide ex-refinery pricing. However, under proposed competitive deregulation models, oil marketing companies (OMCs) and regional fuel depots may soon set localized retail pump rates reflecting real-time logistics and storage costs. For the daily commuter navigating congested metropolitan thoroughfares, understanding the mechanics of fuel pricing is no longer mere economic trivia; it is an indispensable prerequisite for domestic financial survival.</p>",
+        "<h2>Deconstructing the Anatomy of Pakistani Fuel Pricing</h2>",
+        "<p>To understand why retail fuel prices at local filling stations seem permanently disconnected from domestic wage growth, one must examine the price buildup formula established by the Oil and Gas Regulatory Authority (OGRA). A petrol pump receipt in Pakistan does not merely charge for imported refined petroleum; it carries a multi-layered stack of federal revenue levies, currency exchange cushions, and downstream distribution margins.</p>",
+        "<p>The foundational component is the ex-refinery price, benchmarked directly against Platts Arab Gulf cargo indices for refined petroleum products. Because Pakistan imports the overwhelming majority of its finished motor gasoline and crude feedstocks, international benchmark swings and freight shipping insurance premiums immediately dictate the baseline import cost. To this figure, the government adds Inland Freight Equalization Margins (IFEM) to subsidize transport to remote northern and southwestern territories, followed by regulated OMC margins and dealer commissions.</p>",
+        "<p>The most decisive lever in the retail equation, however, is the Petroleum Development Levy (PDL). Initially capped at Rs. 50 per litre under previous International Monetary Fund (IMF) stabilization programs, legislative revisions have pushed statutory PDL limits toward Rs. 70 to Rs. 80 per litre. Because the PDL functions as direct, non-divisible sovereign revenue that does not enter the provincial divisible pool, federal budget makers rely heavily on petroleum taxation to fulfill macroeconomic deficit targets. Consequently, even during windows when global crude prices soften, retail pump rates frequently remain stubbornly elevated as fiscal authorities maximize revenue collection.</p>",
+        "<h2>Commuter Vehicle Expense Breakdown: 2026 Cost Comparison</h2>",
+        """<table>
+<thead>
+  <tr>
+    <th>Commuter Category & Vehicle</th>
+    <th>Average Daily Commute (KM)</th>
+    <th>Fuel Efficiency (KM/Litre)</th>
+    <th>Monthly Litres Consumed</th>
+    <th>Estimated Monthly Fuel Bill (PKR)</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Entry-Level Salaried (70cc Motorcycle)</td>
+    <td>25 – 35 km</td>
+    <td>42 – 48 km/L</td>
+    <td>22 – 28 Litres</td>
+    <td>Rs. 6,500 – Rs. 8,200</td>
+  </tr>
+  <tr>
+    <td>Mid-Tier Professional (125cc Motorcycle)</td>
+    <td>35 – 50 km</td>
+    <td>32 – 38 km/L</td>
+    <td>35 – 45 Litres</td>
+    <td>Rs. 10,200 – Rs. 13,200</td>
+  </tr>
+  <tr>
+    <td>Family Commute (660cc Japanese Kei Car)</td>
+    <td>30 – 40 km</td>
+    <td>15 – 18 km/L</td>
+    <td>65 – 80 Litres</td>
+    <td>Rs. 18,500 – Rs. 23,500</td>
+  </tr>
+  <tr>
+    <td>Corporate Executive (1000cc - 1300cc Sedan)</td>
+    <td>40 – 60 km</td>
+    <td>11 – 13 km/L</td>
+    <td>110 – 145 Litres</td>
+    <td>Rs. 32,000 – Rs. 42,500</td>
+  </tr>
+  <tr>
+    <td>Ride-Hailing & Feeder Vans (Rickshaw/Carpool)</td>
+    <td>Variable Daily</td>
+    <td>Shared / Contract</td>
+    <td>Fixed Monthly Pass</td>
+    <td>Rs. 12,000 – Rs. 16,000</td>
+  </tr>
+</tbody>
+</table>""",
+        "<h2>The Domino Effect on Urban Transport and Essential Groceries</h2>",
+        "<p>The impact of petroleum pricing in Pakistan does not end at the vehicle exhaust pipe; it cascades aggressively through every sector of the domestic economy. Unlike advanced economies where electrified freight and heavy rail handle inland logistics, Pakistan transports over ninety percent of its agricultural yield and consumer goods via diesel-powered trucking fleets traversing the National Highway (N-5) and motorway networks.</p>",
+        "<p>Whenever High-Speed Diesel prices increase, trucking associations immediately pass the higher freight tariff onto wholesale commission agents (arhtis) operating in major grain and vegetable markets like Sabzi Mandi Karachi and Badami Bagh Lahore. A five-rupee increase in diesel per litre translates into an immediate jump in the retail price of fresh tomatoes, onions, potatoes, and packaged dairy. Urban families that do not own personal motorized vehicles often assume that fuel hikes do not affect their finances, only to discover that their weekly kitchen grocery bill has absorbed the full freight markup.</p>",
+        "<p>Simultaneously, intermediate urban transport operators—ranging from Qingqi rickshaw drivers to informal neighborhood school van services—adjust their passenger fares upward with zero statutory oversight. Because informal transit networks operate without formal fare meters, price revisions are typically round numbers; a ten-percent rise in fuel triggers a twenty-five-percent increase in school van charges, leaving parents with children in private schools with non-negotiable monthly budget deficits.</p>",
+        "<h2>Tactical Commuter Defense Strategies for Salaried Employees</h2>",
+        "<p>In the face of relentless transport inflation, salaried individuals must transition from passive grumbling to active, disciplined vehicle management. By implementing deliberate operational modifications, commuters can recoup significant monthly savings without sacrificing basic personal mobility.</p>",
+        "<ul>",
+        "<li><strong>Empirical Tyre Pressure Audits:</strong> Operating under-inflated motorcycle or automobile tyres increases rolling friction and engine load, deteriorating fuel efficiency by eight to twelve percent. Checking cold tyre pressures once weekly at reliable digital calibration points delivers instant mileage gains.</li>",
+        "<li><strong>Neighborhood Carpooling Clusters:</strong> Colleagues living in adjacent residential blocks—such as Gulshan-e-Iqbal in Karachi or Johar Town in Lahore—can form structured three-person or four-person carpooling syndicates. Alternating driving responsibilities on a weekly rotation immediately slashes monthly personal fuel expenditure by up to fifty percent.</li>",
+        "<li><strong>Utilizing Mass Transit Trunk Lines:</strong> Commuters working along main transit corridors should leverage dedicated mass transit infrastructure. Integrating a short motorcycle hop to the nearest Metro Bus station (Islamabad-Rawalpindi, Lahore, or Multan) or the Orange Line train bypasses gridlock idling, preserves vehicle mechanics, and caps transit spending under Rs. 3,500 monthly.</li>",
+        "<li><strong>Strategic Card Cashbacks and Digital Fuel Wallets:</strong> Commercial banks and mobile wallets frequently run promotions offering three to five percent cashback on petroleum transactions. Consolidating monthly fuel spending onto dedicated reward-earning debit or credit cards provides a modest but reliable buffer against retail tariff shocks.</li>",
+        "</ul>",
+        "<h2>The Corporate Conveyance Allowance Disconnect</h2>",
+        "<p>A major systemic challenge confronting Pakistan's private sector workforce is the widening gap between actual commuting costs and static contractual conveyance allowances. Many corporate pay structures still allocate transport allowances benchmarked against fuel rates from 2021, when petrol traded below Rs. 130 per litre. Today, that identical commute requires nearly triple the financial outlay, effectively forcing employees to subsidize their employer's operational presence out of their net basic wages.</p>",
+        "<p>Employees should approach annual performance reviews and contract renewals with documented commuting data. Presenting transparent, empirical logs of monthly travel mileage, public transit receipts, and regional fuel indexes provides objective leverage when requesting updated conveyance allowances or exploring flexible hybrid remote-work arrangements that eliminate two days of physical transit per week.</p>",
+        "<h2>Long-Term Income Upgrades: Breaking the Transport Deficit Trap</h2>",
+        "<p>While mechanical tuning, defensive acceleration, and cooperative ride-sharing help mitigate short-term bleeding, expense cutting has rigid physical limits. A motorcycle engine cannot operate on zero fuel, and public bus networks do not reach every suburban neighborhood. Ultimately, the only permanent defense against systemic transportation inflation is upgrading your monthly household income trajectory.</p>",
+        "<p>In Pakistan's volatile macroeconomic climate, public sector appointments and civil service roles offer an exceptional institutional shield. Government posts provide regulated conveyance allowances, subsidized staff shuttle transit, official vehicle allocations for officer cadres, and indexed pension security that insulated families from daily commercial fuel volatility.</p>",
+        '<p>While budgeting apps and ration calculators help plug leakages, the safest shield against volatile food inflation and DISCO electricity tariff spikes is a pension-backed government position. You can track verified department openings, test dates, and official syllabus breakdowns directly on <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">Sarkari Tayari</a>.</p>',
+        "<h2>The Emergence of Electric Two-Wheelers and Solar Commuting</h2>",
+        "<p>As retail petroleum prices hover near historical highs, an increasing segment of daily commuters in Karachi, Lahore, and Rawalpindi is evaluating electric two-wheelers (EV bikes) powered by lithium iron phosphate (LFP) batteries. While the initial capital expenditure of acquiring a quality electric motorcycle remains substantial compared to secondhand 70cc petrol bikes, the operating expenditure per kilometer is dramatically lower—especially for households that already operate rooftop solar net metering systems.</p>",
+        "<p>Recharging an EV motorcycle battery overnight using domestic solar credits or off-peak utility tariffs translates into an effective running cost of less than Rs. 1.50 per kilometer, compared to approximately Rs. 6.50 to Rs. 8.20 per kilometer for a conventional carbureted petrol motorcycle. For an employee commuting forty kilometers daily, this switch eliminates over Rs. 7,000 in monthly fuel outflows. As local assembly expands, standardized battery-swapping kiosks emerge, and institutional green financing partnerships mature across Pakistani banking institutions, electric two-wheelers will increasingly serve as a vital escape route from volatile global crude oil shocks.</p>",
+        "<h2>Conclusion: Taking Command of Your Daily Mobility Budget</h2>",
+        "<p>Transport inflation in Pakistan is an economic reality that will not reverse overnight. Whether driven by international crude dynamics or national deregulation policies, the cost of moving between home and workplace will remain a major test of domestic financial management.</p>",
+        "<p>By auditing your vehicle fuel consumption with scientific precision, embracing collective commuting alternatives, and simultaneously pursuing career opportunities that elevate your baseline earnings, you can protect your household from transport-driven insolvency and achieve lasting economic independence.</p>",
+    ]
+
+    content = "\n".join(paragraphs)
+    data = {
+        "title": title,
+        "focus_keyword": keyword,
+        "meta_description": meta,
+        "category_id": topic_info.get("category_id", 6),
+        "status": "draft",
+        "seo_title": "Fuel Deregulation Pakistan: Commuter Guide 2026",
+        "content_html": content,
+    }
+    return BlogPostPayload.model_validate(data)
+
+
 def generate_mock_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
     """
     Route to the appropriate 1,450+ word pre-vetted compliant article based on selected topic.
@@ -981,6 +1083,8 @@ def generate_mock_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
         return generate_mock_tax_article(topic_info)
     elif "wheat" in topic_str or "atta" in topic_str or "flour" in topic_str or "grocery" in topic_str or "kitchen" in topic_str:
         return generate_mock_atta_article(topic_info)
+    elif "fuel" in topic_str or "petrol" in topic_str or "diesel" in topic_str or "transport" in topic_str:
+        return generate_mock_fuel_article(topic_info)
     else:
         # Default high-yield solar article for general household topic validation
         return generate_mock_solar_article(topic_info)
@@ -1013,6 +1117,7 @@ def transmit_article_to_api(
         "X-Ingestion-Key": secret_key,
         "Content-Type": "application/json",
         "Accept": "application/json",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 RoznamchaBot/1.0",
     }
 
     if hasattr(article, "model_dump"):
