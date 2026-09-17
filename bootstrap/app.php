@@ -30,6 +30,14 @@ return Application::configure(basePath: dirname(__DIR__))
             ->mondays()
             ->at('06:10')
             ->timezone(config('app.timezone', 'Asia/Karachi'));
+
+        if (filter_var(env('PUBLISHER_AGENT_ENABLED', true), FILTER_VALIDATE_BOOL)) {
+            $schedule->command(\App\Console\Commands\RunPublisherAgent::class)
+                ->dailyAt(env('PUBLISHER_AGENT_SCHEDULE_TIME', '07:00'))
+                ->timezone(config('app.timezone', 'Asia/Karachi'))
+                ->withoutOverlapping()
+                ->appendOutputTo(storage_path('logs/publisher_agent.log'));
+        }
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [

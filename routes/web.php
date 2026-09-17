@@ -1,50 +1,48 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KharchaController;
-use App\Http\Controllers\RationController;
-use App\Http\Controllers\ReminderController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Panel\CategoryController as PanelCategoryController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\SurvivalReportController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
-use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
 use App\Http\Controllers\Admin\AiLogsController as AdminAiLogsController;
+use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
+use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DailyMoneySnapshotController as AdminDailyMoneySnapshotController;
 use App\Http\Controllers\Admin\PasswordController as AdminPasswordController;
-use App\Http\Controllers\OnboardingController;
-use App\Http\Controllers\PublicPageController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\BlogPublicController;
-use App\Http\Controllers\RssController;
-use App\Http\Controllers\SeoPageController;
-use App\Http\Controllers\SeoSitemapController;
-use App\Http\Controllers\TemplateSitemapController;
-use App\Http\Controllers\PublicTools\SchoolFeesPlannerController;
-use App\Http\Controllers\PublicTools\ElectricityBillEstimatorController;
-use App\Http\Controllers\PublicTools\SolarRoiCalculatorController;
-use App\Http\Controllers\PublicTools\RationCostEstimatorController;
-use App\Http\Controllers\PublicTools\MonthlyHouseholdBudgetCalculatorController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AiKharchaController;
 use App\Http\Controllers\AiRationController;
 use App\Http\Controllers\AiReminderController;
 use App\Http\Controllers\AiReportController;
-use App\Http\Controllers\DailyReturnSnapshotController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\GuestStateController;
 use App\Http\Controllers\AskRozaController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BlogPublicController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DailyReturnSnapshotController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\GuestStateController;
+use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\Panel\CategoryController as PanelCategoryController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\PublicTools\ElectricityBillEstimatorController;
+use App\Http\Controllers\PublicTools\MonthlyHouseholdBudgetCalculatorController;
+use App\Http\Controllers\PublicTools\RationCostEstimatorController;
+use App\Http\Controllers\PublicTools\SchoolFeesPlannerController;
+use App\Http\Controllers\PublicTools\SolarRoiCalculatorController;
+use App\Http\Controllers\RationController;
+use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RssController;
+use App\Http\Controllers\SeoPageController;
+use App\Http\Controllers\SeoSitemapController;
+use App\Http\Controllers\SurvivalReportController;
 use App\Http\Controllers\TemplateController;
+use App\Http\Controllers\TemplateSitemapController;
 use App\Http\Controllers\ToolSnapshotController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/ads.txt', function () {
     $path = public_path('ads.txt');
@@ -124,6 +122,15 @@ Route::withoutMiddleware([
     Route::get('/sitemap.xml', [SeoSitemapController::class, 'index'])->middleware('cache.public')->name('public.sitemap');
     Route::get('/templates-sitemap.xml', [TemplateSitemapController::class, 'show'])->middleware('cache.public')->name('public.templates-sitemap');
 });
+
+// Canonical 301 Redirects for Legacy / Modified Blog Slugs
+Route::redirect('/50k-salary-survival-guide', '/blog/best-monthly-budget-50000-salary-pakistan-2026', 301);
+Route::redirect('/blog/ghar-ka-mahana-budget-kaise-banaye-pakistani-guide', '/blog/ghar-ka-monthly-budget', 301);
+Route::redirect('/blog/pakistan-inflation-july-2026-household-budget', '/blog/pakistan-inflation-9-2-percent-july-2026-household-budget', 301);
+Route::redirect('/blog/kameti-bc-vs-islamic-mutual-funds-gold-2026', '/blog/kameti-vs-mutual-funds-inflation-pakistan', 301);
+Route::redirect('/blog/reduce-kitchen-inflation-ration-buying-pakistan', '/blog/reduce-kitchen-inflation-ration-buying-habits-pakistan', 301);
+Route::redirect('/blog/how-to-use-digital-roznamcha-business-personal-finance-2025', '/blog/how-to-use-digital-roznamcha-for-business-and-personal-finance-2025', 301);
+Route::redirect('/blog/ios-27-features-and-the-true-cost-of-iphone-buying-in-pakistan-a-household-budget-defense-guide-with-roznamcha', '/blog/ios-27-features-iphone-price-pakistan', 301);
 
 Route::get('/blog/{slug}', [BlogPublicController::class, 'show'])
     ->middleware('track.blog.view')
@@ -284,10 +291,4 @@ Route::redirect('/ration-cost-estimator', '/tools/ration-cost-estimator', 301);
 Route::redirect('/monthly-household-budget-calculator', '/tools/monthly-household-budget-calculator', 301);
 Route::redirect('/electricity-bill-estimator', '/tools/electricity-bill-estimator', 301);
 Route::redirect('/terms-of-service', '/terms', 301);
-Route::redirect('/50k-salary-survival-guide', '/blog/best-monthly-budget-50000-salary-pakistan-2026', 301);
-Route::redirect('/blog/ghar-ka-mahana-budget-kaise-banaye-pakistani-guide', '/blog/ghar-ka-monthly-budget', 301);
-Route::redirect('/blog/pakistan-inflation-july-2026-household-budget', '/blog/pakistan-inflation-9-2-percent-july-2026-household-budget', 301);
-Route::redirect('/blog/kameti-bc-vs-islamic-mutual-funds-gold-2026', '/blog/kameti-vs-mutual-funds-inflation-pakistan', 301);
-Route::redirect('/blog/reduce-kitchen-inflation-ration-buying-pakistan', '/blog/reduce-kitchen-inflation-ration-buying-habits-pakistan', 301);
-Route::redirect('/blog/how-to-use-digital-roznamcha-business-personal-finance-2025', '/blog/how-to-use-digital-roznamcha-for-business-and-personal-finance-2025', 301);
 Route::get('/cookie-policy', [App\Http\Controllers\PublicPageController::class, 'cookiePolicy'])->name('public.cookie-policy');
