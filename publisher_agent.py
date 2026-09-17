@@ -17,11 +17,14 @@ Features:
 
 import argparse
 from datetime import datetime
+import html
 import json
 import os
 import re
 import sys
 from typing import Any, Dict, List, Optional, Tuple
+import urllib.parse
+import xml.etree.ElementTree as ET
 
 # Attempt imports with friendly error guidance
 try:
@@ -363,135 +366,232 @@ def is_duplicate_topic(
 
 
 # ---------------------------------------------------------------------------
-# Dynamic Editorial Topic Pool
+# Google Trends & Real-Time Topic Discovery Engine
 # ---------------------------------------------------------------------------
 
-EDITORIAL_TOPIC_POOL: List[Dict[str, Any]] = [
+def clean_headline_text(raw_title: str) -> str:
+    """Clean trailing news source attribution like ' - Dawn' or ' - The Nation'."""
+    text = html.unescape(raw_title.strip())
+    text = re.sub(r"\s+[-|]\s+[^-|]+$", "", text).strip()
+    return text
+
+
+def infer_topic_category(title: str, query: str = "") -> Tuple[int, str]:
+    """
+    Infer the most relevant category ID and name based on topic keywords.
+    Category 1 = Inflation Watch / Breaking / General
+    Category 2 = Household Tips / Technology & Practical
+    Category 3 = Personal Finance / Business
+    Category 6 = Fuel / Automotive / Transport
+    """
+    combined = f"{title} {query}".lower()
+
+    if any(k in combined for k in ["tech", "phone", "iphone", "android", "ai", "apple", "samsung", "honor", "google", "meta", "nvidia", "software", "chip", "gadget", "laptop", "battery", "display", "feature"]):
+        return 2, "Technology"
+    if any(k in combined for k in ["cricket", "match", "tournament", "fifa", "football", "asian games", "olympics", "trophy", "cup", "league", "psl", "ipl", "goal", "wicket", "player", "coach", "tuchel", "messi"]):
+        return 1, "Sports"
+    if any(k in combined for k in ["film", "movie", "cinema", "actor", "actress", "star", "kapoor", "sridevi", "bollywood", "hollywood", "drama", "song", "music", "concert", "wedding", "trailer", "box office"]):
+        return 1, "Entertainment"
+    if any(k in combined for k in ["car", "cars", "bike", "electric vehicle", "ev", "auto", "engine", "honda", "toyota", "suzuki", "motorcycle", "highway", "commute"]):
+        return 6, "Automotive & Transport"
+    if any(k in combined for k in ["stock", "shares", "business", "trade", "export", "import", "market", "currency", "dollar", "rupee", "bank", "gold", "investment"]):
+        return 3, "Business & Economy"
+    if any(k in combined for k in ["defence", "pact", "minister", "un", "iran", "saudi", "treaty", "ambassador", "summit", "court", "supreme court", "plea", "law", "parliament"]):
+        return 1, "Current Affairs"
+
+    return 1, "Trending News"
+
+
+def fetch_google_trends(geo: str = "PK") -> List[Dict[str, Any]]:
+    """
+    Fetch real-time daily search trends from Google Trends RSS.
+    Extracts trending queries, approximate traffic volume, and related news articles.
+    """
+    url = f"https://trends.google.com/trending/rss?geo={geo}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+    }
+
+    trends: List[Dict[str, Any]] = []
+    if requests is None:
+        return trends
+
+    try:
+        resp = requests.get(url, headers=headers, timeout=12)
+        if resp.status_code == 200:
+            root = ET.fromstring(resp.content)
+            ns = {"ht": "https://trends.google.com/trending/rss"}
+            for item in root.findall(".//item"):
+                title_elem = item.find("title")
+                if title_elem is None or not title_elem.text:
+                    continue
+                raw_query = title_elem.text.strip()
+                traffic_elem = item.find("ht:approx_traffic", ns)
+                traffic_str = traffic_elem.text.strip() if traffic_elem is not None and traffic_elem.text else "High Interest"
+
+                news_items = []
+                for ni in item.findall("ht:news_item", ns):
+                    nt = ni.find("ht:news_item_title", ns)
+                    nu = ni.find("ht:news_item_url", ns)
+                    ns_source = ni.find("ht:news_item_source", ns)
+                    if nt is not None and nt.text:
+                        news_items.append({
+                            "title": clean_headline_text(nt.text),
+                            "url": nu.text.strip() if nu is not None and nu.text else "",
+                            "source": ns_source.text.strip() if ns_source is not None and ns_source.text else "Google Trends",
+                        })
+
+                # Select best headline: use first rich news headline if available, else query title
+                if news_items:
+                    headline = news_items[0]["title"]
+                else:
+                    headline = f"{raw_query.title()}: Latest Updates, In-Depth Overview, and Key Developments"
+
+                cat_id, cat_name = infer_topic_category(headline, raw_query)
+
+                trends.append({
+                    "id": f"gtrend-{normalize_slug(raw_query)[:35]}",
+                    "source_type": "Google Trends",
+                    "query": raw_query,
+                    "topic": headline,
+                    "default_title": headline,
+                    "focus_keyword": f"{raw_query.lower()}",
+                    "category_id": cat_id,
+                    "category_name": cat_name,
+                    "traffic": traffic_str,
+                    "news_headlines": [item["title"] for item in news_items],
+                    "news_sources": [item["source"] for item in news_items],
+                    "meta_description": f"Comprehensive deep dive into {raw_query.title()}: background, key highlights, verified updates, and essential takeaways.",
+                })
+    except Exception as e:
+        print(f"[!] Note: Google Trends ({geo}) fetch notice: {e}")
+
+    return trends
+
+
+def fetch_google_news_trends() -> List[Dict[str, Any]]:
+    """
+    Fetch trending news headlines from Google News RSS feeds across multiple categories.
+    """
+    feeds = [
+        ("https://news.google.com/rss?hl=en-PK&gl=PK&ceid=PK:en", "Top Stories"),
+        ("https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-PK&gl=PK&ceid=PK:en", "Technology"),
+        ("https://news.google.com/rss/headlines/section/topic/SPORTS?hl=en-PK&gl=PK&ceid=PK:en", "Sports"),
+        ("https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=en-PK&gl=PK&ceid=PK:en", "Entertainment"),
+        ("https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-PK&gl=PK&ceid=PK:en", "World"),
+    ]
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+    }
+
+    news_trends: List[Dict[str, Any]] = []
+    if requests is None:
+        return news_trends
+
+    for feed_url, feed_name in feeds:
+        try:
+            resp = requests.get(feed_url, headers=headers, timeout=8)
+            if resp.status_code == 200:
+                root = ET.fromstring(resp.content)
+                items = root.findall(".//item")
+                for item in items[:12]:
+                    title_elem = item.find("title")
+                    link_elem = item.find("link")
+                    source_elem = item.find("source")
+
+                    if title_elem is None or not title_elem.text:
+                        continue
+
+                    raw_title = title_elem.text.strip()
+                    cleaned_headline = clean_headline_text(raw_title)
+                    if len(cleaned_headline) < 15:
+                        continue
+
+                    link_url = link_elem.text.strip() if link_elem is not None and link_elem.text else ""
+                    source_name = source_elem.text.strip() if source_elem is not None and source_elem.text else "Google News"
+
+                    cat_id, cat_name = infer_topic_category(cleaned_headline)
+
+                    query_words = [w for w in re.sub(r"[^\w\s]", "", cleaned_headline).split() if len(w) > 3][:4]
+                    query_phrase = " ".join(query_words).lower() if query_words else cleaned_headline[:30].lower()
+
+                    news_trends.append({
+                        "id": f"gnews-{normalize_slug(cleaned_headline)[:35]}",
+                        "source_type": f"Google News ({feed_name})",
+                        "query": query_phrase,
+                        "topic": cleaned_headline,
+                        "default_title": cleaned_headline,
+                        "focus_keyword": query_phrase,
+                        "category_id": cat_id,
+                        "category_name": cat_name,
+                        "traffic": "Breaking News",
+                        "news_headlines": [cleaned_headline],
+                        "news_sources": [source_name],
+                        "meta_description": f"Exhaustive investigative coverage of {cleaned_headline}: verified timeline, key background, and comprehensive analysis.",
+                    })
+        except Exception:
+            continue
+
+    return news_trends
+
+
+def fetch_live_google_trends() -> List[Dict[str, Any]]:
+    """
+    Aggregate live trends from Google Trends (PK & US) and Google News RSS.
+    Returns a deduplicated, prioritized list of candidate trending topics.
+    """
+    candidates: List[Dict[str, Any]] = []
+    seen_queries = set()
+
+    # 1. Primary: Google Trends Pakistan
+    pk_trends = fetch_google_trends(geo="PK")
+    for t in pk_trends:
+        norm = normalize_title(t["query"])
+        if norm and norm not in seen_queries:
+            seen_queries.add(norm)
+            candidates.append(t)
+
+    # 2. Secondary: Google News breaking items
+    news_items = fetch_google_news_trends()
+    for n in news_items:
+        norm = normalize_title(n["topic"])
+        if norm and norm not in seen_queries:
+            seen_queries.add(norm)
+            candidates.append(n)
+
+    # 3. Tertiary: Google Trends Global / US fallback if candidates are few
+    if len(candidates) < 10:
+        us_trends = fetch_google_trends(geo="US")
+        for u in us_trends:
+            norm = normalize_title(u["query"])
+            if norm and norm not in seen_queries:
+                seen_queries.add(norm)
+                candidates.append(u)
+
+    return candidates
+
+
+# Emergency evergreen fallbacks only used if Google is completely unreachable
+EMERGENCY_TREND_FALLBACKS: List[Dict[str, Any]] = [
     {
-        "id": "solar-net-metering-2026",
-        "topic": "Solar Net Metering Regulations in Pakistan 2026: Payback Period and ROI Breakdown",
-        "default_title": "Solar Net Metering Regulations in Pakistan 2026: Payback Period and ROI Breakdown",
-        "focus_keyword": "solar net metering pakistan 2026 payback",
-        "category_id": 2,  # Household Tips
-        "category_name": "Household Tips",
-        "meta_description": "Comprehensive economic and technical analysis of NEPRA solar net metering rules, buyback tariffs, three-phase inverter sizing, and payback calculations.",
+        "id": "fallback-next-gen-computing",
+        "topic": "Next-Generation Quantum Computing and Consumer AI Hardware Milestones",
+        "default_title": "Next-Generation Quantum Computing and Consumer AI Hardware Milestones: A Comprehensive Guide",
+        "focus_keyword": "quantum computing consumer ai hardware milestones",
+        "category_id": 2,
+        "category_name": "Technology",
+        "meta_description": "Exhaustive exploration of emerging quantum processing units, on-device neural engines, and global semiconductor roadmaps.",
     },
     {
-        "id": "salaried-tax-slabs-2026",
-        "topic": "Salaried Tax Slabs FY 2025-26 and Income Tax Optimization Strategies for Pakistani Professionals",
-        "default_title": "Salaried Tax Slabs FY 2025-26 and Income Tax Optimization Strategies for Pakistani Professionals",
-        "focus_keyword": "salaried tax slabs pakistan 2026 calculation",
-        "category_id": 3,  # Personal Finance Pakistan
-        "category_name": "Personal Finance Pakistan",
-        "meta_description": "An authoritative guide to FBR salaried income tax brackets, monthly payroll deductions, surcharge thresholds, and legitimate tax credits.",
-    },
-    {
-        "id": "wheat-flour-atta-subsidies-2026",
-        "topic": "Wheat Flour (Atta) Subsidies vs Open Market Rates: Managing Kitchen Grocery Inflation 2026",
-        "default_title": "Wheat Flour (Atta) Subsidies vs Open Market Rates: Managing Kitchen Grocery Inflation 2026",
-        "focus_keyword": "atta price subsidy open market pakistan 2026",
-        "category_id": 1,  # Inflation Watch
-        "category_name": "Inflation Watch",
-        "meta_description": "An investigative report on provincial wheat procurement, Utility Stores Corporation flour quotas, Chakki vs mill rates, and tactical grocery budgeting.",
-    },
-    {
-        "id": "fuel-deregulation-transport-2026",
-        "topic": "Fuel Price Deregulation in Pakistan: Transport Inflation and Commuter Survival Guide",
-        "default_title": "Fuel Price Deregulation in Pakistan: Transport Inflation and Commuter Survival Guide",
-        "focus_keyword": "fuel price deregulation transport cost pakistan 2026",
-        "category_id": 6,  # Fuel Prices Hike
-        "category_name": "Fuel Prices Hike",
-        "meta_description": "Detailed economic breakdown of weekly petroleum pricing, petroleum development levy (PDL) escalation, public transit fares, and commuting budget defense.",
-    },
-    {
-        "id": "national-savings-schemes-2026",
-        "topic": "National Savings Schemes (Behbood vs Regular Income Certificates): Real Returns Against Inflation 2026",
-        "default_title": "National Savings Schemes (Behbood vs Regular Income Certificates): Real Returns Against Inflation 2026",
-        "focus_keyword": "national savings schemes profit rates pakistan 2026",
-        "category_id": 3,  # Personal Finance Pakistan
-        "category_name": "Personal Finance Pakistan",
-        "meta_description": "Comprehensive comparative assessment of Central Directorate of National Savings certificates, withholding tax treatments, and inflation-adjusted purchasing power.",
-    },
-    {
-        "id": "inverter-ac-consumption-2026",
-        "topic": "Inverter AC vs Non-Inverter Power Consumption: Practical Testing for Pakistani Summer Loads",
-        "default_title": "Inverter AC vs Non-Inverter Power Consumption: Practical Testing for Pakistani Summer Loads",
-        "focus_keyword": "inverter ac electricity consumption units pakistan",
-        "category_id": 2,  # Household Tips
-        "category_name": "Household Tips",
-        "meta_description": "Benchmarking empirical unit consumption for 1.5-ton inverter air conditioners across 26C vs 20C thermostat settings under NEPRA un-protected slabs.",
-    },
-    {
-        "id": "electricity-tariff-defense-2026",
-        "topic": "Pakistan electricity tariff increases and household budgeting defense 2026",
-        "default_title": "Pakistan electricity tariff increases and household budgeting defense 2026",
-        "focus_keyword": "electricity tariff increase pakistan 2026",
-        "category_id": 3,  # Personal Finance Pakistan
-        "category_name": "Personal Finance Pakistan",
-        "meta_description": "An in-depth investigation into NEPRA fuel charges adjustments, protected slab limits, and how urban families can restructure their utility budgets.",
-    },
-    {
-        "id": "iphone-18-pro-max-duo-pakistan-2026",
-        "topic": "iPhone 18, iPhone 18 Pro Max, and iPhone 18 Duo in Pakistan: Expected Prices, PTA Taxes, Leaked Specs, and the True Cost of Upgrading",
-        "default_title": "iPhone 18, iPhone 18 Pro Max, and iPhone 18 Duo in Pakistan: Expected Prices, PTA Taxes, Leaked Specs, and the True Cost of Upgrading",
-        "focus_keyword": "iphone 18 price in pakistan pta tax 2026",
-        "category_id": 3,  # Personal Finance Pakistan
-        "category_name": "Personal Finance Pakistan",
-        "meta_description": "Comprehensive guide to leaked iPhone 18, Pro Max, and Duo specs, expected US dollar and PKR prices, FBR PTA taxes, and the opportunity cost of upgrading.",
-    },
-    {
-        "id": "ios-27-iphone-buying-roznamcha",
-        "topic": "iOS 27 Features, Flagship iPhone Buying in Pakistan, and Household Budget Defense with Roznamcha",
-        "default_title": "iOS 27 Features and the True Cost of iPhone Buying in Pakistan: A Household Budget Defense Guide with Roznamcha",
-        "focus_keyword": "ios 27 features iphone price pakistan roznamcha budget",
-        "category_id": 3,  # Personal Finance Pakistan
-        "category_name": "Personal Finance Pakistan",
-        "meta_description": "Comprehensive guide to iOS 27 AI features, expected iPhone landed prices and PTA taxes in Pakistan, and using Roznamcha to manage tech upgrade expenses.",
-    },
-    {
-        "id": "solar-battery-economics-2026",
-        "topic": "Solar Battery Storage Economics in Pakistan: LiFePO4 vs Tubular Battery ROI 2026",
-        "default_title": "Solar Battery Storage Economics in Pakistan: LiFePO4 vs Tubular Battery ROI 2026",
-        "focus_keyword": "solar battery storage pakistan lifepo4 tubular 2026",
-        "category_id": 2,  # Household Tips
-        "category_name": "Household Tips",
-        "meta_description": "Detailed financial and technical breakdown of lithium iron phosphate vs tubular lead-acid batteries for Pakistani solar installations.",
-    },
-    {
-        "id": "auto-fuel-efficiency-cng-2026",
-        "topic": "Automobile Fuel Efficiency and CNG Retrofitting Economics in Pakistan 2026",
-        "default_title": "Automobile Fuel Efficiency and CNG Retrofitting Economics in Pakistan 2026",
-        "focus_keyword": "fuel efficiency cng retrofitting cost pakistan 2026",
-        "category_id": 6,  # Fuel Prices Hike
-        "category_name": "Fuel Prices Hike",
-        "meta_description": "Comparative economic guide to commuter mileage, EFI calibration, CNG kits, and monthly transport savings in Pakistan.",
-    },
-    {
-        "id": "freelancer-tax-compliance-2026",
-        "topic": "Pakistani Freelancer Tax Slabs, PSEB Registration, and Foreign Remittance Withholding Guide 2026",
-        "default_title": "Pakistani Freelancer Tax Slabs, PSEB Registration, and Foreign Remittance Withholding Guide 2026",
-        "focus_keyword": "freelancer tax pakistan pseb remittance 2026",
-        "category_id": 3,  # Personal Finance Pakistan
-        "category_name": "Personal Finance Pakistan",
-        "meta_description": "Authoritative tax filing guide for IT exporters, digital nomads, and remote workers under FBR Section 154A and PSEB rules.",
-    },
-    {
-        "id": "electric-bike-ownership-cost-2026",
-        "topic": "Electric Bikes vs 70cc Petrol Motorcycles in Pakistan: Total Cost of Ownership and Payback 2026",
-        "default_title": "Electric Bikes vs 70cc Petrol Motorcycles in Pakistan: Total Cost of Ownership and Payback 2026",
-        "focus_keyword": "electric bike vs 70cc petrol motorcycle pakistan 2026",
-        "category_id": 6,  # Fuel Prices Hike
-        "category_name": "Fuel Prices Hike",
-        "meta_description": "Empirical cost-per-kilometer comparison between Chinese/local EV motorbikes and conventional 70cc petrol bikes under current fuel tariffs.",
-    },
-    {
-        "id": "gold-vs-national-savings-2026",
-        "topic": "Gold Investment vs National Savings Certificates: Protecting Wealth Against PKR Devaluation 2026",
-        "default_title": "Gold Investment vs National Savings Certificates: Protecting Wealth Against PKR Devaluation 2026",
-        "focus_keyword": "gold investment national savings certificates pakistan 2026",
-        "category_id": 3,  # Personal Finance Pakistan
-        "category_name": "Personal Finance Pakistan",
-        "meta_description": "Comprehensive macroeconomic evaluation of 24K bullion tolas versus NSS profit certificates for long-term household capital preservation.",
+        "id": "fallback-space-exploration-mars",
+        "topic": "Deep Space Exploration and Next-Gen Rocketry: Current Global Missions Overview",
+        "default_title": "Deep Space Exploration and Next-Gen Rocketry: Current Global Missions Overview",
+        "focus_keyword": "deep space exploration next gen rocketry missions",
+        "category_id": 1,
+        "category_name": "Trending News",
+        "meta_description": "Comprehensive report on orbital space telescopes, reusable heavy-lift launch vehicles, and interplanetary research missions.",
     },
 ]
 
@@ -503,8 +603,8 @@ def select_unposted_topic(
     requested_topic: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    Select an editorial topic that has not been posted yet.
-    If requested_topic is provided and already posted, logs an alert and auto-rotates.
+    Select an active trending topic dynamically from Google.
+    Filters out previously ingested articles to prevent duplicate coverage.
     """
     # 1. If explicit topic requested, check if it's already posted
     if requested_topic:
@@ -517,20 +617,51 @@ def select_unposted_topic(
         if is_dup:
             print(f"\n[!] DUPLICATE DETECTED for requested topic: '{requested_topic}'")
             print(f"    Reason: {reason}")
-            print("[*] Automatically rotating to the next available unposted topic from the editorial pool...")
+            print("[*] Automatically querying Google for active live trending topics instead...")
         else:
+            cat_id, cat_name = infer_topic_category(requested_topic)
             return {
                 "id": "custom",
                 "topic": requested_topic,
                 "default_title": requested_topic,
                 "focus_keyword": normalize_slug(requested_topic).replace("-", " "),
-                "category_id": 3,
-                "category_name": "Personal Finance Pakistan",
-                "meta_description": f"In-depth investigative analysis on {requested_topic} for Pakistani households.",
+                "category_id": cat_id,
+                "category_name": cat_name,
+                "meta_description": f"Comprehensive journalistic analysis and verified reporting on {requested_topic}.",
             }
 
-    # 2. Iterate through curated topic pool to find the first unposted entry
-    for candidate in EDITORIAL_TOPIC_POOL:
+    # 2. Query Google for real-time trending searches and news
+    print("[*] Accessing Google Trends & Google News to identify current trending topics...")
+    discovered_trends = fetch_live_google_trends()
+    print(f"[*] Retrieved {len(discovered_trends)} active trending topics from Google.")
+
+    # 3. Iterate through Google trends and pick the first unposted story
+    for trend in discovered_trends:
+        trend_title = trend["default_title"]
+        trend_query = trend.get("query", "")
+
+        is_dup, reason = is_duplicate_topic(
+            topic_or_title=trend_title,
+            existing_posts=existing_posts,
+            api_url=api_url,
+            secret_key=secret_key,
+        )
+        if not is_dup and trend_query and len(trend_query) > 3:
+            is_dup, reason = is_duplicate_topic(
+                topic_or_title=trend_query,
+                existing_posts=existing_posts,
+                api_url=api_url,
+                secret_key=secret_key,
+            )
+
+        if not is_dup:
+            print(f"\n[*] Selected Google Trend: '{trend_title}' [{trend.get('source_type', 'Google')}] (Traffic: {trend.get('traffic', 'N/A')})")
+            return trend
+        else:
+            print(f"[*] Skipping already covered trend: '{trend_title}' ({reason})")
+
+    # 4. Fallback to emergency evergreen candidates if all Google trends are duplicates
+    for candidate in EMERGENCY_TREND_FALLBACKS:
         is_dup, reason = is_duplicate_topic(
             topic_or_title=candidate["default_title"],
             existing_posts=existing_posts,
@@ -539,51 +670,18 @@ def select_unposted_topic(
         )
         if not is_dup:
             return candidate
-        else:
-            print(f"[*] Skipping already posted topic: '{candidate['default_title']}' ({reason})")
 
-    # 3. Dynamic fallback rotation: guarantee forward progress by cycling through dated / week variants
+    # 5. Timestamped dynamic fallback
     now = datetime.now()
-    week_num = now.isocalendar()[1]
-    month_name = now.strftime("%B")
-    year = now.strftime("%Y")
-    day = now.strftime("%d")
-
-    candidates = [
-        f"Pakistan Cost of Living and Grocery Price Index: Week {week_num}, {month_name} {year} Report",
-        f"Weekly Sensitive Price Indicator (SPI) Grocery Tracker: {month_name} {day}, {year} Edition",
-        f"Pakistan Essential Commodities and Household Basket Analysis: Mid-{month_name} {year}",
-        f"Punjab & Sindh Kitchen Ration Rate Disparity: {month_name} {year} Field Survey",
-    ]
-
-    for fb_topic in candidates:
-        is_dup, reason = is_duplicate_topic(
-            topic_or_title=fb_topic,
-            existing_posts=existing_posts,
-            api_url=api_url,
-            secret_key=secret_key,
-        )
-        if not is_dup:
-            return {
-                "id": "fallback-dynamic-index",
-                "topic": fb_topic,
-                "default_title": fb_topic,
-                "focus_keyword": f"pakistan cost of living grocery {year}",
-                "category_id": 1,
-                "category_name": "Inflation Watch",
-                "meta_description": f"Comprehensive tracking of SPI essential commodities, retail price variance across Punjab and Sindh, and household grocery management for {month_name} {year}.",
-            }
-
-    # Ultimate fallback with specific date stamp
-    ultimate_topic = f"Pakistan Cost of Living and Grocery Price Index: {now.strftime('%d %B %Y')} Market Analysis"
+    ultimate_title = f"Global Technology and Digital Culture Trends: {now.strftime('%d %B %Y')} Briefing"
     return {
-        "id": "fallback-timestamp-index",
-        "topic": ultimate_topic,
-        "default_title": ultimate_topic,
-        "focus_keyword": f"pakistan grocery price index {year}",
-        "category_id": 1,
-        "category_name": "Inflation Watch",
-        "meta_description": f"Field report on retail grocery and kitchen commodity prices across Pakistan for {now.strftime('%d %B %Y')}.",
+        "id": "dynamic-trending-briefing",
+        "topic": ultimate_title,
+        "default_title": ultimate_title,
+        "focus_keyword": "global technology digital culture trends",
+        "category_id": 2,
+        "category_name": "Technology",
+        "meta_description": f"Comprehensive journalistic analysis of global technological breakthroughs and cultural trends for {now.strftime('%d %B %Y')}.",
     }
 
 
@@ -592,68 +690,33 @@ def select_unposted_topic(
 # ---------------------------------------------------------------------------
 
 EDITORIAL_SYSTEM_INSTRUCTION = """
-You are the Chief Financial Journalist and SEO Content Architect for Roznamcha.pk, Pakistan's premier household economics and financial documentation platform.
+You are a Senior Digital Journalist, Feature Writer, and SEO Content Architect.
 
-Your mission is to produce authoritative, deeply researched, long-form articles (minimum 1,600 words) that rank #1 on Google, earn instant AdSense approval, and deliver actionable utility to Pakistani families and professionals.
+Your mission is to produce authoritative, deeply researched, comprehensive, long-form articles (minimum 1,600 words) on real-time trending news, events, technology, sports, entertainment, and cultural phenomena.
 
-MANDATORY PUBLISHING RULES & OPTIMIZATION GUIDELINES:
+MANDATORY PUBLISHING RULES & QUALITY GUIDELINES:
 
-1. SEO TITLE TRUNCATION RULE (CRITICAL):
+1. TOPIC INTEGRITY & OBJECTIVITY (CRITICAL):
+   - Write directly, insightfully, and objectively about the selected trending topic.
+   - DO NOT force the topic into a household budgeting, cost, utility bill, or inflation narrative unless the topic itself is specifically about economic inflation.
+   - DO NOT insert promotional plugs or forced artificial links to expense trackers, budgeting calculators, or unrelated financial platforms. Focus purely on high-quality reporting and value for the reader.
+
+2. SEO TITLE TRUNCATION RULE (CRITICAL):
    - You MUST generate TWO distinct title fields:
      a) "title": The full journalistic headline for the article H1 (65 to 85 characters).
      b) "seo_title": A punchy, complete search engine title strictly BETWEEN 45 AND 58 CHARACTERS.
-   - NEVER exceed 58 characters for "seo_title". If it exceeds 60 characters, the website CMS will abruptly cut it off mid-word (e.g. "Optimization St"), destroying search rankings.
-   - Do NOT add "- Roznamcha" to "seo_title" (the CMS appends it automatically).
+   - NEVER exceed 58 characters for "seo_title". If it exceeds 60 characters, the CMS cuts it off mid-word, hurting search rankings.
 
-2. MANDATORY 3-TIER LINK GRAPH (NEVER LEAVE POSTS WITH ZERO LINKS):
-   Every article MUST contain at least 5 to 7 authentic, natural HTML hyperlinks (<a> tags) distributed across the following 3 layers:
-   
-    Layer A: Internal Roznamcha Public Tools (Include 2 or 3):
-      - Monthly Expense Tracker: <a href="/features/monthly-expense-tracker-pakistan">Monthly Expense Tracker</a>
-      - Solar Net Metering ROI Calculator: <a href="/tools/solar-net-metering-roi-calculator">Solar Net Metering & ROI Calculator</a>
-      - Electricity Bill Calculator: <a href="/tools/electricity-bill-estimator">DISCO Electricity Bill Estimator</a>
-      - Ration Cost Estimator: <a href="/tools/ration-cost-estimator">Ration Cost Estimator</a>
-      - Monthly Budget Calculator: <a href="/tools/monthly-household-budget-calculator">Monthly Household Budget Calculator</a>
-      - Flagship Budget Guide: <a href="/blog/ghar-ka-monthly-budget">Ghar Ka Monthly Budget Guide</a>
-    
-    Layer B: Strategic Sister Platform Mention (Include 1 natural contextual link):
-      - When discussing government salary scales, BPS allowances, civil service security against inflation, or competitive exams, link contextually to SarkariTayari:
-        • Homepage: <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>
-        • Past Papers: <a href="https://sarkaritayari.pk/past-papers" target="_blank" rel="noopener noreferrer">authentic solved past papers</a>
-        • AI Mock Tests: <a href="https://sarkaritayari.pk/ai/mock-tests" target="_blank" rel="noopener noreferrer">SarkariTayari AI Mock Test Simulator</a>
-    
-    Layer C: Authoritative Government / Institutional Links (Include 2 or 3):
-      - Federal Board of Revenue: <a href="https://fbr.gov.pk" target="_blank" rel="noopener noreferrer">Federal Board of Revenue (FBR)</a>
-      - FBR Iris Tax Portal: <a href="https://iris.fbr.gov.pk" target="_blank" rel="noopener noreferrer">FBR Iris Online Portal</a>
-      - SECP Pension Regulations: <a href="https://www.secp.gov.pk" target="_blank" rel="noopener noreferrer">Securities and Exchange Commission of Pakistan (SECP)</a>
-      - NEPRA (for electricity tariffs): <a href="https://nepra.org.pk" target="_blank" rel="noopener noreferrer">NEPRA</a>
-      - State Bank of Pakistan: <a href="https://www.sbp.org.pk" target="_blank" rel="noopener noreferrer">State Bank of Pakistan (SBP)</a>
+3. RICH SEMANTIC HTML STRUCTURE:
+   - Use semantic headings: <h2> for primary sections, <h3> for sub-sections.
+   - Detailed, well-researched paragraphs (<p>) explaining the context, background, key developments, and implications.
+   - At least ONE rich, well-formatted <table> element with <thead>, <tbody>, and clear comparative/timeline columns relevant to the topic.
+   - Use bulleted lists (<ul>, <li>) and ordered lists (<ol>, <li>) for structured analysis.
+   - Conclude with a dedicated <h2>Frequently Asked Questions (FAQs)</h2> section containing 4 to 5 common user search queries using <h3> for questions and <p> for direct, informative answers.
 
-3. HIGH-CTR VISUAL CALLOUT CARD (ROZNAMCHA AMBER BOX):
-   - The platform renders <blockquote> tags with an elegant amber-styled callout card.
-   - You MUST include at least one prominent <blockquote> callout highlighting an actionable tool or rule:
-     Example:
-     <blockquote>
-       <p>💡 <strong>Actionable Household Rule:</strong><br>
-       Text explaining how to track expenses using Roznamcha's <a href="/features/monthly-expense-tracker-pakistan">Expense Tracker</a> and prepare for career upskilling on <a href="https://sarkaritayari.pk" target="_blank" rel="noopener noreferrer">SarkariTayari.pk</a>.</p>
-     </blockquote>
-
-4. DATA TABLES & VERIFIED PAKISTANI CALCULATIONS:
-   - Provide at least one (and ideally two) clean, well-formatted <table> elements with <thead>, <tbody>, and clear PKR numbers.
-   - For taxes or utility bills, use the latest official statutory formulas (e.g. Finance Act 2024/2025 slabs, NEPRA protected 200-unit criteria). 
-   - Never approximate numbers lazily; verify calculations across real Pakistani income tiers (Rs. 50k, 100k, 200k, 350k, 500k, 1M).
-
-5. PRACTICAL STEP-BY-STEP WALKTHROUGH:
-   - Include a dedicated section with an ordered list (<ol> and <li>) explaining the exact practical steps a citizen must take (e.g., how to download withholding tax certificates from Jazz/Zong apps and enter them on FBR Iris).
-
-6. BUILT-IN FAQ SECTION FOR GOOGLE RICH SNIPPETS:
-   - Conclude every article with a dedicated <h2>Frequently Asked Questions (FAQs)</h2>.
-   - Include 4 to 5 high-intent questions using <h3> for questions and <p> for direct, concise answers (answering exact queries typed into Google Search).
-
-7. EDITORIAL VOICE & ADSENSE COMPLIANCE:
-   - ZERO AI Cliches: Never write 'In conclusion', 'Delve into', 'In this fast-paced world', 'It is crucial to remember', 'Moreover', 'Furthermore'.
-   - Grounded in Pakistani Reality: Write about real everyday pain points (DISCO bills, protected slabs, Sensitive Price Indicator, atta prices, EOBI, ATL non-filer penalties).
-   - Word count: 1,600 to 2,400 words. Deep, original, journalistic substance.
+4. EDITORIAL VOICE & ADSENSE COMPLIANCE:
+   - ZERO AI Cliches: Never use phrases like 'In conclusion', 'Delve into', 'In today's fast-paced world', 'It is crucial to remember', 'Moreover', 'Furthermore', 'Tapestry'.
+   - Depth: Minimum 1,600 words of authentic, substantive analysis, factual context, and comprehensive breakdown.
 """
 
 
@@ -677,20 +740,21 @@ def generate_article_with_gemini(
     topic = topic_info["topic"]
 
     prompt = f"""
-Conduct live Google Search research on the following topic and write an authoritative, exhaustive long-form journalistic article (minimum 1,600 words) for Pakistani households:
+Conduct live Google Search research on the following trending topic and write an authoritative, exhaustive long-form journalistic article (minimum 1,600 words):
 
-Topic: {topic}
-Target Category ID: {topic_info.get('category_id', 1)}
+Trending Topic: {topic}
+Category: {topic_info.get('category_name', 'General')} (Target Category ID: {topic_info.get('category_id', 1)})
+Background Context: {topic_info.get('meta_description', '')}
 
 Provide your response strictly as a JSON object with these exact keys:
 {{
   "title": "Natural, compelling headline without buzzwords (between 65 and 85 characters)",
   "seo_title": "Punchy Google search title STRICTLY BETWEEN 45 AND 58 CHARACTERS (no truncation)",
-  "focus_keyword": "Primary target keyword in Pakistan",
+  "focus_keyword": "Primary target search keyword or phrase",
   "meta_description": "145-155 character SEO summary",
   "category_id": {topic_info.get('category_id', 1)},
   "status": "draft",
-  "content_html": "<h2>...</h2><p>...</p><blockquote>...</blockquote><table>...</table><ol>...</ol><h2>Frequently Asked Questions (FAQs)</h2>..."
+  "content_html": "<h2>...</h2><p>...</p><table>...</table><ul>...</ul><h2>Frequently Asked Questions (FAQs)</h2>..."
 }}
 """
 
@@ -1421,27 +1485,150 @@ def generate_mock_ios27_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
     return BlogPostPayload.model_validate(data)
 
 
+def generate_dynamic_trending_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
+    """
+    Generate an exhaustive, AdSense-compliant (1,450+ words), objective journalistic
+    article on any live trending Google query or breaking news story.
+    Does not force household cost, budgeting, or Roznamcha promotion.
+    """
+    raw_query = topic_info.get("query") or topic_info.get("topic") or "Current Trend"
+    query_title = raw_query.strip().title()
+    category_name = topic_info.get("category_name", "Trending News")
+    category_id = topic_info.get("category_id", 1)
+    news_headlines = topic_info.get("news_headlines", [])
+    news_sources = topic_info.get("news_sources", [])
+
+    headline = topic_info.get("default_title") or f"{query_title}: Latest Updates, In-Depth Overview, and Key Developments"
+    if len(headline) > 85:
+        headline = headline[:82].rstrip() + "..."
+
+    # Ensure seo_title is strictly between 45 and 58 characters
+    seo_base = f"{query_title[:32]}: Key Updates & Overview"
+    if len(seo_base) < 45:
+        seo_base = f"{query_title[:28]}: Complete Guide & Latest Updates"
+    if len(seo_base) > 58:
+        seo_base = seo_base[:55].rstrip()
+
+    focus_keyword = topic_info.get("focus_keyword") or query_title.lower()
+    meta_desc = topic_info.get("meta_description") or f"In-depth analysis of {query_title}: comprehensive background, key milestones, critical perspectives, and verified updates."
+    if len(meta_desc) > 160:
+        meta_desc = meta_desc[:157].rstrip() + "..."
+
+    primary_news = f'\"{news_headlines[0]}\"' if news_headlines else f"the recent surge in search interest regarding {query_title}"
+    primary_source = f" via {news_sources[0]}" if news_sources else ""
+
+    paragraphs = [
+        f"<p>In recent days, <strong>{query_title}</strong> has experienced a meteoric rise across global search rankings and digital conversation metrics. As thousands of curious readers, industry specialists, and everyday digital citizens turn to search engines to decipher the latest headlines, understanding the complete context behind this development has become essential. Whether driven by sudden breaking announcements, highly anticipated unveilings, or surprising developments in ongoing events, the surging interest reflects a broader curiosity that transcends typical news cycles.</p>",
+        f"<p>The fascination surrounding {query_title} highlights how quickly modern digital audiences coalesce around impactful stories. When a subject dominates trending queries across multiple platforms simultaneously, it usually points to a convergence of factors: passionate community interest, high-stakes implications for the sector, and an appetite for detailed, nuanced reporting that goes beyond superficial summaries. Rather than merely skimming surface-level chatter, a rigorous examination reveals several underlying dimensions that explain why this story has captured widespread attention right now.</p>",
+        f"<p>From real-time commentary across social networks to analytical discussions hosted by veteran observers, the narrative surrounding {query_title} continues to evolve at a brisk pace. With new perspectives emerging daily and observers examining every angle of the development, having a structured, comprehensive reference point is vital for anyone looking to stay informed without getting lost in speculation.</p>",
+        f"<p>Furthermore, the digital ecosystem acts as a catalyst for stories of this magnitude. Real-time algorithms detect spiking engagement, elevating discussions to algorithmic explore pages and international news feeds. As cross-border interest amplifies, questions regarding authenticity, verified facts, and strategic implications become paramount, requiring an authoritative breakdown that synthesizes all moving pieces into a cohesive whole.</p>",
+        f"<h2>The Origins and Background Context of {query_title}</h2>",
+        f"<p>Every major trending event has a backstory, and the circumstances leading up to {query_title} are no exception. Months—and in some cases years—of foundational developments have paved the way for the current situation. In historical terms, similar occurrences have often marked transitional moments in their respective fields, setting precedent for how institutions, creators, teams, or consumers interact with rapidly shifting realities.</p>",
+        f"<p>Looking closely at the timeline reveals several pivotal milestones that set the stage. Early indicators emerged when initial reports and preliminary discussions hinted that significant news was brewing. While early commentary was largely confined to specialized enthusiasts and dedicated niche communities, the story rapidly gained traction as credible details began surfacing in mainstream circles. The cumulative weight of these preceding events created a primed audience ready to engage deeply as soon as the latest developments broke.</p>",
+        f"<p>Understanding this lineage is crucial because modern news rarely exists in a vacuum. By analyzing earlier precedents and evaluating how past episodes were handled by key stakeholders, observers can better appreciate the strategic decisions, public reactions, and institutional responses unfolding today.</p>",
+        f"<p>In many respects, the path leading to this current milestone reflects broader shifts within {category_name}. As conventions evolve and audiences demand greater transparency, traditional approaches are frequently reassessed. This backdrop created an environment where any significant new disclosure regarding {query_title} was destined to generate substantial resonance across the entire information landscape.</p>",
+        f"<h2>Key Developments and Core Highlights</h2>",
+        f"<p>At the epicenter of current interest are several concrete reports that have clarified the scope of {query_title}. Recent news updates, including {primary_news}{primary_source}, have added crucial factual substance to what was previously unverified conjecture. These dispatches have provided enthusiasts and analysts with verified data points, enabling a more grounded assessment of what has actually occurred.</p>",
+        f"<p>A closer look at the specifics demonstrates that the impact is multifaceted. Far from being an isolated incident, the development touches upon several operational, creative, or regulatory dimensions. Stakeholders have had to adjust their timelines and communicate proactively with their audiences, while third-party observers have spent considerable effort unpacking the nuances to separate confirmed facts from sensationalist rumors.</p>",
+        f"<p>Furthermore, the response from primary participants has offered valuable clues regarding what might unfold next. Official statements and public communiques have emphasized transparency and forward momentum, reassuring observers that appropriate measures are in place to guide the transition smoothly.</p>",
+        f"<p>Independent commentators have also noted the precision with which recent disclosures were presented. In an information environment often clouded by ambiguity, verified releases provide a clear roadmap for what the public should anticipate as ongoing inquiries, production cycles, or administrative reviews proceed.</p>",
+        f"<h2>Structured Breakdown & Overview Matrix</h2>",
+        f"""<table>
+<thead>
+  <tr>
+    <th>Analytical Dimension</th>
+    <th>Core Observations & Details</th>
+    <th>Significance & Impact</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><strong>Primary Trigger</strong></td>
+    <td>Sudden surge in public search interest and breaking news coverage</td>
+    <td>High immediate visibility across digital media and discussion hubs</td>
+  </tr>
+  <tr>
+    <td><strong>Subject Category</strong></td>
+    <td>{category_name}</td>
+    <td>Relevant to broad international and domestic audiences</td>
+  </tr>
+  <tr>
+    <td><strong>Key Stakeholders</strong></td>
+    <td>Industry figures, official representatives, and active community members</td>
+    <td>Direct influence over policy, releases, outcomes, and ongoing public dialogue</td>
+  </tr>
+  <tr>
+    <td><strong>Public Engagement</strong></td>
+    <td>Active debate, viral social mentions, and editorial coverage</td>
+    <td>Demonstrates sustained multi-day engagement beyond a momentary spike</td>
+  </tr>
+  <tr>
+    <td><strong>Future Trajectory</strong></td>
+    <td>Anticipated follow-up announcements, scheduled hearings, or upcoming events</td>
+    <td>Likely to generate secondary waves of interest in coming weeks</td>
+  </tr>
+</tbody>
+</table>""",
+        f"<h2>Public Reception, Expert Commentary, and Critical Perspectives</h2>",
+        f"<p>The reaction from both the general public and seasoned domain specialists has been swift and diverse. On one hand, supporters and enthusiasts have praised the development as a positive progression that addresses long-standing demands or introduces much-needed innovation. Commentators have highlighted specific strengths, noting how the latest revelations set a high standard for quality and transparency.</p>",
+        f"<p>On the other hand, critical voices have urged a degree of cautious restraint. Seasoned analysts point out that high expectations often magnify scrutiny, and navigating potential roadblocks will require sustained commitment rather than short-term enthusiasm. Skeptics have also raised valid questions regarding long-term feasibility, implementation challenges, and how unexpected variables might complicate future execution.</p>",
+        f"<p>This blend of optimism and analytical skepticism has generated a vibrant discourse. Far from diminishing interest, the existence of contrasting viewpoints has actually broadened audience engagement, inviting people from varied backgrounds to share their unique perspectives and contribute to a richer collective understanding.</p>",
+        f"<p>Academic observers and media critics have observed that such multi-layered reactions are typical of high-profile phenomena. The clash of viewpoints serves as a natural crucible, refining public expectations and challenging primary stakeholders to address outstanding ambiguities with greater clarity.</p>",
+        f"<h2>Key Takeaways and Notable Observations</h2>",
+        f"""<ul>
+  <li><strong>Rapidly Expanding Footprint:</strong> {query_title} has moved beyond specialized circles to become a widely recognized cultural and digital touchpoint.</li>
+  <li><strong>Substantive Core Substance:</strong> Unlike transient online fads, the underlying story possesses genuine weight, driven by concrete events, verified announcements, and tangible outcomes.</li>
+  <li><strong>High Community Investment:</strong> Both supporters and critics have demonstrated significant emotional and intellectual investment, ensuring active discourse over the coming weeks.</li>
+  <li><strong>Strategic Importance for {category_name}:</strong> The broader implications could influence standard practices, inspiring similar adaptations across peer organizations and competing entities.</li>
+  <li><strong>Need for Verified Information:</strong> In an era of rapid information dissemination, relying on authenticated reporting remains essential for discerning actual facts from speculative noise.</li>
+</ul>""",
+        f"<h2>Future Outlook: What to Watch for in the Coming Months</h2>",
+        f"<p>As the initial flurry of breaking coverage begins to settle into structured long-term analysis, attention naturally pivots toward what lies ahead. Over the coming weeks, several key dates and milestones will serve as barometers for how {query_title} continues to unfold. Observers will be closely monitoring scheduled follow-up briefings, regulatory decisions, release schedules, or upcoming competitive phases to determine whether early promises materialize into lasting achievements.</p>",
+        f"<p>Moreover, the broader environment in which {query_title} operates is itself undergoing continuous transformation. Technological advances, shifting audience preferences, and evolving market expectations will undoubtedly interact with this development in unpredictable ways. Those who stay attuned to verified dispatches and maintain a balanced perspective will be best positioned to interpret future chapters as they are written.</p>",
+        f"<p>In conclusion of this strategic outlook, the coming months will test the resilience of all involved parties. Whether through formal announcements, competitive counter-moves, or public feedback loops, the subsequent developments promise to offer rich material for ongoing observation and thoughtful analysis.</p>",
+        f"<h2>Frequently Asked Questions (FAQs)</h2>",
+        f"<h3>Why is {query_title} trending on Google right now?</h3>",
+        f"<p>{query_title} is trending due to a confluence of breaking developments, official updates, and widespread viral interest across digital platforms. Major news reporting and community discussions have elevated the topic into one of the most actively searched queries of the day.</p>",
+        f"<h3>What are the most important aspects to understand about {query_title}?</h3>",
+        f"<p>The primary elements to understand include the core trigger behind the latest news, the historical context that led up to this point, the reactions from major stakeholders, and the anticipated upcoming milestones that will determine long-term impact.</p>",
+        f"<h3>How does {query_title} impact the broader {category_name} space?</h3>",
+        f"<p>It introduces fresh benchmarks and sparks critical dialogue across the {category_name} ecosystem. By prompting observers and competitors to re-evaluate conventional assumptions, it encourages greater transparency and higher standards across the board.</p>",
+        f"<h3>Where can readers find authenticated, verified updates on {query_title}?</h3>",
+        f"<p>Readers should consult reputable national and international journalistic outlets, verified primary sources, official press statements, and accredited digital news portals to ensure they receive accurate, fact-checked information.</p>",
+        f"<h3>What are the expected future milestones regarding {query_title}?</h3>",
+        f"<p>Follow-up press briefings, official implementation updates, detailed third-party evaluations, and subsequent public reactions are scheduled to emerge over the coming quarters, offering deeper insight into its lasting significance.</p>",
+    ]
+
+    content = "\n".join(paragraphs)
+    data = {
+        "title": headline,
+        "focus_keyword": focus_keyword,
+        "meta_description": meta_desc,
+        "category_id": category_id,
+        "status": "draft",
+        "seo_title": seo_base,
+        "content_html": content,
+    }
+    return BlogPostPayload.model_validate(data)
+
+
 def generate_mock_article(topic_info: Dict[str, Any]) -> BlogPostPayload:
     """
     Route to the appropriate 1,450+ word pre-vetted compliant article based on selected topic.
+    Defaults to the universal dynamic trending article generator for any live Google trend.
     """
     topic_str = (topic_info.get("topic") or topic_info.get("default_title") or "").lower()
 
-    if "ios 27" in topic_str or "ios" in topic_str or ("iphone" in topic_str and "roznamcha" in topic_str) or "buying" in topic_str:
+    # If the user specifically requested a historic legacy topic, route to specific mock if matched
+    if "ios 27" in topic_str and ("roznamcha" in topic_str or "iphone" in topic_str):
         return generate_mock_ios27_article(topic_info)
-    elif "solar" in topic_str or "net metering" in topic_str:
+    elif "solar" in topic_str and "net metering" in topic_str:
         return generate_mock_solar_article(topic_info)
-    elif "tax" in topic_str or "salary" in topic_str or "salaried" in topic_str:
+    elif "salaried tax slabs" in topic_str:
         return generate_mock_tax_article(topic_info)
-    elif "wheat" in topic_str or "atta" in topic_str or "flour" in topic_str or "grocery" in topic_str or "kitchen" in topic_str:
-        return generate_mock_atta_article(topic_info)
-    elif "fuel" in topic_str or "petrol" in topic_str or "diesel" in topic_str or "transport" in topic_str:
-        return generate_mock_fuel_article(topic_info)
-    elif "iphone" in topic_str or "apple" in topic_str or "smartphone" in topic_str:
-        return generate_mock_iphone_article(topic_info)
-    else:
-        # Default high-yield solar article for general household topic validation
-        return generate_mock_solar_article(topic_info)
+
+    # Universal generator for any live Google trend
+    return generate_dynamic_trending_article(topic_info)
 
 
 # ---------------------------------------------------------------------------
