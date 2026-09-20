@@ -4,17 +4,16 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Builder;
-use App\Models\Concerns\BelongsToUser;
-use App\Models\User;
 
 class Category extends Model
 {
-    use HasFactory;
     use BelongsToUser;
+    use HasFactory;
 
     protected $fillable = ['name', 'color', 'description', 'user_id', 'is_default'];
 

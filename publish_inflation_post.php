@@ -1,22 +1,20 @@
 <?php
 
 $appPath = __DIR__;
-if (!file_exists($appPath . '/vendor/autoload.php')) {
-    $appPath = __DIR__ . '/../rozapp';
+if (! file_exists($appPath.'/vendor/autoload.php')) {
+    $appPath = __DIR__.'/../rozapp';
 }
-require $appPath . '/vendor/autoload.php';
-$app = require_once $appPath . '/bootstrap/app.php';
+require $appPath.'/vendor/autoload.php';
+$app = require_once $appPath.'/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 use App\Models\BlogPost;
-use App\Models\BlogCategory;
-use Illuminate\Support\Str;
 
-$title = "Beating Inflation in Pakistan: Why Household Budgeting Must Go Hand-in-Hand with Income Upgrades (And How Government Jobs Offer a Lifeline)";
-$slug = "beating-inflation-in-pakistan-household-budgeting-income-upgrades";
+$title = 'Beating Inflation in Pakistan: Why Household Budgeting Must Go Hand-in-Hand with Income Upgrades (And How Government Jobs Offer a Lifeline)';
+$slug = 'beating-inflation-in-pakistan-household-budgeting-income-upgrades';
 
-$excerpt = "Managing household kharcha in Pakistan requires more than tight expense cutting. Explore realistic budget breakdowns across three income tiers, the biological limits of cost reduction, and why public sector careers provide an indispensable financial shield.";
+$excerpt = 'Managing household kharcha in Pakistan requires more than tight expense cutting. Explore realistic budget breakdowns across three income tiers, the biological limits of cost reduction, and why public sector careers provide an indispensable financial shield.';
 
 $content = <<<'MARKDOWN'
 Every month across Pakistan, the calendar tells the same quiet story. On the first day of the month, as mobile banking notifications ping with incoming salaries in Karachi, Lahore, Rawalpindi, Faisalabad, and Multan, there is a momentary sigh of relief. By the eighth, that relief gives way to acute anxiety. Once the house rent is transferred, the milk vendor is paid, the school fee challan is cleared, and the monthly electricity bill is settled, the bank account is already gasping for breath. The remaining cash must now stretch across three long weeks of daily groceries, transport, fuel, and unforeseen family obligations. 
@@ -173,5 +171,5 @@ echo "Successfully published post ID: {$post->id}\n";
 echo "Title: {$post->title}\n";
 echo "Slug: {$post->slug}\n";
 echo "Status: {$post->status}\n";
-echo "Word count: " . str_word_count(strip_tags($content)) . "\n";
-echo "URL: " . url('/blog/' . $post->slug) . "\n";
+echo 'Word count: '.str_word_count(strip_tags($content))."\n";
+echo 'URL: '.url('/blog/'.$post->slug)."\n";

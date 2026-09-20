@@ -19,8 +19,7 @@ class ChatController extends Controller
     public function __construct(
         protected RuleBasedChatService $ruleBasedChatService,
         protected BytezAIService $bytezAIService
-    ) {
-    }
+    ) {}
 
     public function sendMessage(Request $request): JsonResponse
     {

@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Publish the hardened public sitemap for approved public search surfaces only. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Http\Controllers;
@@ -16,8 +17,7 @@ class SeoSitemapController extends Controller
     public function __construct(
         private readonly SeoPageUrlGenerator $urlGenerator,
         private readonly SearchSurfacePolicy $searchSurfacePolicy,
-    ) {
-    }
+    ) {}
 
     public function index(): Response
     {
@@ -232,6 +232,18 @@ class SeoSitemapController extends Controller
                 'loc' => $this->urlGenerator->routeUrl('public.disclaimer'),
                 'priority' => '0.5',
                 'changefreq' => 'yearly',
+                'lastmod' => $staticLastmod,
+            ],
+            [
+                'loc' => $this->urlGenerator->routeUrl('public.editorial-policy'),
+                'priority' => '0.7',
+                'changefreq' => 'monthly',
+                'lastmod' => $staticLastmod,
+            ],
+            [
+                'loc' => $this->urlGenerator->routeUrl('public.methodology'),
+                'priority' => '0.7',
+                'changefreq' => 'monthly',
                 'lastmod' => $staticLastmod,
             ],
         ];

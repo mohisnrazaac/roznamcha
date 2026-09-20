@@ -2,11 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\BlogPost;
-use App\Models\DailyReturnSnapshot;
-use App\Models\SeoPageSnapshot;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia;

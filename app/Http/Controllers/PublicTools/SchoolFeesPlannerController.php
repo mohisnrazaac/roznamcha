@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\PublicTools;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\BuildsPublicSeo;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -20,6 +20,25 @@ class SchoolFeesPlannerController extends Controller
         $activation = $this->resolveActivationState($request, 'school_fees_planner');
         $seo = $this->publicSeo('schoolFeesPlanner');
 
+        $faqItems = [
+            [
+                'question' => 'Why does the real monthly school cost look higher than tuition?',
+                'answer' => 'Because annual charges and recurring exam fees are spread across 12 months. This avoids budget shocks during fee-heavy months.',
+            ],
+            [
+                'question' => 'Does this planner store my school fee data?',
+                'answer' => 'No. Guests can calculate instantly. Sign up only if you want to save the estimate inside your household ledger later.',
+            ],
+            [
+                'question' => 'What is the planning margin used for?',
+                'answer' => 'It projects a safer monthly reserve for the next academic year by applying a configurable percentage to your current real monthly cost.',
+            ],
+            [
+                'question' => 'How should Pakistani families budget for annual private school fee hikes?',
+                'answer' => 'Private school tuition across major cities typically increases by 10% to 15% each academic year. Setting aside an inflation buffer in a monthly education sinking fund prevents mid-year fee notices from breaking the family budget.',
+            ],
+        ];
+
         return Inertia::render('Public/Tools/SchoolFeesPlanner', [
             'defaults' => [
                 'children_count' => (int) ($activation['inputs']['children_count'] ?? $config['defaults']['children_count'] ?? 2),
@@ -31,7 +50,11 @@ class SchoolFeesPlannerController extends Controller
             ],
             'activationPrefill' => $activation,
             'seo' => $seo,
-            'jsonLd' => $this->publicWebPageSchema($seo),
+            'faqItems' => $faqItems,
+            'jsonLd' => $this->publicToolGraphSchema($seo, $faqItems, [
+                'name' => 'School Fees Planner Pakistan',
+                'description' => $seo['description'],
+            ]),
         ]);
     }
 

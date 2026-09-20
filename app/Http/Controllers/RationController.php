@@ -19,9 +19,7 @@ use Inertia\Response;
 
 class RationController extends Controller
 {
-    public function __construct(private readonly InflationService $inflationService)
-    {
-    }
+    public function __construct(private readonly InflationService $inflationService) {}
 
     public function index(Request $request): Response
     {

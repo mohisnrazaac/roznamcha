@@ -1,10 +1,11 @@
 import React from 'react';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
 import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
+import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -18,7 +19,7 @@ const clampNumber = (value, min = 0) => {
     return Math.max(min, parsed);
 };
 
-const faqItems = [
+const defaultFaqItems = [
     {
         question: 'Why does the real monthly school cost look higher than tuition?',
         answer: 'Because annual charges and recurring exam fees are spread across 12 months. This avoids budget shocks during fee-heavy months.',
@@ -31,35 +32,16 @@ const faqItems = [
         question: 'What is the planning margin used for?',
         answer: 'It projects a safer monthly reserve for the next academic year by applying a configurable percentage to your current real monthly cost.',
     },
+    {
+        question: 'How should Pakistani families budget for annual private school fee hikes?',
+        answer: 'Private school tuition across major cities typically increases by 10% to 15% each academic year. Setting aside an inflation buffer in a monthly education sinking fund prevents mid-year fee notices from breaking the family budget.',
+    },
 ];
 
-const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-        },
-    })),
-};
-
-const calculatorJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'School Fees Planner',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    url: 'https://roznamcha.pk/tools/school-fees-planner',
-    description:
-        'Guest-mode calculator for tuition, annual charges, exam fees, and monthly school fee planning in Pakistan.',
-};
-
-export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: seoProp, jsonLd: jsonLdProp }) {
+export default function SchoolFeesPlanner({ defaults, activationPrefill, faqItems: faqItemsProp, seo: seoProp, jsonLd: jsonLdProp }) {
     const seo = seoProp ?? seoContent.schoolFeesPlanner;
     const pageSchema = jsonLdProp ?? buildWebPageSchema(seo);
+    const activeFaqItems = faqItemsProp ?? defaultFaqItems;
     const { auth } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);
     const prefilledInputs = activationPrefill?.inputs ?? {};
@@ -155,18 +137,7 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: se
             description="Guest mode tool for Pakistan households: tuition + annual charges + exam fees + planning margin projection."
         >
             <SeoHead {...seo} jsonLd={pageSchema} />
-            <Head>
-                <script
-                    key="school-fees-faq-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-                />
-                <script
-                    key="school-fees-calculator-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorJsonLd) }}
-                />
-            </Head>
+
 
 
 
@@ -368,34 +339,91 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, seo: se
                 </div>
             </div>
 
-            {/* SECTION B: Rich text/HTML container optimized for SEO reading */}
-            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6">
-                <div>
-                    <h2 className="text-2xl font-bold text-[#001a4a]">Amortizing Annual School Charges in Pakistan</h2>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                        Education represents one of the largest seasonal cash flow strains for middle-income Pakistani families. While monthly tuition is often tracked, families are frequently caught off guard by annual admission updates, registration fees, technology charges, and textbook bundles that land at the start of the academic term.
+            {/* Semantic Editorial Scaffolding Section */}
+            <article className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-8 shadow-sm">
+                <header className="space-y-2 border-b border-slate-100 pb-4">
+                    <p className="text-xs uppercase tracking-[0.35em] text-[#8c5a00] font-semibold">Editorial Documentation</p>
+                    <h2 className="text-2xl font-bold text-[#001a4a]">School Fee Amortization Methodology & Educational Cost Baseline</h2>
+                    <p className="text-sm text-slate-600">
+                        A practical framework for converting quarterly admission charges, examination levies, and tuition escalation into predictable monthly budget allocations.
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">
-                        To avoid taking emergency loans, the best practice is to calculate the sum of all school fees over a 12-month cycle and amortize the non-tuition charges into a monthly saving reserve. This turns sudden seasonal bills into predictable monthly allocations.
-                    </p>
-                </div>
-                <div className="border-t border-slate-100 pt-6">
-                    <h3 className="text-xl font-bold text-[#001a4a]">Preparing for Annual Education Fee Inflation</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                        Private school fees in major cities like Karachi, Lahore, and Islamabad typically increase by 10% to 15% annually. Standardizing a buffer percentage in your budget (typically 12% to cover both inflation and auxiliary expenses like transport and uniform changes) ensures your reserve target remains sufficient for the next term.
-                    </p>
-                </div>
-            </section>
+                </header>
 
-            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                <h2 className="text-xl font-semibold text-[#001a4a]">School Fees Planner FAQs</h2>
-                {faqItems.map((faq) => (
-                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
-                        <h3 className="font-semibold text-slate-800">{faq.question}</h3>
-                        <p className="text-sm text-slate-600 mt-1">{faq.answer}</p>
+                {/* Part 1: Methodology & Calculation Mechanics */}
+                <section className="space-y-3">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Methodology & Calculation Mechanics</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Most parental budgeting breakdowns occur because families plan solely around monthly tuition vouchers, ignoring large periodic charges. The School Fees Planner calculates your effective financial commitment through:
+                    </p>
+                    <div className="space-y-1 rounded-xl bg-slate-50 p-4 text-xs font-mono text-[#001a4a]">
+                        <p>Real Monthly Education Cost = (Children Count × Monthly Tuition) + [(Annual Registration & Facility Charges + Exam Fees × Frequency) / 12]</p>
+                        <p>Projected Next Year Cost = Real Monthly Education Cost × (1 + Inflation Buffer Percentage / 100)</p>
                     </div>
-                ))}
-            </section>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Connect this amortized education figure into your household balance sheet via our{' '}
+                        <Link href="/tools/monthly-household-budget-calculator" className="font-semibold text-[#001a4a] underline">
+                            Monthly Household Budget Calculator
+                        </Link>{' '}
+                        or track real voucher disbursements with our{' '}
+                        <Link href="/features/monthly-expense-tracker-pakistan" className="font-semibold text-[#001a4a] underline">
+                            Monthly Expense Tracker for Pakistan
+                        </Link>.
+                    </p>
+                </section>
+
+                {/* Part 2: Underlying Data Baseline & Assumptions */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline & Economic Assumptions</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Private school fee structures across Punjab, Sindh, Khyber Pakhtunkhwa, and ICT escalate by an average of 10% to 15% annually to absorb private campus electricity tariffs, facility rents, and staff payroll adjustments. Examination fees across Cambridge Assessment (O/A Levels), Federal Board (FBISE), and Provincial Boards (BISE) arrive on fixed bi-annual cycles, producing severe cash flow shocks if unamortized.
+                    </p>
+                    <p className="text-sm leading-7 text-slate-700">
+                        For complete details on our baseline data sources and research standards, review our{' '}
+                        <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
+                            Methodology & Data Sources
+                        </Link>{' '}
+                        directory.
+                    </p>
+                </section>
+
+                {/* Part 3: Practical Application Guide */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Practical Application Guide: Creating an Education Sinking Fund</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Implement these steps to keep school costs predictable throughout the academic calendar:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-sm leading-7 text-slate-700">
+                        <li>
+                            <strong>Establish a Dedicated Amortization Account:</strong> Deposit the monthly amortized non-tuition amount into a separate bank account or mutual fund on salary day so funds are ready when annual admission charges arrive.
+                        </li>
+                        <li>
+                            <strong>Inquire About Sibling Discounts:</strong> Most tier-1 and tier-2 private school chains offer a 10% to 20% sibling tuition concession for second and third children. Confirm this discount is active on your vouchers.
+                        </li>
+                        <li>
+                            <strong>Amortize Uniforms and Book Bundles:</strong> School textbook syllabus packs and uniforms cost between Rs. 15,000 and Rs. 35,000 per student every April/August; include these in your annual non-tuition line item.
+                        </li>
+                    </ul>
+                </section>
+
+                {/* Part 4: Frequently Asked Questions */}
+                <section className="border-t border-slate-100 pt-6 space-y-4">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Frequently Asked Questions</h3>
+                    <div className="space-y-4">
+                        {activeFaqItems.map((faq) => (
+                            <div key={faq.question} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                                <h4 className="font-semibold text-[#001a4a]">{faq.question}</h4>
+                                <p className="mt-1 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <AuthorEditorialBlock
+                    authorName="Mohsin Raza"
+                    authorRole="Founder & Software Architect (16+ Years Experience)"
+                    lastUpdated="September 2026"
+                />
+            </article>
         </ToolLayout>
     );
 }

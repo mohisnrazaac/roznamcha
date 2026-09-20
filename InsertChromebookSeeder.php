@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\BlogPost;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class InsertChromebookSeeder extends Seeder
 {
     public function run(): void
     {
         $slug = 'pakistan-assembling-google-chromebooks-2026';
-        
-        $content = <<<CONTENT
+
+        $content = <<<'CONTENT'
 ## The Shift to Local Hardware Manufacturing
 
 The National Radio and Telecommunication Corporation (NRTC) facility in Haripur, Khyber Pakhtunkhwa, has commenced active local assembly of Google Chromebooks.
@@ -26,7 +26,7 @@ Chromebooks operate on ChromeOS, a lightweight operating system built primarily 
 
 The industrial implications go beyond domestic consumption.
 
-Pakistan’s tech exports have historically been software-heavy, driven by IT services and freelancing. In July 2026, the country recorded \$417 million in IT exports, an 18% increase year-on-year. Adding domestic hardware assembly provides a physical foundation to that export balance. If NRTC scales production efficiently, regional exports become viable, turning a hardware import liability into a secondary revenue stream.
+Pakistan’s tech exports have historically been software-heavy, driven by IT services and freelancing. In July 2026, the country recorded $417 million in IT exports, an 18% increase year-on-year. Adding domestic hardware assembly provides a physical foundation to that export balance. If NRTC scales production efficiently, regional exports become viable, turning a hardware import liability into a secondary revenue stream.
 
 ## Three Structural Economic Impacts
 
@@ -41,8 +41,8 @@ Local assembly directly impacts three structural areas:
 A digital economy cannot scale purely on software services and telecommunications infrastructure. It requires reliable, affordable access to physical end-user devices. Establishing high-volume hardware assembly in Haripur provides that base, converting an import-dependent consumer market into an active manufacturing pipeline that benefits everyone from corporate executives to individuals tracking their daily **Roznamcha** routines.
 CONTENT;
 
-        $author = User::first(); 
-        
+        $author = User::first();
+
         $post = BlogPost::firstOrNew(['slug' => $slug]);
         $post->title = 'Pakistan Begins Local Google Chromebook Assembly: Industrial & Economic Impact';
         $post->content = $content;
@@ -51,22 +51,22 @@ CONTENT;
         $post->published_at = Carbon::now();
         $post->updated_at = Carbon::now();
         $post->excerpt = 'The NRTC facility in Haripur has started assembling Google Chromebooks locally, representing a massive shift toward domestic hardware manufacturing in Pakistan.';
-        
+
         // SEO Fields
         $post->seo_title = 'Pakistan Local Google Chromebook Assembly 2026 | Economic Impact';
         $post->seo_description = 'Learn about the NRTC facility in Haripur assembling up to 500,000 Google Chromebooks annually, driving IT exports, job creation, and affordable tech in Pakistan.';
         $post->seo_keywords = 'Pakistan Google Chromebook assembly, NRTC Haripur, Pakistan IT exports 2026, affordable laptops Pakistan, local hardware manufacturing, Roznamcha, Pakistan digital economy';
-        
+
         if ($author) {
             $post->created_by = $author->id;
             $post->updated_by = $author->id;
         }
         $post->save();
-        
+
         if (method_exists(BlogPost::class, 'forgetPublicSitemapCache')) {
             BlogPost::forgetPublicSitemapCache();
         }
-        
+
         echo "Successfully inserted/updated: {$slug}\n";
     }
 }

@@ -1,2 +1,3 @@
 <?php
-echo shell_exec("ls -la ../rozapp/bootstrap/cache");
+
+echo shell_exec('ls -la ../rozapp/bootstrap/cache');

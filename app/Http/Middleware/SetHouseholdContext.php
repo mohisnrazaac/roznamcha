@@ -34,7 +34,7 @@ class SetHouseholdContext
             if (! $currentHousehold) {
                 $currentHousehold = Household::create([
                     'name' => "{$user->name}'s Home",
-                    'slug' => Str::slug($user->name) . '-' . Str::random(5),
+                    'slug' => Str::slug($user->name).'-'.Str::random(5),
                     'owner_id' => $user->id,
                 ]);
 

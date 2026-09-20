@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Render programmatic SEO landing pages without touching existing public controllers. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Http\Controllers;
@@ -9,9 +10,7 @@ use Inertia\Response;
 
 class SeoPageController extends Controller
 {
-    public function __construct(private readonly SeoPageDataService $pageDataService)
-    {
-    }
+    public function __construct(private readonly SeoPageDataService $pageDataService) {}
 
     public function petrol(string $city): Response
     {

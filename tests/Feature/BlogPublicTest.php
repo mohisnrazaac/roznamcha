@@ -13,7 +13,7 @@ class BlogPublicTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testPublishedPostIsVisible(): void
+    public function test_published_post_is_visible(): void
     {
         $post = BlogPost::factory()->published()->create([
             'title' => 'Visible Post',
@@ -25,7 +25,7 @@ class BlogPublicTest extends TestCase
             ->assertSee('Visible Post');
     }
 
-    public function testDraftPostReturnsNotFound(): void
+    public function test_draft_post_returns_not_found(): void
     {
         $post = BlogPost::factory()->draft()->create([
             'title' => 'Hidden Draft',
@@ -35,7 +35,7 @@ class BlogPublicTest extends TestCase
         $this->get(route('public.blog.show', $post->slug))->assertNotFound();
     }
 
-    public function testScheduledPostVisibilityRespectsPublishDate(): void
+    public function test_scheduled_post_visibility_respects_publish_date(): void
     {
         $future = BlogPost::factory()->scheduled()->create([
             'slug' => 'scheduled-future',
@@ -52,7 +52,7 @@ class BlogPublicTest extends TestCase
         $this->get(route('public.blog.show', $past->slug))->assertOk()->assertSee($past->title);
     }
 
-    public function testSitemapIncludesPublishedPost(): void
+    public function test_sitemap_includes_published_post(): void
     {
         $post = BlogPost::factory()->published()->create([
             'slug' => 'sitemap-check',
@@ -63,7 +63,7 @@ class BlogPublicTest extends TestCase
             ->assertSee(route('public.blog.show', $post->slug));
     }
 
-    public function testSitemapExcludesReservedNonPublicSlugs(): void
+    public function test_sitemap_excludes_reserved_non_public_slugs(): void
     {
         BlogPost::factory()->published()->create([
             'title' => 'Create Post',
@@ -77,7 +77,7 @@ class BlogPublicTest extends TestCase
         $this->get(route('public.blog.show', ['slug' => 'create-post']))->assertNotFound();
     }
 
-    public function testSitemapIncludesOnlyResolvablePublicPosts(): void
+    public function test_sitemap_includes_only_resolvable_public_posts(): void
     {
         $published = BlogPost::factory()->published()->create([
             'slug' => 'resolvable-post',
@@ -102,7 +102,7 @@ class BlogPublicTest extends TestCase
         $this->get(route('public.blog.show', ['slug' => $published->slug]))->assertOk();
     }
 
-    public function testSitemapIgnoresLegacyCachedXmlPayload(): void
+    public function test_sitemap_ignores_legacy_cached_xml_payload(): void
     {
         $post = BlogPost::factory()->published()->create([
             'slug' => 'fresh-public-post',
@@ -118,7 +118,7 @@ class BlogPublicTest extends TestCase
         $this->assertSame($response->getContent(), Cache::get(BlogPost::publicSitemapCacheKey()));
     }
 
-    public function testRssFeedUsesPublicArchiveVisiblePostsAndNeutralDescription(): void
+    public function test_rss_feed_uses_public_archive_visible_posts_and_neutral_description(): void
     {
         $visible = BlogPost::factory()->published()->create([
             'slug' => 'rss-visible-post',
@@ -137,7 +137,7 @@ class BlogPublicTest extends TestCase
         $response->assertDontSee(route('public.blog.show', ['slug' => 'new-utility-store-price-list-january-2026-today-subsidized-rates'], true), false);
     }
 
-    public function testBlogIndexShowsOnlyPubliclyVisiblePosts(): void
+    public function test_blog_index_shows_only_publicly_visible_posts(): void
     {
         $published = BlogPost::factory()->published()->create([
             'title' => 'Visible on Index',
@@ -171,7 +171,7 @@ class BlogPublicTest extends TestCase
             );
     }
 
-    public function testShowRouteReturnsRenderedHtmlContent(): void
+    public function test_show_route_returns_rendered_html_content(): void
     {
         $post = BlogPost::factory()->published()->create([
             'slug' => 'html-post',
@@ -194,7 +194,7 @@ class BlogPublicTest extends TestCase
             );
     }
 
-    public function testBlogShowProvidesSharedFrameworkMetadataAndDefaultNextSteps(): void
+    public function test_blog_show_provides_shared_framework_metadata_and_default_next_steps(): void
     {
         $post = BlogPost::factory()->published()->create([
             'title' => 'Framework Test Post',
@@ -237,7 +237,7 @@ class BlogPublicTest extends TestCase
         $this->assertStringNotContainsString('MiniCalculatorBlock', $component);
     }
 
-    public function testWeakCategoryPageRendersNoindexRobotsMeta(): void
+    public function test_weak_category_page_renders_noindex_robots_meta(): void
     {
         $category = BlogCategory::factory()->create([
             'name' => 'Personal Finance Pakistan',

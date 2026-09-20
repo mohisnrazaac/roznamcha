@@ -4,14 +4,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Concerns\BelongsToUser;
+use Illuminate\Database\Eloquent\Model;
 
-class ReportCache extends Model {
+class ReportCache extends Model
+{
     use BelongsToUser;
 
     protected $table = 'reports_cache';
-    protected $fillable = ['user_id','period_start','period_end','total_spend','top_categories_json','ration_days_left_snapshot','warnings_text','generated_at'];
+
+    protected $fillable = ['user_id', 'period_start', 'period_end', 'total_spend', 'top_categories_json', 'ration_days_left_snapshot', 'warnings_text', 'generated_at'];
+
     protected $casts = [
         'top_categories_json' => 'array',
         'period_start' => 'date',

@@ -23,7 +23,7 @@ $quote = static function (?string $value): string {
         return 'NULL';
     }
 
-    return "'".str_replace(["\\", "'"], ["\\\\", "''"], $value)."'";
+    return "'".str_replace(['\\', "'"], ['\\\\', "''"], $value)."'";
 };
 
 $slugs = array_keys($posts);
@@ -66,7 +66,7 @@ foreach ($posts as $slug => $post) {
     $assignments[] = '    `updated_at` = CURRENT_TIMESTAMP';
     echo implode(",\n", $assignments);
     echo "\nWHERE `slug` = ".$quote($slug).";\n";
-    echo "SELECT ROW_COUNT() AS rows_updated, ".$quote($slug)." AS slug;\n\n";
+    echo 'SELECT ROW_COUNT() AS rows_updated, '.$quote($slug)." AS slug;\n\n";
 }
 
 echo <<<'SQL'

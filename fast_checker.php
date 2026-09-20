@@ -1,4 +1,5 @@
 <?php
+
 $urls = [
     'https://roznamcha.pk/',
     'https://roznamcha.pk/about',
@@ -19,7 +20,7 @@ $urls = [
     // Some published posts
     'https://roznamcha.pk/blog/pakistani-family-monthly-expense-control',
     'https://roznamcha.pk/blog/current-ration-price-list-2025-monthly-grocery-budget-family-of-5-pakistan',
-    'https://roznamcha.pk/blog/roznamcha-with-ai'
+    'https://roznamcha.pk/blog/roznamcha-with-ai',
 ];
 
 $results = [];
@@ -31,8 +32,8 @@ foreach ($urls as $url) {
     curl_exec($ch);
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    $results[] = sprintf("| %s | %s |", $status, $url);
+    $results[] = sprintf('| %s | %s |', $status, $url);
 }
 
-file_put_contents('/Users/shadowwalker/.gemini/antigravity/brain/c9cb21d8-9887-419b-8149-516a8d5f3272/production_web_report.md', 
-"# Production Live Link Report\n\n| HTTP Status | URL |\n| --- | --- |\n" . implode("\n", $results));
+file_put_contents('/Users/shadowwalker/.gemini/antigravity/brain/c9cb21d8-9887-419b-8149-516a8d5f3272/production_web_report.md',
+    "# Production Live Link Report\n\n| HTTP Status | URL |\n| --- | --- |\n".implode("\n", $results));

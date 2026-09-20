@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Persist freshness-aware programmatic SEO snapshot rows without touching legacy tables. Date: 2026-03-29. Author: Mohsin.
 
 use Illuminate\Database\Migrations\Migration;

@@ -142,6 +142,7 @@ class SeoSitemapControllerTest extends TestCase
             '/blog/current-ration-price-list-2025-monthly-grocery-budget-family-of-5-pakistan',
             '/blog/cost-of-living-pakistan-2026-monthly-budget-with-ai',
             '/blog/petrol-prices-today-pakistan-2026-monthly-budget-impact',
+            '/blog/pakistan-sovereign-cloud-ai-trade-ecosystem-2026',
             '/login',
             '/register',
             '/dashboard',

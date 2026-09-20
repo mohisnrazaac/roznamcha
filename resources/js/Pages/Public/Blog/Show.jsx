@@ -7,6 +7,7 @@ import UseInRoznamchaWidget from '../../../Components/Blog/UseInRoznamchaWidget'
 import SchoolFeeIncreaseCalculator from '../../../Components/Calculators/SchoolFeeIncreaseCalculator';
 import ArticleNextSteps from '../../../Components/Blog/ArticleNextSteps';
 import AdContainer from '../../../Components/Ads/AdContainer';
+import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 
 const getReturnPath = (url, slug) => {
     if (!url && slug) {
@@ -139,26 +140,11 @@ export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
                     <AdContainer slot="blog-after-content" variant="responsive" className="my-6" />
                 ) : null}
 
-                <section className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6 shadow-sm lg:p-8">
-                    <div className="grid gap-5 md:grid-cols-[minmax(0,0.8fr),minmax(0,1.2fr)] md:items-start">
-                        <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Author And Editorial Note</p>
-                            <h2 className="mt-2 text-2xl font-semibold text-[#001a4a]">{post?.author?.name}</h2>
-                            <p className="mt-2 text-sm font-semibold text-slate-600">{post?.author?.role}</p>
-                        </div>
-                        <div className="space-y-4 text-sm leading-7 text-slate-700">
-                            <p>
-                                <Link href={post?.author?.url ?? route('public.about')} className="font-semibold text-[#001a4a] hover:underline">
-                                    {post?.author?.name ?? 'Mohsin'}
-                                </Link>{' '}
-                                writes practical guides to help Pakistani households think more clearly about monthly spending, ration pressure, and everyday financial tradeoffs.
-                            </p>
-                            <p>
-                                These articles are planning aids. They are meant to help readers compare, question, and act on costs more carefully, not replace their own local prices or family circumstances.
-                            </p>
-                        </div>
-                    </div>
-                </section>
+                <AuthorEditorialBlock
+                    authorName={post?.author?.name ?? 'Mohsin Raza'}
+                    authorRole={post?.author?.role ?? 'Founder & Software Architect (16+ Years Experience)'}
+                    lastUpdated={post?.updated_label || post?.published_label || 'September 2026'}
+                />
 
                 <ArticleNextSteps relatedTools={relatedLinks?.tools ?? []} relatedBlogs={relatedLinks?.blogs ?? []} />
 

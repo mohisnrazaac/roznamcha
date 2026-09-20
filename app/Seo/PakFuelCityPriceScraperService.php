@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Scrape city-level PakFuel petrol and diesel listings for fallback storage and SEO recovery. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
@@ -17,9 +18,7 @@ use RuntimeException;
 
 class PakFuelCityPriceScraperService
 {
-    public function __construct(private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Client $client) {}
 
     public function scrape(): array
     {
@@ -93,6 +92,7 @@ class PakFuelCityPriceScraperService
             if (! $city) {
                 $unmatched[] = $row['city_name'];
                 Log::warning('PakFuel city did not match a local cities row.', ['city' => $row['city_name']]);
+
                 continue;
             }
 
@@ -338,7 +338,7 @@ class PakFuelCityPriceScraperService
     {
         libxml_use_internal_errors(true);
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument;
 
         if (! $dom->loadHTML($html)) {
             libxml_clear_errors();

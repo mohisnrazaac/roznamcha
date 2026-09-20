@@ -1,5 +1,5 @@
 import React from 'react';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
 import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
@@ -9,6 +9,7 @@ import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 import SlabCliffVisualizer from '../../../Components/Calculators/SlabCliffVisualizer';
 import ApplianceBreakdown from '../../../Components/Calculators/ApplianceBreakdown';
 import { APPLIANCE_PRESETS } from '../../../lib/electricityTariff';
+import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -22,7 +23,7 @@ const clampNumber = (value, min = 0) => {
     return Math.max(min, parsed);
 };
 
-const faqItems = [
+const defaultFaqItems = [
     {
         question: 'Does this estimator use fixed slab values in code?',
         answer: 'No. The progressive slab billing reads from the configurable slab_rates table so rates can be updated without changing frontend logic.',
@@ -35,35 +36,29 @@ const faqItems = [
         question: 'Can I use this without creating an account?',
         answer: 'Yes. The estimator works fully in guest mode. Signup is only for saving estimates and reminders later.',
     },
+    {
+        question: 'What is the difference between protected and unprotected consumers in Pakistan?',
+        answer: 'Under NEPRA tariff regulations, consumers using under 200 units per month consecutively for six months are classified as protected with subsidized rates. Exceeding 200 units reclassifies the meter as unprotected, triggering substantially higher progressive slab rates.',
+    },
+    {
+        question: 'How do Fuel Price Adjustments (FPA) and taxes affect my final bill?',
+        answer: 'FPA accounts for monthly changes in generation fuel mix approved by NEPRA. Bills also incur electricity duty, financing cost surcharges, standard GST, and fixed meter charges that apply above the raw slab rate.',
+    },
 ];
 
-const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-        },
-    })),
-};
-
-const calculatorJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Electricity Bill Estimator',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    url: 'https://roznamcha.pk/tools/electricity-bill-estimator',
-    description:
-        'Guest-mode Pakistan electricity bill estimator using progressive slab rates, GST, and surcharge placeholders with last-year comparison.',
-};
-
-export default function ElectricityBillEstimator({ defaults, categories = [], gstPercentage = 17, gst_percentage, activationPrefill, seo: seoProp, jsonLd: jsonLdProp }) {
+export default function ElectricityBillEstimator({
+    defaults,
+    categories = [],
+    gstPercentage = 17,
+    gst_percentage,
+    activationPrefill,
+    faqItems: faqItemsProp,
+    seo: seoProp,
+    jsonLd: jsonLdProp,
+}) {
     const seo = seoProp ?? seoContent.electricityBillEstimator;
     const pageSchema = jsonLdProp ?? buildWebPageSchema(seo);
+    const activeFaqItems = faqItemsProp ?? defaultFaqItems;
     const effectiveGst = gst_percentage ?? gstPercentage;
     const { auth } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);
@@ -172,18 +167,7 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
             description="Guest mode electricity estimator for Pakistan households with last-year comparison and configurable slab rates."
         >
             <SeoHead {...seo} jsonLd={pageSchema} />
-            <Head>
-                <script
-                    key="electricity-faq-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-                />
-                <script
-                    key="electricity-calculator-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorJsonLd) }}
-                />
-            </Head>
+
 
 
 
@@ -359,34 +343,93 @@ export default function ElectricityBillEstimator({ defaults, categories = [], gs
                 />
             </div>
 
-            {/* SECTION B: Rich text/HTML container optimized for SEO reading */}
-            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6">
-                <div>
-                    <h2 className="text-2xl font-bold text-[#001a4a]">Understanding NEPRA Tariff Slabs</h2>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                        Electricity billing in Pakistan is governed by NEPRA's progressive slab rates, which categorize residential consumers into 'Protected' and 'Unprotected' groups. Understanding how these slabs function is critical to planning your monthly energy budget.
+            {/* Semantic Editorial Scaffolding Section */}
+            <article className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-8 shadow-sm">
+                <header className="space-y-2 border-b border-slate-100 pb-4">
+                    <p className="text-xs uppercase tracking-[0.35em] text-[#8c5a00] font-semibold">Editorial Documentation</p>
+                    <h2 className="text-2xl font-bold text-[#001a4a]">NEPRA Tariff Slabs, Billing Formulas & Optimization Guide</h2>
+                    <p className="text-sm text-slate-600">
+                        A detailed breakdown of progressive tariff slabs, surcharges, protected consumer thresholds, and household conservation practices across Pakistani DISCOs.
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">
-                        For 'Protected' users (who use less than 200 units consecutively for 6 months), the per-unit rates are heavily subsidized. However, once you cross the 200-unit threshold, your category shifts to 'Unprotected', where per-unit rates increase significantly for each slab (e.g., 1–100, 101–200, 201–300, and so on).
-                    </p>
-                </div>
-                <div className="border-t border-slate-100 pt-6">
-                    <h3 className="text-xl font-bold text-[#001a4a]">Surcharges, Fuel Price Adjustments (FPA), and Taxes</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                        A common source of confusion in Pakistani utility bills is the difference between the base tariff slab rate and the final payable bill. The final bill includes various surcharges, Fuel Price Adjustments (FPA), and Government Taxes (including GST at 17% or higher, Excise Duty, and TV License fees). Since FPA varies month-to-month based on generation costs, keeping a buffer in your utility budget is highly recommended.
-                    </p>
-                </div>
-            </section>
+                </header>
 
-            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                <h2 className="text-xl font-semibold text-[#001a4a]">Electricity Bill Estimator FAQs</h2>
-                {faqItems.map((faq) => (
-                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
-                        <h3 className="font-semibold text-slate-800">{faq.question}</h3>
-                        <p className="text-sm text-slate-600 mt-1">{faq.answer}</p>
+                {/* Part 1: Methodology & Calculation Mechanics */}
+                <section className="space-y-3">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Methodology & Calculation Mechanics</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Residential electricity billing in Pakistan follows a multi-tier progressive slab schedule specified by NEPRA. Your consumption is tiered across sequential brackets (1–100, 101–200, 201–300, 301–400, 401–500, 501–600, 601–700, and 701+ units).
+                    </p>
+                    <p className="text-sm leading-7 text-slate-700">
+                        <code className="rounded bg-slate-100 px-2 py-0.5 text-xs font-semibold text-[#001a4a]">
+                            Total Payable Bill = (Cumulative Base Slab Cost) + (Fuel Price Adjustment / FPA × Units) + (Financing Cost Surcharge) + (Electricity Duty) + (General Sales Tax / GST at 17%) + (TV License Fee & Meter Rent)
+                        </code>.
+                        The estimator calculates each bracket mathematically to reveal the exact marginal cost of incremental kilowatt-hours.
+                    </p>
+                    <p className="text-sm leading-7 text-slate-700">
+                        If your monthly bill is consuming a large share of your household earnings, simulate rooftop solar generation with our{' '}
+                        <Link href="/tools/solar-net-metering-roi-calculator" className="font-semibold text-[#001a4a] underline">
+                            Solar Net Metering & ROI Calculator
+                        </Link>{' '}
+                        or balance your utilities against total earnings in our{' '}
+                        <Link href="/tools/monthly-household-budget-calculator" className="font-semibold text-[#001a4a] underline">
+                            Monthly Household Budget Calculator
+                        </Link>.
+                    </p>
+                </section>
+
+                {/* Part 2: Underlying Data Baseline & Assumptions */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline & Economic Assumptions</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Tariff slabs mirror the latest NEPRA federal notifications. Under prevailing statutory rules, residential consumers maintaining monthly consumption under 200 units consecutively for six months qualify as Protected Consumers, receiving heavily subsidized base tariffs. Consuming even a single unit above 200 (i.e. 201 units) immediately triggers the Unprotected Consumer schedule for the entire month, increasing the marginal unit cost by over 180%.
+                    </p>
+                    <p className="text-sm leading-7 text-slate-700">
+                        To explore how our energy models track government notifications, inspect our{' '}
+                        <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
+                            Methodology & Data Sources
+                        </Link>{' '}
+                        directory.
+                    </p>
+                </section>
+
+                {/* Part 3: Practical Application Guide */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Practical Application Guide: Avoiding the 201-Unit Cliff</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Household electricity bills can surge exponentially from minor usage changes. Implement these rules to protect your monthly energy budget:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-sm leading-7 text-slate-700">
+                        <li>
+                            <strong>Monitor Meter Readings on Day 20:</strong> Check your meter dial 10 days before the meter reader visits. If reading 180 units, restrict air cooler, iron, and washing machine usage to remain strictly below the 200-unit cliff.
+                        </li>
+                        <li>
+                            <strong>Isolate Heavy Inductive Loads:</strong> Ironing clothes in a single batch, servicing refrigerator coils, and setting inverter AC thermostats to 26°C instead of 20°C cuts monthly energy consumption by 40 to 60 units.
+                        </li>
+                        <li>
+                            <strong>Evaluate Solar Net Metering:</strong> If your household consistently consumes 500+ units monthly, installing rooftop solar offsets peak grid tariffs (Rs. 58+/unit) with a rapid 3-year payback.
+                        </li>
+                    </ul>
+                </section>
+
+                {/* Part 4: Frequently Asked Questions */}
+                <section className="border-t border-slate-100 pt-6 space-y-4">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Frequently Asked Questions</h3>
+                    <div className="space-y-4">
+                        {activeFaqItems.map((faq) => (
+                            <div key={faq.question} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                                <h4 className="font-semibold text-[#001a4a]">{faq.question}</h4>
+                                <p className="mt-1 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </section>
+                </section>
+
+                <AuthorEditorialBlock
+                    authorName="Mohsin Raza"
+                    authorRole="Founder & Software Architect (16+ Years Experience)"
+                    lastUpdated="September 2026"
+                />
+            </article>
         </ToolLayout>
     );
 }

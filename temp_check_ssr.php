@@ -1,10 +1,11 @@
 <?php
-echo "PS NODE:
-";
+
+echo 'PS NODE:
+';
 echo shell_exec('ps aux | grep node');
-echo "
+echo '
 INERTIA SSR CHECK:
-";
+';
 require __DIR__.'/../rozapp/vendor/autoload.php';
 $app = require_once __DIR__.'/../rozapp/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);

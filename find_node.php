@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: text/plain');
 
 $candidates = [
@@ -15,17 +16,17 @@ $candidates = [
 
 foreach ($candidates as $c) {
     $matches = glob($c);
-    if (!empty($matches)) {
+    if (! empty($matches)) {
         foreach ($matches as $m) {
-            echo "FOUND: $m (" . trim(shell_exec("$m -v 2>&1")) . ")
-";
+            echo "FOUND: $m (".trim(shell_exec("$m -v 2>&1")).')
+';
         }
     }
 }
 
-echo "
-PATH: " . getenv('PATH') . "
-";
-echo "WHICH: " . trim(shell_exec('which node 2>&1')) . "
-";
+echo '
+PATH: '.getenv('PATH').'
+';
+echo 'WHICH: '.trim(shell_exec('which node 2>&1')).'
+';
 unlink(__FILE__);

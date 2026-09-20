@@ -1,5 +1,5 @@
 import React from 'react';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
 import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
 import SaveWall from '../../../Components/Activation/SaveWall';
@@ -7,6 +7,7 @@ import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
+import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -85,7 +86,7 @@ const exampleScenarios = [
     },
 ];
 
-const faqItems = [
+const defaultFaqItems = [
     {
         question: 'How does this tool estimate grocery costs?',
         answer: 'The tool multiplies the quantities you input for staples (atta, rice, oil, sugar, daal) by the baseline retail prices configured in the database, allowing you to establish a basic food cost benchmark before you shop.',
@@ -98,31 +99,11 @@ const faqItems = [
         question: 'Can I use this estimator for free without registering?',
         answer: 'Yes, the calculator is fully functional in guest mode. Registration is only required if you wish to save your grocery plans and view them inside your household workspace.',
     },
+    {
+        question: 'How do Utility Store prices differ from open market kiryana stores in Pakistan?',
+        answer: 'Subsidized utility stores provide targeted relief on basic essentials for eligible families, whereas neighborhood kiryana stores incorporate transport costs and retail markups. This tool allows budgeting against standard open market benchmarks.',
+    },
 ];
-
-const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-        },
-    })),
-};
-
-const calculatorJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Ration Cost Estimator',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    url: 'https://roznamcha.pk/tools/ration-cost-estimator',
-    description:
-        'Guest-mode Pakistan ration budget calculator using configurable staple prices for atta, rice, oil, sugar, and daal.',
-};
 
 export default function RationCostEstimator({
     currency,
@@ -131,6 +112,7 @@ export default function RationCostEstimator({
     items,
     relatedLinks,
     activationPrefill,
+    faqItems: faqItemsProp,
     seo: seoProp,
     jsonLd: jsonLdProp,
 }) {
@@ -138,6 +120,7 @@ export default function RationCostEstimator({
     const isAuthenticated = Boolean(auth?.user);
     const seo = seoProp ?? seoContent.rationCostEstimator;
     const pageSchema = jsonLdProp ?? buildWebPageSchema(seo);
+    const activeFaqItems = faqItemsProp ?? defaultFaqItems;
     const prefillInputs = activationPrefill?.inputs ?? {};
     const [householdSize, setHouseholdSize] = React.useState(
         clampNumber(prefillInputs.householdSize ?? defaultHouseholdSize ?? 4, 1)
@@ -194,18 +177,7 @@ export default function RationCostEstimator({
             description="This guest-mode tool gives Pakistani families a quick planning benchmark using configurable base prices for atta, rice, oil, sugar, and daal."
         >
             <SeoHead {...seo} jsonLd={pageSchema} />
-            <Head>
-                <script
-                    key="ration-estimator-calculator-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorJsonLd) }}
-                />
-                <script
-                    key="ration-estimator-faq-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-                />
-            </Head>
+
 
 
 
@@ -509,34 +481,90 @@ export default function RationCostEstimator({
                 </div>
             </section>
 
-            {/* SECTION B: Rich text/HTML container optimized for SEO reading */}
-            <section className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6">
-                <div>
-                    <h2 className="text-2xl font-bold text-[#001a4a]">How Utility Store Prices Differ from Open Market</h2>
-                    <p className="mt-3 text-sm leading-7 text-[#001a4a]/85">
-                        In Pakistan, purchasing grocery items through the government-subsidized Utility Stores Corporation (USC) network represents a major avenue for cost reduction. However, understanding the pricing differences between these stores and the open retail market is crucial for sturdier planning.
+            {/* Semantic Editorial Scaffolding Section */}
+            <article className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-8 shadow-sm">
+                <header className="space-y-2 border-b border-slate-100 pb-4">
+                    <p className="text-xs uppercase tracking-[0.35em] text-[#8c5a00] font-semibold">Editorial Documentation</p>
+                    <h2 className="text-2xl font-bold text-[#001a4a]">Ration Cost Calculation Mechanics & Economic Baseline</h2>
+                    <p className="text-sm text-slate-600">
+                        A transparent review of how grocery staple baskets are modelled, inflation indicators, and purchasing strategies for Pakistani kitchens.
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-[#001a4a]/85">
-                        Essential staples like subsidized wheat flour (atta), sugar, and ghee are offered at lower rates to targeted beneficiaries under special relief packages. While this offers significant relief, supply constraints, queuing times, and brand limitations often mean families must still purchase a portion of their monthly basket from neighborhood kiryana stores or wholesale markets at standard market rates.
-                    </p>
-                </div>
-                <div className="border-t border-slate-100 pt-6">
-                    <h3 className="text-xl font-bold text-[#001a4a]">Staples Planning and Grocery Inflation in Pakistan</h3>
-                    <p className="mt-3 text-sm leading-7 text-[#001a4a]/85">
-                        Staples like wheat, rice, ghee/oil, and sugar form the baseline of every Pakistani household's nutrition. Fluctuations in international fuel costs and local transport tariffs directly push these prices upward. Because food costs represent a highly visible, recurring daily outflow, estimating your baseline staple requirements before shopping is the sturdiest way to manage grocery inflation without sacrificing quality.
-                    </p>
-                </div>
-            </section>
+                </header>
 
-            <section className="mt-8 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                <h2 className="text-xl font-semibold text-[#001a4a]">Frequently Asked Questions (FAQs)</h2>
-                {faqItems.map((faq) => (
-                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
-                        <h3 className="font-semibold text-slate-800">{faq.question}</h3>
-                        <p className="text-sm text-slate-600 mt-1">{faq.answer}</p>
+                {/* Part 1: Methodology & Calculation Mechanics */}
+                <section className="space-y-3">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Methodology & Calculation Mechanics</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        The Ration Cost Estimator computes monthly grocery allocations through a deterministic item-quantity model:
+                        <code className="mx-1 rounded bg-slate-100 px-2 py-0.5 text-xs font-semibold text-[#001a4a]">Total Monthly Ration Cost = Σ (Quantity × Base Retail Price)</code>.
+                        Default baskets are tailored for different household scales—from 2-person compact apartments to 8-person joint family residences.
+                        Baseline prices represent weighted open-market retail averages across urban hubs (Karachi, Lahore, Rawalpindi, Faisalabad) and are reviewed against localized distributor trends.
+                    </p>
+                    <p className="text-sm leading-7 text-slate-700">
+                        For cross-calculating with your overall household cash flow, connect this dry staple figure directly to our{' '}
+                        <Link href="/tools/monthly-household-budget-calculator" className="font-semibold text-[#001a4a] underline">
+                            Monthly Household Budget Calculator
+                        </Link>{' '}
+                        or track real spending against our{' '}
+                        <Link href="/features/monthly-expense-tracker-pakistan" className="font-semibold text-[#001a4a] underline">
+                            Monthly Expense Tracker for Pakistan
+                        </Link>.
+                    </p>
+                </section>
+
+                {/* Part 2: Underlying Data Baseline & Assumptions */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline & Economic Assumptions</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Staple grocery inflation in Pakistan is benchmarked against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) and Monthly Consumer Price Index (CPI). Subsidized rates from the Utility Stores Corporation (USC) are tracked for targeted relief items, while commercial retail rates incorporate logistics, wholesale markups, and local packaging premiums.
+                    </p>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Perishable items (fresh vegetables, seasonal fruit, milk, poultry, and beef) fluctuate on daily supply cycles and are deliberately separated into a distinct variable weekly allocation. Learn more about our data sources and update cadences in our{' '}
+                        <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
+                            Methodology & Data Sources
+                        </Link>{' '}
+                        directory.
+                    </p>
+                </section>
+
+                {/* Part 3: Practical Application Guide */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Practical Application Guide for Pakistani Households</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        To insulate your household from sudden kitchen budget shocks, follow these actionable purchasing practices:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-sm leading-7 text-slate-700">
+                        <li>
+                            <strong>Buy Non-Perishables in Monthly Bulk:</strong> Purchasing 20kg flour bags, 5-litre oil cartons, and whole-sack pulses from wholesale grain markets (ghalla mandi) delivers an immediate 12% to 18% saving over neighborhood kiryana shops.
+                        </li>
+                        <li>
+                            <strong>Separate Dry Staples from Weekly Sabzi/Gosht:</strong> Allocate your dry staple budget on salary day, reserving variable cash for twice-weekly fresh bazaar purchases.
+                        </li>
+                        <li>
+                            <strong>Audit Brand vs Commodity Premiums:</strong> Premium branded cooking oils and double-refined sugar carry up to a 25% marketing markup over certified loose commodities of identical nutritional grade.
+                        </li>
+                    </ul>
+                </section>
+
+                {/* Part 4: Frequently Asked Questions */}
+                <section className="border-t border-slate-100 pt-6 space-y-4">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Frequently Asked Questions</h3>
+                    <div className="space-y-4">
+                        {activeFaqItems.map((faq) => (
+                            <div key={faq.question} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                                <h4 className="font-semibold text-[#001a4a]">{faq.question}</h4>
+                                <p className="mt-1 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </section>
+                </section>
+
+                <AuthorEditorialBlock
+                    authorName="Mohsin Raza"
+                    authorRole="Founder & Software Architect (16+ Years Experience)"
+                    lastUpdated="September 2026"
+                />
+            </article>
 
             <RelatedLinksBlock
                 relatedTools={relatedLinks?.relatedTools ?? []}

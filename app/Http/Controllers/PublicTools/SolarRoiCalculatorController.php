@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\PublicTools;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\BuildsPublicSeo;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -31,6 +31,29 @@ class SolarRoiCalculatorController extends Controller
             ? (float) $queryBill
             : (float) ($activation['inputs']['monthly_bill'] ?? $config['defaults']['monthly_bill'] ?? 32000);
 
+        $faqItems = [
+            [
+                'question' => 'How does NEPRA Net Billing differ from traditional Net Metering?',
+                'answer' => 'Under traditional Net Metering, exported solar units offset imported grid units 1-to-1 at retail slab rates. Under NEPRA\'s Net Billing (Buyback) framework, self-consumed solar power saves you the full DISCO retail tariff (Rs. 42–58+/unit), while exported excess units are credited at the National Average Energy Purchase Price (~Rs. 11.00/unit). Maximizing daytime self-consumption delivers the highest ROI.',
+            ],
+            [
+                'question' => 'Why does LiFePO4 battery storage cost less over 10 years than Tubular?',
+                'answer' => 'While Tall Tubular lead-acid batteries have a lower upfront cost (Rs. ~140,000 per 48V bank), they degrade rapidly in Pakistani summer temperatures with a cycle life of only 800–1,200 cycles (2–3 years at 50% DoD), requiring 3 to 4 complete bank replacements over 10 years. LiFePO4 lithium batteries last 5,000–6,000 cycles (10+ years at 90% DoD) with zero replacements, resulting in ~35%–40% lower cost per stored kWh.',
+            ],
+            [
+                'question' => 'How long does the DISCO Green Meter process take in Pakistan?',
+                'answer' => 'Typical processing time across LESCO, IESCO, GEPCO, and other DISCOs ranges from 45 to 90 days. The turnkey process includes NEPRA generation license application, distribution transformer load verification, third-party inspection, and bidirectional meter installation.',
+            ],
+            [
+                'question' => 'Can I run inverter air conditioners during grid load shedding?',
+                'answer' => 'Standard On-Grid string inverters shut down immediately during grid outages for lineman safety (anti-islanding). To run air conditioners during load shedding, you need a Hybrid inverter with either Tubular or LiFePO4 battery storage sized to handle compressor inrush currents.',
+            ],
+            [
+                'question' => 'How does self-consumption affect payback speed?',
+                'answer' => 'Because retail electricity slab tariffs (Rs. 42 to 71+/unit) far exceed the exported unit buyback rate (Rs. 11/unit), scheduling heavy daytime loads—such as water pumps, washing machines, and inverter air conditioning—delivers up to 3x higher economic value per solar kilowatt-hour generated.',
+            ],
+        ];
+
         return Inertia::render('Public/Tools/SolarRoiCalculator', [
             'defaults' => [
                 'monthly_units' => $initialUnits,
@@ -42,7 +65,11 @@ class SolarRoiCalculatorController extends Controller
             'initialBill' => $initialBill,
             'activationPrefill' => $activation,
             'seo' => $seo,
-            'jsonLd' => $this->publicWebPageSchema($seo),
+            'faqItems' => $faqItems,
+            'jsonLd' => $this->publicToolGraphSchema($seo, $faqItems, [
+                'name' => 'Solar Net Metering & ROI Calculator Pakistan',
+                'description' => $seo['description'],
+            ]),
         ]);
     }
 

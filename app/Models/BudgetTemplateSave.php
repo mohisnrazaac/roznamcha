@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Track a user's saved smart budget templates and premium unlock metadata. Date: 2026-03-27. Author: Codex.
 
 namespace App\Models;

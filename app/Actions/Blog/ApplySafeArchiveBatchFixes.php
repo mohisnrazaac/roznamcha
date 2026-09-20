@@ -3,7 +3,6 @@
 namespace App\Actions\Blog;
 
 use App\Models\BlogPost;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class ApplySafeArchiveBatchFixes

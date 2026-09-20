@@ -70,7 +70,7 @@ export default function RationBrain({ seo: seoProp, jsonLd: jsonLdProp }) {
                 <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
                     <h2 className="text-2xl font-semibold text-[#001a4a]">Why a ration price tracker matters in Pakistan</h2>
                     <p className="text-base text-slate-700">
-                        Taking inflation seriously is the only way to protect monthly budgets. Ration Brain gives you the proof to make decisions.
+                        Taking inflation seriously is the only way to protect monthly budgets. Ration Brain gives you the historical data to make smart buying decisions.
                     </p>
                     <ul className="list-disc pl-5 space-y-2 text-slate-700">
                         {benefits.map((item) => (

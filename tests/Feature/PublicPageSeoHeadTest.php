@@ -14,7 +14,7 @@ class PublicPageSeoHeadTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testAboutPageRendersSeoTagsInRawHtml(): void
+    public function test_about_page_renders_seo_tags_in_raw_html(): void
     {
         $response = $this->get(route('public.about'));
 
@@ -25,7 +25,7 @@ class PublicPageSeoHeadTest extends TestCase
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
     }
 
-    public function testContactPageRendersSeoTagsInRawHtml(): void
+    public function test_contact_page_renders_seo_tags_in_raw_html(): void
     {
         $response = $this->get(route('public.contact'));
 
@@ -63,7 +63,7 @@ class PublicPageSeoHeadTest extends TestCase
         }
     }
 
-    public function testBlogDetailPageRendersSeoTagsAndStructuredDataInRawHtml(): void
+    public function test_blog_detail_page_renders_seo_tags_and_structured_data_in_raw_html(): void
     {
         $post = BlogPost::factory()->published()->create([
             'title' => 'Best Monthly Budget for 50000 Salary in Pakistan',
@@ -81,14 +81,19 @@ class PublicPageSeoHeadTest extends TestCase
         $response->assertSee('meta name="description" content="A practical monthly budget plan for a 50000 salary in Pakistan with household expense guidance."', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicRouteUrl('public.blog.show', ['slug' => $post->slug]).'" inertia="canonical"', false);
         $response->assertSee('type="application/ld+json" inertia="page-jsonld"', false);
+        $response->assertSee('"@type":"Article"', false);
         $response->assertSee('"datePublished"', false);
         $response->assertSee('"dateModified"', false);
         $response->assertSee('"name":"Mohsin"', false);
         $response->assertSee('Founder of Roznamcha.pk', false);
+        $response->assertSee('meta property="article:published_time"', false);
+        $response->assertSee('meta property="article:modified_time"', false);
+        $response->assertSee('meta name="datePublished"', false);
+        $response->assertSee('meta name="dateModified"', false);
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
     }
 
-    public function testHomePageRendersSpecificServerVisibleSeoTags(): void
+    public function test_home_page_renders_specific_server_visible_seo_tags(): void
     {
         $response = $this->get(route('public.home'));
 
@@ -104,7 +109,7 @@ class PublicPageSeoHeadTest extends TestCase
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
     }
 
-    public function testStaticPublicContentPagesRenderSpecificServerVisibleSeoTags(): void
+    public function test_static_public_content_pages_render_specific_server_visible_seo_tags(): void
     {
         $expectations = [
             [
@@ -169,7 +174,7 @@ class PublicPageSeoHeadTest extends TestCase
         }
     }
 
-    public function testBlogIndexRendersSpecificSeoTagsWithoutPageLevelSchema(): void
+    public function test_blog_index_renders_specific_seo_tags_without_page_level_schema(): void
     {
         $response = $this->get(route('public.blog.index'));
 
@@ -181,7 +186,7 @@ class PublicPageSeoHeadTest extends TestCase
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
     }
 
-    public function testTemplatesIndexAndShowRenderSpecificSeoTags(): void
+    public function test_templates_index_and_show_render_specific_seo_tags(): void
     {
         $template = BudgetTemplate::query()->create([
             'title' => 'SEO Test Salary Guide',
@@ -216,7 +221,7 @@ class PublicPageSeoHeadTest extends TestCase
         $showResponse->assertSee('type="application/ld+json" inertia="page-jsonld"', false);
     }
 
-    public function testPublicToolsRenderSpecificSeoTagsInRawHtml(): void
+    public function test_public_tools_render_specific_seo_tags_in_raw_html(): void
     {
         $expectations = [
             [
@@ -256,7 +261,7 @@ class PublicPageSeoHeadTest extends TestCase
         }
     }
 
-    public function testProgrammaticPagesRenderSpecificSeoTagsAndJsonLdInRawHtml(): void
+    public function test_programmatic_pages_render_specific_seo_tags_and_json_ld_in_raw_html(): void
     {
         $snapshot = SeoPageSnapshot::query()->create([
             'page_type' => 'petrol',
@@ -321,7 +326,7 @@ class PublicPageSeoHeadTest extends TestCase
         }
     }
 
-    public function testBlogDetailFallsBackToSlugAndExcerptWhenStoredMetadataLooksPlaceholder(): void
+    public function test_blog_detail_falls_back_to_slug_and_excerpt_when_stored_metadata_looks_placeholder(): void
     {
         $post = BlogPost::factory()->published()->create([
             'title' => 'Est et voluptatibus quo sunt.',
@@ -341,7 +346,7 @@ class PublicPageSeoHeadTest extends TestCase
         $response->assertSee('"headline":"Upcoming Mehngai Forecast"', false);
     }
 
-    public function testBlogDetailFallsBackFromTitleAsDescriptionToCleanerExcerpt(): void
+    public function test_blog_detail_falls_back_from_title_as_description_to_cleaner_excerpt(): void
     {
         $post = BlogPost::factory()->published()->create([
             'title' => 'SEO & Sharing',
@@ -361,7 +366,7 @@ class PublicPageSeoHeadTest extends TestCase
         $response->assertDontSee('content="SEO &amp; Sharing&#13;', false);
     }
 
-    public function testRepresentativePublicPagesShareTheSameCanonicalHostSource(): void
+    public function test_representative_public_pages_share_the_same_canonical_host_source(): void
     {
         $post = BlogPost::factory()->published()->create([
             'slug' => 'canonical-host-check-post',

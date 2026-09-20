@@ -4,12 +4,14 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
 import SeoHead from '../../../Components/SeoHead';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 import SaveWall from '../../../Components/Activation/SaveWall';
+import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
+import { buildWebPageSchema } from '../../../lib/seo';
 import {
     SOLAR_SYSTEM_BENCHMARKS,
     BATTERY_BENCHMARKS,
@@ -23,7 +25,7 @@ import {
     estimateUnitsFromBill,
 } from '../../../lib/solarRoiEngine';
 
-const faqItems = [
+const defaultFaqItems = [
     {
         question: 'How does NEPRA Net Billing differ from traditional Net Metering?',
         answer: 'Under traditional Net Metering, exported solar units offset imported grid units 1-to-1 at retail slab rates. Under NEPRA\'s Net Billing (Buyback) framework, self-consumed solar power saves you the full DISCO retail tariff (Rs. 42–58+/unit), while exported excess units are credited at the National Average Energy Purchase Price (~Rs. 11.00/unit). Maximizing daytime self-consumption delivers the highest ROI.',
@@ -40,39 +42,28 @@ const faqItems = [
         question: 'Can I run inverter air conditioners during grid load shedding?',
         answer: 'Standard On-Grid string inverters shut down immediately during grid outages for lineman safety (anti-islanding). To run air conditioners during load shedding, you need a Hybrid inverter with either Tubular or LiFePO4 battery storage sized to handle compressor inrush currents.',
     },
+    {
+        question: 'How does self-consumption affect payback speed?',
+        answer: 'Because retail electricity slab tariffs (Rs. 42 to 71+/unit) far exceed the exported unit buyback rate (Rs. 11/unit), scheduling heavy daytime loads—such as water pumps, washing machines, and inverter air conditioning—delivers up to 3x higher economic value per solar kilowatt-hour generated.',
+    },
 ];
-
-const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-        },
-    })),
-};
-
-const webAppJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Solar Net Metering & ROI Calculator Pakistan',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    url: 'https://roznamcha.pk/tools/solar-net-metering-roi-calculator',
-    description:
-        'Calculate turnkey solar system payback, NEPRA buyback earnings, and battery TCO (Tubular vs LiFePO4) under current Pakistan DISCO tariffs.',
-};
 
 export default function SolarRoiCalculator({
     defaults = {},
     initialUnits = 650,
     initialBill = 32000,
+    faqItems: faqItemsProp,
     seo: seoProp,
     jsonLd: jsonLdProp,
 }) {
+    const seo = seoProp ?? {
+        title: 'Solar Net Metering & ROI Calculator Pakistan (2026) | Roznamcha',
+        description: 'Calculate residential turnkey solar system payback, NEPRA buyback earnings, and 10-year battery degradation (Tubular vs LiFePO4) in Pakistan.',
+        url: 'https://roznamcha.pk/tools/solar-net-metering-roi-calculator',
+        canonical: 'https://roznamcha.pk/tools/solar-net-metering-roi-calculator',
+    };
+    const pageSchema = jsonLdProp ?? buildWebPageSchema(seo);
+    const activeFaqItems = faqItemsProp ?? defaultFaqItems;
     const { url } = usePage();
 
     // Query parameters parser
@@ -213,21 +204,7 @@ export default function SolarRoiCalculator({
                 { label: 'Solar ROI Calculator', href: '/tools/solar-net-metering-roi-calculator' },
             ]}
         >
-            <Head>
-                <title>Solar Net Metering & ROI Calculator Pakistan | Roznamcha</title>
-                <meta
-                    name="description"
-                    content="Calculate residential turnkey solar system payback, NEPRA buyback earnings, and 10-year battery degradation (Tubular vs LiFePO4) in Pakistan."
-                    head-key="description"
-                />
-                <link
-                    rel="canonical"
-                    href="https://roznamcha.pk/tools/solar-net-metering-roi-calculator"
-                    head-key="canonical"
-                />
-                <script type="application/ld+json">{JSON.stringify(webAppJsonLd)}</script>
-                <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
-            </Head>
+            <SeoHead {...seo} jsonLd={pageSchema} />
 
             <div className="w-full space-y-8 pb-12">
                 {/* Hero Header */}
@@ -780,37 +757,107 @@ export default function SolarRoiCalculator({
                 </div>
 
                 {/* ────────────────────────────────────────────────────────── */}
-                {/* 5. PRACTICAL FREQUENTLY ASKED QUESTIONS (FAQ Accordion) */}
+                {/* 5. EDITORIAL SCAFFOLDING & PRACTICAL APPLICATION GUIDE */}
                 {/* ────────────────────────────────────────────────────────── */}
-                <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-6">
-                    <div>
+                <article className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-8">
+                    <header className="space-y-2 border-b border-slate-100 pb-4">
+                        <p className="text-xs uppercase tracking-[0.35em] text-[#8c5a00] font-semibold">Editorial Documentation</p>
+                        <h2 className="text-2xl font-bold text-[#001a4a]">Solar Net Metering, ROI Mechanics & Battery Storage Baseline</h2>
+                        <p className="text-sm text-slate-600">
+                            A rigorous technical explanation of NEPRA's Net Billing framework, calculation formulas, battery degradation chemistry, and consumption scheduling.
+                        </p>
+                    </header>
+
+                    {/* Part 1: Methodology & Calculation Mechanics */}
+                    <section className="space-y-3">
+                        <h3 className="text-xl font-bold text-[#001a4a]">Methodology & Calculation Mechanics</h3>
+                        <p className="text-sm leading-7 text-slate-700">
+                            The engine simulates financial yields using NEPRA's active Net Billing framework:
+                        </p>
+                        <div className="space-y-2 rounded-xl bg-slate-50 p-4 text-xs font-mono text-[#001a4a]">
+                            <p>Total Monthly Net Savings = (Self-Consumed Units × Avoided Retail Grid Tariff) + (Exported Surplus Units × National Buyback Rate Rs. 11.00) - (Monthly Battery Maintenance Cost)</p>
+                            <p>Turnkey Solar Payback Period (Years) = Total System Capital Expenditure (CAPEX) / Annualized Net Energy Savings</p>
+                        </div>
+                        <p className="text-sm leading-7 text-slate-700">
+                            System sizing recommendations follow empirical load curves: 3kW for monthly consumption under 350 units, 5kW for under 650 units, 10kW for under 1,100 units, and 15kW–20kW for heavy residential or commercial cooling loads.
+                        </p>
+                        <p className="text-sm leading-7 text-slate-700">
+                            To inspect the raw grid billing tariffs you are offsetting with solar, test your consumption with our{' '}
+                            <Link href="/tools/electricity-bill-estimator" className="font-semibold text-[#001a4a] underline">
+                                Electricity Bill Estimator
+                            </Link>{' '}
+                            or assess how this capital investment fits your overall family budget in our{' '}
+                            <Link href="/tools/monthly-household-budget-calculator" className="font-semibold text-[#001a4a] underline">
+                                Monthly Household Budget Calculator
+                            </Link>.
+                        </p>
+                    </section>
+
+                    {/* Part 2: Underlying Data Baseline: LiFePO4 vs Tall Tubular Storage */}
+                    <section className="space-y-3 border-t border-slate-100 pt-6">
+                        <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline: LiFePO4 vs Tall Tubular Storage</h3>
+                        <p className="text-sm leading-7 text-slate-700">
+                            While Tall Tubular lead-acid batteries feature a lower upfront sticker price (approx Rs. 140,000 per 48V bank), they degrade within 800 to 1,200 cycles in high ambient Pakistani summer temperatures (restricted to a 50% maximum Depth of Discharge). This necessitates 3 to 4 complete bank replacements across a 10-year lifespan.
+                        </p>
+                        <p className="text-sm leading-7 text-slate-700">
+                            In contrast, Lithium Iron Phosphate (LiFePO4) storage yields 5,000 to 6,000 cycles at 90% Depth of Discharge with zero mid-term replacements, delivering an effective 35% to 40% lower Total Cost of Ownership per stored kilowatt-hour. For full citations and component lifespan modeling, review our{' '}
+                            <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
+                                Methodology & Data Sources
+                            </Link>{' '}
+                            directory.
+                        </p>
+                    </section>
+
+                    {/* Part 3: Practical Application Guide for Solar Adopters */}
+                    <section className="space-y-3 border-t border-slate-100 pt-6">
+                        <h3 className="text-xl font-bold text-[#001a4a]">Practical Application Guide for Solar Adopters</h3>
+                        <p className="text-sm leading-7 text-slate-700">
+                            Maximize your solar investment return through deliberate daytime load shifting:
+                        </p>
+                        <ul className="list-disc pl-5 space-y-2 text-sm leading-7 text-slate-700">
+                            <li>
+                                <strong>Shift High-Wattage Appliances to Peak Sun Hours (10:00 AM – 3:30 PM):</strong> Running water booster pumps, washing machines, and daytime inverter air conditioners directly from solar arrays yields Rs. 58+/unit in avoided grid tariffs versus only Rs. 11/unit in export compensation.
+                            </li>
+                            <li>
+                                <strong>Verify Distribution Transformer Capacity:</strong> Ensure your neighborhood transformer has available net metering capacity before finalizing turnkey contracts.
+                            </li>
+                            <li>
+                                <strong>Demand Sub-5 Ohm Earthing Pit Testing:</strong> DISCO inspection teams (LESCO, IESCO, K-Electric, MEPCO) mandate earthing pit resistance below 5 ohms for bi-directional net billing green meter commissioning.
+                            </li>
+                        </ul>
+                    </section>
+
+                    {/* Part 4: Frequently Asked Questions */}
+                    <section className="border-t border-slate-100 pt-6 space-y-4">
                         <h3 className="text-xl font-bold text-[#001a4a]">
                             Frequently Asked Questions (Solar Net Billing in Pakistan)
                         </h3>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                            Essential facts about NEPRA SRO buyback rules, DISCO meter applications, and inverter warranties.
-                        </p>
-                    </div>
+                        <div className="space-y-4">
+                            {activeFaqItems.map((faq, idx) => (
+                                <details
+                                    key={idx}
+                                    className="group rounded-2xl border border-slate-200 bg-slate-50/50 p-4 open:bg-white open:border-amber-300 transition-colors"
+                                >
+                                    <summary className="flex items-center justify-between cursor-pointer font-bold text-slate-800 group-open:text-[#001a4a] text-sm">
+                                        <span>{faq.question}</span>
+                                        <span className="text-slate-400 group-open:rotate-180 transition-transform font-black">
+                                            ▼
+                                        </span>
+                                    </summary>
+                                    <p className="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                                        {faq.answer}
+                                    </p>
+                                </details>
+                            ))}
+                        </div>
+                    </section>
 
-                    <div className="space-y-4">
-                        {faqItems.map((faq, idx) => (
-                            <details
-                                key={idx}
-                                className="group rounded-2xl border border-slate-200 bg-slate-50/50 p-4 open:bg-white open:border-amber-300 transition-colors"
-                            >
-                                <summary className="flex items-center justify-between cursor-pointer font-bold text-slate-800 group-open:text-[#001a4a] text-sm">
-                                    <span>{faq.question}</span>
-                                    <span className="text-slate-400 group-open:rotate-180 transition-transform font-black">
-                                        ▼
-                                    </span>
-                                </summary>
-                                <p className="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
-                                    {faq.answer}
-                                </p>
-                            </details>
-                        ))}
-                    </div>
-                </div>
+                    <AuthorEditorialBlock
+                        authorName="Mohsin Raza"
+                        authorRole="Founder & Software Architect (16+ Years Experience)"
+                        lastUpdated="September 2026"
+                    />
+                </article>
 
                 {/* Save Wall & Activation */}
                 <SaveWall toolKey="solar_roi_calculator" currentResults={roiData} />

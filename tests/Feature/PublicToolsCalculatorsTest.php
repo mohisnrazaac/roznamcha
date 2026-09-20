@@ -178,7 +178,7 @@ class PublicToolsCalculatorsTest extends TestCase
                     'education' => 11.11,
                     'transport' => 5.56,
                     'misc' => 5.56,
-                ]
+                ],
             ]);
     }
 }

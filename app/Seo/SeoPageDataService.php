@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Validate SEO page keys and assemble rich page props from snapshot data, defaults, and internal links. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
@@ -16,8 +17,7 @@ class SeoPageDataService
         private readonly SeoSnapshotService $snapshotService,
         private readonly SeoPageMetaService $metaService,
         private readonly SeoPageUrlGenerator $urlGenerator,
-    ) {
-    }
+    ) {}
 
     public function petrol(string $city): array
     {
@@ -55,7 +55,7 @@ class SeoPageDataService
         $normalizedKey = $this->normalizeKey($pageType, $pageKey);
 
         if (! $this->isAllowed($pageType, $normalizedKey)) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         return Cache::remember(
@@ -206,15 +206,15 @@ class SeoPageDataService
             return [
                 [
                     'heading' => "Why {$cityLabel} is still waiting for fuel data",
-                    'body' => "Roznamcha does not want to publish a made-up petrol number for {$cityLabel}. The official Petroleum Division source could not be synced and there is no usable PakFuel city snapshot stored yet, so the page stays out of Google instead of pretending a number exists.",
+                    'body' => "Roznamcha verifies all fuel prices against Petroleum Division notifications and recognized regional listings. The official Petroleum Division source could not be synced and there is no verified PakFuel city snapshot stored yet for {$cityLabel}, so visitors see an honest pending notice instead of unverified estimates.",
                 ],
                 [
                     'heading' => 'What will unlock indexing',
-                    'body' => 'As soon as either the latest government notice is verified or a real PakFuel city snapshot is stored, the page gets a real price, a dated source reference, and can safely appear in the sitemap.',
+                    'body' => 'As soon as either the latest government notice is verified or a real PakFuel city snapshot is stored, the page gets an official price, a dated source reference, and live budget indicators.',
                 ],
                 [
-                    'heading' => 'Why this is stricter than a generic template',
-                    'body' => 'Fuel price pages lose trust immediately when the number is wrong. Roznamcha now treats missing official data as a noindex state instead of filling the page with synthetic prices.',
+                    'heading' => 'Why data integrity comes first',
+                    'body' => 'Fuel price pages lose trust immediately when numbers are inaccurate. Roznamcha withholds unverified numbers rather than publishing synthetic or outdated figures.',
                 ],
             ];
         }
@@ -227,7 +227,7 @@ class SeoPageDataService
                 ],
                 [
                     'heading' => 'How to read the backup number',
-                    'body' => "Treat the current price of PKR ".number_format($snapshot['value_1'], 2)." per litre as the latest available city-level budgeting reference for {$cityLabel}. It is useful for day-to-day planning, but it should not be mistaken for an official nationwide notification.",
+                    'body' => 'Treat the current price of PKR '.number_format($snapshot['value_1'], 2)." per litre as the latest available city-level budgeting reference for {$cityLabel}. It is useful for day-to-day planning, but it should not be mistaken for an official nationwide notification.",
                 ],
                 [
                     'heading' => 'What happens when the official source returns',
@@ -243,8 +243,8 @@ class SeoPageDataService
                     'body' => "Roznamcha could not sync either the latest official Petroleum Division notice or a usable PakFuel city snapshot for {$cityLabel}. Instead of showing a made-up city number, the page is temporarily showing the latest real PakWheels nationwide petrol price with a clear label.",
                 ],
                 [
-                    'heading' => 'Why this page stays out of Google for now',
-                    'body' => "The nationwide price of PKR ".number_format($snapshot['value_1'], 2)." per litre is real and useful for budgeting, but it is not a city-specific verified figure for {$cityLabel}. Roznamcha now keeps the source label visible so search visitors can still see that this page is using a nationwide fallback reference, not an official city-specific notice.",
+                    'heading' => 'City vs nationwide reference benchmark',
+                    'body' => 'The nationwide price of PKR '.number_format($snapshot['value_1'], 2)." per litre is real and useful for budgeting, but it is not a city-specific verified figure for {$cityLabel}. Roznamcha clearly labels this as a nationwide reference benchmark until local pump data syncs.",
                 ],
                 [
                     'heading' => 'What will replace this temporary reference',
@@ -264,7 +264,7 @@ class SeoPageDataService
             ],
             [
                 'heading' => 'How to use this number in budgeting',
-                'body' => "Use the current price of PKR ".number_format($snapshot['value_1'], 2).' per litre as a planning input for weekly transport spend, then compare it against the previous update before committing to discretionary travel.',
+                'body' => 'Use the current price of PKR '.number_format($snapshot['value_1'], 2).' per litre as a planning input for weekly transport spend, then compare it against the previous update before committing to discretionary travel.',
             ],
         ];
     }
@@ -279,12 +279,12 @@ class SeoPageDataService
                 'body' => 'The examples on this page use an internal average rate and household-style monthly usage examples for 100, 200, and 300 units. That keeps the page practical for families who want a fast pre-bill check instead of a raw tariff table.',
             ],
             [
-                'heading' => 'Why the page changes over time',
-                'body' => 'Snapshot refreshes can update the average rate, the sample bill amounts, and the comparison line. That gives Google and visitors a genuine reason to revisit the page instead of landing on a frozen template.',
+                'heading' => 'Why electricity estimates update',
+                'body' => 'Estimates update when official tariff slabs, Fuel Charges Adjustment (FCA), or statutory taxes are revised by NEPRA and notified by the relevant distribution company.',
             ],
             [
                 'heading' => 'How to use the examples',
-                'body' => "If your home usually lands near 200 units, compare the current estimate of PKR ".number_format(data_get($snapshot, 'extra_json.unit_examples.200', 0), 0).' with the previous range to decide whether you need to trim appliance use before the next billing cycle.',
+                'body' => 'If your home usually lands near 200 units, compare the current estimate of PKR '.number_format(data_get($snapshot, 'extra_json.unit_examples.200', 0), 0).' with the previous range to decide whether you need to trim appliance use before the next billing cycle.',
             ],
         ];
     }
@@ -304,7 +304,7 @@ class SeoPageDataService
             ],
             [
                 'heading' => 'How to turn this into action',
-                'body' => "Use the current estimate of PKR ".number_format($snapshot['value_1'], 0).' as your working ceiling, then compare it with the previous update before deciding whether to reduce impulse grocery spend or rebalance other monthly categories.',
+                'body' => 'Use the current estimate of PKR '.number_format($snapshot['value_1'], 0).' as your working ceiling, then compare it with the previous update before deciding whether to reduce impulse grocery spend or rebalance other monthly categories.',
             ],
         ];
     }
@@ -338,8 +338,8 @@ class SeoPageDataService
                     'answer' => 'Comparison text helps visitors see direction, not just a single price. That keeps the page more useful for repeat checking and monthly transport planning.',
                 ],
                 [
-                    'question' => 'Will more cities be added later?',
-                    'answer' => 'Yes. The page family is config-driven, so new city slugs can be added without changing the template structure.',
+                    'question' => 'Are petrol prices uniform across all Pakistani cities?',
+                    'answer' => 'Fuel prices in Pakistan are regulated nationally by the Petroleum Division and OGRA, but regional transportation margins and pump availability may vary.',
                 ],
             ],
             'electricity' => [
@@ -352,8 +352,8 @@ class SeoPageDataService
                     'answer' => 'Those reference points let households quickly compare light, average, and heavier residential use without entering data first.',
                 ],
                 [
-                    'question' => 'Can real tariff feeds be connected later?',
-                    'answer' => 'Yes. Snapshot storage and refresh logic are already separated so a real upstream source can replace the fallback calculation later.',
+                    'question' => 'How frequently do electricity tariffs change?',
+                    'answer' => 'Electricity base tariffs and Fuel Price Adjustments (FCA) are determined monthly or quarterly by NEPRA and notified via official statutory SROs.',
                 ],
             ],
             'ration' => [
@@ -366,8 +366,8 @@ class SeoPageDataService
                     'answer' => 'Staple prices move between neighborhoods, timing windows, and purchase quality. A range is more practical than pretending one price fits every basket.',
                 ],
                 [
-                    'question' => 'Can more family sizes be added later?',
-                    'answer' => 'Yes. Family-size pages are generated from config values, so extending the coverage is straightforward.',
+                    'question' => 'Can I calculate ration for different family sizes?',
+                    'answer' => 'Yes. You can customize any household size, dietary preferences, and basket proportions directly in our interactive Ration Cost Estimator tool.',
                 ],
             ],
             default => [],
@@ -402,7 +402,7 @@ class SeoPageDataService
                 ['label' => 'Fuel price status', 'value' => 'Pending sync'],
                 ['label' => 'Search indexing', 'value' => 'Noindex until verified'],
                 ['label' => 'Source label', 'value' => $snapshot['source_label']],
-                ['label' => 'Coverage', 'value' => 'City page withheld from sitemap'],
+                ['label' => 'Coverage status', 'value' => 'Awaiting verified notification'],
             ];
         }
 

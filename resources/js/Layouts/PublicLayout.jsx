@@ -328,11 +328,14 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                     <Link href="/features/monthly-expense-tracker-pakistan" className="text-[#001a4a] hover:underline">
                         Monthly Expense Tracker
                     </Link>
-                    <Link href="/blog/pakistan-sovereign-cloud-ai-trade-ecosystem-2026" className="text-[#001a4a] hover:underline">
-                        Sovereign Cloud & AI Guide
-                    </Link>
                     <Link href="/about" className="text-[#001a4a] hover:underline">
                         About Us
+                    </Link>
+                    <Link href="/editorial-policy" className="text-[#001a4a] hover:underline">
+                        Editorial Policy
+                    </Link>
+                    <Link href="/methodology" className="text-[#001a4a] hover:underline">
+                        Methodology & Sources
                     </Link>
                     <Link href="/contact" className="text-[#001a4a] hover:underline">
                         Contact Us

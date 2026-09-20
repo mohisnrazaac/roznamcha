@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BlogPost;
 use App\Support\ActivationSession;
 use App\Support\EventRecorder;
 use Illuminate\Http\JsonResponse;
@@ -12,9 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 class EventController extends Controller
 {
-    public function __construct(private EventRecorder $events)
-    {
-    }
+    public function __construct(private EventRecorder $events) {}
 
     public function store(Request $request): JsonResponse
     {

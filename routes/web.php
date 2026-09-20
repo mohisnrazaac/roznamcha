@@ -78,6 +78,12 @@ Route::post('/contact', [ContactController::class, 'send'])->name('public.contac
 Route::get('/privacy-policy', [PublicPageController::class, 'privacyPolicy'])->name('public.privacy');
 Route::get('/terms', [PublicPageController::class, 'terms'])->name('public.terms');
 Route::get('/disclaimer', [PublicPageController::class, 'disclaimer'])->name('public.disclaimer');
+Route::get('/editorial-policy', [PublicPageController::class, 'editorialPolicy'])
+    ->middleware('cache.public')
+    ->name('public.editorial-policy');
+Route::get('/methodology', [PublicPageController::class, 'methodology'])
+    ->middleware('cache.public')
+    ->name('public.methodology');
 Route::view('/offline', 'offline')->name('offline');
 Route::get('/tools/ration-cost-estimator', [RationCostEstimatorController::class, 'show'])
     ->middleware('cache.public')

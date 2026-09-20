@@ -109,6 +109,7 @@ class ReportController extends Controller
 
         return $rows->map(function ($row) use ($total) {
             $category = $row->category_id ? Category::find($row->category_id) : null;
+
             return [
                 'name' => $category?->name ?? 'Uncategorised',
                 'percent' => (int) round(($row->total_amount / $total) * 100),

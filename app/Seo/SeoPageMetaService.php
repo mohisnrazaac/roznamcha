@@ -1,13 +1,12 @@
 <?php
+
 // Purpose: Build page-specific meta tags and structured data for programmatic SEO landing pages. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
 
 class SeoPageMetaService
 {
-    public function __construct(private readonly SeoPageUrlGenerator $urlGenerator)
-    {
-    }
+    public function __construct(private readonly SeoPageUrlGenerator $urlGenerator) {}
 
     public function build(
         string $pageType,

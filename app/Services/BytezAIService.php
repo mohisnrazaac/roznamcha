@@ -17,8 +17,11 @@ use Throwable;
 class BytezAIService
 {
     protected bool $enabled;
+
     protected ?string $apiUrl;
+
     protected ?string $apiKey;
+
     protected int $timeout;
 
     public function __construct()
@@ -38,7 +41,7 @@ class BytezAIService
 
     public function respond(string $message, array $context = []): ?string
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return null;
         }
 

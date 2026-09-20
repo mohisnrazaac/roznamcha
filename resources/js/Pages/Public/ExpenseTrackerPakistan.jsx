@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import SeoHead from '../../Components/SeoHead';
 import { seoContent, buildWebPageSchema } from '../../lib/seo';
+import AuthorEditorialBlock from '../../Components/AuthorEditorialBlock';
 
 const faqItems = [
     {
@@ -132,6 +133,47 @@ export default function ExpenseTrackerPakistan({ seo: seoProp, jsonLd: jsonLdPro
                         ))}
                     </div>
                 </section>
+
+                {/* Section: Public Planning Calculators */}
+                <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6 shadow-sm">
+                    <div className="space-y-2">
+                        <p className="text-xs uppercase tracking-[0.3em] text-[#8c5a00] font-semibold">Free Utilities</p>
+                        <h2 className="text-2xl font-bold text-[#001a4a]">Explore Pakistan Household Financial Calculators</h2>
+                        <p className="text-sm text-slate-600">
+                            Pressure-test your monthly bills, grocery basket costs, and solar investments with our free public calculators:
+                        </p>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 pt-2">
+                        <Link href="/tools/ration-cost-estimator" className="block rounded-xl border border-slate-200 p-4 hover:border-[#001a4a] hover:shadow-xs transition">
+                            <h3 className="text-base font-bold text-[#001a4a]">Ration Cost Estimator</h3>
+                            <p className="mt-1 text-xs text-slate-600">Estimate monthly grocery baskets using Pakistan Bureau of Statistics baseline pricing.</p>
+                        </Link>
+                        <Link href="/tools/electricity-bill-estimator" className="block rounded-xl border border-slate-200 p-4 hover:border-[#001a4a] hover:shadow-xs transition">
+                            <h3 className="text-base font-bold text-[#001a4a]">Electricity Bill Estimator</h3>
+                            <p className="mt-1 text-xs text-slate-600">Calculate DISCO progressive slabs, FPA, protected status thresholds, and taxes.</p>
+                        </Link>
+                        <Link href="/tools/monthly-household-budget-calculator" className="block rounded-xl border border-slate-200 p-4 hover:border-[#001a4a] hover:shadow-xs transition">
+                            <h3 className="text-base font-bold text-[#001a4a]">Household Budget Calculator</h3>
+                            <p className="mt-1 text-xs text-slate-600">Allocate salary across essential bills, rations, savings, and surplus/deficit buffers.</p>
+                        </Link>
+                        <Link href="/tools/solar-net-metering-roi-calculator" className="block rounded-xl border border-slate-200 p-4 hover:border-[#001a4a] hover:shadow-xs transition">
+                            <h3 className="text-base font-bold text-[#001a4a]">Solar ROI & Net Metering</h3>
+                            <p className="mt-1 text-xs text-slate-600">Simulate gross solar generation, NEPRA buyback credits, battery degradation, and payback.</p>
+                        </Link>
+                        <Link href="/tools/school-fees-planner" className="block rounded-xl border border-slate-200 p-4 hover:border-[#001a4a] hover:shadow-xs transition">
+                            <h3 className="text-base font-bold text-[#001a4a]">School Fees Planner</h3>
+                            <p className="mt-1 text-xs text-slate-600">Model annual tuition escalation, transport, and term-start admissions overhead.</p>
+                        </Link>
+                    </div>
+                </section>
+
+                {/* Section: Author and Editorial Review */}
+                <AuthorEditorialBlock
+                    authorName="Mohsin Raza"
+                    authorRole="Founder & Software Architect (16+ Years Experience)"
+                    lastUpdated="September 2026"
+                />
 
                 {/* Section: CTA */}
                 <section className="rounded-2xl bg-gradient-to-br from-[#001a4a] to-[#1c4aa6] text-white p-8 text-center space-y-4 shadow-md">

@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Send a concise manual-review alert when PakWheels fuel prices drift materially from stored fallback fuel records. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
@@ -17,8 +18,7 @@ class FuelPriceDiscrepancyAlertMail extends Mailable
         public readonly array $discrepancies,
         public readonly string $sourceUrl,
         public readonly CarbonInterface $checkedAt,
-    ) {
-    }
+    ) {}
 
     public function build(): self
     {

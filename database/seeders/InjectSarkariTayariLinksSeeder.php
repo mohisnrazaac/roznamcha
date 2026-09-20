@@ -27,9 +27,9 @@ class InjectSarkariTayariLinksSeeder extends Seeder
             if ($post && ! str_contains($post->content, 'sarkaritayari.pk')) {
                 // If the post ends with </article>, insert before closing tag
                 if (str_contains($post->content, '</article>')) {
-                    $post->content = str_replace('</article>', "\n  " . $paragraphA . "\n</article>", $post->content);
+                    $post->content = str_replace('</article>', "\n  ".$paragraphA."\n</article>", $post->content);
                 } else {
-                    $post->content = rtrim($post->content) . "\n" . $paragraphA;
+                    $post->content = rtrim($post->content)."\n".$paragraphA;
                 }
                 $post->save();
                 $this->command?->info("Injected Paragraph A into: {$slug}");
@@ -47,9 +47,9 @@ class InjectSarkariTayariLinksSeeder extends Seeder
             $post = BlogPost::where('slug', $slug)->first();
             if ($post && ! str_contains($post->content, 'sarkaritayari.pk')) {
                 if (str_contains($post->content, '</article>')) {
-                    $post->content = str_replace('</article>', "\n  " . $paragraphB . "\n</article>", $post->content);
+                    $post->content = str_replace('</article>', "\n  ".$paragraphB."\n</article>", $post->content);
                 } else {
-                    $post->content = rtrim($post->content) . "\n" . $paragraphB;
+                    $post->content = rtrim($post->content)."\n".$paragraphB;
                 }
                 $post->save();
                 $this->command?->info("Injected Paragraph B into: {$slug}");

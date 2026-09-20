@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\PublicTools;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\BuildsPublicSeo;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -20,6 +20,25 @@ class MonthlyHouseholdBudgetCalculatorController extends Controller
         $activation = $this->resolveActivationState($request, 'monthly_household_budget_calculator');
         $seo = $this->publicSeo('monthlyHouseholdBudgetCalculator');
 
+        $faqItems = [
+            [
+                'question' => 'What is a normal savings rate for a Pakistani household?',
+                'answer' => 'Due to recent high inflation, many middle-income households in Pakistan experience a very tight budget with a savings rate below 10%. A target of 15% is ideal but requires strict allocation of variable expenses like utilities and transport.',
+            ],
+            [
+                'question' => 'How can I reduce variable household expenses in Pakistan?',
+                'answer' => 'Focus on progressive slab management for electricity (staying below 200 or 300 units), buying monthly grocery items in bulk from wholesale markets instead of neighborhood shops, and consolidating transit trips to reduce fuel costs.',
+            ],
+            [
+                'question' => 'Can I use this budget planner without signing up?',
+                'answer' => 'Yes. The Monthly Household Budget Calculator works fully in guest mode. You only need to create a free account if you wish to persist your budget snapshot, compare it against live market updates, and get automated alerts.',
+            ],
+            [
+                'question' => 'How should I prioritize expenses if running a monthly deficit?',
+                'answer' => 'Prioritize non-negotiable survival obligations first: housing rent, basic dry ration staples, and keeping electricity consumption below the next slab threshold. Audit discretionary medical/misc buffers and vehicle fuel trips before borrowing.',
+            ],
+        ];
+
         return Inertia::render('Public/Tools/MonthlyHouseholdBudgetCalculator', [
             'defaults' => [
                 'monthly_income' => (float) ($activation['inputs']['monthly_income'] ?? $config['defaults']['monthly_income'] ?? 85000),
@@ -32,7 +51,11 @@ class MonthlyHouseholdBudgetCalculatorController extends Controller
             ],
             'activationPrefill' => $activation,
             'seo' => $seo,
-            'jsonLd' => $this->publicWebPageSchema($seo),
+            'faqItems' => $faqItems,
+            'jsonLd' => $this->publicToolGraphSchema($seo, $faqItems, [
+                'name' => 'Monthly Household Budget Calculator Pakistan',
+                'description' => $seo['description'],
+            ]),
         ]);
     }
 
@@ -48,16 +71,16 @@ class MonthlyHouseholdBudgetCalculatorController extends Controller
             'misc' => ['required', 'numeric', 'min:0'],
         ]);
 
-        $totalExpenses = $validated['rent'] 
-            + $validated['ration'] 
-            + $validated['utilities'] 
-            + $validated['education'] 
-            + $validated['transport'] 
+        $totalExpenses = $validated['rent']
+            + $validated['ration']
+            + $validated['utilities']
+            + $validated['education']
+            + $validated['transport']
             + $validated['misc'];
 
         $surplusDeficit = $validated['monthly_income'] - $totalExpenses;
-        $savingsRate = $validated['monthly_income'] > 0 
-            ? ($surplusDeficit / $validated['monthly_income']) * 100 
+        $savingsRate = $validated['monthly_income'] > 0
+            ? ($surplusDeficit / $validated['monthly_income']) * 100
             : 0;
 
         return response()->json([

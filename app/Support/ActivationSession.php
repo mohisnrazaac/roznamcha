@@ -9,7 +9,9 @@ use Illuminate\Support\Str;
 class ActivationSession
 {
     public const RETURN_KEY = 'activation.return';
+
     public const COMPLETE_KEY = 'activation.complete';
+
     public const PREFILL_KEY = 'activation.prefill';
 
     public static function rememberReturn(Request $request, ?string $target, string $fallback = '/onboarding'): string

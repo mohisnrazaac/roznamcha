@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Store fallback source fuel prices by city and fuel type for SEO backup and auditing. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Models;

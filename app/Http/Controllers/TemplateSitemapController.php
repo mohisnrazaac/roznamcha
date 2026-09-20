@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Publish a discovery-safe template sitemap that advertises only the approved template index page. Date: 2026-03-27. Author: Codex.
 
 namespace App\Http\Controllers;
@@ -10,9 +11,7 @@ use Illuminate\Support\Facades\Cache;
 
 class TemplateSitemapController extends Controller
 {
-    public function __construct(private readonly SearchSurfacePolicy $searchSurfacePolicy)
-    {
-    }
+    public function __construct(private readonly SearchSurfacePolicy $searchSurfacePolicy) {}
 
     public function show(): Response
     {

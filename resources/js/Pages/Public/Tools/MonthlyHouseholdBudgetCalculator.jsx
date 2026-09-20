@@ -1,11 +1,12 @@
 import React from 'react';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
 import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import SeoHead from '../../../Components/SeoHead';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
+import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -64,7 +65,7 @@ const budgetScenarios = [
     }
 ];
 
-const faqItems = [
+const defaultFaqItems = [
     {
         question: 'What is a normal savings rate for a Pakistani household?',
         answer: 'Due to recent high inflation, many middle-income households in Pakistan experience a very tight budget with a savings rate below 10%. A target of 15% is ideal but requires strict allocation of variable expenses like utilities and transport.',
@@ -76,33 +77,14 @@ const faqItems = [
     {
         question: 'Can I use this budget planner without signing up?',
         answer: 'Yes. The Monthly Household Budget Calculator works fully in guest mode. You only need to create a free account if you wish to persist your budget snapshot, compare it against live market updates, and get automated alerts.',
-    }
+    },
+    {
+        question: 'How should I prioritize expenses if running a monthly deficit?',
+        answer: 'Prioritize non-negotiable survival obligations first: housing rent, basic dry ration staples, and keeping electricity consumption below the next slab threshold. Audit discretionary medical/misc buffers and vehicle fuel trips before borrowing.',
+    },
 ];
 
-const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-            '@type': 'Answer',
-            text: faq.answer,
-        },
-    })),
-};
-
-const calculatorJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Monthly Household Budget Calculator',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    url: 'https://roznamcha.pk/tools/monthly-household-budget-calculator',
-    description: 'Guest-mode monthly household budget calculator to estimate monthly rent, ration, utilities, education, transport, and miscellaneous costs in Pakistan.',
-};
-
-export default function MonthlyHouseholdBudgetCalculator({ defaults, activationPrefill, seo: seoProp, jsonLd: jsonLdProp }) {
+export default function MonthlyHouseholdBudgetCalculator({ defaults, activationPrefill, faqItems: faqItemsProp, seo: seoProp, jsonLd: jsonLdProp }) {
     const seo = seoProp ?? {
         title: 'Monthly Household Budget Calculator Pakistan – Ghar ka budget planner | Roznamcha',
         description: 'Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.',
@@ -110,6 +92,7 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
         canonical: 'https://roznamcha.pk/tools/monthly-household-budget-calculator'
     };
     const pageSchema = jsonLdProp ?? buildWebPageSchema(seo);
+    const activeFaqItems = faqItemsProp ?? defaultFaqItems;
     const { auth } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);
     const prefilledInputs = activationPrefill?.inputs ?? {};
@@ -203,18 +186,7 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
             description="Guest mode Pakistan household budget planner with localized category splits, visual share breakdown, and budget health signals."
         >
             <SeoHead {...seo} jsonLd={pageSchema} />
-            <Head>
-                <script
-                    key="budget-calculator-faq-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-                />
-                <script
-                    key="budget-calculator-app-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorJsonLd) }}
-                />
-            </Head>
+
 
 
 
@@ -436,54 +408,94 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
             {/* SECTION B: Rich text/HTML container optimized for SEO reading */}
             <hr className="my-10 border-slate-200" />
 
-            <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-6">
-                <div>
-                    <h2 className="text-2xl font-bold text-[#001a4a]">Understanding Monthly Budgeting in Pakistan</h2>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                        Managing a household budget in Pakistan requires navigating a mix of fixed structural commitments and highly volatile variable expenses. Under recent economic pressures and shifting inflation trends, maintaining a strict record of where your rupee goes is no longer optional—it is the baseline for financial stability. This guide explores the core categories that drive household spending and offers practical ways to optimize them.
+            {/* Semantic Editorial Scaffolding Section */}
+            <article className="mt-12 bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-8 shadow-sm">
+                <header className="space-y-2 border-b border-slate-100 pb-4">
+                    <p className="text-xs uppercase tracking-[0.35em] text-[#8c5a00] font-semibold">Editorial Documentation</p>
+                    <h2 className="text-2xl font-bold text-[#001a4a]">Household Budget Allocation Model & Economic Baseline</h2>
+                    <p className="text-sm text-slate-600">
+                        A detailed review of how household income is modeled against essential Pakistani expense categories, surplus/deficit dynamics, and actionable balancing techniques.
                     </p>
-                </div>
+                </header>
 
-                <div className="border-t border-slate-100 pt-6">
-                    <h3 className="text-xl font-bold text-[#001a4a]">How to Manage Rent and Variable Utility Cost-Fluctuations</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                        For renting families in urban centers like Karachi, Lahore, and Islamabad, house rent represents the largest fixed commitment, typically swallowing 25% to 40% of net monthly income. 
+                {/* Part 1: Methodology & Calculation Mechanics */}
+                <section className="space-y-3">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Methodology & Calculation Mechanics</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        The calculator aggregates your monthly net income against 6 primary expenditure categories:
+                        <code className="mx-1 rounded bg-slate-100 px-2 py-0.5 text-xs font-semibold text-[#001a4a]">Total Expenses = Rent + Ration + Utilities + Education + Transport + Miscellaneous</code>.
+                        Surplus or Deficit is calculated as <code className="mx-1 rounded bg-slate-100 px-2 py-0.5 text-xs font-semibold text-[#001a4a]">Monthly Income - Total Expenses</code>, and the Savings Rate equals <code className="mx-1 rounded bg-slate-100 px-2 py-0.5 text-xs font-semibold text-[#001a4a]">(Surplus / Monthly Income) × 100</code>.
+                        Each category's percentage share is computed to highlight budget disproportion relative to standard urban middle-class baselines.
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">
-                        Utilities, however, are highly variable and present the greatest risk of budget derailment. Electricity bills in Pakistan need to be checked against the current DISCO tariff, taxes, fixed charges, and billing rules in force for the relevant month. A household should track meter readings and heavy-usage periods instead of relying on a generic threshold claim alone.
+                    <p className="text-sm leading-7 text-slate-700">
+                        To drill down into specific cost drivers, cross-check your grocery basket with our{' '}
+                        <Link href="/tools/ration-cost-estimator" className="font-semibold text-[#001a4a] underline">
+                            Ration Cost Estimator
+                        </Link>
+                        , simulate power tariff brackets with our{' '}
+                        <Link href="/tools/electricity-bill-estimator" className="font-semibold text-[#001a4a] underline">
+                            Electricity Bill Estimator
+                        </Link>
+                        , or plan school fees using our{' '}
+                        <Link href="/tools/school-fees-planner" className="font-semibold text-[#001a4a] underline">
+                            School Fees Planner
+                        </Link>.
                     </p>
-                </div>
+                </section>
 
-                <div className="border-t border-slate-100 pt-6">
-                    <h3 className="text-xl font-bold text-[#001a4a]">Optimizing Ration Baskets and Educational Expenses</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                        Grocery bills (or kitchen ration) are highly vulnerable to localized price fluctuations. Flour (atta), cooking oil/ghee, sugar, rice, and pulses are staple drivers of this expense. A family should compare wholesale, neighborhood, and supermarket pricing based on current local availability instead of assuming a subsidy or a single government-backed source is still active.
+                {/* Part 2: Underlying Data Baseline & Assumptions */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline & Economic Assumptions</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        Traditional international budgeting benchmarks (like the 50/30/20 rule) assume moderate inflation and low fixed housing shares. In Pakistan, economic baseline conditions differ sharply: rent in major urban hubs (Karachi, Lahore, Islamabad) typically consumes 30% to 40% of net middle-class earnings, while groceries and utilities account for another 40% to 50%, compressing discretionary savings to under 10% for unoptimized households.
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">
-                        Education represents a non-negotiable cost for most parents. However, many budgets break because parents only prepare for monthly tuition fees, ignoring seasonal costs like annual charges, registration, books, uniforms, and exam fees. Amortizing these annual charges into a monthly savings reserve prevents sudden cost pressures from breaking your budget.
+                    <p className="text-sm leading-7 text-slate-700">
+                        To see full details on our inflation baselines and economic data sources, visit our{' '}
+                        <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
+                            Methodology & Data Sources
+                        </Link>{' '}
+                        page.
                     </p>
-                </div>
+                </section>
 
-                <div className="border-t border-slate-100 pt-6">
-                    <h3 className="text-xl font-bold text-[#001a4a]">Actionable Strategies for Running a Budget Surplus</h3>
-                    <ul className="mt-3 space-y-3 text-sm leading-7 text-slate-600 list-disc pl-5">
-                        <li><strong>Track and Categorize:</strong> Log every single expense. Uncategorized cash withdrawals represent the single biggest source of budget leakage.</li>
-                        <li><strong>Stay Under Key Utility Slabs:</strong> Target consumption thresholds (e.g. keeping your electricity consumption strictly below 300 units per month) to avoid punitive tariff brackets.</li>
-                        <li><strong>Amortize Seasonal Expenses:</strong> Build dedicated savings vaults for yearly fees, Eid shopping, and vehicle maintenance, rather than funding them out of current salary.</li>
-                        <li><strong>Adopt the 50/30/20 Rule with Local Tweaks:</strong> Aim to allocate 50% for absolute needs (rent, basic ration, utilities), 30% for variable desires and education, and target a 20% savings buffer for emergency liquidity.</li>
+                {/* Part 3: Practical Application Guide */}
+                <section className="space-y-3 border-t border-slate-100 pt-6">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Practical Application Guide: Restoring a Budget Surplus</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                        If your budget indicates a deficit or a savings rate below 10%, execute these tactical adjustments:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-sm leading-7 text-slate-700">
+                        <li>
+                            <strong>Cap Discretionary Kharcha First:</strong> Dine-outs, online food delivery apps, and impromptu ride-hailing represent the most flexible expense leaks. Curtailing them provides immediate cash liquidity.
+                        </li>
+                        <li>
+                            <strong>Manage Utility Slabs Defensively:</strong> Electricity slab management and fuel route optimization can recover Rs. 8,000 to Rs. 15,000 monthly without compromising family well-being.
+                        </li>
+                        <li>
+                            <strong>Build a 3-Month Emergency Liquidity Vault:</strong> Direct any surplus into a dedicated, liquid savings fund before allocating money to lifestyle upgrades.
+                        </li>
                     </ul>
-                </div>
-            </section>
+                </section>
 
-            <section className="mt-8 bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-                <h2 className="text-xl font-semibold text-[#001a4a]">Frequently Asked Questions (FAQs)</h2>
-                {faqItems.map((faq) => (
-                    <div key={faq.question} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
-                        <h3 className="font-semibold text-slate-800">{faq.question}</h3>
-                        <p className="text-sm text-slate-600 mt-1">{faq.answer}</p>
+                {/* Part 4: Frequently Asked Questions */}
+                <section className="border-t border-slate-100 pt-6 space-y-4">
+                    <h3 className="text-xl font-bold text-[#001a4a]">Frequently Asked Questions</h3>
+                    <div className="space-y-4">
+                        {activeFaqItems.map((faq) => (
+                            <div key={faq.question} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                                <h4 className="font-semibold text-[#001a4a]">{faq.question}</h4>
+                                <p className="mt-1 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </section>
+                </section>
+
+                <AuthorEditorialBlock
+                    authorName="Mohsin Raza"
+                    authorRole="Founder & Software Architect (16+ Years Experience)"
+                    lastUpdated="September 2026"
+                />
+            </article>
 
                 <RelatedLinksBlock
                 relatedTools={[]}

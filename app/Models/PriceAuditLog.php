@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Persist fuel-source comparison checks and discrepancy thresholds for manual review. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Models;

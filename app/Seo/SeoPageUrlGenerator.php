@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Centralize backend URL generation for programmatic SEO pages so linking never hardcodes slug patterns. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;

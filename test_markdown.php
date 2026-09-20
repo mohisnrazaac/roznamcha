@@ -1,8 +1,10 @@
 <?php
+
 require __DIR__.'/vendor/autoload.php';
 $app = require __DIR__.'/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 use Illuminate\Support\Str;
+
 $input = <<<'EOT'
 If you are running a household in Pakistan today, you already know the truth. Income stays mostly the same while expenses quietly grow every month. Grocery bills jump without warning. Electricity units cost more than last year. School fees increase once or twice a year. Fuel prices change faster than salaries. This is not poor planning. This is the economic reality most Pakistani families are living in.
 

@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Verify the patched Daily Snapshot service can parse the live World Bank, PBS, and currency feed shapes. Date: 2026-03-28. Author: Codex.
 
 namespace Tests\Feature;

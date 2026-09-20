@@ -18,8 +18,7 @@ class ContactController extends Controller
 {
     public function __construct(
         private readonly SeoPageUrlGenerator $urlGenerator,
-    ) {
-    }
+    ) {}
 
     public function show(Request $request): Response
     {

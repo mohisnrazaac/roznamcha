@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Create persisted smart budget templates and seed starter catalog records. Date: 2026-03-27. Author: Codex.
 
 use Illuminate\Database\Migrations\Migration;

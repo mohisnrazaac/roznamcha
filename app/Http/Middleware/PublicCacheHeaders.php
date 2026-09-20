@@ -14,6 +14,7 @@ class PublicCacheHeaders
         if ($request->isMethod('GET') && $response->isSuccessful()) {
             $response->headers->set('Cache-Control', 'public, max-age=3600, s-maxage=3600');
         }
+
         return $response;
     }
 }

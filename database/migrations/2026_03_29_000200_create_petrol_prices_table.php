@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Persist city-level scraped fuel prices from fallback sources without touching the SEO snapshot table. Date: 2026-03-29. Author: Mohsin.
 
 use Illuminate\Database\Migrations\Migration;

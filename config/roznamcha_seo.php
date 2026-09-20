@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Define programmatic SEO page dimensions, freshness defaults, and cache settings for public landing pages. Date: 2026-03-29. Author: Mohsin.
 
 return [

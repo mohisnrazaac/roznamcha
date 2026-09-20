@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Generate and cache smart budget template JSON with strict cost control. Date: 2026-03-27. Author: Codex.
 
 namespace App\TemplateServices;

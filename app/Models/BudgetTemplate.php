@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Represent smart budget template catalog entries with persisted AI output. Date: 2026-03-27. Author: Codex.
 
 namespace App\Models;

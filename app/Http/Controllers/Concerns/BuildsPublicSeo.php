@@ -132,7 +132,7 @@ trait BuildsPublicSeo
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.school-fees-planner'),
                 'image' => $defaultImage,
                 'keywords' => ['school fees planner Pakistan', 'school fee calculator PKR', 'tuition budget planner', 'household education costs', 'Pakistan school fee inflation'],
-                'type' => 'article',
+                'type' => 'website',
                 'schemaName' => 'School Fees Planner',
             ],
             'electricityBillEstimator' => [
@@ -142,7 +142,7 @@ trait BuildsPublicSeo
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.electricity-bill-estimator'),
                 'image' => $defaultImage,
                 'keywords' => ['electricity bill estimator Pakistan', 'units to bill calculator', 'WAPDA slab calculator', 'electricity tariff comparison', 'household utility planning'],
-                'type' => 'article',
+                'type' => 'website',
                 'schemaName' => 'Electricity Bill Estimator',
             ],
             'solarRoiCalculator' => [
@@ -152,7 +152,7 @@ trait BuildsPublicSeo
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.solar-net-metering-roi-calculator'),
                 'image' => $defaultImage,
                 'keywords' => ['solar roi calculator Pakistan', 'solar net metering calculator', 'NEPRA buyback rate', 'solar payback period Pakistan', 'LiFePO4 vs tubular battery cost'],
-                'type' => 'article',
+                'type' => 'website',
                 'schemaName' => 'Solar Net Metering & ROI Calculator',
             ],
             'rationCostEstimator' => [
@@ -162,7 +162,7 @@ trait BuildsPublicSeo
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.ration-cost-estimator'),
                 'image' => $defaultImage,
                 'keywords' => ['ration cost estimator Pakistan', 'grocery budget calculator PKR', 'monthly ration planner', 'Pakistan household grocery costs', 'atta rice oil budget'],
-                'type' => 'article',
+                'type' => 'website',
                 'schemaName' => 'Ration Cost Estimator',
             ],
             'expenseTrackerPakistan' => [
@@ -182,8 +182,28 @@ trait BuildsPublicSeo
                 'canonical' => $this->publicUrlGenerator()->routeUrl('public.tools.monthly-household-budget-calculator'),
                 'image' => $defaultImage,
                 'keywords' => ['monthly household budget calculator Pakistan', 'ghar ka budget calculator PKR', 'monthly budget planner', 'Pakistan household expense tracker', 'salary planning Pakistan'],
-                'type' => 'article',
+                'type' => 'website',
                 'schemaName' => 'Monthly Household Budget Calculator',
+            ],
+            'editorialPolicy' => [
+                'title' => 'Editorial Policy & Review Standards | Roznamcha',
+                'description' => 'Learn how Roznamcha verifies Pakistani inflation data, utility tariffs, and household budgeting methodologies with transparency and editorial independence.',
+                'url' => $this->publicUrlGenerator()->routeUrl('public.editorial-policy'),
+                'canonical' => $this->publicUrlGenerator()->routeUrl('public.editorial-policy'),
+                'image' => $defaultImage,
+                'keywords' => ['Roznamcha editorial policy', 'Pakistan financial publishing standards', 'methodology verification', 'household budget research'],
+                'type' => 'website',
+                'schemaName' => 'Editorial Policy & Review Standards',
+            ],
+            'methodology' => [
+                'title' => 'Methodology & Sources – Data Baseline Tracking | Roznamcha',
+                'description' => 'Understand how Roznamcha models electricity tariff slabs, ration grocery baskets, solar net metering ROI, and school fee amortizations for Pakistani households.',
+                'url' => $this->publicUrlGenerator()->routeUrl('public.methodology'),
+                'canonical' => $this->publicUrlGenerator()->routeUrl('public.methodology'),
+                'image' => $defaultImage,
+                'keywords' => ['Roznamcha methodology', 'Pakistan utility tariff tracking', 'grocery price index data', 'solar roi formulas', 'NEPRA slab calculation sources'],
+                'type' => 'website',
+                'schemaName' => 'Methodology & Data Baseline Sources',
             ],
             'login' => [
                 'title' => 'Login to Roznamcha | Household Expense & Budget Tracker',
@@ -233,6 +253,57 @@ trait BuildsPublicSeo
             'isPartOf' => [
                 '@id' => "{$siteUrl}#website",
             ],
+        ];
+    }
+
+    protected function publicToolGraphSchema(array $seo, array $faqItems = [], ?array $webAppExtra = null): array
+    {
+        $pageUrl = rtrim((string) ($seo['url'] ?? $this->publicUrlGenerator()->baseUrl()), '/');
+        $siteUrl = $this->publicUrlGenerator()->baseUrl();
+
+        $graph = [
+            [
+                '@type' => 'WebPage',
+                '@id' => "{$pageUrl}#webpage",
+                'name' => $seo['schemaName'] ?? $seo['title'] ?? 'Roznamcha',
+                'url' => $pageUrl,
+                'description' => $seo['description'] ?? '',
+                'inLanguage' => $seo['inLanguage'] ?? 'en',
+                'isPartOf' => [
+                    '@id' => "{$siteUrl}#website",
+                ],
+            ],
+            [
+                '@type' => 'WebApplication',
+                '@id' => "{$pageUrl}#software",
+                'name' => $webAppExtra['name'] ?? ($seo['schemaName'] ?? $seo['title'] ?? 'Roznamcha Tool'),
+                'applicationCategory' => $webAppExtra['applicationCategory'] ?? 'FinanceApplication',
+                'operatingSystem' => 'Any',
+                'url' => $pageUrl,
+                'description' => $webAppExtra['description'] ?? ($seo['description'] ?? ''),
+            ],
+        ];
+
+        if (! empty($faqItems)) {
+            $graph[] = [
+                '@type' => 'FAQPage',
+                '@id' => "{$pageUrl}#faq",
+                'mainEntity' => array_map(function ($faq) {
+                    return [
+                        '@type' => 'Question',
+                        'name' => $faq['question'],
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => $faq['answer'],
+                        ],
+                    ];
+                }, $faqItems),
+            ];
+        }
+
+        return [
+            '@context' => 'https://schema.org',
+            '@graph' => $graph,
         ];
     }
 

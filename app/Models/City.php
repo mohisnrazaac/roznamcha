@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Represent fuel-scraper city records used for slug-based source matching. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Models;

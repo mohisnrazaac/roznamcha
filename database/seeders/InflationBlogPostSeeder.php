@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\BlogPost;
 use App\Models\BlogCategory;
+use App\Models\BlogPost;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class InflationBlogPostSeeder extends Seeder
 {
@@ -17,15 +17,15 @@ class InflationBlogPostSeeder extends Seeder
     public function run()
     {
         $user = User::where('email', 'admin@roznamcha.pk')->first() ?? User::first();
-        
+
         $category = BlogCategory::firstOrCreate(
             ['slug' => 'household-budgeting'],
             ['name' => 'Household Budgeting']
         );
-        
+
         $slug = 'pakistan-inflation-9-2-percent-july-2026-household-budget';
-        
-        $content = <<<MD
+
+        $content = <<<'MD'
 # Pakistan’s Inflation Hits 9.2% in July 2026 – What It Means for Your Household Budget
 
 When the Pakistan Bureau of Statistics (PBS) releases its monthly data, most Pakistani households react with a mix of confusion and skepticism. If you read the headlines recently, you might have seen the news: **Annual inflation in Pakistan fell to 9.2% in July 2026.** 
@@ -139,11 +139,11 @@ MD;
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ];
-        
+
         $post = BlogPost::updateOrCreate(['slug' => $slug], $postData);
-        
+
         $post->categories()->sync([$category->id]);
-        
+
         if (method_exists(BlogPost::class, 'forgetPublicSitemapCache')) {
             BlogPost::forgetPublicSitemapCache();
         }

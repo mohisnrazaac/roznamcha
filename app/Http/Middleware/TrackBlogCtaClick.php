@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TrackBlogCtaClick
 {
-    public function __construct(private EventRecorder $events)
-    {
-    }
+    public function __construct(private EventRecorder $events) {}
 
     public function handle(Request $request, Closure $next): Response
     {

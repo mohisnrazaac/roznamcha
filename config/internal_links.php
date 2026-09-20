@@ -64,12 +64,6 @@ return [
             'route_params' => ['slug' => 'pakistani-family-monthly-expense-control'],
             'description' => 'Read a practical control guide that focuses on tradeoffs families can actually live with.',
         ],
-        'pakistan-sovereign-cloud-ai-trade-ecosystem-2026' => [
-            'title' => 'Pakistan Sovereign Cloud & AI Trade Ecosystem (2026)',
-            'route_name' => 'public.blog.show',
-            'route_params' => ['slug' => 'pakistan-sovereign-cloud-ai-trade-ecosystem-2026'],
-            'description' => 'Explore how sovereign cloud, local data residency, and AI infrastructure are reshaping trade and digital finance in Pakistan.',
-        ],
     ],
 
     'defaults' => [
@@ -83,7 +77,7 @@ return [
             'ghar-ka-monthly-budget',
             'pakistani-family-monthly-expense-control',
             'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',
-            'pakistan-sovereign-cloud-ai-trade-ecosystem-2026',
+            'best-monthly-budget-50000-salary-pakistan-2026',
         ],
     ],
 
@@ -120,7 +114,6 @@ return [
             'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025' => ['expense-tracker-pakistan', 'ration-cost-estimator', 'ration-brain', 'kharcha-map'],
             'best-monthly-budget-50000-salary-pakistan-2026' => ['expense-tracker-pakistan', 'kharcha-map', 'survival-report', 'ration-cost-estimator'],
             'pakistani-family-monthly-expense-control' => ['expense-tracker-pakistan', 'kharcha-map', 'survival-report', 'ration-cost-estimator'],
-            'pakistan-sovereign-cloud-ai-trade-ecosystem-2026' => ['expense-tracker-pakistan', 'kharcha-map', 'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025'],
         ],
     ],
 ];

@@ -14,7 +14,7 @@ class RationCostEstimatorPageTest extends TestCase
         $response->assertOk();
         $response->assertSee('<title inertia>Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha</title>', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicRouteUrl('public.tools.ration-cost-estimator').'" inertia="canonical"', false);
-        $response->assertDontSee('"@type":"FAQPage"', false);
+        $this->assertSame(1, substr_count($response->getContent(), '"@type":"FAQPage"'));
         $response->assertDontSee('Use the buffered number when you want a safer month-end target for volatile price periods.', false);
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Public/Tools/RationCostEstimator')

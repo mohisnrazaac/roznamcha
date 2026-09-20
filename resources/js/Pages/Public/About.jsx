@@ -69,18 +69,23 @@ export default function About({ seo, jsonLd, contactEmail = 'support@roznamcha.p
                 </section>
 
                 <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">Editorial approach</h2>
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">Editorial approach & Standards</h2>
                     <p className="text-base text-slate-700">
-                        Roznamcha content is written and reviewed with a practical, Pakistan-first lens. Articles and page updates may use public data,
-                        market observation, product experience, and manual research to explain household budgeting issues in plain terms.
+                        Roznamcha content is written and reviewed with a practical, Pakistan-first lens. Articles and calculator logic are grounded in official public data (PBS, NEPRA, SBP, FBR), market observation, and manual research to explain household budgeting issues in plain terms.
                     </p>
                     <p className="text-base text-slate-700">
-                        Content is for informational purposes only. It is not personal financial advice, legal advice, tax advice, or a substitute for
-                        professional guidance tailored to your situation.
+                        To maintain rigorous trust standards, read our detailed{' '}
+                        <Link href={route('public.editorial-policy')} className="font-semibold text-[#001a4a] underline">
+                            Editorial Policy
+                        </Link>{' '}
+                        and review the specific mathematical models and data sources documented in our{' '}
+                        <Link href={route('public.methodology')} className="font-semibold text-[#001a4a] underline">
+                            Methodology & Sources
+                        </Link>{' '}
+                        page.
                     </p>
                     <p className="text-base text-slate-700">
-                        We update content when tools change, when the local market shifts materially, or when a page needs clearer context for Pakistani
-                        households trying to make better day-to-day decisions.
+                        Content is for informational and educational planning purposes only. It is not personal financial advice, legal advice, tax advice, or a substitute for professional guidance tailored to your situation.
                     </p>
                 </section>
 
@@ -121,7 +126,15 @@ export default function About({ seo, jsonLd, contactEmail = 'support@roznamcha.p
                         page.
                     </p>
                     <p>
-                        For direct questions, use the{' '}
+                        For questions regarding calculation methods, browse our{' '}
+                        <Link href={route('public.methodology')} className="underline hover:no-underline">
+                            Methodology & Sources
+                        </Link>{' '}
+                        or read our{' '}
+                        <Link href={route('public.editorial-policy')} className="underline hover:no-underline">
+                            Editorial Policy
+                        </Link>
+                        . For direct questions, use the{' '}
                         <Link href={route('public.contact')} className="underline hover:no-underline">
                             contact page
                         </Link>{' '}

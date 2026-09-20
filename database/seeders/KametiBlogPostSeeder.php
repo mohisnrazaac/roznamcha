@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\BlogPost;
 use App\Models\BlogCategory;
+use App\Models\BlogPost;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class KametiBlogPostSeeder extends Seeder
 {
@@ -17,15 +17,15 @@ class KametiBlogPostSeeder extends Seeder
     public function run()
     {
         $user = User::where('email', 'admin@roznamcha.pk')->first() ?? User::first();
-        
+
         $category = BlogCategory::firstOrCreate(
             ['slug' => 'household-budgeting'],
             ['name' => 'Household Budgeting']
         );
-        
+
         $slug = 'kameti-vs-mutual-funds-inflation-pakistan';
-        
-        $content = <<<MD
+
+        $content = <<<'MD'
 # Kameti (BC) vs Islamic Mutual Funds & Gold: Is Your Committee Still Protecting Your Savings?
 
 Ask any Pakistani household how they bought their first motorcycle, paid for a sister’s wedding dowry, or renovated their kitchen, and nine out of ten will give you the same answer: **"Kameti daali hui thi."**
@@ -103,11 +103,11 @@ MD;
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ];
-        
+
         $post = BlogPost::updateOrCreate(['slug' => $slug], $postData);
-        
+
         $post->categories()->sync([$category->id]);
-        
+
         if (method_exists(BlogPost::class, 'forgetPublicSitemapCache')) {
             BlogPost::forgetPublicSitemapCache();
         }

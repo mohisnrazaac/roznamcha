@@ -15,9 +15,7 @@ class SendReminderEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public int $reminderId)
-    {
-    }
+    public function __construct(public int $reminderId) {}
 
     public function handle(): void
     {

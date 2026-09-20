@@ -17,8 +17,7 @@ class BlogPublicController extends Controller
 {
     public function __construct(
         private readonly SeoPageUrlGenerator $urlGenerator,
-    ) {
-    }
+    ) {}
 
     public function index(Request $request): Response
     {
@@ -126,11 +125,13 @@ class BlogPublicController extends Controller
             'image' => $post->og_image_url,
             'type' => 'article',
             'robots' => BlogPost::shouldNoindexPublicSlug($post->slug) ? 'noindex,follow' : 'index,follow',
+            'datePublished' => optional($post->published_at)->toIso8601String(),
+            'dateModified' => optional($post->updated_at)->toIso8601String(),
         ];
 
         $jsonLd = [
             '@context' => 'https://schema.org',
-            '@type' => 'BlogPosting',
+            '@type' => 'Article',
             'headline' => $headline,
             'description' => $description,
             'datePublished' => optional($post->published_at)->toIso8601String(),

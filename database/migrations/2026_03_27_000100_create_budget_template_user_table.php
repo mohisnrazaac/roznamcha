@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Track saved budget templates and premium unlock state per user household. Date: 2026-03-27. Author: Codex.
 
 use Illuminate\Database\Migrations\Migration;

@@ -11,7 +11,7 @@ class BlogArchiveBatchFixesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testItAppliesOnlySafeSharedBlogCleanupPatterns(): void
+    public function test_it_applies_only_safe_shared_blog_cleanup_patterns(): void
     {
         $titlePost = BlogPost::factory()->published()->create([
             'title' => 'Basant 2026 in Lahore: Prices, Costs, and Household Impact',

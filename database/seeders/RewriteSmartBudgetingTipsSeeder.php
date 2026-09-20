@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\BlogPost;
+use Illuminate\Database\Seeder;
 
 class RewriteSmartBudgetingTipsSeeder extends Seeder
 {
     public function run()
     {
         $slug = 'smart-household-budgeting-tips';
-        
-        $content = <<<MD
+
+        $content = <<<'MD'
 # Smart Household Budgeting Tips for Pakistani Families in 2026
 
 If you search for budgeting tips online, you will inevitably find the classic "50/30/20 rule," advice on cutting back on subscriptions, and reminders to bring your own coffee to work. While this works in developed economies, applying these generic concepts to a middle-class Pakistani household in 2026 simply does not add up. 
@@ -84,7 +84,7 @@ MD;
                 'seo_description' => 'Master your household budget in Pakistan. Practical tips for managing grocery inflation, WAPDA utility slabs, fuel costs, and medical expenses.',
                 'seo_keywords' => 'budgeting tips pakistan, how to save money in pakistan, middle class budget pakistan, household expense management, reduce electricity bill pakistan',
             ]);
-            
+
             if (method_exists(BlogPost::class, 'forgetPublicSitemapCache')) {
                 BlogPost::forgetPublicSitemapCache();
             }

@@ -34,46 +34,46 @@ const firstClickPages = [
 
 const proofCards = [
     {
-        eyebrow: 'Approved flagship page',
+        eyebrow: 'Expense Tracker',
         title: 'Monthly Expense Tracker Pakistan',
         href: '/features/monthly-expense-tracker-pakistan',
         description: 'See how Pakistani households log daily kharcha, curb inflation leaks, and track monthly surplus.',
     },
     {
-        eyebrow: 'Approved flagship page',
+        eyebrow: 'Grocery Planning',
         title: 'Ration Cost Estimator',
         href: '/tools/ration-cost-estimator',
-        description: 'A stronger public utility page with methodology, examples, and honest planning guidance.',
+        description: 'Calculate monthly grocery basket expenses based on family size and market price averages.',
     },
     {
-        eyebrow: 'Public tool',
+        eyebrow: 'Household Budget',
         title: 'Monthly Household Budget Calculator',
         href: '/tools/monthly-household-budget-calculator',
-        description: 'Useful to get a high-level breakdown of all variable and fixed costs against your net monthly salary.',
+        description: 'Get a clear breakdown of all variable and fixed costs against your net monthly household income.',
     },
     {
-        eyebrow: 'Public tool',
+        eyebrow: 'Utility Planning',
         title: 'Electricity Bill Estimator',
         href: '/tools/electricity-bill-estimator',
-        description: 'Useful before a hot month, an appliance change, or a billing jump starts pushing the budget off course.',
+        description: 'Forecast residential electricity bills across tariff slabs before high-consumption months push the budget off course.',
     },
     {
-        eyebrow: 'Template preview',
+        eyebrow: 'Budget Template',
         title: '50k Salary Survival Guide',
         href: '/templates/50k-salary-survival-guide',
-        description: 'Shows what a tighter salary plan can look like without forcing users into sign-up first.',
+        description: 'Practical allocation breakdown showing how to manage essential expenses on a tighter monthly salary.',
     },
     {
-        eyebrow: 'Core product page',
+        eyebrow: 'Expense Breakdown',
         title: 'Kharcha Map',
         href: '/kharcha-map',
-        description: 'Explains how Roznamcha makes rent, ration, fees, transport, and daily leaks visible in one monthly picture.',
+        description: 'Visualize rent, groceries, school fees, utilities, and everyday expenses in a single monthly view.',
     },
     {
-        eyebrow: 'Core product page',
+        eyebrow: 'Financial Health',
         title: 'Survival Report',
         href: '/survival-report',
-        description: 'Explains how the app translates household numbers into a clearer month-end survival view.',
+        description: 'Review actual spending patterns at month-end to see whether your household maintained a surplus or deficit.',
     },
 ];
 
@@ -141,7 +141,7 @@ export default function Home({ featuredGuides = [], seo: seoProp, jsonLd: jsonLd
                             Roznamcha helps Pakistani households plan ration, school fees, electricity bills, and month-end survival with practical public pages.
                         </h1>
                         <p className="max-w-3xl text-base leading-7 text-yellow-100/90 sm:text-lg">
-                            This is not a generic finance landing page. It is a public resource hub for families trying to keep groceries, bills, and monthly planning under control before the month runs short.
+                            Free calculators, practical budgeting templates, and local cost estimators designed specifically for Pakistani families managing rising living expenses.
                         </p>
 
                         <div className="grid gap-3 md:grid-cols-3">
@@ -182,10 +182,10 @@ export default function Home({ featuredGuides = [], seo: seoProp, jsonLd: jsonLd
                     </div>
 
                     <section className="rounded-[2rem] border border-white/15 bg-white/8 p-6 shadow-2xl backdrop-blur-sm">
-                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-yellow-200/80">Best First Clicks</p>
-                        <h2 className="mt-3 text-2xl font-semibold text-white">Open a useful page, not a promise</h2>
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-yellow-200/80">Quick Start</p>
+                        <h2 className="mt-3 text-2xl font-semibold text-white">Popular Budgeting Tools</h2>
                         <p className="mt-3 text-sm leading-6 text-yellow-100/85">
-                            These are the clearest starting points for both reviewers and households under active budget pressure.
+                            Start with the calculator or guide that matches your immediate household planning need.
                         </p>
                         <div className="mt-6 space-y-3">
                             {firstClickPages.map((page) => (
@@ -206,10 +206,10 @@ export default function Home({ featuredGuides = [], seo: seoProp, jsonLd: jsonLd
             <section className="mx-auto max-w-6xl space-y-10 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
                 <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:p-8">
                     <div className="flex flex-col gap-3">
-                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Proof Of Value</p>
-                        <h2 className="text-3xl font-semibold text-[#001a4a]">The strongest public pages are already live</h2>
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Explore Tools & Guides</p>
+                        <h2 className="text-3xl font-semibold text-[#001a4a]">Essential Resources for Household Finance</h2>
                         <p className="max-w-3xl text-base leading-7 text-slate-600">
-                            The homepage now points toward the pages that best demonstrate real household usefulness. The focus is on practical tools, a stronger template preview, and the clearest product explainer pages.
+                            Explore our suite of interactive estimators, budget templates, and expense analysis tools built for everyday Pakistani living.
                         </p>
                     </div>
                     <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -237,8 +237,8 @@ export default function Home({ featuredGuides = [], seo: seoProp, jsonLd: jsonLd
                     </section>
 
                     <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Trust And Limits</p>
-                        <h2 className="mt-2 text-3xl font-semibold text-[#001a4a]">Useful even before sign-in</h2>
+                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">Transparency & Methodology</p>
+                        <h2 className="mt-2 text-3xl font-semibold text-[#001a4a]">Open, Accessible, and Independent</h2>
                         <div className="mt-6 space-y-4">
                             {trustPoints.map((item) => (
                                 <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
@@ -248,9 +248,9 @@ export default function Home({ featuredGuides = [], seo: seoProp, jsonLd: jsonLd
                             ))}
                         </div>
                         <div className="mt-6 rounded-2xl border border-[#001a4a]/10 bg-[#001a4a] p-5 text-white">
-                            <p className="text-lg font-semibold">Create an account only when you want saved history.</p>
+                            <p className="text-lg font-semibold">Track and save your monthly records.</p>
                             <p className="mt-2 text-sm leading-6 text-white/80">
-                                The public pages should prove the value first. Sign up later if you want to store your own numbers, reopen them next month, and keep a longer household record.
+                                All our calculators and guides are free to use without an account. Create a free account when you want to save recurring expenses, track progress month-over-month, and download custom reports.
                             </p>
                             <div className="mt-4 flex flex-wrap gap-3">
                                 <Link

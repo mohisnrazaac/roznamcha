@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\BlogPost;
 use App\Models\BlogCategory;
+use App\Models\BlogPost;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class CustomBlogPostSeeder extends Seeder
 {
@@ -17,15 +17,15 @@ class CustomBlogPostSeeder extends Seeder
     public function run()
     {
         $user = User::where('email', 'admin@roznamcha.pk')->first() ?? User::first();
-        
+
         $category = BlogCategory::firstOrCreate(
             ['slug' => 'household-budgeting'],
             ['name' => 'Household Budgeting']
         );
-        
+
         $slug = 'smart-household-budgeting-tips';
-        
-        $content = <<<MD
+
+        $content = <<<'MD'
 ## 1. Track Your Income and Expenses
 
 The foundation of any good budget is knowing exactly how much money is coming in and how much is going out. For one month, track every single expense, from your rent or mortgage to that morning cup of coffee. You can use a spreadsheet, a budgeting app, or simply a notebook. 
@@ -69,11 +69,11 @@ MD;
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ];
-        
+
         $post = BlogPost::updateOrCreate(['slug' => $slug], $postData);
-        
+
         $post->categories()->sync([$category->id]);
-        
+
         BlogPost::forgetPublicSitemapCache();
     }
 }

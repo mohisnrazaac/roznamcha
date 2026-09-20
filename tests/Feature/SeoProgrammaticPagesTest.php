@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Verify programmatic SEO pages, sitemap output, and snapshot refresh behavior. Date: 2026-03-29. Author: Mohsin.
 
 namespace Tests\Feature;

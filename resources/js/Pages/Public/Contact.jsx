@@ -164,7 +164,15 @@ export default function Contact({ seo, jsonLd, contactEmail = 'support@roznamcha
                         <Link href={route('public.about')} className="font-semibold text-[#001a4a] hover:underline">
                             About
                         </Link>{' '}
-                        page and read the{' '}
+                        page, inspect our{' '}
+                        <Link href={route('public.editorial-policy')} className="font-semibold text-[#001a4a] hover:underline">
+                            Editorial Policy
+                        </Link>{' '}
+                        and{' '}
+                        <Link href={route('public.methodology')} className="font-semibold text-[#001a4a] hover:underline">
+                            Methodology & Sources
+                        </Link>
+                        , or read the{' '}
                         <Link href={route('public.privacy')} className="font-semibold text-[#001a4a] hover:underline">
                             Privacy Policy
                         </Link>

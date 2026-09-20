@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Repair Daily Snapshot source parsing and source resilience without modifying the locked base service. Date: 2026-03-28. Author: Codex.
 
 namespace App\Patched;
@@ -299,7 +300,7 @@ class PatchedDailyMoneySnapshotService extends BaseDailyMoneySnapshotService
             return null;
         }
 
-        preg_match("/categories:\\s*\\[(.*?)\\]\\s*,\\s*labels/s", $html, $categoryMatches);
+        preg_match('/categories:\\s*\\[(.*?)\\]\\s*,\\s*labels/s', $html, $categoryMatches);
         preg_match("/name:\\s*'Combined'\\s*,\\s*data:\\s*\\[(.*?)\\]/s", $html, $dataMatches);
 
         $values = $this->extractNumberList($dataMatches[1] ?? '');

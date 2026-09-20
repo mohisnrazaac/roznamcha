@@ -10,9 +10,7 @@ use Inertia\Inertia;
 
 class SurvivalReportController extends Controller
 {
-    public function __construct(private readonly SurvivalReportService $service)
-    {
-    }
+    public function __construct(private readonly SurvivalReportService $service) {}
 
     public function generate(Request $request)
     {

@@ -11,9 +11,7 @@ class ReminderDueMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Reminder $reminder)
-    {
-    }
+    public function __construct(public Reminder $reminder) {}
 
     public function build(): self
     {

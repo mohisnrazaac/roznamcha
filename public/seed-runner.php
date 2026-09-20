@@ -30,21 +30,21 @@ $paths = [
 ];
 
 foreach ($paths as $path) {
-    if (file_exists($path . '/vendor/autoload.php') && file_exists($path . '/bootstrap/app.php')) {
+    if (file_exists($path.'/vendor/autoload.php') && file_exists($path.'/bootstrap/app.php')) {
         $laravelDir = $path;
         break;
     }
 }
 
-if (!$laravelDir) {
+if (! $laravelDir) {
     http_response_code(500);
     echo json_encode(['error' => 'Could not find Laravel bootstrap files']);
     @unlink(__FILE__);
     exit;
 }
 
-require $laravelDir . '/vendor/autoload.php';
-$app = require_once $laravelDir . '/bootstrap/app.php';
+require $laravelDir.'/vendor/autoload.php';
+$app = require_once $laravelDir.'/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
 $output1 = [];
@@ -53,20 +53,20 @@ $output2 = [];
 try {
     $status1 = $kernel->call('db:seed', ['--class' => 'Database\\Seeders\\CustomBlogPostSeeder', '--force' => true]);
     $output1 = ['status' => $status1, 'output' => $kernel->output()];
-    
+
     $status2 = $kernel->call('optimize:clear');
     $output2 = ['status' => $status2, 'output' => $kernel->output()];
-    
+
     echo json_encode([
         'success' => true,
         'seed_result' => $output1,
-        'optimize_result' => $output2
+        'optimize_result' => $output2,
     ]);
 } catch (\Exception $e) {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'error' => $e->getMessage()
+        'error' => $e->getMessage(),
     ]);
 }
 

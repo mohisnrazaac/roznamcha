@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Verify smart budget template browsing, saving, generation, and downloads. Date: 2026-03-27. Author: Codex.
 
 namespace Tests\Feature;

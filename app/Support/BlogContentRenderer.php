@@ -131,7 +131,7 @@ class BlogContentRenderer
                             if (str_starts_with(strtolower($val), 'http://')
                                 && ! str_contains($val, 'schema.org')
                                 && ! str_contains($val, 'w3.org')) {
-                                $val = 'https://' . substr($val, 7);
+                                $val = 'https://'.substr($val, 7);
                                 $node->setAttribute($attrName, $val);
                             }
                             // Normalize legacy un-prefixed feature route to canonical /features/ slug

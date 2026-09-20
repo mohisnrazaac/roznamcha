@@ -14,7 +14,7 @@ class SsrVerificationTest extends TestCase
     /**
      * Test terms page renders successfully.
      */
-    public function testTermsPageRendersSuccessfully(): void
+    public function test_terms_page_renders_successfully(): void
     {
         $response = $this->get(route('public.terms'));
 
@@ -24,7 +24,7 @@ class SsrVerificationTest extends TestCase
             );
     }
 
-    public function testDisclaimerPageRendersSuccessfully(): void
+    public function test_disclaimer_page_renders_successfully(): void
     {
         $response = $this->get(route('public.disclaimer'));
 
@@ -40,7 +40,7 @@ class SsrVerificationTest extends TestCase
     /**
      * Test privacy policy page renders successfully.
      */
-    public function testPrivacyPolicyPageRendersSuccessfully(): void
+    public function test_privacy_policy_page_renders_successfully(): void
     {
         $response = $this->get(route('public.privacy'));
 
@@ -57,7 +57,7 @@ class SsrVerificationTest extends TestCase
     /**
      * Test calculator routes load successfully and contain meta.
      */
-    public function testCalculatorRoutesLoadSuccessfully(): void
+    public function test_calculator_routes_load_successfully(): void
     {
         $response = $this->get(route('public.tools.electricity-bill-estimator'));
         $response->assertOk();
@@ -70,7 +70,7 @@ class SsrVerificationTest extends TestCase
         $response->assertSee('Ration Cost Estimator');
     }
 
-    public function testSitemapsHavePublicEdgeCacheHeaders(): void
+    public function test_sitemaps_have_public_edge_cache_headers(): void
     {
         $response1 = $this->get(route('public.sitemap'));
         $response1->assertOk()
@@ -90,7 +90,7 @@ class SsrVerificationTest extends TestCase
     /**
      * Test robots.txt contains required AdSense allow directives.
      */
-    public function testRobotsTxtDirectives(): void
+    public function test_robots_txt_directives(): void
     {
         $this->assertFileExists(public_path('robots.txt'));
         $content = file_get_contents(public_path('robots.txt'));

@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Scrape PakWheels fuel prices for cross-source auditing without overwriting stored fallback data. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
@@ -14,9 +15,7 @@ use RuntimeException;
 
 class PakWheelsFuelPriceScraperService
 {
-    public function __construct(private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Client $client) {}
 
     public function scrape(): array
     {
@@ -214,7 +213,7 @@ class PakWheelsFuelPriceScraperService
     {
         libxml_use_internal_errors(true);
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument;
 
         if (! $dom->loadHTML($html)) {
             libxml_clear_errors();

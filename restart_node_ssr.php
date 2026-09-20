@@ -1,8 +1,9 @@
 <?php
+
 header('Content-Type: text/plain');
 
 echo "Current processes before kill:\n";
-echo shell_exec("ps aux | grep ssr.js") . "\n";
+echo shell_exec('ps aux | grep ssr.js')."\n";
 
 // Kill any running ssr.js processes
 shell_exec("pkill -9 -f 'bootstrap/ssr/ssr.js'");
@@ -14,5 +15,5 @@ shell_exec($cmd);
 sleep(2);
 
 echo "Processes after start:\n";
-echo shell_exec("ps aux | grep ssr.js") . "\n";
+echo shell_exec('ps aux | grep ssr.js')."\n";
 unlink(__FILE__);

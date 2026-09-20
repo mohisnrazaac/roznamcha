@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\BlogPost;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class InsertSovereignCloudSeeder extends Seeder
 {
     public function run(): void
     {
         $slug = 'pakistan-sovereign-cloud-ai-trade-ecosystem-2026';
-        
-        $content = <<<CONTENT
+
+        $content = <<<'CONTENT'
 ## Pakistan Wants More Control Over Its Digital Economy
 
 Anyone involved in exporting from Pakistan knows the process can be frustratingly fragmented. A textile manufacturer in Faisalabad and a small leather-goods exporter in Sialkot may operate at completely different scales, but both depend on multiple systems, departments and sources of trade information.
@@ -110,7 +110,7 @@ It could give businesses and policymakers a clearer picture of where Pakistani t
 CONTENT;
 
         $author = User::first(); // Or specific author logic
-        
+
         $post = BlogPost::firstOrNew(['slug' => $slug]);
         $post->title = 'Why Pakistan’s New Sovereign Cloud Could Change How We Do Business';
         $post->content = $content;
@@ -124,11 +124,11 @@ CONTENT;
             $post->updated_by = $author->id;
         }
         $post->save();
-        
+
         if (method_exists(BlogPost::class, 'forgetPublicSitemapCache')) {
             BlogPost::forgetPublicSitemapCache();
         }
-        
+
         echo "Successfully inserted/updated: {$slug}\n";
     }
 }

@@ -57,7 +57,7 @@ class BlogPostController extends Controller
 
     public function create(): Response
     {
-        return $this->formResponse(new BlogPost());
+        return $this->formResponse(new BlogPost);
     }
 
     public function edit(BlogPost $post): Response
@@ -69,7 +69,7 @@ class BlogPostController extends Controller
     {
         $data = $this->validatedData($request);
 
-        $post = new BlogPost();
+        $post = new BlogPost;
         $this->assignData($post, $data, $request);
 
         return redirect()

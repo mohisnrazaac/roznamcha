@@ -13,9 +13,9 @@ use App\Models\User;
 use App\Models\UserSetting;
 use App\Support\ReminderScheduler;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class RoznamchaDemoSeeder extends Seeder
 {

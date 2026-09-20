@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Compare PakWheels fuel prices against stored fallback fuel records and alert when drift exceeds the allowed threshold. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
@@ -10,9 +11,7 @@ use Illuminate\Support\Facades\Schema;
 
 class FuelPriceAuditService
 {
-    public function __construct(private readonly PakWheelsFuelPriceScraperService $pakWheelsFuelPriceScraperService)
-    {
-    }
+    public function __construct(private readonly PakWheelsFuelPriceScraperService $pakWheelsFuelPriceScraperService) {}
 
     public function auditPakwheelsAgainstStoredPrices(): array
     {

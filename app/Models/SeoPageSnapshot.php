@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Represent stored freshness snapshots for programmatic SEO landing pages. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Models;

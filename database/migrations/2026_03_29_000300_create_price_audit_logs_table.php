@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Store audit comparisons between fallback fuel sources for manual review and alerting. Date: 2026-03-29. Author: Mohsin.
 
 use Illuminate\Database\Migrations\Migration;

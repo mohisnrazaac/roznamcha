@@ -13,6 +13,8 @@ export default function SeoHead({
     image = DEFAULT_OG_IMAGE,
     twitterCard = 'summary_large_image',
     author = 'Mohsin',
+    datePublished = null,
+    dateModified = null,
     jsonLd = null,
 }) {
     const keywordContent = Array.isArray(keywords) ? keywords.join(', ') : keywords;
@@ -24,6 +26,10 @@ export default function SeoHead({
             {keywordContent && <meta name="keywords" content={keywordContent} head-key="keywords" />}
             <link rel="canonical" href={canonical} head-key="canonical" />
             {author && <meta name="author" content={author} head-key="author" />}
+            {datePublished && <meta name="datePublished" content={datePublished} head-key="datePublished" />}
+            {datePublished && <meta property="article:published_time" content={datePublished} head-key="article:published_time" />}
+            {dateModified && <meta name="dateModified" content={dateModified} head-key="dateModified" />}
+            {dateModified && <meta property="article:modified_time" content={dateModified} head-key="article:modified_time" />}
 
             <meta property="og:title" content={title} head-key="og:title" />
             <meta property="og:description" content={description} head-key="og:description" />

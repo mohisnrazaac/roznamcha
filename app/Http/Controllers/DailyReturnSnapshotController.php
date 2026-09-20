@@ -11,9 +11,7 @@ use Illuminate\Http\Request;
  */
 class DailyReturnSnapshotController extends Controller
 {
-    public function __construct(private readonly DailyReturnHookService $service)
-    {
-    }
+    public function __construct(private readonly DailyReturnHookService $service) {}
 
     public function show(Request $request): JsonResponse
     {

@@ -21,6 +21,7 @@ class SendDueReminders extends Command
             || (! Schema::hasColumn('reminders', 'next_run_at') && ! Schema::hasColumn('reminders', 'next_due'))
         ) {
             $this->error('Reminder scheduling columns are missing. Please run `php artisan migrate` to add schedule_cron/timezone/next_run_at before dispatching emails.');
+
             return self::FAILURE;
         }
 
@@ -44,6 +45,7 @@ class SendDueReminders extends Command
 
         if ($dueReminders->isEmpty()) {
             $this->info('No reminders due at this time.');
+
             return self::SUCCESS;
         }
 

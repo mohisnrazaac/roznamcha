@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: text/plain');
 
 $node = '/opt/alt/alt-nodejs20/root/usr/bin/node';
@@ -19,10 +20,10 @@ $res = curl_exec($ch);
 $err = curl_error($ch);
 curl_close($ch);
 
-echo "HEALTH: " . ($res ? $res : 'ERROR: ' . $err) . "
-";
-echo "LOG:
-" . (file_exists($log) ? file_get_contents($log) : 'NO LOG') . "
-";
+echo 'HEALTH: '.($res ? $res : 'ERROR: '.$err).'
+';
+echo 'LOG:
+'.(file_exists($log) ? file_get_contents($log) : 'NO LOG').'
+';
 
 unlink(__FILE__);

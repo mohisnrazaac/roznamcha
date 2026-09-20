@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\PublicTools;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\BuildsPublicSeo;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,6 +21,29 @@ class ElectricityBillEstimatorController extends Controller
         $activation = $this->resolveActivationState($request, 'electricity_bill_estimator');
         $seo = $this->publicSeo('electricityBillEstimator');
 
+        $faqItems = [
+            [
+                'question' => 'Does this estimator use fixed slab values in code?',
+                'answer' => 'No. The progressive slab billing reads from the configurable slab_rates table so rates can be updated without changing frontend logic.',
+            ],
+            [
+                'question' => 'Why is this an estimate and not my exact bill?',
+                'answer' => 'It includes configurable placeholders for FPA and surcharges and applies GST, but actual utility bills can include additional line items or timing-based adjustments.',
+            ],
+            [
+                'question' => 'Can I use this without creating an account?',
+                'answer' => 'Yes. The estimator works fully in guest mode. Signup is only for saving estimates and reminders later.',
+            ],
+            [
+                'question' => 'What is the difference between protected and unprotected consumers in Pakistan?',
+                'answer' => 'Under NEPRA tariff regulations, consumers using under 200 units per month consecutively for six months are classified as protected with subsidized rates. Exceeding 200 units reclassifies the meter as unprotected, triggering substantially higher progressive slab rates.',
+            ],
+            [
+                'question' => 'How do Fuel Price Adjustments (FPA) and taxes affect my final bill?',
+                'answer' => 'FPA accounts for monthly changes in generation fuel mix approved by NEPRA. Bills also incur electricity duty, financing cost surcharges, standard GST, and fixed meter charges that apply above the raw slab rate.',
+            ],
+        ];
+
         return Inertia::render('Public/Tools/ElectricityBillEstimator', [
             'defaults' => [
                 'units_used' => (int) ($activation['inputs']['units_used'] ?? $config['defaults']['units_used'] ?? 250),
@@ -30,7 +53,11 @@ class ElectricityBillEstimatorController extends Controller
             'gst_percentage' => ($config['gst_rate'] ?? 0.17) * 100,
             'activationPrefill' => $activation,
             'seo' => $seo,
-            'jsonLd' => $this->publicWebPageSchema($seo),
+            'faqItems' => $faqItems,
+            'jsonLd' => $this->publicToolGraphSchema($seo, $faqItems, [
+                'name' => 'Electricity Bill Estimator Pakistan',
+                'description' => $seo['description'],
+            ]),
         ]);
     }
 

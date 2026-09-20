@@ -15,8 +15,7 @@ class ContactMessageMail extends Mailable
         public string $email,
         public string $subjectLine,
         public string $messageBody
-    ) {
-    }
+    ) {}
 
     public function build(): self
     {

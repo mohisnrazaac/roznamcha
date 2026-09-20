@@ -15,8 +15,7 @@ class PublicPageController extends Controller
 
     public function __construct(
         private readonly SeoPageUrlGenerator $urlGenerator,
-    ) {
-    }
+    ) {}
 
     public function home(): Response
     {
@@ -144,6 +143,20 @@ class PublicPageController extends Controller
     public function cookiePolicy(): Response
     {
         return $this->renderStaticPage('Public/CookiePolicy', 'cookiePolicy', [
+            'contactEmail' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
+        ]);
+    }
+
+    public function editorialPolicy(): Response
+    {
+        return $this->renderStaticPage('Public/EditorialPolicy', 'editorialPolicy', [
+            'contactEmail' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
+        ]);
+    }
+
+    public function methodology(): Response
+    {
+        return $this->renderStaticPage('Public/MethodologySources', 'methodology', [
             'contactEmail' => (string) config('mail.public_contact_email', 'support@roznamcha.pk'),
         ]);
     }

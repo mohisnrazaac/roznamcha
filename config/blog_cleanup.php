@@ -19,6 +19,7 @@ return [
         'cost-of-living-pakistan-2026-monthly-budget',
         'school-fee-inflation-pakistan-2026',
         'utility-store-vs-open-market-price-comparison-2026-pakistan',
+        'pakistan-sovereign-cloud-ai-trade-ecosystem-2026',
     ],
     'redirects' => [
         'cost-of-living-pakistan-2026-monthly-budget-with-ai' => 'cost-of-living-pakistan-2026-monthly-budget',

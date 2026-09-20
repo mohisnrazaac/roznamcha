@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Create a lightweight cities lookup table for fuel-price scraping and slug-based matching. Date: 2026-03-29. Author: Mohsin.
 
 use Illuminate\Database\Migrations\Migration;

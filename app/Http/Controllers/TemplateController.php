@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Serve smart budget template previews, saves, and PDF downloads. Date: 2026-03-27. Author: Codex.
 
 namespace App\Http\Controllers;
@@ -30,8 +31,7 @@ class TemplateController extends Controller
         private EventRecorder $events,
         private readonly SeoPageUrlGenerator $urlGenerator,
         private readonly SearchSurfacePolicy $searchSurfacePolicy,
-    ) {
-    }
+    ) {}
 
     public function index(Request $request): Response
     {

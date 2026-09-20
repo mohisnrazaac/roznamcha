@@ -10,9 +10,7 @@ use Throwable;
 
 class EventRecorder
 {
-    public function __construct(private Request $request)
-    {
-    }
+    public function __construct(private Request $request) {}
 
     public function record(string $name, array $meta = [], ?User $user = null): void
     {

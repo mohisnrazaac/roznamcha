@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Fetch and verify official Petroleum Division petrol notices before public petrol pages are indexed. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
@@ -192,7 +193,7 @@ class OfficialPetrolNoticeService
     {
         libxml_use_internal_errors(true);
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument;
 
         if (! $dom->loadHTML($html)) {
             libxml_clear_errors();

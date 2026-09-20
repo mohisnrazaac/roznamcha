@@ -39,7 +39,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         }
 
         $response->assertSee($this->publicUrl('/blog/published-approval-check'), false);
-        $this->assertSame(19, substr_count($response->getContent(), '<url>'));
+        $this->assertSame(21, substr_count($response->getContent(), '<url>'));
     }
 
     public function test_template_sitemap_keeps_index_page_but_excludes_template_details(): void
@@ -93,6 +93,8 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             '/about',
             '/contact',
             '/privacy-policy',
+            '/editorial-policy',
+            '/methodology',
             '/disclaimer',
             '/terms',
         ];
@@ -111,6 +113,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             $this->publicUrl('/petrol-price-karachi-today'),
             $this->publicUrl('/electricity-bill-calculator-lesco'),
             $this->publicUrl('/ration-cost-for-4-people-pakistan'),
+            $this->publicUrl('/blog/pakistan-sovereign-cloud-ai-trade-ecosystem-2026'),
         ];
     }
 
@@ -143,6 +146,8 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             $this->publicUrl('/about'),
             $this->publicUrl('/contact'),
             $this->publicUrl('/privacy-policy'),
+            $this->publicUrl('/editorial-policy'),
+            $this->publicUrl('/methodology'),
             $this->publicUrl('/disclaimer'),
             $this->publicUrl('/terms'),
         ];

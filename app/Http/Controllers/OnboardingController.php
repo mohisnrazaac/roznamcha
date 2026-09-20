@@ -18,9 +18,7 @@ use Inertia\Response;
 
 class OnboardingController extends Controller
 {
-    public function __construct(private EventRecorder $events)
-    {
-    }
+    public function __construct(private EventRecorder $events) {}
 
     public function index(Request $request): RedirectResponse
     {
@@ -51,7 +49,7 @@ class OnboardingController extends Controller
             $household->name = $data['name'];
 
             if (empty($household->slug)) {
-                $household->slug = Str::slug($data['name']) . '-' . Str::random(5);
+                $household->slug = Str::slug($data['name']).'-'.Str::random(5);
             }
 
             $household->save();

@@ -1,12 +1,12 @@
 <?php
+
 require __DIR__.'/vendor/autoload.php';
 $app = require_once __DIR__.'/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-use Illuminate\Support\Facades\Http;
-use App\Models\BlogPost;
 use App\Models\BlogCategory;
+use App\Models\BlogPost;
 
 $urls = [
     'https://roznamcha.pk/',
@@ -23,17 +23,17 @@ $urls = [
     'https://roznamcha.pk/tools/electricity-bill-estimator',
     'https://roznamcha.pk/tools/ration-cost-estimator',
     'https://roznamcha.pk/sitemap.xml',
-    'https://roznamcha.pk/ads.txt'
+    'https://roznamcha.pk/ads.txt',
 ];
 
 $posts = BlogPost::where('status', 'published')->get();
-foreach($posts as $post) {
-    $urls[] = "https://roznamcha.pk/blog/" . $post->slug;
+foreach ($posts as $post) {
+    $urls[] = 'https://roznamcha.pk/blog/'.$post->slug;
 }
 
 $categories = BlogCategory::all();
-foreach($categories as $category) {
-    $urls[] = "https://roznamcha.pk/blog/category/" . $category->slug;
+foreach ($categories as $category) {
+    $urls[] = 'https://roznamcha.pk/blog/category/'.$category->slug;
 }
 
 $issues = [];
@@ -46,20 +46,20 @@ foreach ($urls as $url) {
         curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        
+
         if ($status !== 200) {
             $issues[] = "[{$status}] {$url}";
         }
     } catch (\Exception $e) {
-        $issues[] = "[ERROR] {$url} - " . $e->getMessage();
+        $issues[] = "[ERROR] {$url} - ".$e->getMessage();
     }
 }
 
 if (empty($issues)) {
-    echo "SUCCESS: All " . count($urls) . " URLs returned 200 OK.\n";
+    echo 'SUCCESS: All '.count($urls)." URLs returned 200 OK.\n";
 } else {
     echo "FOUND ISSUES:\n";
     foreach ($issues as $issue) {
-        echo $issue . "\n";
+        echo $issue."\n";
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Register programmatic SEO snapshot refresh commands without editing the locked default console routes file. Date: 2026-03-29. Author: Mohsin.
 
 use App\Seo\FuelPriceAuditService;

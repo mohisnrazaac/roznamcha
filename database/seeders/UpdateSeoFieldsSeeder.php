@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\BlogPost;
+use Illuminate\Database\Seeder;
 
 class UpdateSeoFieldsSeeder extends Seeder
 {
     public function run(): void
     {
         $slug = 'pakistan-sovereign-cloud-ai-trade-ecosystem-2026';
-        
+
         $post = BlogPost::where('slug', $slug)->first();
         if ($post) {
             $post->seo_title = 'Pakistan Sovereign Cloud & AI Trade Ecosystem (2026 Guide)';

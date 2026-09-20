@@ -1,2 +1,3 @@
 <?php
-echo shell_exec("ps aux | grep node");
+
+echo shell_exec('ps aux | grep node');

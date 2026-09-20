@@ -18,9 +18,7 @@ use Illuminate\Support\Str;
  */
 class DailyReturnHookService
 {
-    public function __construct(private readonly AiService $aiService)
-    {
-    }
+    public function __construct(private readonly AiService $aiService) {}
 
     /**
      * Build the payload consumed by the frontend widgets.
@@ -210,7 +208,7 @@ class DailyReturnHookService
 
     private function expenseDateColumn(): string
     {
-        $table = (new Expense())->getTable();
+        $table = (new Expense)->getTable();
 
         return Schema::hasColumn($table, 'tx_date')
             ? 'tx_date'

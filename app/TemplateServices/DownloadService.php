@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Build free and pro PDF exports for smart budget templates. Date: 2026-03-27. Author: Codex.
 
 namespace App\TemplateServices;

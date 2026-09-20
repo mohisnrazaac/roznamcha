@@ -1,4 +1,5 @@
 <?php
+
 // Purpose: Resolve, generate, and cache freshness snapshots for programmatic SEO landing pages. Date: 2026-03-29. Author: Mohsin.
 
 namespace App\Seo;
@@ -20,8 +21,7 @@ class SeoSnapshotService
         private readonly PakFuelCityPriceScraperService $pakFuelCityPriceScraperService,
         private readonly PakWheelsFuelPriceScraperService $pakWheelsFuelPriceScraperService,
         private readonly SearchSurfacePolicy $searchSurfacePolicy,
-    ) {
-    }
+    ) {}
 
     public function latest(string $pageType, string|int $pageKey): ?SeoPageSnapshot
     {
@@ -157,7 +157,7 @@ class SeoSnapshotService
             'value_1' => $currentPrice,
             'value_2' => $previousPrice,
             'value_3' => $change,
-            'summary_text' => "Latest available PakWheels petroleum listing places petrol at PKR ".number_format($currentPrice, 2)." per litre. This page runs a live source check on load and updates automatically when a newer rate is available.",
+            'summary_text' => 'Latest available PakWheels petroleum listing places petrol at PKR '.number_format($currentPrice, 2).' per litre. This page runs a live source check on load and updates automatically when a newer rate is available.',
             'comparison_text' => $this->backupPetrolSentence($cityLabel, $change),
             'effective_date' => Carbon::instance($nationwideFuel['effective_date']->toDateTime()),
             'source_label' => 'PakWheels live petrol feed',
@@ -389,12 +389,12 @@ class SeoSnapshotService
             'value_1' => null,
             'value_2' => null,
             'value_3' => null,
-            'summary_text' => "Roznamcha could not sync the official Petroleum Division notice for {$cityLabel}, and there is no usable PakFuel city snapshot stored yet. This page stays out of Google until a real fuel source is available.",
+            'summary_text' => "Roznamcha could not sync the official Petroleum Division notice for {$cityLabel}, and there is no verified PakFuel city snapshot stored yet. This page will display live pricing once official notification data is synchronized.",
             'comparison_text' => 'Official source and backup city feed are both pending sync.',
             'effective_date' => Carbon::instance($date->toDateTime()),
             'source_label' => (string) config('roznamcha_seo.petrol.pending_source_label', 'Official Petroleum Division notice pending sync'),
             'extra_json' => [
-                'coverage_note' => 'Petrol city pages stay noindex until either the official notice or a stored backup city snapshot is available.',
+                'coverage_note' => 'Live fuel prices are published once official Petroleum Division notices or verified local records are updated.',
                 'has_verified_data' => false,
                 'has_live_data' => false,
                 'is_official_source' => false,
@@ -418,7 +418,7 @@ class SeoSnapshotService
             'value_1' => $current,
             'value_2' => $previous,
             'value_3' => $change,
-            'summary_text' => "Official Petroleum Division petrol pricing places Motor Spirit (MS) at PKR ".number_format($current, 2)." per litre for Pakistan, which is the same notified rate households in {$cityLabel} can use as today's planning benchmark.",
+            'summary_text' => 'Official Petroleum Division petrol pricing places Motor Spirit (MS) at PKR '.number_format($current, 2)." per litre for Pakistan, which is the same notified rate households in {$cityLabel} can use as today's planning benchmark.",
             'comparison_text' => $this->officialPetrolSentence($cityLabel, $change),
             'effective_date' => Carbon::instance($notice['effective_date']->toDateTime()),
             'source_label' => (string) $notice['source_label'],
@@ -485,7 +485,7 @@ class SeoSnapshotService
             'value_1' => $current,
             'value_2' => $current,
             'value_3' => 0.0,
-            'summary_text' => "Latest available PakWheels nationwide petroleum listing places petrol at PKR ".number_format($current, 2)." per litre. Roznamcha is showing this temporary nationwide reference for {$cityLabel} because both the official Petroleum Division notice and the city-level PakFuel snapshot were unavailable during the latest refresh.",
+            'summary_text' => 'Latest available PakWheels nationwide petroleum listing places petrol at PKR '.number_format($current, 2)." per litre. Roznamcha is showing this temporary nationwide reference for {$cityLabel} because both the official Petroleum Division notice and the city-level PakFuel snapshot were unavailable during the latest refresh.",
             'comparison_text' => "Official and city-level sources are still pending for {$cityLabel}, so this page is temporarily showing the latest nationwide petrol reference instead of an empty placeholder.",
             'effective_date' => Carbon::instance($nationwideFuel['effective_date']->toDateTime()),
             'source_label' => (string) config('roznamcha_seo.petrol.backup_nationwide_source_label', 'PakWheels nationwide petroleum price fallback'),

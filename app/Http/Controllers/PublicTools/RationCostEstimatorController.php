@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\PublicTools;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\BuildsPublicSeo;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
@@ -28,6 +28,25 @@ class RationCostEstimatorController extends Controller
             ? $familySizeFromQuery
             : ($familySizeFromState > 0 ? $familySizeFromState : ($config['default_household_size'] ?? 4));
 
+        $faqItems = [
+            [
+                'question' => 'How does this tool estimate grocery costs?',
+                'answer' => 'The tool multiplies the quantities you input for staples (atta, rice, oil, sugar, daal) by the baseline retail prices configured in the database, allowing you to establish a basic food cost benchmark before you shop.',
+            ],
+            [
+                'question' => 'Why are fresh vegetables, meat, and milk missing from the list?',
+                'answer' => 'This tool focuses exclusively on long-shelf-life dry staples to establish your core kitchen baseline. Highly volatile fresh perishables (milk, meat, vegetables) should be budgeted separately.',
+            ],
+            [
+                'question' => 'Can I use this estimator for free without registering?',
+                'answer' => 'Yes, the calculator is fully functional in guest mode. Registration is only required if you wish to save your grocery plans and view them inside your household workspace.',
+            ],
+            [
+                'question' => 'How do Utility Store prices differ from open market kiryana stores in Pakistan?',
+                'answer' => 'Subsidized utility stores provide targeted relief on basic essentials for eligible families, whereas neighborhood kiryana stores incorporate transport costs and retail markups. This tool allows budgeting against standard open market benchmarks.',
+            ],
+        ];
+
         // Extension point: swap config-based pricing with a database or API-driven
         // pricing source when real-time ration pricing is available.
         return Inertia::render('Public/Tools/RationCostEstimator', [
@@ -38,7 +57,11 @@ class RationCostEstimatorController extends Controller
             'relatedLinks' => $relatedLinks,
             'activationPrefill' => $activation,
             'seo' => $seo,
-            'jsonLd' => $this->publicWebPageSchema($seo),
+            'faqItems' => $faqItems,
+            'jsonLd' => $this->publicToolGraphSchema($seo, $faqItems, [
+                'name' => 'Ration Cost Estimator Pakistan',
+                'description' => $seo['description'],
+            ]),
         ]);
     }
 

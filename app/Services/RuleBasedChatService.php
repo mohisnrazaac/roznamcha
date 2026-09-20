@@ -15,8 +15,11 @@ use Illuminate\Support\Str;
 class RuleBasedChatService
 {
     protected array $faq;
+
     protected string $fallbackMessage;
+
     protected string $refusalMessage;
+
     protected array $disallowedKeywords;
 
     public function __construct()
@@ -61,7 +64,7 @@ class RuleBasedChatService
             $keywords = Arr::get($entry, 'keywords', []);
             $response = Arr::get($entry, 'response');
 
-            if (!$response || empty($keywords)) {
+            if (! $response || empty($keywords)) {
                 continue;
             }
 
