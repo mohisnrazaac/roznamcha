@@ -19,6 +19,10 @@ export default function CookieConsent() {
         if (!consent) {
             setIsVisible(true);
         }
+
+        const handleOpen = () => setIsVisible(true);
+        window.addEventListener('roznamcha:open-consent-modal', handleOpen);
+        return () => window.removeEventListener('roznamcha:open-consent-modal', handleOpen);
     }, []);
 
     const handleAccept = () => {

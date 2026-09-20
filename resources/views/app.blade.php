@@ -9,13 +9,13 @@
 
             $fallbackTitle = 'Roznamcha – Pakistan Household Budget & Expense Tracker';
             $rawTitle = data_get($pageSeo, 'title', '');
-            $serverTitle = (empty($rawTitle) || strlen($rawTitle) < 30) ? $fallbackTitle : $rawTitle;
+            $serverTitle = !empty($rawTitle) ? $rawTitle : $fallbackTitle;
 
             $fallbackDescription = 'Roznamcha helps Pakistani families track monthly expenses, compare ration costs, manage reminders, and budget with practical local insights.';
             $rawDescription = data_get($pageSeo, 'description', '');
-            $effectiveDescription = (empty($rawDescription) || strlen($rawDescription) < 50 || strlen($rawDescription) > 160)
-                ? $fallbackDescription
-                : $rawDescription;
+            $effectiveDescription = !empty($rawDescription)
+                ? $rawDescription
+                : $fallbackDescription;
 
             $serverCanonical = data_get($pageSeo, 'canonical') ?: url()->current();
             $serverUrl = data_get($pageSeo, 'url', $serverCanonical);
@@ -42,11 +42,6 @@
         <meta name="theme-color" content="#061325">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <title inertia>{{ $serverTitle }}</title>
-        <meta name="description" content="{{ $effectiveDescription }}" inertia="description">
-        @if ($serverKeywords)
-            <meta name="keywords" content="{{ $serverKeywords }}" inertia="keywords">
-        @endif
         <link rel="canonical" href="{{ $serverCanonical }}" inertia="canonical">
         @if ($serverRobots)
             <meta name="robots" content="{{ $serverRobots }}" inertia="robots">
@@ -67,6 +62,11 @@
         <meta name="twitter:description" content="{{ $effectiveDescription }}" inertia="twitter:description">
         <meta name="twitter:image" content="{{ $serverImage }}" inertia="twitter:image">
 
+        <title inertia>{{ $serverTitle }}</title>
+        <meta name="description" content="{{ $effectiveDescription }}" inertia="description">
+        @if ($serverKeywords)
+            <meta name="keywords" content="{{ $serverKeywords }}" inertia="keywords">
+        @endif
         @if ($pageJsonLd)
             <script type="application/ld+json" inertia="page-jsonld">
                 {!! json_encode($pageJsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
@@ -79,7 +79,7 @@
             $clarityProjectId = (string) config('services.analytics.clarity_project_id', 'v5b4l0m7s1');
         @endphp
 
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8709269992599634" crossorigin="anonymous"></script>
+        <meta name="google-adsense-account" content="{{ $adsenseClientId }}">
         <script>
           window.roznamchaPagePolicies = @json($pagePolicies);
           window.roznamchaTrackingConfig = {
@@ -119,15 +119,23 @@
               window.dataLayer.push(arguments);
             };
 
+            // Establish Consent Mode v2 default state immediately
+            window.gtag('consent', 'default', {
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              analytics_storage: 'denied',
+              functionality_storage: 'granted',
+              security_storage: 'granted',
+            });
+
             const updateConsentMode = (consentState) => {
               const granted = consentState === 'accepted';
-              window.gtag('consent', 'default', {
+              window.gtag('consent', 'update', {
                 ad_storage: granted ? 'granted' : 'denied',
                 ad_user_data: granted ? 'granted' : 'denied',
                 ad_personalization: granted ? 'granted' : 'denied',
                 analytics_storage: granted ? 'granted' : 'denied',
-                functionality_storage: 'granted',
-                security_storage: 'granted',
               });
             };
 
@@ -264,24 +272,6 @@
                     <p>Rates, prices, and dates can change quickly in Pakistani markets. Public prices and rules discussed on the site may change after publication. Calculator outputs are planning estimates designed to support thoughtful budgeting, not guarantee exact outcomes or bank approvals.</p>
                     <p>Economic conditions, currency valuations, fuel adjustments, and taxation policies across federal and provincial authorities in Pakistan fluctuate regularly. Any budgeting simulations, grocery estimates, school fee calculations, or utility bill estimates provided by Roznamcha rely on user-submitted inputs and representative baseline averages. They should not be relied upon as binding quotations or certified banking assessments.</p>
                     <p>Users must exercise their own independent judgement and due diligence when executing financial commitments, signing rental agreements, or making significant household purchasing decisions. Roznamcha accepts no liability for direct, indirect, or incidental financial losses incurred from relying on projections generated through our open tools.</p>
-                </article>
-            @endif
-            @if(request()->is('login'))
-                <article class="p-6 max-w-4xl mx-auto text-slate-700">
-                    <h1 class="text-3xl font-bold">Log In to Roznamcha Household Expense Tracker</h1>
-                    <p>Access your secure Roznamcha account to manage family budgets, record daily expenses, track local bazaar inflation, and plan grocery purchases across Pakistan. Your personal financial data and household accounts remain private, protected, and accessible only with your verified credentials.</p>
-                    <p>If you have forgotten your password or need assistance recovering your household budget account, use the reset options available or contact our support team. Roznamcha provides comprehensive monthly expense summaries, utility bill estimation tools, and smart household budget templates designed specifically for Pakistani families.</p>
-                    <p>Stay on top of month-end survival metrics, compare your recurring utility charges, and organize your daily hisab-kitab seamlessly from any mobile device or browser with encrypted data protection.</p>
-                    <p>Managing your household finance requires consistent recording of day-to-day transactions. With Roznamcha, your entries are automatically backed up and synchronized across all authorized devices. Whether you are budgeting for seasonal utility spikes during peak summer months or planning advance school fee allocations, logging in keeps your financial cockpit up to date with zero data loss.</p>
-                </article>
-            @endif
-            @if(request()->is('register'))
-                <article class="p-6 max-w-4xl mx-auto text-slate-700">
-                    <h1 class="text-3xl font-bold">Create Your Free Roznamcha Account</h1>
-                    <p>Join thousands of Pakistani households using Roznamcha to take full control of monthly expenses, ration budgets, and inflation pressures. Creating an account gives you instant access to personalized expense categories, automated bill reminders, and long-term financial planning tools.</p>
-                    <p>Signing up is completely free and requires only a verified email address. Start logging your groceries, school fees, electricity bills, and household income in Pakistani Rupees with detailed monthly survival reports and smart Urdu-first money management tools.</p>
-                    <p>Build disciplined household financial habits, track price trends across Pakistani bazaars, and eliminate end-of-month cash deficits with automated budget allocations tailored to your family size and monthly income.</p>
-                    <p>From Karachi and Lahore to Islamabad, Peshawar, and Quetta, households face unique regional cost structures and grocery price movements. Roznamcha empowers you to customize your expense categories according to your exact living standards, calculate emergency cash reserves, and achieve sustainable monthly financial freedom without tedious spreadsheets or confusing accounting jargon.</p>
                 </article>
             @endif
             @if(request()->is('tools/solar-net-metering-roi-calculator'))

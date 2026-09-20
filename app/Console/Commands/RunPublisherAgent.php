@@ -20,7 +20,8 @@ class RunPublisherAgent extends Command
                             {--mock : Use local pre-vetted template without calling external Gemini API}
                             {--topic= : Topic to research and generate; rotates automatically if omitted or duplicate}
                             {--model= : Gemini model identifier (default: gemini-2.5-flash)}
-                            {--api-url= : Override target API endpoint}';
+                            {--api-url= : Override target API endpoint}
+                            {--force : Force execution even if PUBLISHER_AGENT_ENABLED is false}';
 
     /**
      * The console command description.
@@ -34,6 +35,14 @@ class RunPublisherAgent extends Command
      */
     public function handle(): int
     {
+        $isEnabled = filter_var(env('PUBLISHER_AGENT_ENABLED', false), FILTER_VALIDATE_BOOL);
+        if (! $isEnabled && ! $this->option('force')) {
+            $this->warn('Publisher agent is currently disabled (PUBLISHER_AGENT_ENABLED=false). Skipping execution. Pass --force to override.');
+            Log::info('Publisher agent execution skipped because PUBLISHER_AGENT_ENABLED is false.');
+
+            return self::SUCCESS;
+        }
+
         $python = env('PUBLISHER_AGENT_PYTHON_PATH', 'python3');
         $script = base_path('publisher_agent.py');
 
@@ -45,6 +54,10 @@ class RunPublisherAgent extends Command
         }
 
         $command = [$python, $script];
+
+        if ($this->option('force')) {
+            $command[] = '--force';
+        }
 
         if ($this->option('dry-run')) {
             $command[] = '--dry-run';

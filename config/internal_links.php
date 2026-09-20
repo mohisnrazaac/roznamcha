@@ -74,10 +74,10 @@ return [
 
     'defaults' => [
         'blog_related_tools' => [
-            'expense-tracker-pakistan',
             'ration-cost-estimator',
             'kharcha-map',
             'survival-report',
+            'expense-tracker-pakistan',
         ],
         'blog_related_blogs' => [
             'ghar-ka-monthly-budget',

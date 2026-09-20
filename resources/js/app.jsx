@@ -15,7 +15,7 @@ const fallbackZiggy = {
 };
 
 createInertiaApp({
-  title: (title) => `${title} - Roznamcha`,
+  title: (title) => (title ? (title.includes('Roznamcha') ? title : `${title} - Roznamcha`) : 'Roznamcha'),
   resolve: (name) =>
     resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
   setup({ el, App, props }) {
@@ -28,6 +28,15 @@ createInertiaApp({
 
     const unsubscribe = router.on('finish', (event) => {
       applyDirection(event.detail.page.props);
+    });
+
+    const unsubscribeNavigate = router.on('navigate', () => {
+      if (typeof window.gtag === 'function' && window.roznamchaTrackingConfig?.gaMeasurementId) {
+        window.gtag('event', 'page_view', {
+          page_location: window.location.href,
+          page_title: document.title,
+        });
+      }
     });
 
     const ziggyConfig = props.initialPage.props?.ziggy ?? fallbackZiggy;
@@ -57,6 +66,7 @@ createInertiaApp({
 
     return () => {
       unsubscribe();
+      unsubscribeNavigate();
     };
   },
   progress: {

@@ -19,6 +19,11 @@ class SearchSurfacePolicy
         return in_array($pageType, $this->noindexPageTypes(), true);
     }
 
+    public function isCategoryNoindexed(string $slug): bool
+    {
+        return in_array($slug, $this->noindexCategorySlugs(), true);
+    }
+
     public function noindexTemplateSlugs(): array
     {
         return array_values(array_filter(
@@ -31,6 +36,14 @@ class SearchSurfacePolicy
     {
         return array_values(array_filter(
             config('roznamcha_seo.search_surface.noindex_page_types', []),
+            'is_string'
+        ));
+    }
+
+    public function noindexCategorySlugs(): array
+    {
+        return array_values(array_filter(
+            config('roznamcha_seo.search_surface.noindex_blog_category_slugs', []),
             'is_string'
         ));
     }

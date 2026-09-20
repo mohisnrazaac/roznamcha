@@ -168,7 +168,7 @@ class FuelFallbackSourcesTest extends TestCase
         $this->mock(PakWheelsFuelPriceScraperService::class, function ($mock): void {
             $mock->shouldReceive('latestFuel')
                 ->with('petrol')
-                ->twice()
+                ->once()
                 ->andReturn([
                     'fuel_type' => 'petrol',
                     'label' => 'Petrol',
@@ -196,10 +196,10 @@ class FuelFallbackSourcesTest extends TestCase
                 ->component('SEO/Petrol')
                 ->where('robots', 'noindex,follow')
                 ->where('isIndexable', false)
-                ->where('sourceLabel', 'PakWheels live petrol feed')
+                ->where('sourceLabel', 'PakWheels nationwide petroleum price fallback')
                 ->where('dataPoints.0.value', 'PKR 321.17 per litre')
-                ->where('dataPoints.1.value', 'PKR 321.17 per litre')
-                ->where('dataPoints.3.value', 'PKR 0.00')
+                ->where('dataPoints.1.value', 'Nationwide reference only')
+                ->where('dataPoints.3.value', 'PakWheels nationwide petroleum price fallback')
             );
     }
 }

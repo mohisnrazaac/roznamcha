@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    # Force Canonical HTTPS non-www in a single 301 hop (Google Search Essentials & AdSense Policy)
+    RewriteCond %{HTTP_HOST} ^www\.roznamcha\.pk$ [NC,OR]
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?roznamcha\.pk$ [NC]
+    RewriteRule ^(.*)$ https://roznamcha.pk/$1 [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

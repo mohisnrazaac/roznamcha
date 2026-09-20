@@ -102,6 +102,7 @@ trait BuildsPublicSeo
                 'keywords' => ['Roznamcha login', 'expense tracker login', 'Pakistan budget sign in', 'kharcha app login'],
                 'type' => 'website',
                 'schemaName' => 'Roznamcha Login',
+                'robots' => 'noindex, nofollow',
             ],
             'register' => [
                 'title' => 'Create Free Account – Roznamcha Expense Tracker Pakistan',
@@ -112,6 +113,7 @@ trait BuildsPublicSeo
                 'keywords' => ['Roznamcha register', 'create budget account', 'free expense tracker Pakistan', 'kharcha app signup'],
                 'type' => 'website',
                 'schemaName' => 'Roznamcha Registration',
+                'robots' => 'noindex, nofollow',
             ],
             'smartBudgetTemplates' => [
                 'title' => 'Smart Budget Templates Pakistan | Roznamcha',

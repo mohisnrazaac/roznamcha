@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import PublicLayout from '../../../Layouts/PublicLayout';
 import SeoHead from '../../../Components/SeoHead';
 import BlogCTA from '../../../Components/Blog/BlogCTA';
 import UseInRoznamchaWidget from '../../../Components/Blog/UseInRoznamchaWidget';
 import SchoolFeeIncreaseCalculator from '../../../Components/Calculators/SchoolFeeIncreaseCalculator';
 import ArticleNextSteps from '../../../Components/Blog/ArticleNextSteps';
+import AdContainer from '../../../Components/Ads/AdContainer';
 
 const getReturnPath = (url, slug) => {
     if (!url && slug) {
@@ -40,6 +41,8 @@ const articleUseCards = [
 ];
 
 export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
+    const { pagePolicies } = usePage().props;
+    const adsAllowed = Boolean(pagePolicies?.adsAllowed);
     const featureHooks = post?.feature_hooks ?? {};
     const returnPath = getReturnPath(post?.url, post?.slug);
     const showCalculator = featureHooks?.calculator === 'school_fee_increase';
@@ -123,10 +126,18 @@ export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
                     </section>
                 ) : null}
 
+                {adsAllowed ? (
+                    <AdContainer slot="blog-in-article" variant="responsive" className="my-6" />
+                ) : null}
+
                 <section
                     className="post-content rounded-[2rem] border border-slate-200 bg-white p-6 text-[1.05rem] leading-8 text-slate-800 shadow-sm lg:p-8 [&_a]:font-medium [&_a]:text-[#001a4a] [&_a]:underline-offset-2 [&_a:hover]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-[#8c5a00]/35 [&_blockquote]:bg-amber-50/70 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:italic [&_code]:rounded [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_h1]:hidden [&_h2]:mt-10 [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-[#001a4a] [&_h3]:mt-8 [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:leading-tight [&_h3]:text-[#001a4a] [&_h4]:mt-6 [&_h4]:text-xl [&_h4]:font-semibold [&_h4]:text-[#001a4a] [&_hr]:my-8 [&_hr]:border-slate-200 [&_img]:my-8 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-slate-200 [&_li]:marker:text-[#001a4a] [&_ol]:my-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6 [&_p]:my-5 [&_strong]:font-semibold [&_strong]:text-[#001a4a] [&_table]:my-8 [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-slate-200 [&_td]:px-3 [&_td]:py-2 [&_th]:bg-slate-100 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:text-[#001a4a] [&_ul]:my-5 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6"
                     dangerouslySetInnerHTML={{ __html: post?.content ?? '' }}
                 />
+
+                {adsAllowed ? (
+                    <AdContainer slot="blog-after-content" variant="responsive" className="my-6" />
+                ) : null}
 
                 <section className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6 shadow-sm lg:p-8">
                     <div className="grid gap-5 md:grid-cols-[minmax(0,0.8fr),minmax(0,1.2fr)] md:items-start">

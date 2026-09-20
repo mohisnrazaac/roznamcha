@@ -1,0 +1,56 @@
+{
+  "product_name": "Roznamcha (روزنامچہ)",
+  "website": "https://roznamcha.pk",
+  "value_proposition": "Pakistan-first bilingual (Urdu/English) household expense tracking and financial planning cockpit. Helps families calculate monthly ration budgets, estimate progressive electricity slabs, visualize daily kharcha leaks, manage bill reminders, and survive inflation without complicated accounting spreadsheets.",
+  "target_audiences": [
+    "Salaried professionals & middle-class heads of households in Pakistan (Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, Multan, Peshawar, Quetta)",
+    "Joint families pooling monthly income and managing shared groceries and utilities",
+    "University students and young singles budgeting hostel, mess, and transport expenses",
+    "Tech-savvy Pakistani home-makers and budget keepers looking for Urdu-first expense logging",
+    "Overseas Pakistanis managing household remittances sent to families in Pakistan"
+  ],
+  "markets": [
+    "Pakistan (Primary: Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, Multan, Peshawar, Quetta)",
+    "Overseas Pakistani Remitters (UAE, Saudi Arabia, UK, Canada, US)"
+  ],
+  "primary_conversions": [
+    "User Registration (/register)",
+    "First Expense Logged / Onboarding Completed (/onboarding)",
+    "Budget Template Saved to User Household (/templates/{slug})"
+  ],
+  "secondary_conversions": [
+    "Free Budget Template PDF Downloaded",
+    "Interactive Calculator Used (Solar Net Metering ROI, School Fees Planner, Ration Cost Estimator, Electricity Bill Estimator)",
+    "Survival Report Generated",
+    "PWA App Installed to Home Screen"
+  ],
+  "ideal_search_intents": [
+    "household budget app pakistan",
+    "ghar ka kharcha app urdu",
+    "monthly expense tracker pakistan",
+    "best budget planner pakistan 2026",
+    "pakistan household expense control",
+    "monthly ration cost estimator pakistan",
+    "solar net metering roi calculator pakistan",
+    "nepra electricity bill slab calculator 2026",
+    "school fees planning calculator pakistan",
+    "how to manage 50000 salary budget in pakistan",
+    "100k middle class family budget pakistan",
+    "kameti bc vs islamic mutual funds gold inflation"
+  ],
+  "negative_intents": [
+    "live commodity tickers without budgeting intent (petrol price today, lesco bill duplicate, gold rate)",
+    "cracked/pirated accounting software (excel crack, quickbooks crack offline, tally free key)",
+    "unrelated retail commerce (buy groceries online karachi, daraz online shopping discounts)",
+    "commercial equipment vendors (solar panel wholesale dealer, inverter distributor)",
+    "bank logins and helplines (hbl login, jazzcash helpline, easypaisa customer care)",
+    "employment and careers (accountant jobs in lahore, cashier vacancy)",
+    "academic homework (b.com financial accounting notes pdf, mba project on budgeting)"
+  ],
+  "target_cpa": {
+    "currency": "PKR",
+    "primary_conversion_registration": 180.00,
+    "secondary_conversion_tool_engagement": 50.00
+  },
+  "notes": "Roznamcha is a consumer SaaS / PWA financial planning cockpit. Exclude b2b enterprise ERP search queries. Focus paid acquisition on mobile Android/iOS users in urban Pakistan searching for household money management solutions."
+}

@@ -1760,6 +1760,11 @@ def main() -> int:
         default="",
         help="Override the ingestion endpoint URL.",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force execution even if PUBLISHER_AGENT_ENABLED is false.",
+    )
 
     args = parser.parse_args()
 
@@ -1769,6 +1774,16 @@ def main() -> int:
 
     # 1. Load and display configuration status
     env = load_environment()
+
+    # Safety Guard: Check if publisher agent is disabled
+    agent_enabled = env.get("PUBLISHER_AGENT_ENABLED", "false").strip().lower()
+    if agent_enabled in ("false", "0", "no", "off") and not args.force:
+        print("[!] Publisher agent is currently DISABLED (PUBLISHER_AGENT_ENABLED=false).")
+        print("[*] Content generation and publishing are stopped unless explicitly advised.")
+        print("[*] (Pass --force to run manually, or set PUBLISHER_AGENT_ENABLED=true in .env)")
+        print("=" * 60)
+        return 0
+
     gemini_key = env.get("GEMINI_API_KEY", "")
     ingestion_key = env.get("INGESTION_SECRET_KEY", "")
     api_url = args.api_url or env.get("TARGET_API_URL") or env.get("LOCAL_API_URL") or "https://roznamcha.pk/api/internal/publish-post"

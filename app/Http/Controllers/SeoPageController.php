@@ -15,9 +15,6 @@ class SeoPageController extends Controller
 
     public function petrol(string $city): Response
     {
-        if (! auth()->check() && ! app()->runningUnitTests()) {
-            abort(404);
-        }
         return Inertia::render('SEO/Petrol', $this->pageDataService->petrol($city));
     }
 
@@ -28,9 +25,6 @@ class SeoPageController extends Controller
 
     public function ration(int|string $size): Response
     {
-        if (! auth()->check() && ! app()->runningUnitTests()) {
-            abort(404);
-        }
         return Inertia::render('SEO/Ration', $this->pageDataService->ration($size));
     }
 }

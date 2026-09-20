@@ -349,6 +349,13 @@ export default function PublicLayout({ children, variant = 'landing' }) {
                     <Link href="/terms" className="text-[#001a4a] hover:underline">
                         Terms of Service
                     </Link>
+                    <button
+                        type="button"
+                        onClick={() => window.dispatchEvent(new CustomEvent('roznamcha:open-consent-modal'))}
+                        className="text-[#001a4a] hover:underline cursor-pointer"
+                    >
+                        Cookie Settings
+                    </button>
                     <a href="/sitemap.xml" className="text-[#001a4a] hover:underline">
                         Sitemap
                     </a>

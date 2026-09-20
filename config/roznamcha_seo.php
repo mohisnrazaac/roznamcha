@@ -16,7 +16,7 @@ return [
     ],
 
     'search_surface' => [
-        'noindex_page_types' => ['petrol', 'ration'],
+        'noindex_page_types' => ['petrol', 'electricity', 'ration'],
         'noindex_template_slugs' => [
             'student-budget',
             '50k-salary-survival-guide',

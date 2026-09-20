@@ -195,6 +195,8 @@ class HandleInertiaRequests extends Middleware
             'public.contact',
             'public.contact.send',
             'public.privacy',
+            'public.cookie-policy',
+            'public.disclaimer',
             'public.terms',
             'offline',
             'public.tools.ration-cost-estimator',

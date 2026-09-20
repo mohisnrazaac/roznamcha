@@ -218,6 +218,12 @@ export default function SolarRoiCalculator({
                 <meta
                     name="description"
                     content="Calculate residential turnkey solar system payback, NEPRA buyback earnings, and 10-year battery degradation (Tubular vs LiFePO4) in Pakistan."
+                    head-key="description"
+                />
+                <link
+                    rel="canonical"
+                    href="https://roznamcha.pk/tools/solar-net-metering-roi-calculator"
+                    head-key="canonical"
                 />
                 <script type="application/ld+json">{JSON.stringify(webAppJsonLd)}</script>
                 <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>

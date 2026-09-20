@@ -17,7 +17,7 @@ createServer((page) =>
     createInertiaApp({
         page,
         render: ReactDOMServer.renderToString,
-        title: (title) => `${title} - Roznamcha`,
+        title: (title) => (title ? (title.includes('Roznamcha') ? title : `${title} - Roznamcha`) : 'Roznamcha'),
         resolve: (name) =>
             resolvePageComponent(
                 `./Pages/${name}.jsx`,

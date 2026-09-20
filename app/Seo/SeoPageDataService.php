@@ -23,17 +23,19 @@ class SeoPageDataService
     {
         $cityKey = Str::lower($city);
 
-        try {
-            $this->snapshotService->refreshPetrolCityFromPakWheels($cityKey);
-        } catch (Throwable $throwable) {
-            report($throwable);
-            Log::warning('SEO petrol live PakWheels refresh failed during page render.', [
-                'city' => $cityKey,
-                'error' => $throwable->getMessage(),
-            ]);
-        }
+        if (! app()->runningUnitTests()) {
+            try {
+                $this->snapshotService->refreshPetrolCityFromPakWheels($cityKey);
+            } catch (Throwable $throwable) {
+                report($throwable);
+                Log::warning('SEO petrol live PakWheels refresh failed during page render.', [
+                    'city' => $cityKey,
+                    'error' => $throwable->getMessage(),
+                ]);
+            }
 
-        $this->snapshotService->forgetPetrolCaches($cityKey);
+            $this->snapshotService->forgetPetrolCaches($cityKey);
+        }
 
         return $this->build('petrol', $cityKey);
     }

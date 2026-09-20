@@ -257,7 +257,13 @@ class TemplateController extends Controller
 
         return [
             'title' => "{$template->title} | Smart Budget Templates | Roznamcha",
-            'description' => 'Preview a Pakistan-specific survival budget template, save it to your household, and download the free PDF after login.',
+            'description' => match ($template->slug) {
+                '50k-salary-survival-guide' => 'PKR 50,000 monthly household survival budget template for Pakistani families: ration allocations, utility slab planning, and emergency buffers.',
+                '100k-family-budget' => 'PKR 100,000 middle-class family budget template in Pakistan: rent, school fees, grocery basket breakdown, and monthly savings allocation.',
+                'student-budget' => 'Practical monthly student budget template in Pakistan: hostel mess charges, university transport, books, and mobile data expense allocations.',
+                'joint-family-budget' => 'Structured joint family household budget template in Pakistan: pooled salary management, bulk ration procurement, and shared utility bill planning.',
+                default => 'Preview a Pakistan-specific survival budget template, save it to your household, and download the free PDF after login.',
+            },
             'canonical' => $url,
             'url' => $url,
             'image' => "{$siteUrl}/icons/appicon.png",
