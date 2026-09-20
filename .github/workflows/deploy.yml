@@ -86,7 +86,7 @@ jobs:
           password: ${{ secrets.FTP_PASS || secrets.FTP_PASSWORD }}
           protocol: ftps
           server-dir: ${{ secrets.FTP_REMOTE_DIR || './' }}
-          local-dir: deploy_bundle
+          local-dir: ./deploy_bundle/
           log-level: verbose
 
       - name: Call post-deploy hook
