@@ -86,7 +86,7 @@
         @endif
         @php
             $pagePolicies = data_get($page ?? [], 'props.pagePolicies', []);
-            $adsenseClientId = (string) config('services.adsense.client_id', 'ca-pub-8709269992599634');
+            $adsenseClientId = (string) (config('services.adsense.client_id') ?: 'ca-pub-8709269992599634');
             $analyticsMeasurementId = (string) config('services.analytics.ga_measurement_id', 'G-5EPHFZLH71');
             $clarityProjectId = (string) config('services.analytics.clarity_project_id', 'v5b4l0m7s1');
         @endphp
