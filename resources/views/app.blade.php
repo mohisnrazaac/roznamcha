@@ -476,5 +476,6 @@
                 })
             }
         </script>
+        <!-- release: {{ \App\Support\AppRelease::get() }} -->
     </body>
 </html>

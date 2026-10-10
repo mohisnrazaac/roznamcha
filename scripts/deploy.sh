@@ -18,5 +18,6 @@ npm ci
 npm run build
 
 php artisan storage:link || true
+php artisan cache:purge-public
 php artisan optimize
 php artisan up
