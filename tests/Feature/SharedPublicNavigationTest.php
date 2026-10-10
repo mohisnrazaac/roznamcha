@@ -23,4 +23,17 @@ class SharedPublicNavigationTest extends TestCase
         $this->assertStringContainsString("label: 'Kharcha Map'", $layout);
         $this->assertStringContainsString("label: '50k Salary Guide'", $layout);
     }
+
+    public function test_public_header_contains_direct_legal_links_without_redirects(): void
+    {
+        $header = file_get_contents(resource_path('js/Components/Nav/PublicHeader.jsx'));
+
+        $this->assertIsString($header);
+        $this->assertStringContainsString("href: '/privacy-policy'", $header);
+        $this->assertStringContainsString("href: '/terms'", $header);
+        $this->assertStringNotContainsString("href: '/terms-of-service'", $header);
+
+        $this->get('/privacy-policy')->assertOk();
+        $this->get('/terms')->assertOk();
+    }
 }

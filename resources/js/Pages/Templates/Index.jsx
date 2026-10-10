@@ -46,14 +46,14 @@ export default function Index({ categories = [], templates = [], savedTemplates 
                                 Smart Budget Templates built for Pakistani household reality
                             </h1>
                             <p className="max-w-2xl text-base leading-7 text-slate-600">
-                                Browse the template library and category summaries first. Saving, full template access, and downloads start after login so the household can return to the same planning structure next month.
+                                Browse Pakistan-specific household budget templates online with instant allocation breakdowns. Save templates to your dashboard or export anytime.
                             </p>
                             <div className="flex flex-wrap gap-3">
                                 <Link
-                                    href="/register"
+                                    href="/login"
                                     className="inline-flex items-center justify-center rounded-full bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#012261]"
                                 >
-                                    Save for my household
+                                    Save to My Dashboard
                                 </Link>
                                 <Link
                                     href="/login"
@@ -177,23 +177,23 @@ export default function Index({ categories = [], templates = [], savedTemplates 
                                     <p className="mt-2 text-sm text-slate-600">
                                         {template.is_premium && template.price
                                             ? `PRO plan price: PKR ${formatCurrency(template.price)}`
-                                            : 'Free PDF becomes available after login.'}
+                                            : 'Watermarked read-only preview available online. Save or export anytime.'}
                                     </p>
                                 </div>
 
                                 <div className="mt-5 flex flex-wrap items-center gap-2 text-xs font-medium">
                                     {template.saved_at ? (
                                         <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">
-                                            Saved to household
+                                             Saved to household
                                         </span>
                                     ) : null}
                                     {template.has_pro_access ? (
                                         <span className="rounded-full bg-yellow-100 px-3 py-1 text-[#8c5a00]">
-                                            PRO unlocked
+                                             PRO unlocked
                                         </span>
                                     ) : null}
                                     <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-                                        Login required for full access
+                                         Instant online preview
                                     </span>
                                 </div>
 
@@ -201,7 +201,7 @@ export default function Index({ categories = [], templates = [], savedTemplates 
                                     href={template.show_url}
                                     className="mt-6 inline-flex items-center text-sm font-semibold text-[#001a4a] hover:underline"
                                 >
-                                    View template details
+                                    Preview template & allocation &rarr;
                                 </Link>
                             </article>
                         ))}

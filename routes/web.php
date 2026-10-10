@@ -112,7 +112,9 @@ Route::get('/petrol-price-{city}-today', [SeoPageController::class, 'petrol'])->
 Route::get('/electricity-bill-calculator-{disco}', [SeoPageController::class, 'electricity'])->name('seo.electricity');
 Route::get('/ration-cost-for-{size}-people-pakistan', [SeoPageController::class, 'ration'])->name('seo.ration');
 Route::get('/templates', [TemplateController::class, 'index'])->name('templates.index');
-Route::get('/templates/{slug}/download', [TemplateController::class, 'download'])->name('templates.download');
+Route::get('/templates/{slug}/download', [TemplateController::class, 'download'])
+    ->middleware('auth')
+    ->name('templates.download');
 Route::get('/templates/{slug}', [TemplateController::class, 'show'])->name('templates.show');
 Route::get('/blog', [BlogPublicController::class, 'index'])->name('public.blog.index');
 Route::get('/blog/category/{slug}', [BlogPublicController::class, 'category'])->name('public.blog.category');

@@ -114,6 +114,8 @@ class TemplateController extends Controller
             'template' => [
                 ...$this->cardPayload($template, $saveRecord),
                 'download_url' => sprintf('/templates/%s/download', $template->slug),
+                'excel_download_url' => sprintf('/templates/%s/download?format=excel', $template->slug),
+                'pdf_download_url' => sprintf('/templates/%s/download?format=pdf', $template->slug),
                 'family_size' => (int) ($payload['family_size'] ?? $this->templateGenerator->familySizeFor($template)),
                 'generated_source' => (string) ($payload['source'] ?? 'fallback'),
                 'household_label' => $saveRecord?->household?->name,
@@ -132,6 +134,7 @@ class TemplateController extends Controller
                 'inflation_categories' => array_slice($proPreview['inflation_categories'], 0, 4),
                 'ask_roza_tips' => $proPreview['ask_roza_tips'],
             ],
+            'isGuest' => ! (bool) $user,
             'guestReturnTo' => $request->getRequestUri(),
             'seo' => $seo,
             'jsonLd' => $this->publicWebPageSchema($seo),
@@ -174,6 +177,7 @@ class TemplateController extends Controller
     {
         $template = BudgetTemplate::query()->where('slug', $slug)->firstOrFail();
         $mode = $request->query('mode', 'free') === 'pro' ? 'pro' : 'free';
+        $format = strtolower((string) $request->query('format', 'pdf'));
         $user = $request->user();
 
         if (! $user) {
@@ -205,7 +209,12 @@ class TemplateController extends Controller
             'template_id' => $template->id,
             'slug' => $template->slug,
             'mode' => $mode,
+            'format' => $format,
         ], $user);
+
+        if ($format === 'excel' || $format === 'xlsx' || $format === 'csv') {
+            return $this->downloadService->exportExcel($template, $payload, $user, $mode);
+        }
 
         return $this->downloadService->download($template, $payload, $user, $mode);
     }

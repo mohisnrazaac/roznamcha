@@ -8,6 +8,7 @@ use App\Models\BudgetTemplate;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class DownloadService
 {
@@ -22,6 +23,71 @@ class DownloadService
         ])
             ->setPaper('a4')
             ->download(sprintf('%s-%s.pdf', $template->slug, $document['mode']));
+    }
+
+    public function exportExcel(BudgetTemplate $template, array $payload, User $user, string $mode = 'free'): SymfonyResponse
+    {
+        $document = $this->buildDocumentData($template, $payload, $mode);
+        $filename = sprintf('%s-budget-%s.csv', $template->slug, $document['mode']);
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => sprintf('attachment; filename="%s"', $filename),
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        return response()->stream(function () use ($document, $template, $user) {
+            $handle = fopen('php://output', 'w');
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            fputcsv($handle, ['Roznamcha.pk - Smart Budget Template']);
+            fputcsv($handle, ['Title', $template->title]);
+            fputcsv($handle, ['Category', $template->category]);
+            fputcsv($handle, ['Target Monthly Salary (PKR)', $document['salary']]);
+            fputcsv($handle, ['Family Size', $document['family_size']]);
+            fputcsv($handle, ['Export Mode', strtoupper($document['mode'])]);
+            fputcsv($handle, ['Exported For', $user->name]);
+            fputcsv($handle, ['Generated Date', $document['generated_at']]);
+            fputcsv($handle, []);
+
+            fputcsv($handle, ['Category', 'Monthly Allocation (PKR)', 'Share of Budget (%)']);
+            foreach ($document['categories'] as $category) {
+                fputcsv($handle, [
+                    $category['category'] ?? '',
+                    $category['amount'] ?? 0,
+                    $category['percentage'] ?? '',
+                ]);
+            }
+
+            fputcsv($handle, []);
+            fputcsv($handle, ['Total Allocated (PKR)', collect($document['categories'])->sum('amount'), '100%']);
+
+            if (! empty($document['saving_tips'])) {
+                fputcsv($handle, []);
+                fputcsv($handle, ['Saving Tips & Household Recommendations']);
+                foreach ($document['saving_tips'] as $i => $tip) {
+                    fputcsv($handle, [$i + 1, $tip]);
+                }
+            }
+
+            if ($document['mode'] === 'pro') {
+                fputcsv($handle, []);
+                fputcsv($handle, ['PRO Inflation Projection (12% Buffer)']);
+                fputcsv($handle, ['Projected Next Month (PKR)', $document['next_month_projection']]);
+                fputcsv($handle, ['Category', 'Current Amount (PKR)', 'Inflated Next Month (PKR)']);
+                foreach ($document['inflation_categories'] as $inf) {
+                    fputcsv($handle, [
+                        $inf['category'] ?? '',
+                        $inf['current_amount'] ?? 0,
+                        $inf['inflated_amount'] ?? 0,
+                    ]);
+                }
+            }
+
+            fclose($handle);
+        }, 200, $headers);
     }
 
     public function buildDocumentData(BudgetTemplate $template, array $payload, string $mode = 'free'): array

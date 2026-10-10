@@ -56,6 +56,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'agent.verify' => \App\Http\Middleware\VerifyIngestionKey::class,
         ]);
 
+        $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request): string {
+            return route('login', ['return_to' => $request->getRequestUri()]);
+        });
+
         $middleware->redirectUsersTo(function (\Illuminate\Http\Request $request): string {
             if ($request->filled('return_to')) {
                 return (string) $request->query('return_to');

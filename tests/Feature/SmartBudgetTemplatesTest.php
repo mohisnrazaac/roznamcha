@@ -197,6 +197,23 @@ class SmartBudgetTemplatesTest extends TestCase
         );
     }
 
+    public function test_authenticated_user_can_export_budget_as_excel_csv(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/templates/50k-salary-survival-guide/download?format=excel');
+
+        $response->assertOk();
+        $this->assertStringContainsString(
+            'text/csv',
+            (string) $response->headers->get('content-type')
+        );
+        $this->assertStringContainsString(
+            '50k-salary-survival-guide-budget-free.csv',
+            (string) $response->headers->get('content-disposition')
+        );
+    }
+
     public function test_pro_download_redirects_back_when_not_unlocked(): void
     {
         $user = User::factory()->create();

@@ -1,6 +1,8 @@
 // Purpose: Render styled in-page AdSense blocks that blend with Roznamcha without disguising sponsored content. Date: 2026-03-28. Author: Codex.
 
 import React from 'react';
+import { usePage } from '@inertiajs/react';
+import useAdCodeLoaded from './useAdCodeLoaded';
 
 const ADSENSE_CLIENT_ID = 'ca-pub-8709269992599634';
 
@@ -11,10 +13,14 @@ export default function InlineAd({
     description = 'Relevant offers can appear here without interrupting the main budgeting flow.',
     minHeight = 280,
 }) {
+    const pageProps = usePage()?.props || {};
+    const pagePolicies = pageProps.pagePolicies;
+    const adsAllowed = pagePolicies?.adsAllowed === true;
+    const adCodeLoaded = useAdCodeLoaded(adsAllowed);
     const adRef = React.useRef(null);
 
     React.useEffect(() => {
-        if (!slot || !adRef.current || adRef.current.dataset.initialized === 'true') {
+        if (!adsAllowed || !adCodeLoaded || !slot || !adRef.current || adRef.current.dataset.initialized === 'true') {
             return;
         }
 
@@ -24,9 +30,9 @@ export default function InlineAd({
         } catch (error) {
             console.error('AdSense block failed to initialize.', error);
         }
-    }, [slot]);
+    }, [adsAllowed, adCodeLoaded, slot]);
 
-    if (!slot) {
+    if (!adsAllowed || !adCodeLoaded || !slot) {
         return null;
     }
 
@@ -34,7 +40,7 @@ export default function InlineAd({
         <aside
             aria-label="Sponsored content"
             className={[
-                'overflow-hidden rounded-[1.75rem] border border-[#001a4a]/10 bg-[linear-gradient(135deg,_#fffaf0_0%,_#ffffff_58%,_#eef4ff_100%)] p-5 shadow-sm',
+                'overflow-hidden rounded-[1.75rem] border border-[#001a4a]/10 bg-[linear-gradient(135deg,_#fffaf0_0%,_#ffffff_58%,_#eef4ff_100%)] p-5 shadow-sm min-h-[280px]',
                 className,
             ].join(' ')}
         >
@@ -52,10 +58,10 @@ export default function InlineAd({
 
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">{description}</p>
 
-            <div className="mt-5 rounded-[1.25rem] border border-white bg-white/90 p-3">
+            <div className="mt-5 rounded-[1.25rem] border border-white bg-white/90 p-3 min-h-[280px]">
                 <ins
                     ref={adRef}
-                    className="adsbygoogle block w-full overflow-hidden rounded-xl"
+                    className="adsbygoogle block w-full min-h-[280px] overflow-hidden rounded-xl"
                     style={{ display: 'block', minHeight: `${minHeight}px` }}
                     data-ad-client={ADSENSE_CLIENT_ID}
                     data-ad-slot={slot}

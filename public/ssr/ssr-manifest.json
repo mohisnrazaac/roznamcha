@@ -565,13 +565,13 @@
     "/build/assets/DeleteUserForm-Vxl3SRY6.js"
   ],
   "resources/js/Components/Activation/AskRozaGuestWidget.jsx": [
-    "/build/assets/Index-D-_VE_qk.js"
+    "/build/assets/Index-Bn20J6V4.js"
   ],
   "resources/js/Components/Activation/SaveWall.jsx": [
-    "/build/assets/FinancialDisclaimer-Drfz7MoY.js"
+    "/build/assets/FinancialDisclaimer-DhDcnwo7.js"
   ],
   "resources/js/Components/Ads/AdContainer.jsx": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/Components/AiInsightCard.jsx": [
     "/build/assets/ai-DqjHlyq0.js"
@@ -583,28 +583,28 @@
     "/build/assets/AuthorEditorialBlock-D4uy0pGl.js"
   ],
   "resources/js/Components/Blog/ArticleNextSteps.jsx": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/Components/Blog/BlogCTA.jsx": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/Components/Blog/UseInRoznamchaWidget.jsx": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/Components/Calculators/ApplianceBreakdown.jsx": [
     "/build/assets/ApplianceBreakdown-C-9vVLt_.js"
   ],
   "resources/js/Components/Calculators/ElectricityCalculatorSuite.jsx": [
-    "/build/assets/Electricity-DPnC5ZSv.js"
+    "/build/assets/Electricity-C7SmFuwY.js"
   ],
   "resources/js/Components/Calculators/SchoolFeeIncreaseCalculator.jsx": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/Components/Calculators/SlabCliffVisualizer.jsx": [
     "/build/assets/ApplianceBreakdown-C-9vVLt_.js"
   ],
   "resources/js/Components/Calculators/SolarTeaserCard.jsx": [
-    "/build/assets/Electricity-DPnC5ZSv.js"
+    "/build/assets/Electricity-C7SmFuwY.js"
   ],
   "resources/js/Components/Chat/ChatHeader.jsx": [
     "/build/assets/ChatWidget-DFPdtWTT.js"
@@ -625,7 +625,7 @@
     "/build/assets/ChatWidget-DFPdtWTT.js"
   ],
   "resources/js/Components/CookieConsent.jsx": [
-    "/build/assets/PublicLayout-C7rPzHQq.js"
+    "/build/assets/PublicLayout-8f9iGZFn.js"
   ],
   "resources/js/Components/CronPresetPicker.jsx": [
     "/build/assets/Create-y3iocVm_.js"
@@ -645,6 +645,9 @@
   "resources/js/Components/Modal.jsx": [
     "/build/assets/DeleteUserForm-Vxl3SRY6.js"
   ],
+  "resources/js/Components/Nav/PublicHeader.jsx": [
+    "/build/assets/PublicLayout-8f9iGZFn.js"
+  ],
   "resources/js/Components/NavLink.jsx": [
     "/build/assets/AuthenticatedLayout-C3A81LG2.js"
   ],
@@ -652,7 +655,7 @@
     "/build/assets/PrimaryButton-CoJh6CQZ.js"
   ],
   "resources/js/Components/Public/FinancialDisclaimer.jsx": [
-    "/build/assets/FinancialDisclaimer-Drfz7MoY.js"
+    "/build/assets/FinancialDisclaimer-DhDcnwo7.js"
   ],
   "resources/js/Components/RelatedLinksBlock.jsx": [
     "/build/assets/RelatedLinksBlock-DGsmGHba.js"
@@ -664,7 +667,7 @@
     "/build/assets/PostForm-BjRjgJiI.js"
   ],
   "resources/js/Components/SEO/SeoLandingPage.jsx": [
-    "/build/assets/SeoLandingPage-7VjSzkwN.js"
+    "/build/assets/SeoLandingPage-qIK1Iqkh.js"
   ],
   "resources/js/Components/SarkariTayariPromoCard.jsx": [
     "/build/assets/SarkariTayariPromoCard-0LlZm_uy.js"
@@ -697,13 +700,13 @@
     "/build/assets/OnboardingLayout-D7OUQyqL.js"
   ],
   "resources/js/Layouts/PublicLayout.jsx": [
-    "/build/assets/PublicLayout-C7rPzHQq.js"
+    "/build/assets/PublicLayout-8f9iGZFn.js"
   ],
   "resources/js/Layouts/ToolLayout.jsx": [
-    "/build/assets/FinancialDisclaimer-Drfz7MoY.js"
+    "/build/assets/FinancialDisclaimer-DhDcnwo7.js"
   ],
   "resources/js/Pages/About.jsx": [
-    "/build/assets/About-tz4UotVc.js"
+    "/build/assets/About-C3Yp9GDj.js"
   ],
   "resources/js/Pages/AddExpenseForm.jsx": [
     "/build/assets/AddExpenseForm-Bby2dix8.js"
@@ -784,13 +787,13 @@
     "/build/assets/Index-VJclvpjH.js"
   ],
   "resources/js/Pages/Contact.jsx": [
-    "/build/assets/Contact-VdoWAvlq.js"
+    "/build/assets/Contact-DEePj-36.js"
   ],
   "resources/js/Pages/Dashboard.jsx": [
     "/build/assets/Dashboard-CUc9xawn.js"
   ],
   "resources/js/Pages/Home.jsx": [
-    "/build/assets/Home-B-PlQxzw.js"
+    "/build/assets/Home-DzXJbjXE.js"
   ],
   "resources/js/Pages/Kharcha/Create.jsx": [
     "/build/assets/Create-DNmOQKtO.js"
@@ -805,7 +808,7 @@
     "/build/assets/KharchaMapList-BPVuxp4m.js"
   ],
   "resources/js/Pages/Login.jsx": [
-    "/build/assets/Login-D35T3Mkh.js"
+    "/build/assets/Login-37APHq70.js"
   ],
   "resources/js/Pages/Onboarding/Budget.jsx": [
     "/build/assets/Budget-MSPdaAXu.js"
@@ -832,70 +835,73 @@
     "/build/assets/UpdateProfileInformationForm-BHw5YBfS.js"
   ],
   "resources/js/Pages/Public/About.jsx": [
-    "/build/assets/About-BzqkmCCs.js"
+    "/build/assets/About-CCiAiQnN.js"
   ],
   "resources/js/Pages/Public/Blog/Category.jsx": [
-    "/build/assets/Category-DNhXz_AQ.js"
+    "/build/assets/Category-NcSbVwqR.js"
   ],
   "resources/js/Pages/Public/Blog/Index.jsx": [
-    "/build/assets/Index-D-_VE_qk.js"
+    "/build/assets/Index-Bn20J6V4.js"
   ],
   "resources/js/Pages/Public/Blog/Show.jsx": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/Pages/Public/Contact.jsx": [
-    "/build/assets/Contact-DYKXD1Pi.js"
+    "/build/assets/Contact-BeKLsNfg.js"
   ],
   "resources/js/Pages/Public/CookiePolicy.jsx": [
-    "/build/assets/CookiePolicy-Btk2ImE1.js"
+    "/build/assets/CookiePolicy-CIalN-fw.js"
   ],
   "resources/js/Pages/Public/Disclaimer.jsx": [
-    "/build/assets/Disclaimer-C66JVrqz.js"
+    "/build/assets/Disclaimer-KaIye4VY.js"
   ],
   "resources/js/Pages/Public/EditorialPolicy.jsx": [
-    "/build/assets/EditorialPolicy-RaZxBg7N.js"
+    "/build/assets/EditorialPolicy-Cw6XZW9Z.js"
   ],
   "resources/js/Pages/Public/ExpenseTrackerPakistan.jsx": [
-    "/build/assets/ExpenseTrackerPakistan-BfJzkUA2.js"
+    "/build/assets/ExpenseTrackerPakistan-DcdEyOPC.js"
   ],
   "resources/js/Pages/Public/Features.jsx": [
-    "/build/assets/Features-DRGQTmHS.js"
+    "/build/assets/Features-0bqcS7EV.js"
   ],
   "resources/js/Pages/Public/Home.jsx": [
-    "/build/assets/Home-DXqFkRPU.js"
+    "/build/assets/Home-CkEtjoyd.js"
   ],
   "resources/js/Pages/Public/KharchaMap.jsx": [
-    "/build/assets/KharchaMap-DokxVt59.js"
+    "/build/assets/KharchaMap-DKBVDbH1.js"
   ],
   "resources/js/Pages/Public/MethodologySources.jsx": [
-    "/build/assets/MethodologySources-DfGzpelw.js"
+    "/build/assets/MethodologySources-C_Gfa7Q4.js"
   ],
   "resources/js/Pages/Public/PrivacyPolicy.jsx": [
-    "/build/assets/PrivacyPolicy-C6S4AcgR.js"
+    "/build/assets/PrivacyPolicy-DN9Wuu6F.js"
   ],
   "resources/js/Pages/Public/RationBrain.jsx": [
-    "/build/assets/RationBrain-Btu8PwFR.js"
+    "/build/assets/RationBrain-s0sFLt-z.js"
   ],
   "resources/js/Pages/Public/SurvivalReport.jsx": [
-    "/build/assets/SurvivalReport-zIfjl0wX.js"
+    "/build/assets/SurvivalReport-DvTbzJ9Z.js"
+  ],
+  "resources/js/Pages/Public/Templates/Show.jsx": [
+    "/build/assets/Show-gOSbguqL.js"
   ],
   "resources/js/Pages/Public/Terms.jsx": [
-    "/build/assets/Terms-r-xnXLyZ.js"
+    "/build/assets/Terms-DsYMNLns.js"
   ],
   "resources/js/Pages/Public/Tools/ElectricityBillEstimator.jsx": [
-    "/build/assets/ElectricityBillEstimator-B_bjeUvV.js"
+    "/build/assets/ElectricityBillEstimator-BVaQFZCA.js"
   ],
   "resources/js/Pages/Public/Tools/MonthlyHouseholdBudgetCalculator.jsx": [
-    "/build/assets/MonthlyHouseholdBudgetCalculator-C4MYTUkh.js"
+    "/build/assets/MonthlyHouseholdBudgetCalculator-ke6FjOGA.js"
   ],
   "resources/js/Pages/Public/Tools/RationCostEstimator.jsx": [
-    "/build/assets/RationCostEstimator-BEx9aNAo.js"
+    "/build/assets/RationCostEstimator-CpzOZUiJ.js"
   ],
   "resources/js/Pages/Public/Tools/SchoolFeesPlanner.jsx": [
-    "/build/assets/SchoolFeesPlanner-np-4_azh.js"
+    "/build/assets/SchoolFeesPlanner-DNzTu-su.js"
   ],
   "resources/js/Pages/Public/Tools/SolarRoiCalculator.jsx": [
-    "/build/assets/SolarRoiCalculator-DuSFXn6C.js"
+    "/build/assets/SolarRoiCalculator-zhXUAg1D.js"
   ],
   "resources/js/Pages/Ration.jsx": [
     "/build/assets/Ration-DB1Qxwil.js"
@@ -919,19 +925,19 @@
     "/build/assets/Reports-0FLtowNt.js"
   ],
   "resources/js/Pages/SEO/Electricity.jsx": [
-    "/build/assets/Electricity-DPnC5ZSv.js"
+    "/build/assets/Electricity-C7SmFuwY.js"
   ],
   "resources/js/Pages/SEO/Petrol.jsx": [
-    "/build/assets/Petrol-B3ft_sGP.js"
+    "/build/assets/Petrol-DcfqpPlM.js"
   ],
   "resources/js/Pages/SEO/Ration.jsx": [
-    "/build/assets/Ration-_8XcPacO.js"
+    "/build/assets/Ration-Ch6Ey0PD.js"
   ],
   "resources/js/Pages/Templates/Index.jsx": [
-    "/build/assets/Index-CI7Y67xz.js"
+    "/build/assets/Index-DpTLC0Q0.js"
   ],
   "resources/js/Pages/Templates/Show.jsx": [
-    "/build/assets/Show-W1heIjLW.js"
+    "/build/assets/Show-ulqAv5nl.js"
   ],
   "resources/js/Pages/Welcome.jsx": [
     "/build/assets/Welcome-B6MWawkZ.js"
@@ -939,11 +945,14 @@
   "resources/js/ai.js": [
     "/build/assets/ai-DqjHlyq0.js"
   ],
+  "resources/js/hooks/useAdCodeLoaded.js": [
+    "/build/assets/Show-h0pfaxUV.js"
+  ],
   "resources/js/hooks/useDailyReturnContent.js": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/lib/blogCta.js": [
-    "/build/assets/Show-Byql8T7o.js"
+    "/build/assets/Show-h0pfaxUV.js"
   ],
   "resources/js/lib/electricityTariff.js": [
     "/build/assets/ApplianceBreakdown-C-9vVLt_.js"

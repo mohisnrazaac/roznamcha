@@ -8,6 +8,7 @@ import SchoolFeeIncreaseCalculator from '../../../Components/Calculators/SchoolF
 import ArticleNextSteps from '../../../Components/Blog/ArticleNextSteps';
 import AdContainer from '../../../Components/Ads/AdContainer';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
+import useAdCodeLoaded from '../../../hooks/useAdCodeLoaded';
 
 const getReturnPath = (url, slug) => {
     if (!url && slug) {
@@ -41,9 +42,12 @@ const articleUseCards = [
     },
 ];
 
-export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
+export default function BlogShow(props) {
+    const { post, seo, jsonLd, relatedLinks = {} } = props;
     const { pagePolicies } = usePage().props;
-    const adsAllowed = Boolean(pagePolicies?.adsAllowed);
+    const adsAllowed = (props.pagePolicies?.adsAllowed ?? pagePolicies?.adsAllowed) === true;
+    const adCodeLoaded = useAdCodeLoaded(adsAllowed);
+    const shouldRenderAds = adsAllowed && adCodeLoaded;
     const featureHooks = post?.feature_hooks ?? {};
     const returnPath = getReturnPath(post?.url, post?.slug);
     const showCalculator = featureHooks?.calculator === 'school_fee_increase';
@@ -127,8 +131,8 @@ export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
                     </section>
                 ) : null}
 
-                {adsAllowed ? (
-                    <AdContainer slot="blog-in-article" variant="responsive" className="my-6" />
+                {shouldRenderAds ? (
+                    <AdContainer slot="blog-in-article" variant="responsive" className="my-6 min-h-[280px]" />
                 ) : null}
 
                 <section
@@ -136,8 +140,8 @@ export default function BlogShow({ post, seo, jsonLd, relatedLinks = {} }) {
                     dangerouslySetInnerHTML={{ __html: post?.content ?? '' }}
                 />
 
-                {adsAllowed ? (
-                    <AdContainer slot="blog-after-content" variant="responsive" className="my-6" />
+                {shouldRenderAds ? (
+                    <AdContainer slot="blog-after-content" variant="responsive" className="my-6 min-h-[280px]" />
                 ) : null}
 
                 <AuthorEditorialBlock

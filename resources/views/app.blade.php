@@ -184,10 +184,15 @@
               }
 
               adsLoaded = true;
-              appendScript(
-                'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(config.adsenseClientId),
-                { crossorigin: 'anonymous' }
-              );
+              const script = document.createElement('script');
+              script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(config.adsenseClientId);
+              script.async = true;
+              script.crossOrigin = 'anonymous';
+              script.onload = function () {
+                window.roznamchaAdsLoaded = true;
+                window.dispatchEvent(new CustomEvent('roznamcha:ads-loaded'));
+              };
+              document.head.appendChild(script);
             };
 
             const applyConsentState = (consentState) => {

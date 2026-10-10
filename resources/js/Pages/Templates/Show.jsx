@@ -22,13 +22,30 @@ const formatDate = (value) => {
     }).format(new Date(value));
 };
 
-export default function Show({ template, budget, proPreview, guestReturnTo, seo: seoProp, jsonLd: jsonLdProp }) {
+export default function Show({ template, budget, proPreview, isGuest = false, guestReturnTo, seo: seoProp, jsonLd: jsonLdProp }) {
     const { auth, flash } = usePage().props;
-    const isAuthenticated = Boolean(auth?.user);
+    const isAuthenticated = Boolean(auth?.user) && !isGuest;
     const { post, processing } = useForm({
         slug: template.slug,
         source: 'template_show',
     });
+
+    const returnUrl = guestReturnTo || template.show_url || `/templates/${template.slug}`;
+    const loginHref = `/login?return_to=${encodeURIComponent(returnUrl)}`;
+    const excelDownloadHref = isAuthenticated
+        ? (template.excel_download_url || `${template.download_url}?format=excel`)
+        : `/login?return_to=${encodeURIComponent(template.excel_download_url || `${template.download_url}?format=excel`)}`;
+    const pdfDownloadHref = isAuthenticated
+        ? `${template.download_url}?mode=free`
+        : `/login?return_to=${encodeURIComponent(`${template.download_url}?mode=free`)}`;
+
+    const showPremiumLock = template.is_premium && !template.has_pro_access;
+
+    const handleSave = () => {
+        post('/templates/save', {
+            preserveScroll: true,
+        });
+    };
 
     const seo = seoProp ?? {
         title: `${template.title} | Smart Budget Templates | Roznamcha`,
@@ -39,16 +56,6 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
         image: 'https://roznamcha.pk/icons/appicon.png',
         type: 'article',
         schemaName: template.title,
-    };
-
-    const registerHref = `/register?return_to=${encodeURIComponent(guestReturnTo)}`;
-    const loginHref = `/login?return_to=${encodeURIComponent(guestReturnTo)}`;
-    const showPremiumLock = template.is_premium && !template.has_pro_access;
-
-    const handleSave = () => {
-        post('/templates/save', {
-            preserveScroll: true,
-        });
     };
 
     return (
@@ -85,7 +92,7 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
                             <div className="mt-6 grid gap-4 sm:grid-cols-3">
                                 <HighlightCard label="Salary Target" value={`PKR ${formatCurrency(template.base_salary_target)}`} />
                                 <HighlightCard label="Allocated" value={`PKR ${formatCurrency(budget.total_allocated)}`} />
-                                <HighlightCard label="Download" value={isAuthenticated ? 'Free PDF ready' : 'Login required'} />
+                                <HighlightCard label="Status" value={isAuthenticated ? 'Dashboard Active' : 'Read-Only Preview'} />
                             </div>
 
                             {flash?.status ? (
@@ -109,13 +116,19 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
                                             disabled={processing}
                                             className="inline-flex items-center justify-center rounded-full bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#012261] disabled:cursor-not-allowed disabled:opacity-70"
                                         >
-                                            {processing ? 'Saving...' : 'Save for my household'}
+                                            {processing ? 'Saving...' : 'Save to My Dashboard'}
                                         </button>
                                         <a
-                                            href={`${template.download_url}?mode=free`}
+                                            href={excelDownloadHref}
+                                            className="inline-flex items-center justify-center rounded-full border border-emerald-600/30 bg-emerald-50/60 px-5 py-2.5 text-sm font-semibold text-emerald-800 transition hover:bg-emerald-100"
+                                        >
+                                            Export as Excel
+                                        </a>
+                                        <a
+                                            href={pdfDownloadHref}
                                             className="inline-flex items-center justify-center rounded-full border border-[#001a4a]/15 px-5 py-2.5 text-sm font-semibold text-[#001a4a] transition hover:bg-[#001a4a]/5"
                                         >
-                                            Download free PDF
+                                            Download PDF
                                         </a>
                                         {template.is_premium ? (
                                             template.has_pro_access ? (
@@ -138,75 +151,121 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
                                 ) : (
                                     <>
                                         <Link
-                                            href={registerHref}
+                                            href={loginHref}
                                             className="inline-flex items-center justify-center rounded-full bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#012261]"
                                         >
-                                            Save this for my household
+                                            Save to My Dashboard
                                         </Link>
-                                        <Link
-                                            href={loginHref}
+                                        <a
+                                            href={excelDownloadHref}
+                                            className="inline-flex items-center justify-center rounded-full border border-emerald-600/30 bg-emerald-50/60 px-5 py-2.5 text-sm font-semibold text-emerald-800 transition hover:bg-emerald-100"
+                                        >
+                                            Export as Excel
+                                        </a>
+                                        <a
+                                            href={pdfDownloadHref}
                                             className="inline-flex items-center justify-center rounded-full border border-[#001a4a]/15 px-5 py-2.5 text-sm font-semibold text-[#001a4a] transition hover:bg-[#001a4a]/5"
                                         >
-                                            Login to download
-                                        </Link>
+                                            Download PDF
+                                        </a>
                                     </>
                                 )}
                             </div>
                         </div>
 
-                        <section className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-                            <div className="flex items-center justify-between gap-3">
-                                <div>
-                                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c5a00]">Free breakdown</p>
-                                    <h2 className="mt-2 text-2xl font-semibold text-[#001a4a]">Category allocation</h2>
-                                </div>
-                                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-                                    Cached after first generation
-                                </span>
-                            </div>
-
-                            <div className="mt-6 space-y-3">
-                                {budget.categories.map((item) => (
-                                    <CategoryRow key={item.category} item={item} />
-                                ))}
-                            </div>
-
+                        <section className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
                             {!isAuthenticated ? (
-                                <div className="mt-6 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-6 text-center">
-                                    <p className="text-base font-semibold text-[#001a4a]">
-                                        Save this budget template for your household
-                                    </p>
-                                    <p className="mt-1 text-sm text-slate-600">
-                                        Sign up to track your monthly spending against this template, or login to download the free PDF.
-                                    </p>
-                                    <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-                                        <Link
-                                            href={registerHref}
-                                            className="inline-flex items-center justify-center rounded-full bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#012261]"
-                                        >
-                                            Save this for my household
-                                        </Link>
-                                        <Link
-                                            href={loginHref}
-                                            className="inline-flex items-center justify-center rounded-full border border-[#001a4a]/15 bg-white px-5 py-2.5 text-sm font-semibold text-[#001a4a] transition hover:bg-slate-100"
-                                        >
-                                            Login to download
-                                        </Link>
+                                <div
+                                    aria-hidden="true"
+                                    className="pointer-events-none select-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
+                                >
+                                    <div className="rotate-[-22deg] text-center font-black tracking-[0.25em] uppercase text-slate-900/[0.04] text-4xl sm:text-6xl select-none leading-relaxed">
+                                        ROZNAMCHA.PK<br />
+                                        <span className="text-xl sm:text-2xl text-slate-900/[0.05]">SAMPLE PREVIEW • READ-ONLY</span>
                                     </div>
                                 </div>
                             ) : null}
 
-                            <div className="mt-8">
-                                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c5a00]">Saving tips</p>
-                                <div className="mt-4 grid gap-3">
-                                    {budget.saving_tips.map((tip, index) => (
-                                        <div
-                                            key={`${template.slug}-tip-${index + 1}`}
-                                            className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600"
-                                        >
-                                            {tip}
-                                        </div>
+                            <div className="relative z-10">
+                                <div className="flex flex-wrap items-center justify-between gap-3">
+                                    <div>
+                                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c5a00]">
+                                            {!isAuthenticated ? 'Sample Breakdown' : 'Free breakdown'}
+                                        </p>
+                                        <h2 className="mt-2 text-2xl font-semibold text-[#001a4a]">Category allocation</h2>
+                                    </div>
+                                    {!isAuthenticated ? (
+                                        <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+                                            <span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+                                            Read-Only Preview
+                                        </span>
+                                    ) : (
+                                        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                                            Full Household Access
+                                        </span>
+                                    )}
+                                </div>
+
+                                {!isAuthenticated ? (
+                                    <div className="mt-4 flex items-center gap-3 rounded-2xl border border-amber-200/80 bg-amber-50/70 p-3.5 text-xs text-amber-900">
+                                        <svg className="h-4 w-4 shrink-0 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span>
+                                            <strong>Guest Preview:</strong> You are viewing a watermarked, read-only preview of the template structure and category breakdown. Authenticate to save this structure to your personal dashboard or export to Excel/PDF.
+                                        </span>
+                                    </div>
+                                ) : null}
+
+                                <div className="mt-6 space-y-3">
+                                    {budget.categories.map((item) => (
+                                        <CategoryRow key={item.category} item={item} />
                                     ))}
+                                </div>
+
+                                {!isAuthenticated ? (
+                                    <div className="mt-6 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-6 text-center">
+                                        <p className="text-base font-semibold text-[#001a4a]">
+                                            Save to My Dashboard or Export this Budget
+                                        </p>
+                                        <p className="mt-1 text-sm text-slate-600">
+                                            Sign in to track your monthly spending against this template or download as an Excel spreadsheet.
+                                        </p>
+                                        <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+                                            <Link
+                                                href={loginHref}
+                                                className="inline-flex items-center justify-center rounded-full bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#012261]"
+                                            >
+                                                Save to My Dashboard
+                                            </Link>
+                                            <a
+                                                href={excelDownloadHref}
+                                                className="inline-flex items-center justify-center rounded-full border border-emerald-600/30 bg-white px-5 py-2.5 text-sm font-semibold text-emerald-800 transition hover:bg-slate-100"
+                                            >
+                                                Export as Excel
+                                            </a>
+                                            <a
+                                                href={pdfDownloadHref}
+                                                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+                                            >
+                                                Download PDF
+                                            </a>
+                                        </div>
+                                    </div>
+                                ) : null}
+
+                                <div className="mt-8">
+                                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c5a00]">Saving tips</p>
+                                    <div className="mt-4 grid gap-3">
+                                        {budget.saving_tips.map((tip, index) => (
+                                            <div
+                                                key={`${template.slug}-tip-${index + 1}`}
+                                                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600"
+                                            >
+                                                {tip}
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -284,10 +343,10 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
                                                 </Link>
                                             ) : (
                                                 <Link
-                                                    href={registerHref}
+                                                    href={loginHref}
                                                     className="mt-4 inline-flex items-center justify-center rounded-full bg-[#001a4a] px-5 py-2.5 text-sm font-semibold text-white"
                                                 >
-                                                    Save first
+                                                    Save to My Dashboard
                                                 </Link>
                                             )}
                                         </div>
@@ -309,14 +368,14 @@ export default function Show({ template, budget, proPreview, guestReturnTo, seo:
                                     disabled={processing}
                                     className="mt-5 inline-flex items-center justify-center rounded-full bg-yellow-300 px-5 py-2.5 text-sm font-semibold text-[#001a4a] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                                 >
-                                    {processing ? 'Saving...' : 'Save for my household'}
+                                    {processing ? 'Saving...' : 'Save to My Dashboard'}
                                 </button>
                             ) : (
                                 <Link
-                                    href={registerHref}
+                                    href={loginHref}
                                     className="mt-5 inline-flex items-center justify-center rounded-full bg-yellow-300 px-5 py-2.5 text-sm font-semibold text-[#001a4a]"
                                 >
-                                    Save for my household
+                                    Save to My Dashboard
                                 </Link>
                             )}
                         </section>
