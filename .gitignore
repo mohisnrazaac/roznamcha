@@ -16,6 +16,7 @@ composer.lock
 .phpunit.result.cache
 check_live.php
 check_assets_live.php
+.release
 
 # Node / React / Vite
 node_modules/
