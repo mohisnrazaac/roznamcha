@@ -129,7 +129,9 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
         setError('');
         setRevealResult(false);
 
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        const csrfToken = (typeof window !== 'undefined' && window.getCsrfToken ? await window.getCsrfToken() : null)
+            || document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+            || '';
 
         try {
             const response = await fetch('/tools/monthly-household-budget-calculator/calculate', {

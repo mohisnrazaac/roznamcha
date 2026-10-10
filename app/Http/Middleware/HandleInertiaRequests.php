@@ -133,6 +133,7 @@ class HandleInertiaRequests extends Middleware
             || str_starts_with($routeName, 'seo.')
             || in_array($routeName, [
                 'offline',
+                'csrf.token',
                 'login',
                 'register',
                 'password.request',
@@ -184,6 +185,7 @@ class HandleInertiaRequests extends Middleware
             'password.email',
             'password.reset',
             'password.store',
+            'csrf.token',
             'public.ads-txt',
             'public.home',
             'public.features',

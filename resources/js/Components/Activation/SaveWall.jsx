@@ -13,7 +13,7 @@ const jsonToBase64Url = (value) => {
     }
 };
 
-const getCsrfToken = () => document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
+const getCsrfToken = () => (typeof window !== 'undefined' && window.csrfToken) || (document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '');
 
 const resolveEndpoint = (value) => {
     if (!value) return '';

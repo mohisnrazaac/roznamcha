@@ -121,7 +121,9 @@ export default function ElectricityBillEstimator({
         setError('');
         setRevealResult(false);
 
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        const csrfToken = (typeof window !== 'undefined' && window.getCsrfToken ? await window.getCsrfToken() : null)
+            || document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+            || '';
 
         try {
             const response = await fetch('/tools/electricity-bill-estimator/calculate', {

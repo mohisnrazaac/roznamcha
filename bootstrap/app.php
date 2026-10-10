@@ -40,12 +40,17 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     })
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [
-            \App\Http\Middleware\HandleInertiaRequests::class,
-            \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
-            \App\Http\Middleware\SecurityHeaders::class,
-            \App\Http\Middleware\AddReleaseMarkerHeader::class,
-        ]);
+        $middleware->web(
+            prepend: [
+                \App\Http\Middleware\PreventCachingWithCookies::class,
+            ],
+            append: [
+                \App\Http\Middleware\HandleInertiaRequests::class,
+                \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+                \App\Http\Middleware\SecurityHeaders::class,
+                \App\Http\Middleware\AddReleaseMarkerHeader::class,
+            ]
+        );
 
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,

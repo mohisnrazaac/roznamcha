@@ -22,7 +22,9 @@ export async function fetchAiInsight(module, payload = {}) {
     throw new Error(`AI endpoint missing for module: ${module}`);
   }
 
-  const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
+  const token = (typeof window !== 'undefined' && window.getCsrfToken ? await window.getCsrfToken() : null)
+    ?? document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+    ?? '';
 
   const response = await fetch(url, {
     method: 'POST',

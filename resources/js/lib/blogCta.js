@@ -1,5 +1,7 @@
 export async function triggerBlogCta({ postId, slug, returnTo, ctaRoute = 'register', prefill = null }) {
-    const csrfToken = document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    const csrfToken = (typeof window !== 'undefined' && window.getCsrfToken ? await window.getCsrfToken() : null)
+        || document.head.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+        || '';
 
     const payload = {
         post_id: postId,

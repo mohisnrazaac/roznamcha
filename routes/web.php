@@ -65,6 +65,15 @@ Route::get('/ads.txt', function () {
     \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
 ])->name('public.ads-txt');
 
+Route::get('/csrf-token', function () {
+    return response()->json([
+        'csrf_token' => csrf_token(),
+    ])->withHeaders([
+        'Cache-Control' => 'no-store, no-cache, private, must-revalidate',
+        'Pragma' => 'no-cache',
+    ]);
+})->name('csrf.token');
+
 // Public marketing pages
 Route::get('/', [PublicPageController::class, 'home'])->name('public.home');
 Route::get('/features', [PublicPageController::class, 'features'])->name('public.features');

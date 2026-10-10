@@ -39,6 +39,13 @@ createInertiaApp({
       }
     });
 
+    const unsubscribeBefore = router.on('before', (event) => {
+      const metaToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+      if (metaToken && event.detail?.visit?.headers) {
+        event.detail.visit.headers['X-CSRF-TOKEN'] = metaToken;
+      }
+    });
+
     const ziggyConfig = props.initialPage.props?.ziggy ?? fallbackZiggy;
     window.route = (name, params, absolute) => {
       try {
@@ -67,6 +74,7 @@ createInertiaApp({
     return () => {
       unsubscribe();
       unsubscribeNavigate();
+      unsubscribeBefore();
     };
   },
   progress: {
