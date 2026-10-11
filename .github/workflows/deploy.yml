@@ -108,9 +108,12 @@ jobs:
       - name: Verify live deployment
         run: |
           chmod +x scripts/verify-live.sh
+          set +e
           output=$(./scripts/verify-live.sh https://roznamcha.pk 2>&1)
+          exit_code=$?
+          set -e
           echo "$output"
-          if echo "$output" | grep -E '^FAIL'; then
+          if [ $exit_code -ne 0 ] || echo "$output" | grep -E '^FAIL'; then
             echo "Deployment verification failed: one or more checks reported FAIL."
             exit 1
           fi

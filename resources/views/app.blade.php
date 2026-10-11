@@ -268,7 +268,7 @@
         <noscript>
             @if(request()->is('features'))
                 <article class="p-6 max-w-4xl mx-auto text-slate-700">
-                    <h1 class="text-3xl font-bold">See Every Roznamcha Module Without Logging In</h1>
+                    <h2 class="text-3xl font-bold">See Every Roznamcha Module Without Logging In</h2>
                     <p>Explore Roznamcha's complete suite of money management and budgeting tools built specifically for Pakistani families. From daily kharcha tracking to monthly ration cost forecasting, our platform gives you full visibility over your household finances before you register.</p>
                     <p>Visualize every rupee spent across categories including groceries, utilities, school fees, transport, and medical care to plug leaks before mid-month cash crunches occur.</p>
                     <img src="/media/features/kharcha-map-expense-tracking-pakistan.webp" alt="Kharcha Map Expense Tracking in Pakistan" width="599" height="410" loading="lazy" decoding="async">
@@ -286,7 +286,7 @@
             @endif
             @if(request()->is('disclaimer'))
                 <article class="p-6 max-w-4xl mx-auto text-slate-700">
-                    <h1 class="text-3xl font-bold">Disclaimer &amp; Planning Boundaries | Roznamcha</h1>
+                    <h2 class="text-3xl font-bold">Disclaimer &amp; Planning Boundaries | Roznamcha</h2>
                     <p>Roznamcha publishes budgeting guides, calculators, and household-planning content for educational and comparison use across Pakistan. The site does not know your full financial circumstances, obligations, risk tolerance, or legal position. Nothing on this site is personal financial, legal, tax, investment, or regulatory advice. You remain responsible for verifying important decisions against official government notices, contracts, utility bills, and local market conditions.</p>
                     <p>Rates, prices, and dates can change quickly in Pakistani markets. Public prices and rules discussed on the site may change after publication. Calculator outputs are planning estimates designed to support thoughtful budgeting, not guarantee exact outcomes or bank approvals.</p>
                     <p>Economic conditions, currency valuations, fuel adjustments, and taxation policies across federal and provincial authorities in Pakistan fluctuate regularly. Any budgeting simulations, grocery estimates, school fee calculations, or utility bill estimates provided by Roznamcha rely on user-submitted inputs and representative baseline averages. They should not be relied upon as binding quotations or certified banking assessments.</p>
@@ -295,7 +295,7 @@
             @endif
             @if(request()->is('tools/ration-cost-estimator'))
                 <article class="p-6 max-w-4xl mx-auto text-slate-700 space-y-6">
-                    <h1 class="text-3xl font-bold">Ration Cost Estimator Pakistan – Monthly Grocery Budget Calculator</h1>
+                    <h2 class="text-3xl font-bold">Ration Cost Estimator Pakistan – Monthly Grocery Budget Calculator</h2>
                     <p>Estimate your monthly kitchen ration cost across Pakistan based on essential grocery staples including wheat flour (atta), basmati and regular rice, cooking ghee/oil, refined sugar, and pulses (daal). This tool establishes a reliable, non-perishable food baseline before shopping in wholesale markets or neighborhood kiryana stores.</p>
 
                     <h2 class="text-2xl font-bold mt-4">Methodology &amp; Calculation Mechanics</h2>
@@ -325,7 +325,7 @@
             @endif
             @if(request()->is('tools/electricity-bill-estimator'))
                 <article class="p-6 max-w-4xl mx-auto text-slate-700 space-y-6">
-                    <h1 class="text-3xl font-bold">Electricity Bill Estimator Pakistan – NEPRA Tariff Slabs &amp; Taxes</h1>
+                    <h2 class="text-3xl font-bold">Electricity Bill Estimator Pakistan – NEPRA Tariff Slabs &amp; Taxes</h2>
                     <p>Forecast your monthly residential electricity bill across Pakistani power distribution companies (LESCO, K-Electric, IESCO, FESCO, MEPCO, GEPCO, PESCO, HESCO, SEPCO, QESCO). Calculate progressive tariff slabs, protected versus unprotected status, fuel price adjustments (FPA), and federal surcharges.</p>
 
                     <h2 class="text-2xl font-bold mt-4">Methodology &amp; Calculation Mechanics</h2>
@@ -344,9 +344,9 @@
 
                     <h2 class="text-2xl font-bold mt-4">Frequently Asked Questions</h2>
                     <h3 class="text-xl font-semibold mt-2">Does this estimator use fixed slab values in code?</h3>
-                    <p>No. The progressive slab billing reads from the configurable slab_rates table so rates can be updated without changing frontend logic.</p>
+                    <p>No. The progressive slab billing reads from the official NEPRA tariff schedule so rates can be updated without changing frontend logic.</p>
                     <h3 class="text-xl font-semibold mt-2">Why is this an estimate and not my exact bill?</h3>
-                    <p>It includes configurable placeholders for FPA and surcharges and applies GST, but actual utility bills can include additional line items or timing-based adjustments.</p>
+                    <p>It includes configurable adjustments for FPA and surcharges and applies GST, but actual utility bills can include additional line items or timing-based adjustments.</p>
                     <h3 class="text-xl font-semibold mt-2">Can I use this without creating an account?</h3>
                     <p>Yes. The estimator works fully in guest mode. Signup is only for saving estimates and reminders later.</p>
                     <h3 class="text-xl font-semibold mt-2">What is the difference between protected and unprotected consumers in Pakistan?</h3>
@@ -357,7 +357,7 @@
             @endif
             @if(request()->is('tools/monthly-household-budget-calculator'))
                 <article class="p-6 max-w-4xl mx-auto text-slate-700 space-y-6">
-                    <h1 class="text-3xl font-bold">Monthly Household Budget Calculator Pakistan – Ghar Ka Budget Planner</h1>
+                    <h2 class="text-3xl font-bold">Monthly Household Budget Calculator Pakistan – Ghar Ka Budget Planner</h2>
                     <p>Plan your family's monthly take-home income, house rent, kitchen ration, utility bills, school fees, transport, and miscellaneous medical expenses. Instantly determine whether your household is running a budget surplus or living in a dangerous monthly deficit under prevailing inflation.</p>
 
                     <h2 class="text-2xl font-bold mt-4">Methodology &amp; Calculation Mechanics</h2>
@@ -387,7 +387,7 @@
             @endif
             @if(request()->is('tools/school-fees-planner'))
                 <article class="p-6 max-w-4xl mx-auto text-slate-700 space-y-6">
-                    <h1 class="text-3xl font-bold">School Fees Planner Pakistan – Cost Calculator &amp; Amortization</h1>
+                    <h2 class="text-3xl font-bold">School Fees Planner Pakistan – Cost Calculator &amp; Amortization</h2>
                     <p>Calculate your effective monthly education costs in Pakistan by combining monthly tuition, annual charges, examination fees, and tuition inflation buffers across all school-going children.</p>
 
                     <h2 class="text-2xl font-bold mt-4">Methodology &amp; Calculation Mechanics</h2>
@@ -417,7 +417,7 @@
             @endif
             @if(request()->is('tools/solar-net-metering-roi-calculator'))
                 <article class="p-6 max-w-4xl mx-auto text-slate-700 space-y-6">
-                    <h1 class="text-3xl font-bold">Solar Net Metering &amp; ROI Calculator Pakistan (2026)</h1>
+                    <h2 class="text-3xl font-bold">Solar Net Metering &amp; ROI Calculator Pakistan (2026)</h2>
                     <p>Calculate your turnkey solar payback period, NEPRA buyback earnings, and 10-year battery Total Cost of Ownership (TCO) across Pakistan distribution companies (DISCOs) including LESCO, IESCO, K-Electric, FESCO, MEPCO, and PESCO.</p>
                     <p>Under NEPRA's active Net Billing regulations, self-consumed solar electricity offsets peak and off-peak grid tariffs (Rs. 42 to Rs. 71+ per unit for unprotected residential slabs), while surplus exported units are credited at the national average energy purchase price (~Rs. 11.00 per unit). Optimizing daytime self-consumption delivers the fastest payback period (typically 2.8 to 4.2 years).</p>
                     

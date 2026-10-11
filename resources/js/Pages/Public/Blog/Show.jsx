@@ -107,7 +107,7 @@ export default function BlogShow(props) {
                 <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:p-8">
                     <div className="flex flex-col gap-3">
                         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">How To Use This Guide</p>
-                        <h2 className="text-3xl font-semibold text-[#001a4a]">A stronger shared baseline for every article</h2>
+                        <h2 className="text-3xl font-semibold text-[#001a4a]">How to apply this guide to your household</h2>
                     </div>
                     <div className="mt-8 grid gap-4 md:grid-cols-3">
                         {articleUseCards.map((item) => (

@@ -109,7 +109,9 @@ class SeoSitemapController extends Controller
         $lastmod = now()->startOfDay()->toAtomString();
 
         return BlogCategory::query()
-            ->has('posts')
+            ->whereHas('posts', function ($query) {
+                $query->whereNotIn('slug', BlogPost::archiveExcludedPublicSlugs());
+            })
             ->get(['slug', 'updated_at'])
             ->reject(fn (BlogCategory $category) => $this->searchSurfacePolicy->isCategoryNoindexed($category->slug))
             ->map(fn (BlogCategory $category) => [

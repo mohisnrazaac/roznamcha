@@ -15,13 +15,14 @@ class BlogContentRenderer
         }
 
         $normalized = static::normalizeLineEndings($content);
+        $normalized = static::stripInjectedPromos($normalized);
 
         if ($format === 'html' || static::looksLikeHtmlFragment($normalized)) {
-            return static::sanitizeHtml($normalized);
+            return static::stripInjectedPromos(static::sanitizeHtml($normalized));
         }
 
         if (static::looksLikePlainText($normalized)) {
-            return static::plainTextToHtml($normalized);
+            return static::stripInjectedPromos(static::plainTextToHtml($normalized));
         }
 
         $html = Str::markdown($normalized, [
@@ -29,7 +30,14 @@ class BlogContentRenderer
             'allow_unsafe_links' => false,
         ]);
 
-        return static::sanitizeHtml($html);
+        return static::stripInjectedPromos(static::sanitizeHtml($html));
+    }
+
+    public static function stripInjectedPromos(string $content): string
+    {
+        $cleaned = preg_replace('/<p\b[^>]*>(?:(?!<p\b|<\/p>).)*sarkaritayari(?:(?!<\/p>).)*<\/p>/is', '', $content) ?? $content;
+
+        return preg_replace('/^.*sarkaritayari.*$/im', '', $cleaned) ?? $cleaned;
     }
 
     protected static function sanitizeHtml(string $html): string

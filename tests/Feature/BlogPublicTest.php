@@ -230,7 +230,7 @@ class BlogPublicTest extends TestCase
 
         $this->assertIsString($component);
         $this->assertStringContainsString('How To Use This Guide', $component);
-        $this->assertStringContainsString('A stronger shared baseline for every article', $component);
+        $this->assertStringContainsString('How to apply this guide to your household', $component);
         $this->assertIsString($nextStepsComponent);
         $this->assertStringContainsString('What To Do Next', $nextStepsComponent);
         $this->assertStringNotContainsString('DailyMoneySnapshot', $component);
@@ -260,6 +260,36 @@ class BlogPublicTest extends TestCase
             false
         );
         $response->assertSee('Category Visible Post');
+    }
+
+    public function test_duplicate_wheat_slugs_redirect_to_canonical_post(): void
+    {
+        $targetSlug = 'wheat-flour-atta-subsidies-vs-open-market-rates-managing-kitchen-grocery-inflation-2026';
+        $duplicateSlugs = [
+            'pakistan-cost-of-living-and-grocery-price-index-september-2026-economic-report',
+            'pakistan-cost-of-living-and-grocery-price-index-week-38-september-2026-report',
+            'weekly-pakistan-cost-of-living-and-grocery-price-index-march-2026-market-analysis',
+        ];
+
+        foreach ($duplicateSlugs as $slug) {
+            $response = $this->get('/blog/'.$slug);
+            $response->assertRedirect('/blog/'.$targetSlug);
+            $response->assertStatus(301);
+        }
+    }
+
+    public function test_blog_post_content_strips_injected_promo_paragraphs(): void
+    {
+        $post = BlogPost::factory()->published()->create([
+            'title' => 'Ghar Ka Budget',
+            'slug' => 'test-ghar-ka-budget-promos',
+            'content' => '<p>Good advice here.</p><p>Explore openings on <a href="https://sarkaritayari.pk">sarkaritayari.pk</a>.</p><p>Final conclusion.</p>',
+        ]);
+
+        $rendered = $post->rendered_content;
+        $this->assertStringNotContainsString('sarkaritayari.pk', $rendered);
+        $this->assertStringContainsString('Good advice here.', $rendered);
+        $this->assertStringContainsString('Final conclusion.', $rendered);
     }
 
     private function publicRouteUrl(string $routeName, array|string $parameters = []): string

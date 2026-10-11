@@ -29,6 +29,7 @@ return [
             'household-tips',
             'inflation-watch',
             'personal-finance-pakistan',
+            'news',
         ],
     ],
 

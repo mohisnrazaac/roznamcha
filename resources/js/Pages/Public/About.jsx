@@ -75,11 +75,11 @@ export default function About({ seo, jsonLd, contactEmail = 'support@roznamcha.p
                     </p>
                     <p className="text-base text-slate-700">
                         To maintain rigorous trust standards, read our detailed{' '}
-                        <Link href={route('public.editorial-policy')} className="font-semibold text-[#001a4a] underline">
+                        <Link href="/editorial-policy" className="font-semibold text-[#001a4a] underline">
                             Editorial Policy
                         </Link>{' '}
                         and review the specific mathematical models and data sources documented in our{' '}
-                        <Link href={route('public.methodology')} className="font-semibold text-[#001a4a] underline">
+                        <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
                             Methodology & Sources
                         </Link>{' '}
                         page.
@@ -127,11 +127,11 @@ export default function About({ seo, jsonLd, contactEmail = 'support@roznamcha.p
                     </p>
                     <p>
                         For questions regarding calculation methods, browse our{' '}
-                        <Link href={route('public.methodology')} className="underline hover:no-underline">
+                        <Link href="/methodology" className="underline hover:no-underline">
                             Methodology & Sources
                         </Link>{' '}
                         or read our{' '}
-                        <Link href={route('public.editorial-policy')} className="underline hover:no-underline">
+                        <Link href="/editorial-policy" className="underline hover:no-underline">
                             Editorial Policy
                         </Link>
                         . For direct questions, use the{' '}

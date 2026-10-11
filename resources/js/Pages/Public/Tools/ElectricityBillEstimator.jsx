@@ -5,7 +5,6 @@ import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
-import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 import SlabCliffVisualizer from '../../../Components/Calculators/SlabCliffVisualizer';
 import ApplianceBreakdown from '../../../Components/Calculators/ApplianceBreakdown';
 import { APPLIANCE_PRESETS } from '../../../lib/electricityTariff';
@@ -26,7 +25,7 @@ const clampNumber = (value, min = 0) => {
 const defaultFaqItems = [
     {
         question: 'Does this estimator use fixed slab values in code?',
-        answer: 'No. The progressive slab billing reads from the configurable slab_rates table so rates can be updated without changing frontend logic.',
+        answer: 'No. The progressive slab billing reads from the official NEPRA tariff schedule so rates can be updated without changing frontend logic.',
     },
     {
         question: 'Why is this an estimate and not my exact bill?',
@@ -331,8 +330,6 @@ export default function ElectricityBillEstimator({
                             Save this estimation
                         </Link>
                     </section>
-
-                    <SarkariTayariPromoCard />
                 </div>
             </div>
 

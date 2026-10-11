@@ -52,10 +52,10 @@ export default function AuthorEditorialBlock({
 
                     {showGovernanceLinks ? (
                         <div className="flex flex-wrap gap-x-4 gap-y-2 border-t border-slate-100 pt-3 text-xs font-semibold text-[#001a4a]">
-                            <Link href={route('public.editorial-policy')} className="hover:underline">
+                            <Link href="/editorial-policy" className="hover:underline">
                                 Editorial Policy →
                             </Link>
-                            <Link href={route('public.methodology')} className="hover:underline">
+                            <Link href="/methodology" className="hover:underline">
                                 Methodology & Sources →
                             </Link>
                             <Link href={route('public.about')} className="hover:underline">
