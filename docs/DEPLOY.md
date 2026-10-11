@@ -83,7 +83,7 @@ Executes the full invalidation pipeline:
    git log -1 --format="%h-%cd" --date=format-local:"%Y%m%dT%H%M%SZ" > .release
    ```
 3. **Upload Bundle & Refresh Script**:
-   - Upload compiled `public/build/` to `public_html/build/` and `rozapp/public/build/`.
+   - Upload compiled `public/build/` to `rozapp/public/build/`. Note: `/home/roznamch/public_html/build` is a symlink pointing to `/home/roznamch/rozapp/public/build`, ensuring web assets (`app-*.css`, `app-*.js`) served by LiteSpeed remain automatically in sync with the active application release. (If re-creating the link: `ln -sfn /home/roznamch/rozapp/public/build /home/roznamch/public_html/build`).
    - Upload compiled `bootstrap/ssr/` to `rozapp/bootstrap/ssr/` and `public_html/ssr/`.
    - Upload modified application code to `rozapp/`.
 4. **Restart Node SSR Daemon**:
