@@ -316,7 +316,7 @@ export default function ElectricityBillEstimator({
                             Reducing 40 units per month could save PKR {formatCurrency(estimatedAnnualSavings)} annually.
                         </p>
                         <p className="text-xs text-slate-500 mt-2">
-                            Static placeholder tip for now. Can be replaced with personalized AI suggestions later.
+                            Manage heavy appliances during daylight hours or off-peak times to keep usage in lower slabs.
                         </p>
                     </section>
 

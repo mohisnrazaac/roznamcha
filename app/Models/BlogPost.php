@@ -110,7 +110,8 @@ class BlogPost extends Model
             ->published()
             ->whereNotNull('slug')
             ->where('slug', '!=', '')
-            ->whereNotIn('slug', static::reservedPublicSlugs());
+            ->whereNotIn('slug', static::reservedPublicSlugs())
+            ->whereNotIn('slug', static::removedPublicSlugs());
 
         $driver = $query->getConnection()->getDriverName();
 

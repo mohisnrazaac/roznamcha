@@ -82,6 +82,10 @@ class BlogPublicController extends Controller
             return redirect()->route('public.blog.show', ['slug' => $redirectTargetSlug], 301);
         }
 
+        if (in_array($slug, BlogPost::removedPublicSlugs(), true)) {
+            abort(404);
+        }
+
         $post = BlogPost::query()
             ->publiclyVisible()
             ->with('categories')

@@ -15,7 +15,7 @@ class BlogArchiveBatchFixesTest extends TestCase
     {
         $titlePost = BlogPost::factory()->published()->create([
             'title' => 'Basant 2026 in Lahore: Prices, Costs, and Household Impact',
-            'slug' => 'basant-2026-lahore-kite-prices-household-cost',
+            'slug' => 'basant-2026-lahore-prices-costs',
             'content_format' => 'html',
             'content' => '<!-- ENGLISH VERSION --><h1>Basant 2026 in Lahore: Prices, Costs, and Household Impact</h1><p><strong>Published:</strong> April 3, 2026</p><hr><p>Body copy stays here.</p>',
         ]);
