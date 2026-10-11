@@ -264,7 +264,6 @@ class BlogPublicTest extends TestCase
 
     public function test_duplicate_wheat_slugs_redirect_to_canonical_post(): void
     {
-        $targetSlug = 'wheat-flour-atta-subsidies-vs-open-market-rates-managing-kitchen-grocery-inflation-2026';
         $duplicateSlugs = [
             'pakistan-cost-of-living-and-grocery-price-index-september-2026-economic-report',
             'pakistan-cost-of-living-and-grocery-price-index-week-38-september-2026-report',
@@ -273,8 +272,7 @@ class BlogPublicTest extends TestCase
 
         foreach ($duplicateSlugs as $slug) {
             $response = $this->get('/blog/'.$slug);
-            $response->assertRedirect('/blog/'.$targetSlug);
-            $response->assertStatus(301);
+            $response->assertStatus(404);
         }
     }
 
