@@ -43,10 +43,34 @@ const sections = [
     },
     {
         title: 'Google advertising and third-party measurement',
-        body: 'When advertising is enabled on an eligible public page and the visitor has allowed it, Google may process cookies, web beacons, IP address, and similar identifiers to deliver and measure ads.',
+        body: 'When advertising is enabled on an eligible public page and the visitor has allowed it, Google and third-party vendors may process cookies, web beacons, IP address, and similar identifiers to deliver, personalize, and measure ads.',
         bullets: [
-            'Google may use advertising cookies to show, limit, measure, and report ads.',
-            'Google and its partners may use information from this and other sites to personalize ads if the visitor has allowed that use.',
+            'Third-party vendors, including Google, use cookies to serve ads based on a user’s prior visits to our website or other websites.',
+            'Google’s use of advertising cookies enables it and its partners to serve ads to users based on their visit to our site and/or other sites on the Internet.',
+            <span>
+                Learn how Google uses data when you use partner sites and apps at{' '}
+                <a
+                    href="https://policies.google.com/technologies/partner-sites"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-[#001a4a] underline hover:no-underline"
+                >
+                    policies.google.com/technologies/partner-sites
+                </a>
+                .
+            </span>,
+            <span>
+                Users may opt out of personalized advertising by visiting{' '}
+                <a
+                    href="https://www.aboutads.info/choices"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-[#001a4a] underline hover:no-underline"
+                >
+                    aboutads.info
+                </a>{' '}
+                or Google Ad Settings.
+            </span>,
             'Microsoft Clarity and Google Analytics may be used for site measurement only after the visitor has allowed optional measurement on supported public pages.',
         ],
     },
@@ -91,6 +115,7 @@ export default function PrivacyPolicy({ seo: seoProp, jsonLd: jsonLdProp, contac
                 <header className="space-y-3">
                     <p className="text-xs uppercase tracking-[0.4em] text-[#001a4a]/70">Roznamcha</p>
                     <h1 className="text-3xl font-bold text-[#001a4a]">Privacy Policy</h1>
+                    <p className="text-sm font-medium text-slate-500">Last updated: October 11, 2026</p>
                     <p className="text-base text-slate-700">
                         See how we secure kharcha logs, encrypt ration records, and stay transparent with Pakistani households who trust us to run
                         their Urdu-first budgeting workflows.
@@ -102,8 +127,8 @@ export default function PrivacyPolicy({ seo: seoProp, jsonLd: jsonLdProp, contac
                         <h2 className="text-2xl font-semibold text-[#001a4a]">{section.title}</h2>
                         <p className="text-base text-slate-700">{section.body}</p>
                         <ul className="list-disc pl-5 space-y-2 text-slate-700">
-                            {section.bullets.map((point) => (
-                                <li key={point}>{point}</li>
+                            {section.bullets.map((point, idx) => (
+                                <li key={idx}>{point}</li>
                             ))}
                         </ul>
                     </article>

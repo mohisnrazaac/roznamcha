@@ -73,6 +73,16 @@ trait BuildsPublicSeo
                 'type' => 'article',
                 'schemaName' => 'Roznamcha Privacy Policy',
             ],
+            'cookiePolicy' => [
+                'title' => 'Cookie Policy & Consent Settings | Roznamcha',
+                'description' => 'Review how Roznamcha uses essential session storage and optional advertising cookies, with guidance on managing consent choices.',
+                'url' => $this->publicUrlGenerator()->routeUrl('public.cookie-policy'),
+                'canonical' => $this->publicUrlGenerator()->routeUrl('public.cookie-policy'),
+                'image' => $defaultImage,
+                'keywords' => ['Roznamcha cookie policy', 'cookie consent Pakistan', 'tracking policy', 'browser storage settings'],
+                'type' => 'article',
+                'schemaName' => 'Roznamcha Cookie Policy',
+            ],
             'terms' => [
                 'title' => 'Terms of Service – Roznamcha household finance platform',
                 'description' => 'Review the service terms governing paid plans, data usage, and compliance for Roznamcha users across Pakistan.',

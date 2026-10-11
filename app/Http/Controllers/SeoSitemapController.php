@@ -10,6 +10,7 @@ use App\Models\BudgetTemplate;
 use App\Seo\SearchSurfacePolicy;
 use App\Seo\SeoPageUrlGenerator;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class SeoSitemapController extends Controller
@@ -123,130 +124,138 @@ class SeoSitemapController extends Controller
 
     protected function staticUrls(): array
     {
-        $staticLastmod = now()->startOfDay()->toAtomString();
-
         return [
             [
                 'loc' => $this->urlGenerator->homeUrl(),
                 'priority' => '1.0',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Home.jsx', '2026-10-10T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.features'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Features.jsx', '2026-09-07T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.features.expense-tracker-pakistan'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/ExpenseTrackerPakistan.jsx', '2026-09-07T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.kharcha-map'),
                 'priority' => '0.9',
                 'changefreq' => 'monthly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/KharchaMap.jsx', '2026-08-15T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.ration-brain'),
                 'priority' => '0.9',
                 'changefreq' => 'monthly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/RationBrain.jsx', '2026-08-15T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.survival-report'),
                 'priority' => '0.9',
                 'changefreq' => 'monthly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/SurvivalReport.jsx', '2026-08-15T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.tools.ration-cost-estimator'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Tools/RationCostEstimator.jsx', '2026-09-12T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.tools.monthly-household-budget-calculator'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Tools/MonthlyHouseholdBudgetCalculator.jsx', '2026-09-15T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.tools.school-fees-planner'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Tools/SchoolFeesPlanner.jsx', '2026-09-18T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.tools.electricity-bill-estimator'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Tools/ElectricityBillEstimator.jsx', '2026-10-10T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.tools.solar-net-metering-roi-calculator'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Tools/SolarRoiCalculator.jsx', '2026-10-08T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('templates.index'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Templates/Index.jsx', '2026-09-25T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.blog.index'),
                 'priority' => '0.8',
                 'changefreq' => 'daily',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Blog/Index.jsx', '2026-10-10T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.about'),
                 'priority' => '0.7',
                 'changefreq' => 'yearly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/About.jsx', '2026-09-20T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.contact'),
                 'priority' => '0.7',
                 'changefreq' => 'yearly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Contact.jsx', '2026-09-20T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.privacy'),
                 'priority' => '0.5',
                 'changefreq' => 'yearly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/PrivacyPolicy.jsx', '2026-10-11T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.terms'),
                 'priority' => '0.5',
                 'changefreq' => 'yearly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Terms.jsx', '2026-08-18T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.disclaimer'),
                 'priority' => '0.5',
                 'changefreq' => 'yearly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Disclaimer.jsx', '2026-08-22T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.editorial-policy'),
                 'priority' => '0.7',
                 'changefreq' => 'monthly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/EditorialPolicy.jsx', '2026-09-20T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.methodology'),
                 'priority' => '0.7',
                 'changefreq' => 'monthly',
-                'lastmod' => $staticLastmod,
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/MethodologySources.jsx', '2026-09-20T00:00:00+00:00'),
             ],
         ];
+    }
+
+    protected function fileLastmod(string $relativePath, string $fallback): string
+    {
+        $fullPath = base_path($relativePath);
+        if (file_exists($fullPath)) {
+            return Carbon::createFromTimestamp(filemtime($fullPath))->toAtomString();
+        }
+
+        return $fallback;
     }
 
     protected function blogUrls(): array

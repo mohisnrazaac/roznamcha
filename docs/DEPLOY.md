@@ -139,3 +139,43 @@ Both queries must output fresh, distinct tokens, confirming LiteSpeed is not cac
 curl -s https://roznamcha.pk/sitemap.xml | grep -m 1 "<lastmod>"
 ```
 The `<lastmod>` date must match the current deployment date.
+
+---
+
+## 6. Automated Pipeline Verification (`scripts/verify-live.sh`)
+
+The repository includes an outside-in verification suite located at `scripts/verify-live.sh`.
+
+### Running Locally / Manually
+```bash
+chmod +x scripts/verify-live.sh
+./scripts/verify-live.sh https://roznamcha.pk
+```
+
+### CI/CD Deployment Gating
+In `.github/workflows/deploy.yml`, a post-deployment verification step executes `scripts/verify-live.sh https://roznamcha.pk` immediately following the post-deploy hook:
+
+```yaml
+- name: Verify live deployment
+  run: |
+    chmod +x scripts/verify-live.sh
+    output=$(./scripts/verify-live.sh https://roznamcha.pk 2>&1)
+    echo "$output"
+    if echo "$output" | grep -E '^FAIL'; then
+      echo "Deployment verification failed: one or more checks reported FAIL."
+      exit 1
+    fi
+```
+
+If any check line starts with `FAIL` (or the script exits with non-zero status), the pipeline fails immediately, blocking subsequent jobs and flagging the release for investigation.
+
+### Checks Performed
+1. **Release & Cache**: Ensures `X-App-Release` response header is present and that `<meta name="csrf-token">` is not identically shared across fresh visitor requests (verifies dynamic HTML is not frozen in cache).
+2. **Broken Trust Links (F3)**: Validates that raw route names like `public.editorial-policy` or `public.methodology` are not rendered as links across key pages (`/about`, `/contact`, `/tools/*`, `/blog/*`).
+3. **Placeholders & Empty States (F4)**: Confirms no placeholder text (`Static placeholder`, `PKR 0`, `slab_rates table`, `Savings Rate: %`, `Rs 0`, `#electrity`) leaks into live tool or article markup.
+4. **Heading Hierarchy (F6)**: Enforces exactly one `<h1>` element per landing, tool, and informational page.
+5. **Duplicate Content (F1/F2)**: Checks syndicated or duplicate article slugs to ensure content does not repeat across different URLs.
+6. **Injected / Off-Topic Blocks (F7)**: Verifies absence of off-topic promo text or boilerplate blocks.
+7. **Policy Pages (F9/F11)**: Verifies that `/privacy-policy` contains required disclosure terms (e.g. `last updated`, Google partner-sites policy link, and `aboutads.info` opt-out link) and that `/cookie-policy` has a self-referencing canonical tag.
+8. **Sitemap Integrity (F12/F16)**: Verifies that `/sitemap.xml` contains no empty categories and that `<lastmod>` timestamps are distributed rather than clustered onto a single uniform value.
+9. **AdSense Compliance (F13)**: Verifies that non-content utility routes (`/features`, `/templates`, `/kharcha-map`, `/ration-brain`, `/survival-report`) do not render ad containers (`>Advertisement<`).

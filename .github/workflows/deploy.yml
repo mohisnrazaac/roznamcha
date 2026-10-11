@@ -104,3 +104,13 @@ jobs:
             -H "Authorization: Bearer $POST_DEPLOY_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"run_migrations\": $SHOULD_RUN_MIGRATIONS}"
+
+      - name: Verify live deployment
+        run: |
+          chmod +x scripts/verify-live.sh
+          output=$(./scripts/verify-live.sh https://roznamcha.pk 2>&1)
+          echo "$output"
+          if echo "$output" | grep -E '^FAIL'; then
+            echo "Deployment verification failed: one or more checks reported FAIL."
+            exit 1
+          fi

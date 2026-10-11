@@ -143,6 +143,12 @@ class PublicPageSeoHeadTest extends TestCase
                 'description' => 'Learn how Roznamcha protects kharcha logs, ration records, and household financial data for Pakistani families.',
             ],
             [
+                'requestUrl' => route('public.cookie-policy'),
+                'canonicalUrl' => $this->publicRouteUrl('public.cookie-policy'),
+                'title' => 'Cookie Policy & Consent Settings | Roznamcha',
+                'description' => 'Review how Roznamcha uses essential session storage and optional advertising cookies, with guidance on managing consent choices.',
+            ],
+            [
                 'requestUrl' => route('public.terms'),
                 'canonicalUrl' => $this->publicRouteUrl('public.terms'),
                 'title' => 'Terms of Service – Roznamcha household finance platform',
