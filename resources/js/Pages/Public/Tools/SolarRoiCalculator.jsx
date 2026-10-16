@@ -8,7 +8,6 @@ import { Link, usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
 import SeoHead from '../../../Components/SeoHead';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
-import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 import { buildWebPageSchema } from '../../../lib/seo';
@@ -861,9 +860,6 @@ export default function SolarRoiCalculator({
 
                 {/* Save Wall & Activation */}
                 <SaveWall toolKey="solar_roi_calculator" currentResults={roiData} />
-
-                {/* Sarkari Tayari Promo Card */}
-                <SarkariTayariPromoCard currentContext="solar-net-metering" />
 
                 {/* Financial Disclaimer */}
                 <FinancialDisclaimer />

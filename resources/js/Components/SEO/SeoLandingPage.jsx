@@ -4,7 +4,6 @@ import React from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import SeoHead from '../SeoHead';
-import SarkariTayariPromoCard from '../SarkariTayariPromoCard';
 
 const formatDate = (value) => {
     if (!value) return 'Latest available update';
@@ -252,8 +251,6 @@ export default function SeoLandingPage({
                                     {ctaLabel}
                                 </SmartLink>
                             </section>
-
-                            <SarkariTayariPromoCard />
                         </div>
                     </div>
                 </div>

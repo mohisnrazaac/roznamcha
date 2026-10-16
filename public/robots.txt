@@ -1,41 +1,23 @@
-User-agent: *
-Allow: /
-Disallow: /login
-Disallow: /register
-Disallow: /panel/
-Disallow: /dashboard/
-Disallow: /profile/
-Disallow: /api/
-Disallow: /app/
-
-# Google AdSense & Search Crawlers
 User-agent: Mediapartners-Google
 Allow: /
 
-User-agent: Googlebot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-# AI Search & Answer Engines
-User-agent: GPTBot
-Allow: /
+User-agent: *
 Disallow: /panel/
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /nova/
+Disallow: /filament/
 Disallow: /api/
-
-User-agent: OAI-SearchBot
-Allow: /
-Disallow: /panel/
-Disallow: /api/
-
-User-agent: bingbot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: ClaudeBot
+Disallow: /oauth/
+Disallow: /sanctum/
+Disallow: /livewire/
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /*?*page=
+Disallow: /*?*search=
+Allow: /login
+Allow: /register
+Allow: /forgot-password
 Allow: /
 
 Sitemap: https://roznamcha.pk/sitemap.xml

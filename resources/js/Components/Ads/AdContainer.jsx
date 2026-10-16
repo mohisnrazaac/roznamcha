@@ -36,12 +36,15 @@ export default function AdContainer({
     const pageProps = usePage()?.props || {};
     const pagePolicies = pageProps.pagePolicies;
     const adsAllowed = pagePolicies?.adsAllowed === true;
-    const adCodeLoaded = useAdCodeLoaded(adsAllowed);
+    const isValidSlot = typeof slot === 'string'
+        ? /^\d{8,12}$/.test(slot.trim())
+        : (typeof slot === 'number' ? /^\d{8,12}$/.test(String(slot)) : false);
+    const adCodeLoaded = useAdCodeLoaded(adsAllowed && isValidSlot);
     const adRef = useRef(null);
     const preset = sizePresets[variant] || sizePresets.responsive;
 
     useEffect(() => {
-        if (!adsAllowed || !adCodeLoaded || !slot || !adRef.current) {
+        if (!adsAllowed || !adCodeLoaded || !isValidSlot || !adRef.current) {
             return;
         }
 
@@ -56,10 +59,10 @@ export default function AdContainer({
         } catch (error) {
             console.warn('AdSense slot initialization deferred or already populated.', error);
         }
-    }, [adsAllowed, adCodeLoaded, slot]);
+    }, [adsAllowed, adCodeLoaded, slot, isValidSlot]);
 
-    // Only render the ad container when pagePolicies?.adsAllowed === true AND actual ad code has loaded
-    if (!adsAllowed || !adCodeLoaded || !slot) {
+    // Only render the ad container when pagePolicies?.adsAllowed === true, valid numeric slot, AND actual ad code has loaded
+    if (!adsAllowed || !adCodeLoaded || !isValidSlot) {
         return null;
     }
 

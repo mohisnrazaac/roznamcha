@@ -16,6 +16,7 @@ export default function SeoHead({
     datePublished = null,
     dateModified = null,
     jsonLd = null,
+    locale = 'en_PK',
 }) {
     const keywordContent = Array.isArray(keywords) ? keywords.join(', ') : keywords;
 
@@ -37,6 +38,7 @@ export default function SeoHead({
             <meta property="og:url" content={url} head-key="og:url" />
             <meta property="og:image" content={image} head-key="og:image" />
             <meta property="og:site_name" content="Roznamcha" head-key="og:site_name" />
+            <meta property="og:locale" content={locale} head-key="og:locale" />
 
             <meta name="twitter:card" content={twitterCard} head-key="twitter:card" />
             <meta name="twitter:title" content={title} head-key="twitter:title" />

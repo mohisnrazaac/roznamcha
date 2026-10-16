@@ -20,6 +20,11 @@ return [
         'school-fee-inflation-pakistan-2026',
         'utility-store-vs-open-market-price-comparison-2026-pakistan',
         'pakistan-sovereign-cloud-ai-trade-ecosystem-2026',
+        'gold-price-prediction-2026-tracking-today-s-daily-gold-rate-in-pakistan',
+        'the-ultimate-e-challan-bill-management-guide-2026-check-e-challan-online-lahore-karachi-save-money-on-electricity-bills',
+        'petrol-prices-in-2026-how-much-extra-you-re-paying-every-month-now',
+        'electricity-bill-breakdown-pakistan-2026-unit-cost-fpa',
+        'reduce-kitchen-inflation-ration-buying-habits-pakistan',
     ],
     'redirects' => [
         'cost-of-living-pakistan-2026-monthly-budget-with-ai' => 'cost-of-living-pakistan-2026-monthly-budget',
@@ -48,6 +53,8 @@ return [
         'openai-gpt-6-astra-release-most-powerful-ai-model-2026',
         'driverless-car-crashes-into-police-van-live-demo-islamabad',
         'pakistan-assembling-google-chromebooks-2026',
+        'pakistan-sovereign-cloud-ai-trade-ecosystem-2026',
+        'beating-inflation-in-pakistan-household-budgeting-income-upgrades',
     ],
     'temporary_keep_slugs' => [
         'how-to-use-digital-roznamcha-for-business-and-personal-finance-2025',

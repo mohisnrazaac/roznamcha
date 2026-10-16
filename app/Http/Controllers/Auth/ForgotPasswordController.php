@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Concerns\BuildsPublicSeo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,10 +13,13 @@ use Inertia\Response;
 
 class ForgotPasswordController extends Controller
 {
+    use BuildsPublicSeo;
+
     public function create(): Response
     {
         return Inertia::render('Auth/ForgotPassword', [
             'status' => session('status'),
+            'seo' => $this->publicSeo('forgotPassword'),
         ]);
     }
 

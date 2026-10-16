@@ -21,7 +21,9 @@ export default function Login({ returnTo = '/dashboard' }) {
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
-      <Head title="Login" />
+      <Head title="Login">
+        <meta name="robots" content="noindex, nofollow" head-key="robots" />
+      </Head>
 
       <div className="w-full max-w-md rounded-2xl bg-slate-900/90 border border-slate-800 p-8 shadow-2xl">
         <div className="mb-6 text-center">

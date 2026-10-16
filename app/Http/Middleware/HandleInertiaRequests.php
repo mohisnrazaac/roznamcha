@@ -155,9 +155,12 @@ class HandleInertiaRequests extends Middleware
 
         return in_array($routeName, [
             'public.home',
-            'public.features',
             'public.features.expense-tracker-pakistan',
-            'public.blog.index',
+            'public.tools.ration-cost-estimator',
+            'public.tools.monthly-household-budget-calculator',
+            'public.tools.school-fees-planner',
+            'public.tools.electricity-bill-estimator',
+            'public.tools.solar-net-metering-roi-calculator',
         ], true);
     }
 
@@ -200,6 +203,8 @@ class HandleInertiaRequests extends Middleware
             'public.cookie-policy',
             'public.disclaimer',
             'public.terms',
+            'public.editorial-policy',
+            'public.methodology',
             'offline',
             'public.tools.ration-cost-estimator',
             'public.tools.monthly-household-budget-calculator',

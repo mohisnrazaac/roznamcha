@@ -236,6 +236,12 @@ class SeoSitemapController extends Controller
                 'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Disclaimer.jsx', '2026-08-22T00:00:00+00:00'),
             ],
             [
+                'loc' => $this->urlGenerator->routeUrl('public.cookie-policy'),
+                'priority' => '0.5',
+                'changefreq' => 'yearly',
+                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/CookiePolicy.jsx', '2026-10-11T00:00:00+00:00'),
+            ],
+            [
                 'loc' => $this->urlGenerator->routeUrl('public.editorial-policy'),
                 'priority' => '0.7',
                 'changefreq' => 'monthly',

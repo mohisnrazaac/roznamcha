@@ -17,6 +17,10 @@ class SecurityHeaders
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
 
+        if ($request->is('login', 'register', 'forgot-password', 'offline')) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         if (app()->isProduction()) {
             $response->headers->set('Content-Security-Policy', implode('; ', [
                 "default-src 'self'", "base-uri 'self'", "object-src 'none'", "frame-ancestors 'self'", "form-action 'self'",

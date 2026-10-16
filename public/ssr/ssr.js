@@ -4439,7 +4439,7 @@ var objectInspect = function inspect_(obj, options, depth, seen) {
     var ys = arrObjKeys(obj, inspect2);
     var isPlainObject2 = gPO ? gPO(obj) === Object.prototype : obj instanceof Object || obj.constructor === Object;
     var protoTag = obj instanceof Object ? "" : "null prototype";
-    var stringTag2 = !isPlainObject2 && toStringTag$2 && Object(obj) === obj && toStringTag$2 in obj ? $slice.call(toStr$1(obj), 8, -1) : protoTag ? "Object" : "";
+    var stringTag2 = !isPlainObject2 && toStringTag$2 && Object(obj) === obj && toStringTag$2 in obj ? $slice.call(toStr(obj), 8, -1) : protoTag ? "Object" : "";
     var constructorTag = isPlainObject2 || typeof obj.constructor !== "function" ? "" : obj.constructor.name ? obj.constructor.name + " " : "";
     var tag = constructorTag + (stringTag2 || protoTag ? "[" + $join.call($concat$1.call([], stringTag2 || [], protoTag || []), ": ") + "] " : "");
     if (ys.length === 0) {
@@ -4464,25 +4464,25 @@ function canTrustToString(obj) {
   return !toStringTag$2 || !(typeof obj === "object" && (toStringTag$2 in obj || typeof obj[toStringTag$2] !== "undefined"));
 }
 function isArray$4(obj) {
-  return toStr$1(obj) === "[object Array]" && canTrustToString(obj);
+  return toStr(obj) === "[object Array]" && canTrustToString(obj);
 }
 function isDate$1(obj) {
-  return toStr$1(obj) === "[object Date]" && canTrustToString(obj);
+  return toStr(obj) === "[object Date]" && canTrustToString(obj);
 }
 function isRegExp$2(obj) {
-  return toStr$1(obj) === "[object RegExp]" && canTrustToString(obj);
+  return toStr(obj) === "[object RegExp]" && canTrustToString(obj);
 }
 function isError(obj) {
-  return toStr$1(obj) === "[object Error]" && canTrustToString(obj);
+  return toStr(obj) === "[object Error]" && canTrustToString(obj);
 }
 function isString$2(obj) {
-  return toStr$1(obj) === "[object String]" && canTrustToString(obj);
+  return toStr(obj) === "[object String]" && canTrustToString(obj);
 }
 function isNumber$1(obj) {
-  return toStr$1(obj) === "[object Number]" && canTrustToString(obj);
+  return toStr(obj) === "[object Number]" && canTrustToString(obj);
 }
 function isBoolean$1(obj) {
-  return toStr$1(obj) === "[object Boolean]" && canTrustToString(obj);
+  return toStr(obj) === "[object Boolean]" && canTrustToString(obj);
 }
 function isSymbol(obj) {
   if (hasShammedSymbols) {
@@ -4518,7 +4518,7 @@ var hasOwn$3 = Object.prototype.hasOwnProperty || function(key) {
 function has$3(obj, key) {
   return hasOwn$3.call(obj, key);
 }
-function toStr$1(obj) {
+function toStr(obj) {
   return objectToString.call(obj);
 }
 function nameOf(f2) {
@@ -4827,7 +4827,7 @@ var syntax = SyntaxError;
 var uri = URIError;
 var abs$1 = Math.abs;
 var floor$1 = Math.floor;
-var max$2 = Math.max;
+var max$1 = Math.max;
 var min$1 = Math.min;
 var pow$1 = Math.pow;
 var round$1 = Math.round;
@@ -4956,78 +4956,99 @@ function requireObject_getPrototypeOf() {
   Object_getPrototypeOf = $Object2.getPrototypeOf || null;
   return Object_getPrototypeOf;
 }
-var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
-var toStr = Object.prototype.toString;
-var max$1 = Math.max;
-var funcType = "[object Function]";
-var concatty = function concatty2(a2, b2) {
-  var arr = [];
-  for (var i2 = 0; i2 < a2.length; i2 += 1) {
-    arr[i2] = a2[i2];
-  }
-  for (var j2 = 0; j2 < b2.length; j2 += 1) {
-    arr[j2 + a2.length] = b2[j2];
-  }
-  return arr;
-};
-var slicy = function slicy2(arrLike, offset) {
-  var arr = [];
-  for (var i2 = offset, j2 = 0; i2 < arrLike.length; i2 += 1, j2 += 1) {
-    arr[j2] = arrLike[i2];
-  }
-  return arr;
-};
-var joiny = function(arr, joiner) {
-  var str = "";
-  for (var i2 = 0; i2 < arr.length; i2 += 1) {
-    str += arr[i2];
-    if (i2 + 1 < arr.length) {
-      str += joiner;
+var implementation;
+var hasRequiredImplementation;
+function requireImplementation() {
+  if (hasRequiredImplementation) return implementation;
+  hasRequiredImplementation = 1;
+  var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
+  var toStr2 = Object.prototype.toString;
+  var max2 = Math.max;
+  var funcType = "[object Function]";
+  var concatty = function concatty2(a2, b2) {
+    var arr = [];
+    for (var i2 = 0; i2 < a2.length; i2 += 1) {
+      arr[i2] = a2[i2];
     }
-  }
-  return str;
-};
-var implementation$1 = function bind(that) {
-  var target = this;
-  if (typeof target !== "function" || toStr.apply(target) !== funcType) {
-    throw new TypeError(ERROR_MESSAGE + target);
-  }
-  var args = slicy(arguments, 1);
-  var bound;
-  var binder = function() {
-    if (this instanceof bound) {
-      var result = target.apply(
-        this,
+    for (var j2 = 0; j2 < b2.length; j2 += 1) {
+      arr[j2 + a2.length] = b2[j2];
+    }
+    return arr;
+  };
+  var slicy = function slicy2(arrLike, offset) {
+    var arr = [];
+    for (var i2 = offset, j2 = 0; i2 < arrLike.length; i2 += 1, j2 += 1) {
+      arr[j2] = arrLike[i2];
+    }
+    return arr;
+  };
+  var joiny = function(arr, joiner) {
+    var str = "";
+    for (var i2 = 0; i2 < arr.length; i2 += 1) {
+      str += arr[i2];
+      if (i2 + 1 < arr.length) {
+        str += joiner;
+      }
+    }
+    return str;
+  };
+  implementation = function bind2(that) {
+    var target = this;
+    if (typeof target !== "function" || toStr2.apply(target) !== funcType) {
+      throw new TypeError(ERROR_MESSAGE + target);
+    }
+    var args = slicy(arguments, 1);
+    var bound;
+    var binder = function() {
+      if (this instanceof bound) {
+        var result = target.apply(
+          this,
+          concatty(args, arguments)
+        );
+        if (Object(result) === result) {
+          return result;
+        }
+        return this;
+      }
+      return target.apply(
+        that,
         concatty(args, arguments)
       );
-      if (Object(result) === result) {
-        return result;
-      }
-      return this;
-    }
-    return target.apply(
-      that,
-      concatty(args, arguments)
-    );
-  };
-  var boundLength = max$1(0, target.length - args.length);
-  var boundArgs = [];
-  for (var i2 = 0; i2 < boundLength; i2++) {
-    boundArgs[i2] = "$" + i2;
-  }
-  bound = Function("binder", "return function (" + joiny(boundArgs, ",") + "){ return binder.apply(this,arguments); }")(binder);
-  if (target.prototype) {
-    var Empty = function Empty2() {
     };
-    Empty.prototype = target.prototype;
-    bound.prototype = new Empty();
-    Empty.prototype = null;
-  }
-  return bound;
-};
-var implementation = implementation$1;
-var functionBind = Function.prototype.bind || implementation;
-var functionCall = Function.prototype.call;
+    var boundLength = max2(0, target.length - args.length);
+    var boundArgs = [];
+    for (var i2 = 0; i2 < boundLength; i2++) {
+      boundArgs[i2] = "$" + i2;
+    }
+    bound = Function("binder", "return function (" + joiny(boundArgs, ",") + "){ return binder.apply(this,arguments); }")(binder);
+    if (target.prototype) {
+      var Empty = function Empty2() {
+      };
+      Empty.prototype = target.prototype;
+      bound.prototype = new Empty();
+      Empty.prototype = null;
+    }
+    return bound;
+  };
+  return implementation;
+}
+var functionBind;
+var hasRequiredFunctionBind;
+function requireFunctionBind() {
+  if (hasRequiredFunctionBind) return functionBind;
+  hasRequiredFunctionBind = 1;
+  var implementation2 = requireImplementation();
+  functionBind = Function.prototype.bind || implementation2;
+  return functionBind;
+}
+var functionCall;
+var hasRequiredFunctionCall;
+function requireFunctionCall() {
+  if (hasRequiredFunctionCall) return functionCall;
+  hasRequiredFunctionCall = 1;
+  functionCall = Function.prototype.call;
+  return functionCall;
+}
 var functionApply;
 var hasRequiredFunctionApply;
 function requireFunctionApply() {
@@ -5037,14 +5058,14 @@ function requireFunctionApply() {
   return functionApply;
 }
 var reflectApply = typeof Reflect !== "undefined" && Reflect && Reflect.apply;
-var bind$3 = functionBind;
+var bind$3 = requireFunctionBind();
 var $apply$1 = requireFunctionApply();
-var $call$2 = functionCall;
+var $call$2 = requireFunctionCall();
 var $reflectApply = reflectApply;
 var actualApply = $reflectApply || bind$3.call($call$2, $apply$1);
-var bind$2 = functionBind;
+var bind$2 = requireFunctionBind();
 var $TypeError$5 = type;
-var $call$1 = functionCall;
+var $call$1 = requireFunctionCall();
 var $actualApply = actualApply;
 var callBindApplyHelpers = function callBindBasic(args) {
   if (args.length < 1 || typeof args[0] !== "function") {
@@ -5110,8 +5131,8 @@ function requireHasown() {
   hasRequiredHasown = 1;
   var call = Function.prototype.call;
   var $hasOwn = Object.prototype.hasOwnProperty;
-  var bind3 = functionBind;
-  hasown = bind3.call(call, $hasOwn);
+  var bind2 = requireFunctionBind();
+  hasown = bind2.call(call, $hasOwn);
   return hasown;
 }
 var undefined$1;
@@ -5125,7 +5146,7 @@ var $TypeError$4 = type;
 var $URIError = uri;
 var abs = abs$1;
 var floor = floor$1;
-var max = max$2;
+var max = max$1;
 var min = min$1;
 var pow = pow$1;
 var round = round$1;
@@ -5159,7 +5180,7 @@ var getProto = requireGetProto();
 var $ObjectGPO = requireObject_getPrototypeOf();
 var $ReflectGPO = requireReflect_getPrototypeOf();
 var $apply = requireFunctionApply();
-var $call = functionCall;
+var $call = requireFunctionCall();
 var needsEval = {};
 var TypedArray = typeof Uint8Array === "undefined" || !getProto ? undefined$1 : getProto(Uint8Array);
 var INTRINSICS = {
@@ -5330,7 +5351,7 @@ var LEGACY_ALIASES = {
   "%WeakMapPrototype%": ["WeakMap", "prototype"],
   "%WeakSetPrototype%": ["WeakSet", "prototype"]
 };
-var bind$1 = functionBind;
+var bind$1 = requireFunctionBind();
 var hasOwn$2 = requireHasown();
 var $concat = bind$1.call($call, Array.prototype.concat);
 var $spliceApply = bind$1.call($apply, Array.prototype.splice);
@@ -6345,7 +6366,7 @@ var lib = {
   parse,
   stringify: stringify2
 };
-function bind2(fn, thisArg) {
+function bind(fn, thisArg) {
   return function wrap2() {
     return fn.apply(thisArg, arguments);
   };
@@ -6482,7 +6503,7 @@ function merge2() {
 const extend = (a2, b2, thisArg, { allOwnKeys } = {}) => {
   forEach(b2, (val, key) => {
     if (thisArg && isFunction$2(val)) {
-      a2[key] = bind2(val, thisArg);
+      a2[key] = bind(val, thisArg);
     } else {
       a2[key] = val;
     }
@@ -22369,7 +22390,7 @@ Object.entries(HttpStatusCode$1).forEach(([key, value]) => {
 });
 function createInstance(defaultConfig) {
   const context = new Axios$1(defaultConfig);
-  const instance = bind2(Axios$1.prototype.request, context);
+  const instance = bind(Axios$1.prototype.request, context);
   utils$1.extend(instance, Axios$1.prototype, context, { allOwnKeys: true });
   utils$1.extend(instance, context, null, { allOwnKeys: true });
   instance.create = function create(instanceConfig) {
@@ -41382,7 +41403,7 @@ server_default(
     title: (title) => title ? title.includes("Roznamcha") ? title : `${title} - Roznamcha` : "Roznamcha",
     resolve: (name) => resolvePageComponent(
       `./Pages/${name}.jsx`,
-      /* @__PURE__ */ Object.assign({ "./Pages/About.jsx": () => import("./assets/About-C3Yp9GDj.js"), "./Pages/AddExpenseForm.jsx": () => import("./assets/AddExpenseForm-Bby2dix8.js"), "./Pages/Admin/AiLogs.jsx": () => import("./assets/AiLogs-hxt5SpmX.js"), "./Pages/Admin/Blog/Categories.jsx": () => import("./assets/Categories-CcH-QGep.js"), "./Pages/Admin/Blog/PostForm.jsx": () => import("./assets/PostForm-BjRjgJiI.js"), "./Pages/Admin/Blog/PostsIndex.jsx": () => import("./assets/PostsIndex-BAq-Q4T1.js"), "./Pages/Admin/Categories/Create.jsx": () => import("./assets/Create-72mIF1tB.js"), "./Pages/Admin/Categories/Edit.jsx": () => import("./assets/Edit-2dBDGz0n.js"), "./Pages/Admin/Categories/Index.jsx": () => import("./assets/Index-CRnrfotc.js"), "./Pages/Admin/DailyReturn/Index.jsx": () => import("./assets/Index-NoDKnUW7.js"), "./Pages/Admin/Dashboard.jsx": () => import("./assets/Dashboard-vz5U1Tx3.js"), "./Pages/Admin/Kharcha.jsx": () => import("./assets/Kharcha-D_p3ub-O.js"), "./Pages/Admin/Ration.jsx": () => import("./assets/Ration-CzN5WF2W.js"), "./Pages/Admin/Reminders.jsx": () => import("./assets/Reminders-CLIPkc8T.js"), "./Pages/Admin/Reports.jsx": () => import("./assets/Reports-fKSo8W1_.js"), "./Pages/Admin/Users/Create.jsx": () => import("./assets/Create-BNg9stau.js"), "./Pages/Admin/Users/Index.jsx": () => import("./assets/Index-DK32jO8N.js"), "./Pages/Admin/Users/Show.jsx": () => import("./assets/Show-0DNdlY_r.js"), "./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-CIYZh_D9.js"), "./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-BL6_xsoq.js"), "./Pages/Auth/Login.jsx": () => import("./assets/Login-DbRuSZ2b.js"), "./Pages/Auth/Register.jsx": () => import("./assets/Register-DsoDdk2t.js"), "./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-ByW4Etq5.js"), "./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-Bxde11uO.js"), "./Pages/Categories/Create.jsx": () => import("./assets/Create-DvFl5Fdf.js"), "./Pages/Categories/Edit.jsx": () => import("./assets/Edit-Dn5qAusB.js"), "./Pages/Categories/Index.jsx": () => import("./assets/Index-VJclvpjH.js"), "./Pages/Contact.jsx": () => import("./assets/Contact-DEePj-36.js"), "./Pages/Dashboard.jsx": () => import("./assets/Dashboard-CUc9xawn.js"), "./Pages/Home.jsx": () => import("./assets/Home-DzXJbjXE.js"), "./Pages/Kharcha/Create.jsx": () => import("./assets/Create-DNmOQKtO.js"), "./Pages/Kharcha/Edit.jsx": () => import("./assets/Edit-XEZ48z-C.js"), "./Pages/Kharcha/Index.jsx": () => import("./assets/Index-Ds0JH9E6.js"), "./Pages/KharchaMapList.jsx": () => import("./assets/KharchaMapList-BPVuxp4m.js"), "./Pages/Login.jsx": () => import("./assets/Login-37APHq70.js"), "./Pages/Onboarding/Budget.jsx": () => import("./assets/Budget-MSPdaAXu.js"), "./Pages/Onboarding/Done.jsx": () => import("./assets/Done-CZ4U9PE-.js"), "./Pages/Onboarding/FirstExpense.jsx": () => import("./assets/FirstExpense-BIy4upez.js"), "./Pages/Onboarding/Household.jsx": () => import("./assets/Household-DzOXz4j7.js"), "./Pages/Profile/Edit.jsx": () => import("./assets/Edit--WsbkKrB.js"), "./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-Vxl3SRY6.js"), "./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-jFVlR_-F.js"), "./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-BHw5YBfS.js"), "./Pages/Public/About.jsx": () => import("./assets/About-EJFGWInZ.js"), "./Pages/Public/Blog/Category.jsx": () => import("./assets/Category-NcSbVwqR.js"), "./Pages/Public/Blog/Index.jsx": () => import("./assets/Index-Bn20J6V4.js"), "./Pages/Public/Blog/Show.jsx": () => import("./assets/Show-Bu2nEx5q.js"), "./Pages/Public/Contact.jsx": () => import("./assets/Contact-DIUJu_xT.js"), "./Pages/Public/CookiePolicy.jsx": () => import("./assets/CookiePolicy-CIalN-fw.js"), "./Pages/Public/Disclaimer.jsx": () => import("./assets/Disclaimer-KaIye4VY.js"), "./Pages/Public/EditorialPolicy.jsx": () => import("./assets/EditorialPolicy-Cw6XZW9Z.js"), "./Pages/Public/ExpenseTrackerPakistan.jsx": () => import("./assets/ExpenseTrackerPakistan-CjEAC5CL.js"), "./Pages/Public/Features.jsx": () => import("./assets/Features-0bqcS7EV.js"), "./Pages/Public/Home.jsx": () => import("./assets/Home-CkEtjoyd.js"), "./Pages/Public/KharchaMap.jsx": () => import("./assets/KharchaMap-DKBVDbH1.js"), "./Pages/Public/MethodologySources.jsx": () => import("./assets/MethodologySources-C_Gfa7Q4.js"), "./Pages/Public/PrivacyPolicy.jsx": () => import("./assets/PrivacyPolicy-BEovxe4h.js"), "./Pages/Public/RationBrain.jsx": () => import("./assets/RationBrain-s0sFLt-z.js"), "./Pages/Public/SurvivalReport.jsx": () => import("./assets/SurvivalReport-DvTbzJ9Z.js"), "./Pages/Public/Templates/Show.jsx": () => import("./assets/Show-gOSbguqL.js"), "./Pages/Public/Terms.jsx": () => import("./assets/Terms-DsYMNLns.js"), "./Pages/Public/Tools/ElectricityBillEstimator.jsx": () => import("./assets/ElectricityBillEstimator-fsq4N3fD.js"), "./Pages/Public/Tools/MonthlyHouseholdBudgetCalculator.jsx": () => import("./assets/MonthlyHouseholdBudgetCalculator-7DdqKNqc.js"), "./Pages/Public/Tools/RationCostEstimator.jsx": () => import("./assets/RationCostEstimator-CgWuRe_o.js"), "./Pages/Public/Tools/SchoolFeesPlanner.jsx": () => import("./assets/SchoolFeesPlanner-I-XcYr9u.js"), "./Pages/Public/Tools/SolarRoiCalculator.jsx": () => import("./assets/SolarRoiCalculator-vQDDe4WZ.js"), "./Pages/Ration.jsx": () => import("./assets/Ration-DB1Qxwil.js"), "./Pages/Ration/Edit.jsx": () => import("./assets/Edit-Dn9qFm8N.js"), "./Pages/Ration/Index.jsx": () => import("./assets/Index-DDRy6PJm.js"), "./Pages/Reminders.jsx": () => import("./assets/Reminders-DVUTKLip.js"), "./Pages/Reminders/Create.jsx": () => import("./assets/Create-y3iocVm_.js"), "./Pages/Reminders/Index.jsx": () => import("./assets/Index-C5TrWiqF.js"), "./Pages/Reports.jsx": () => import("./assets/Reports-D7ZIZO_Z.js"), "./Pages/SEO/Electricity.jsx": () => import("./assets/Electricity-0se70B7g.js"), "./Pages/SEO/Petrol.jsx": () => import("./assets/Petrol-D7AnPPk-.js"), "./Pages/SEO/Ration.jsx": () => import("./assets/Ration-DirHBcdP.js"), "./Pages/Templates/Index.jsx": () => import("./assets/Index-DpTLC0Q0.js"), "./Pages/Templates/Show.jsx": () => import("./assets/Show-ulqAv5nl.js"), "./Pages/Welcome.jsx": () => import("./assets/Welcome-B6MWawkZ.js") })
+      /* @__PURE__ */ Object.assign({ "./Pages/About.jsx": () => import("./assets/About-C3Yp9GDj.js"), "./Pages/AddExpenseForm.jsx": () => import("./assets/AddExpenseForm-Bby2dix8.js"), "./Pages/Admin/AiLogs.jsx": () => import("./assets/AiLogs-hxt5SpmX.js"), "./Pages/Admin/Blog/Categories.jsx": () => import("./assets/Categories-CcH-QGep.js"), "./Pages/Admin/Blog/PostForm.jsx": () => import("./assets/PostForm-BjRjgJiI.js"), "./Pages/Admin/Blog/PostsIndex.jsx": () => import("./assets/PostsIndex-BAq-Q4T1.js"), "./Pages/Admin/Categories/Create.jsx": () => import("./assets/Create-72mIF1tB.js"), "./Pages/Admin/Categories/Edit.jsx": () => import("./assets/Edit-2dBDGz0n.js"), "./Pages/Admin/Categories/Index.jsx": () => import("./assets/Index-CRnrfotc.js"), "./Pages/Admin/DailyReturn/Index.jsx": () => import("./assets/Index-NoDKnUW7.js"), "./Pages/Admin/Dashboard.jsx": () => import("./assets/Dashboard-vz5U1Tx3.js"), "./Pages/Admin/Kharcha.jsx": () => import("./assets/Kharcha-D_p3ub-O.js"), "./Pages/Admin/Ration.jsx": () => import("./assets/Ration-CzN5WF2W.js"), "./Pages/Admin/Reminders.jsx": () => import("./assets/Reminders-CLIPkc8T.js"), "./Pages/Admin/Reports.jsx": () => import("./assets/Reports-fKSo8W1_.js"), "./Pages/Admin/Users/Create.jsx": () => import("./assets/Create-BNg9stau.js"), "./Pages/Admin/Users/Index.jsx": () => import("./assets/Index-DK32jO8N.js"), "./Pages/Admin/Users/Show.jsx": () => import("./assets/Show-0DNdlY_r.js"), "./Pages/Auth/ConfirmPassword.jsx": () => import("./assets/ConfirmPassword-CIYZh_D9.js"), "./Pages/Auth/ForgotPassword.jsx": () => import("./assets/ForgotPassword-C-gWg8rj.js"), "./Pages/Auth/Login.jsx": () => import("./assets/Login-BTlwZjxq.js"), "./Pages/Auth/Register.jsx": () => import("./assets/Register-DUvMLEq-.js"), "./Pages/Auth/ResetPassword.jsx": () => import("./assets/ResetPassword-ByW4Etq5.js"), "./Pages/Auth/VerifyEmail.jsx": () => import("./assets/VerifyEmail-Bxde11uO.js"), "./Pages/Categories/Create.jsx": () => import("./assets/Create-DvFl5Fdf.js"), "./Pages/Categories/Edit.jsx": () => import("./assets/Edit-Dn5qAusB.js"), "./Pages/Categories/Index.jsx": () => import("./assets/Index-VJclvpjH.js"), "./Pages/Contact.jsx": () => import("./assets/Contact-DEePj-36.js"), "./Pages/Dashboard.jsx": () => import("./assets/Dashboard-CUc9xawn.js"), "./Pages/Home.jsx": () => import("./assets/Home-DzXJbjXE.js"), "./Pages/Kharcha/Create.jsx": () => import("./assets/Create-DNmOQKtO.js"), "./Pages/Kharcha/Edit.jsx": () => import("./assets/Edit-XEZ48z-C.js"), "./Pages/Kharcha/Index.jsx": () => import("./assets/Index-Ds0JH9E6.js"), "./Pages/KharchaMapList.jsx": () => import("./assets/KharchaMapList-BPVuxp4m.js"), "./Pages/Login.jsx": () => import("./assets/Login-37APHq70.js"), "./Pages/Onboarding/Budget.jsx": () => import("./assets/Budget-MSPdaAXu.js"), "./Pages/Onboarding/Done.jsx": () => import("./assets/Done-CZ4U9PE-.js"), "./Pages/Onboarding/FirstExpense.jsx": () => import("./assets/FirstExpense-BIy4upez.js"), "./Pages/Onboarding/Household.jsx": () => import("./assets/Household-DzOXz4j7.js"), "./Pages/Profile/Edit.jsx": () => import("./assets/Edit--WsbkKrB.js"), "./Pages/Profile/Partials/DeleteUserForm.jsx": () => import("./assets/DeleteUserForm-Vxl3SRY6.js"), "./Pages/Profile/Partials/UpdatePasswordForm.jsx": () => import("./assets/UpdatePasswordForm-jFVlR_-F.js"), "./Pages/Profile/Partials/UpdateProfileInformationForm.jsx": () => import("./assets/UpdateProfileInformationForm-BHw5YBfS.js"), "./Pages/Public/About.jsx": () => import("./assets/About-dMUIu2a0.js"), "./Pages/Public/Blog/Category.jsx": () => import("./assets/Category-CuTmNeo1.js"), "./Pages/Public/Blog/Index.jsx": () => import("./assets/Index-CGUOAU0c.js"), "./Pages/Public/Blog/Show.jsx": () => import("./assets/Show-Bio4c83J.js"), "./Pages/Public/Contact.jsx": () => import("./assets/Contact-DNACQk2o.js"), "./Pages/Public/CookiePolicy.jsx": () => import("./assets/CookiePolicy-Dx34gi2c.js"), "./Pages/Public/Disclaimer.jsx": () => import("./assets/Disclaimer-DbEivBeR.js"), "./Pages/Public/EditorialPolicy.jsx": () => import("./assets/EditorialPolicy-DK3lzfre.js"), "./Pages/Public/ExpenseTrackerPakistan.jsx": () => import("./assets/ExpenseTrackerPakistan-Dz5f0Tcx.js"), "./Pages/Public/Features.jsx": () => import("./assets/Features-C1WA5s7l.js"), "./Pages/Public/Home.jsx": () => import("./assets/Home-C6oVl9xQ.js"), "./Pages/Public/KharchaMap.jsx": () => import("./assets/KharchaMap-CRR-Qnd0.js"), "./Pages/Public/MethodologySources.jsx": () => import("./assets/MethodologySources-BRLeQ6cN.js"), "./Pages/Public/PrivacyPolicy.jsx": () => import("./assets/PrivacyPolicy-BjntAW5v.js"), "./Pages/Public/RationBrain.jsx": () => import("./assets/RationBrain-ByDsuXjE.js"), "./Pages/Public/SurvivalReport.jsx": () => import("./assets/SurvivalReport-DSrirFpT.js"), "./Pages/Public/Templates/Show.jsx": () => import("./assets/Show-CBC2rDhI.js"), "./Pages/Public/Terms.jsx": () => import("./assets/Terms-Fi1Wv3w5.js"), "./Pages/Public/Tools/ElectricityBillEstimator.jsx": () => import("./assets/ElectricityBillEstimator-ASS8Z12f.js"), "./Pages/Public/Tools/MonthlyHouseholdBudgetCalculator.jsx": () => import("./assets/MonthlyHouseholdBudgetCalculator-Dj3Kn_wp.js"), "./Pages/Public/Tools/RationCostEstimator.jsx": () => import("./assets/RationCostEstimator-CxVtfxQG.js"), "./Pages/Public/Tools/SchoolFeesPlanner.jsx": () => import("./assets/SchoolFeesPlanner-ZoOBrzZO.js"), "./Pages/Public/Tools/SolarRoiCalculator.jsx": () => import("./assets/SolarRoiCalculator-CzB-mtHf.js"), "./Pages/Ration.jsx": () => import("./assets/Ration-DB1Qxwil.js"), "./Pages/Ration/Edit.jsx": () => import("./assets/Edit-Dn9qFm8N.js"), "./Pages/Ration/Index.jsx": () => import("./assets/Index-DDRy6PJm.js"), "./Pages/Reminders.jsx": () => import("./assets/Reminders-DVUTKLip.js"), "./Pages/Reminders/Create.jsx": () => import("./assets/Create-y3iocVm_.js"), "./Pages/Reminders/Index.jsx": () => import("./assets/Index-C5TrWiqF.js"), "./Pages/Reports.jsx": () => import("./assets/Reports-D7ZIZO_Z.js"), "./Pages/SEO/Electricity.jsx": () => import("./assets/Electricity-BWFoMfHZ.js"), "./Pages/SEO/Petrol.jsx": () => import("./assets/Petrol-CX6uYikX.js"), "./Pages/SEO/Ration.jsx": () => import("./assets/Ration-CgdIdwX2.js"), "./Pages/Templates/Index.jsx": () => import("./assets/Index-CXVJD-w_.js"), "./Pages/Templates/Show.jsx": () => import("./assets/Show-BFw-ssB4.js"), "./Pages/Welcome.jsx": () => import("./assets/Welcome-B6MWawkZ.js") })
     ),
     setup: ({ App: App2, props }) => {
       const ziggyConfig = page2.props.ziggy || fallbackZiggy;

@@ -5,7 +5,6 @@ import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import SeoHead from '../../../Components/SeoHead';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
-import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 
 const formatCurrency = (value) =>
@@ -402,8 +401,6 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
                     ) : null}
 
                     <FinancialDisclaimer />
-
-                    <SarkariTayariPromoCard />
                 </div>
             </div>
 

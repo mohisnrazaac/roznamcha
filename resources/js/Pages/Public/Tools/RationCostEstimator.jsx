@@ -6,7 +6,6 @@ import SaveWall from '../../../Components/Activation/SaveWall';
 import SeoHead from '../../../Components/SeoHead';
 import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
-import SarkariTayariPromoCard from '../../../Components/SarkariTayariPromoCard';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 
 const formatCurrency = (value) =>
@@ -100,8 +99,8 @@ const defaultFaqItems = [
         answer: 'Yes, the calculator is fully functional in guest mode. Registration is only required if you wish to save your grocery plans and view them inside your household workspace.',
     },
     {
-        question: 'How do Utility Store prices differ from open market kiryana stores in Pakistan?',
-        answer: 'Subsidized utility stores provide targeted relief on basic essentials for eligible families, whereas neighborhood kiryana stores incorporate transport costs and retail markups. This tool allows budgeting against standard open market benchmarks.',
+        question: 'How do Wholesale Mandi prices differ from open-market kiryana stores in Pakistan?',
+        answer: 'Wholesale grain mandis (e.g., Akbari Mandi Lahore or Jodia Bazaar Karachi) offer bulk savings of 12% to 22% on sacks of flour, pulses, and oil cartons, whereas neighborhood kiryana stores incorporate transport costs, local packaging, and retail markups. Following the federal restructuring of Utility Stores Corporation subsidies in favor of direct BISP cash disbursements, households achieve real savings through monthly bulk wholesale procurement rather than relying on discontinued store subsidies.',
     },
 ];
 
@@ -322,8 +321,6 @@ export default function RationCostEstimator({
 
                         <FinancialDisclaimer />
                     </aside>
-
-                    <SarkariTayariPromoCard />
                 </div>
             </div>
 
@@ -364,7 +361,7 @@ export default function RationCostEstimator({
                             <li>This estimate uses fixed internal benchmark prices, not live city-by-city market feeds.</li>
                             <li>Household size is a guide for interpretation only. The tool does not auto-scale your basket.</li>
                             <li>Fresh vegetables, fruit, meat, milk, tea, spices, and brand upgrades are outside this staple-only model.</li>
-                            <li>Utility Store rates, wholesale buying, and neighborhood kiryana prices can shift the real number materially.</li>
+                            <li>Procurement channel: Wholesale Mandi bulk buying vs. neighborhood kiryana prices can shift the monthly grocery outlay by 15% to 25%.</li>
                         </ul>
                     </div>
 
@@ -446,7 +443,7 @@ export default function RationCostEstimator({
                 <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                     <h2 className="text-2xl font-semibold text-[#001a4a]">What can change your ration bill</h2>
                     <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-600">
-                        <li>City and market choice: wholesale, Utility Store, and neighborhood kiryana rates rarely move together.</li>
+                        <li>Procurement channel: Wholesale grain markets (e.g. Akbari Mandi, Jodia Bazaar) vs. neighborhood retail kiryana rates differ by 15% to 22%.</li>
                         <li>Brand habits: branded oil, premium rice, or packaged daal can raise the total quickly.</li>
                         <li>Buying rhythm: one big monthly stock-up behaves differently from weekly refills.</li>
                         <li>Family routine: guests, Ramadan cooking, school lunches, and work-from-home meals can shift staple usage.</li>
@@ -516,7 +513,7 @@ export default function RationCostEstimator({
                 <section className="space-y-3 border-t border-slate-100 pt-6">
                     <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline & Economic Assumptions</h3>
                     <p className="text-sm leading-7 text-slate-700">
-                        Staple grocery inflation in Pakistan is benchmarked against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) and Monthly Consumer Price Index (CPI). Subsidized rates from the Utility Stores Corporation (USC) are tracked for targeted relief items, while commercial retail rates incorporate logistics, wholesale markups, and local packaging premiums.
+                        Staple grocery inflation in Pakistan is benchmarked against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) and Monthly Consumer Price Index (CPI). Following the federal winding down of general Utility Stores Corporation (USC) retail subsidies in favor of direct BISP cash disbursements, household baselines reflect primary wholesale grain mandis and open-market kiryana retail rates, accounting for transport margins and local wholesale markups.
                     </p>
                     <p className="text-sm leading-7 text-slate-700">
                         Perishable items (fresh vegetables, seasonal fruit, milk, poultry, and beef) fluctuate on daily supply cycles and are deliberately separated into a distinct variable weekly allocation. Learn more about our data sources and update cadences in our{' '}

@@ -27,21 +27,6 @@ const getReturnPath = (url, slug) => {
     }
 };
 
-const articleUseCards = [
-    {
-        title: 'Planning aid, not a fixed rule',
-        body: 'Use the article to clarify tradeoffs and next steps. Do not treat one guide as a universal price list or a one-size-fits-all answer.',
-    },
-    {
-        title: 'Adjust for your own household',
-        body: 'City, rent, school timing, transport needs, and family size can change the real monthly picture quickly.',
-    },
-    {
-        title: 'Turn it into a real action',
-        body: 'The best next move is usually to track the cost, pressure-test the category, or compare it against a stronger Roznamcha tool.',
-    },
-];
-
 export default function BlogShow(props) {
     const { post, seo, jsonLd, relatedLinks = {} } = props;
     const { pagePolicies } = usePage().props;
@@ -104,21 +89,6 @@ export default function BlogShow(props) {
                     />
                 ) : null}
 
-                <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:p-8">
-                    <div className="flex flex-col gap-3">
-                        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]">How To Use This Guide</p>
-                        <h2 className="text-3xl font-semibold text-[#001a4a]">How to apply this guide to your household</h2>
-                    </div>
-                    <div className="mt-8 grid gap-4 md:grid-cols-3">
-                        {articleUseCards.map((item) => (
-                            <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                                <h3 className="text-lg font-semibold text-[#001a4a]">{item.title}</h3>
-                                <p className="mt-3 text-sm leading-6 text-slate-600">{item.body}</p>
-                            </article>
-                        ))}
-                    </div>
-                </section>
-
                 {hasActivationWidget ? (
                     <section className="space-y-4 rounded-[2rem] border border-[#001a4a]/12 bg-white p-6 shadow-sm lg:p-8">
                         <div className="space-y-2">
@@ -131,9 +101,10 @@ export default function BlogShow(props) {
                     </section>
                 ) : null}
 
-                {shouldRenderAds ? (
-                    <AdContainer slot="blog-in-article" variant="responsive" className="my-6 min-h-[280px]" />
-                ) : null}
+                <aside className="rounded-2xl border border-[#001a4a]/10 bg-slate-50 px-5 py-3 text-xs text-slate-700">
+                    <span className="font-semibold text-[#001a4a]">How To Use This Guide:</span>{' '}
+                    <span>How to apply this guide to your household — compare these practical benchmarks with your monthly cash flows and plan upcoming expenses accordingly.</span>
+                </aside>
 
                 <section
                     className="post-content rounded-[2rem] border border-slate-200 bg-white p-6 text-[1.05rem] leading-8 text-slate-800 shadow-sm lg:p-8 [&_a]:font-medium [&_a]:text-[#001a4a] [&_a]:underline-offset-2 [&_a:hover]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-[#8c5a00]/35 [&_blockquote]:bg-amber-50/70 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:italic [&_code]:rounded [&_code]:bg-slate-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_h1]:hidden [&_h2]:mt-10 [&_h2]:text-3xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-[#001a4a] [&_h3]:mt-8 [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:leading-tight [&_h3]:text-[#001a4a] [&_h4]:mt-6 [&_h4]:text-xl [&_h4]:font-semibold [&_h4]:text-[#001a4a] [&_hr]:my-8 [&_hr]:border-slate-200 [&_img]:my-8 [&_img]:w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-slate-200 [&_li]:marker:text-[#001a4a] [&_ol]:my-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6 [&_p]:my-5 [&_strong]:font-semibold [&_strong]:text-[#001a4a] [&_table]:my-8 [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-slate-200 [&_td]:px-3 [&_td]:py-2 [&_th]:bg-slate-100 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:text-[#001a4a] [&_ul]:my-5 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6"
