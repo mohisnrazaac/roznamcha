@@ -1,6 +1,6 @@
 import { a as usePage, R as React, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer } from "./FinancialDisclaimer-DfDbbZDT.js";
-import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-CJzONenh.js";
+import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import { A as APPLIANCE_PRESETS, S as SlabCliffVisualizer, a as ApplianceBreakdown } from "./ApplianceBreakdown-C-9vVLt_.js";
 import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-n5Tdmvpm.js";
 import "util";

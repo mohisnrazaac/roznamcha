@@ -1,5 +1,5 @@
 import { b as reactExports, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
-import { S as SeoLandingPage } from "./SeoLandingPage-CWCj8YcM.js";
+import { S as SeoLandingPage } from "./SeoLandingPage-C2_RNB0s.js";
 import { P as PropTypes } from "./index-h3QfXfrJ.js";
 import { A as APPLIANCE_PRESETS, c as calculateTotalApplianceUnits, b as calculatePakistanElectricityBill, D as DISCO_PRESETS, S as SlabCliffVisualizer, a as ApplianceBreakdown } from "./ApplianceBreakdown-C-9vVLt_.js";
 import { c as calculateSolarRoi, S as SOLAR_SYSTEM_BENCHMARKS, r as recommendSolarSystemSize } from "./solarRoiEngine-lTasqdBA.js";
@@ -18,7 +18,7 @@ import "events";
 import "process";
 import "./PublicLayout-8f9iGZFn.js";
 import "./ChatWidget-DFPdtWTT.js";
-import "./SeoHead-CJzONenh.js";
+import "./SeoHead-BNXvUeLt.js";
 function SolarTeaserCard({ units = 650, bill = 32e3 }) {
   const cleanUnits = Math.max(1, Number(units) || 250);
   const cleanBill = Math.max(0, Number(bill) || 0);

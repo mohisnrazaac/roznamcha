@@ -203,8 +203,6 @@ class HandleInertiaRequests extends Middleware
             'public.cookie-policy',
             'public.disclaimer',
             'public.terms',
-            'public.editorial-policy',
-            'public.methodology',
             'offline',
             'public.tools.ration-cost-estimator',
             'public.tools.monthly-household-budget-calculator',

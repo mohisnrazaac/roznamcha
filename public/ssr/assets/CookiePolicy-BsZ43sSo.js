@@ -1,6 +1,6 @@
 import { j as jsxRuntimeExports } from "../ssr.js";
 import { P as PublicLayout } from "./PublicLayout-8f9iGZFn.js";
-import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-CJzONenh.js";
+import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import "util";
 import "stream";
 import "path";
@@ -61,6 +61,7 @@ function CookiePolicy({ seo: seoProp, jsonLd: jsonLdProp, contactEmail = "suppor
       {
         title: seo.title,
         description: seo.description,
+        canonical: seo.canonical,
         canonicalUrl: seo.canonical,
         keywords: seo.keywords,
         jsonLd

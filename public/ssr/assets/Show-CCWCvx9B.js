@@ -1,4 +1,4 @@
-import { default as default2 } from "./Show-BFw-ssB4.js";
+import { default as default2 } from "./Show-prUzFntf.js";
 import "../ssr.js";
 import "util";
 import "stream";
@@ -15,7 +15,7 @@ import "events";
 import "process";
 import "./PublicLayout-8f9iGZFn.js";
 import "./ChatWidget-DFPdtWTT.js";
-import "./SeoHead-CJzONenh.js";
+import "./SeoHead-BNXvUeLt.js";
 export {
   default2 as default
 };

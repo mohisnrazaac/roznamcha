@@ -1,5 +1,5 @@
 import { j as jsxRuntimeExports } from "../ssr.js";
-import { S as SeoLandingPage } from "./SeoLandingPage-CWCj8YcM.js";
+import { S as SeoLandingPage } from "./SeoLandingPage-C2_RNB0s.js";
 import "util";
 import "stream";
 import "path";
@@ -15,21 +15,21 @@ import "events";
 import "process";
 import "./PublicLayout-8f9iGZFn.js";
 import "./ChatWidget-DFPdtWTT.js";
-import "./SeoHead-CJzONenh.js";
-function Ration(props) {
+import "./SeoHead-BNXvUeLt.js";
+function Petrol(props) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     SeoLandingPage,
     {
       ...props,
       theme: {
-        badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-200",
-        heroClass: "from-white via-emerald-50 to-lime-100",
-        accentClass: "text-emerald-700",
+        badgeClass: "bg-amber-100 text-amber-900 border-amber-200",
+        heroClass: "from-white via-amber-50 to-orange-100",
+        accentClass: "text-amber-700",
         panelClass: "bg-white border-slate-200"
       }
     }
   );
 }
 export {
-  Ration as default
+  Petrol as default
 };

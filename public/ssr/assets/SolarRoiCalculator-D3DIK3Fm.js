@@ -1,7 +1,7 @@
 import { a as usePage, b as reactExports, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { P as PropTypes } from "./index-h3QfXfrJ.js";
 import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer } from "./FinancialDisclaimer-DfDbbZDT.js";
-import { b as buildWebPageSchema, S as SeoHead } from "./SeoHead-CJzONenh.js";
+import { b as buildWebPageSchema, S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-n5Tdmvpm.js";
 import { r as recommendSolarSystemSize, S as SOLAR_SYSTEM_BENCHMARKS, D as DEFAULT_SELF_CONSUME_RATIO, g as getDefaultAvoidedTariff, a as DEFAULT_NEPRA_BUYBACK_RATE, c as calculateSolarRoi, b as calculateBatteryTco, e as estimateBillFromUnits, d as estimateUnitsFromBill } from "./solarRoiEngine-lTasqdBA.js";
 import "util";

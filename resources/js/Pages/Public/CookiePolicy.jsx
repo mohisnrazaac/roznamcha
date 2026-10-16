@@ -51,6 +51,7 @@ export default function CookiePolicy({ seo: seoProp, jsonLd: jsonLdProp, contact
             <SeoHead
                 title={seo.title}
                 description={seo.description}
+                canonical={seo.canonical}
                 canonicalUrl={seo.canonical}
                 keywords={seo.keywords}
                 jsonLd={jsonLd}

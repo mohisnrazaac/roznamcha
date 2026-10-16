@@ -1,6 +1,6 @@
 import { b as reactExports, j as jsxRuntimeExports, a as usePage, L as Link_default } from "../ssr.js";
 import { P as PublicLayout } from "./PublicLayout-8f9iGZFn.js";
-import { S as SeoHead } from "./SeoHead-CJzONenh.js";
+import { S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import { P as PropTypes } from "./index-h3QfXfrJ.js";
 import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-n5Tdmvpm.js";
 import "util";

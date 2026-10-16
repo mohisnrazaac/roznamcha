@@ -6,7 +6,8 @@ export default function SeoHead({
     title,
     description,
     url = SITE_URL,
-    canonical = SITE_URL,
+    canonical: canonicalProp,
+    canonicalUrl,
     robots = 'index,follow',
     type = 'website',
     keywords = [],
@@ -18,6 +19,7 @@ export default function SeoHead({
     jsonLd = null,
     locale = 'en_PK',
 }) {
+    const canonical = canonicalProp || canonicalUrl || url || SITE_URL;
     const keywordContent = Array.isArray(keywords) ? keywords.join(', ') : keywords;
 
     return (

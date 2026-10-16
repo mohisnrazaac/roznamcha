@@ -1,6 +1,6 @@
 import { a as usePage, j as jsxRuntimeExports, H as Head_default, R as React, L as Link_default } from "../ssr.js";
 import { P as PublicLayout } from "./PublicLayout-8f9iGZFn.js";
-import { S as SeoHead } from "./SeoHead-CJzONenh.js";
+import { S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 const formatDate = (value) => {
   if (!value) return "Latest available update";
   const date = new Date(value);

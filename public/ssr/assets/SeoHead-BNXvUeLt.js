@@ -171,7 +171,8 @@ function SeoHead({
   title,
   description,
   url = SITE_URL,
-  canonical = SITE_URL,
+  canonical: canonicalProp,
+  canonicalUrl,
   robots = "index,follow",
   type = "website",
   keywords = [],
@@ -183,6 +184,7 @@ function SeoHead({
   jsonLd = null,
   locale = "en_PK"
 }) {
+  const canonical = canonicalProp || canonicalUrl || url || SITE_URL;
   const keywordContent = Array.isArray(keywords) ? keywords.join(", ") : keywords;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(Head_default, { title, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("meta", { name: "description", content: description, "head-key": "description" }),

@@ -1,6 +1,6 @@
 import { j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { P as PublicLayout } from "./PublicLayout-8f9iGZFn.js";
-import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-CJzONenh.js";
+import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import "util";
 import "stream";
 import "path";
