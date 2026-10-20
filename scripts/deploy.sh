@@ -13,6 +13,7 @@ php artisan view:cache
 php artisan event:cache
 
 php artisan migrate --force --no-interaction
+php artisan roznamcha:adsense-db-clean --no-interaction
 
 npm ci
 npm run build
