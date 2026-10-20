@@ -40,7 +40,7 @@ function EditorialPolicy({ seo, jsonLd, contactEmail = "support@roznamcha.pk" })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Kitchen Ration & Grocery Price Baselines:" }),
-              " Cross-verified against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) reports, open wholesale grain markets (ghalla mandi) in Karachi, Lahore, and Rawalpindi, and published utility store subsidy lists."
+              " Cross-verified against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) reports, and primary wholesale grain markets (ghalla mandi) in Karachi, Lahore, and Rawalpindi."
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Solar Net Metering & Buyback Rates:" }),

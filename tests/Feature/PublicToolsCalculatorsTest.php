@@ -181,4 +181,62 @@ class PublicToolsCalculatorsTest extends TestCase
                 ],
             ]);
     }
+
+    public function test_electricity_bill_estimator_passes_precomputed_non_zero_ssr_defaults(): void
+    {
+        $response = $this->get('/tools/electricity-bill-estimator');
+        $response->assertOk();
+
+        $page = $response->viewData('page');
+        $this->assertIsArray($page);
+
+        $initialResult = data_get($page, 'props.initialResult');
+        $this->assertIsArray($initialResult);
+        $this->assertGreaterThan(0, (float) data_get($initialResult, 'slab_cost'));
+        $this->assertGreaterThan(0, (float) data_get($initialResult, 'total_bill'));
+        $this->assertGreaterThan(0, (float) data_get($initialResult, 'last_year_estimate'));
+
+        // HTML output must not have zero savings placeholder
+        $html = $response->getContent();
+        $this->assertStringNotContainsString('save PKR 0 annually', $html);
+    }
+
+    public function test_monthly_household_budget_calculator_passes_precomputed_non_zero_ssr_defaults(): void
+    {
+        $response = $this->get('/tools/monthly-household-budget-calculator');
+        $response->assertOk();
+
+        $page = $response->viewData('page');
+        $this->assertIsArray($page);
+
+        $initialResult = data_get($page, 'props.initialResult');
+        $this->assertIsArray($initialResult);
+        $this->assertEquals(75000.0, (float) data_get($initialResult, 'total_expenses'));
+        $this->assertEquals(10000.0, (float) data_get($initialResult, 'surplus_deficit'));
+        $this->assertEquals(11.76, (float) data_get($initialResult, 'savings_rate'));
+        $this->assertEquals(33.33, (float) data_get($initialResult, 'shares.ration'));
+        $this->assertEquals(26.67, (float) data_get($initialResult, 'shares.rent'));
+
+        // HTML output must not contain unpopulated placeholders
+        $html = $response->getContent();
+        $this->assertStringNotContainsString('Savings Rate: %', $html);
+        $this->assertStringNotContainsString('Rs 25,000 (0%)', $html);
+    }
+
+    public function test_ration_cost_estimator_faq_aligns_with_wholesale_mandi(): void
+    {
+        $response = $this->get('/tools/ration-cost-estimator');
+        $response->assertOk();
+
+        $page = $response->viewData('page');
+        $this->assertIsArray($page);
+
+        $faqItems = data_get($page, 'props.faqItems');
+        $this->assertIsArray($faqItems);
+
+        $faq4 = $faqItems[3] ?? [];
+        $this->assertStringContainsString('Wholesale Mandi', $faq4['question'] ?? '');
+        $this->assertStringContainsString('Akbari Mandi', $faq4['answer'] ?? '');
+        $this->assertStringNotContainsString('Subsidized utility stores provide targeted relief', $faq4['answer'] ?? '');
+    }
 }

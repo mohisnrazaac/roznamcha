@@ -57,6 +57,20 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="google-adsense-account" content="{{ $adsenseClientId }}">
 
+        {{-- Google Consent Mode v2 Default State (Must precede all Google tags) --}}
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'analytics_storage': 'denied',
+                'functionality_storage': 'granted',
+                'security_storage': 'granted'
+            });
+        </script>
+
         @if ($adsAllowed && !empty($adsenseClientId))
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adsenseClientId }}" crossorigin="anonymous"></script>
         @endif
@@ -141,19 +155,9 @@
             };
 
             window.dataLayer = window.dataLayer || [];
-            window.gtag = function gtag() {
+            window.gtag = window.gtag || function gtag() {
               window.dataLayer.push(arguments);
             };
-
-            // Establish Consent Mode v2 default state immediately
-            window.gtag('consent', 'default', {
-              ad_storage: 'denied',
-              ad_user_data: 'denied',
-              ad_personalization: 'denied',
-              analytics_storage: 'denied',
-              functionality_storage: 'granted',
-              security_storage: 'granted',
-            });
 
             const updateConsentMode = (consentState) => {
               const granted = consentState === 'accepted';

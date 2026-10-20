@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             RoznamchaDemoSeeder::class,
             BlogSeeder::class,
+            ExpansionSeeder::class,
         ]);
     }
 }

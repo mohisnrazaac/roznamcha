@@ -39,16 +39,45 @@ class MonthlyHouseholdBudgetCalculatorController extends Controller
             ],
         ];
 
-        return Inertia::render('Public/Tools/MonthlyHouseholdBudgetCalculator', [
-            'defaults' => [
-                'monthly_income' => (float) ($activation['inputs']['monthly_income'] ?? $config['defaults']['monthly_income'] ?? 85000),
-                'rent' => (float) ($activation['inputs']['rent'] ?? $config['defaults']['rent'] ?? 20000),
-                'ration' => (float) ($activation['inputs']['ration'] ?? $config['defaults']['ration'] ?? 25000),
-                'utilities' => (float) ($activation['inputs']['utilities'] ?? $config['defaults']['utilities'] ?? 12000),
-                'education' => (float) ($activation['inputs']['education'] ?? $config['defaults']['education'] ?? 8000),
-                'transport' => (float) ($activation['inputs']['transport'] ?? $config['defaults']['transport'] ?? 6000),
-                'misc' => (float) ($activation['inputs']['misc'] ?? $config['defaults']['misc'] ?? 4000),
+        $defaults = [
+            'monthly_income' => (float) ($activation['inputs']['monthly_income'] ?? $config['defaults']['monthly_income'] ?? 85000),
+            'rent' => (float) ($activation['inputs']['rent'] ?? $config['defaults']['rent'] ?? 20000),
+            'ration' => (float) ($activation['inputs']['ration'] ?? $config['defaults']['ration'] ?? 25000),
+            'utilities' => (float) ($activation['inputs']['utilities'] ?? $config['defaults']['utilities'] ?? 12000),
+            'education' => (float) ($activation['inputs']['education'] ?? $config['defaults']['education'] ?? 8000),
+            'transport' => (float) ($activation['inputs']['transport'] ?? $config['defaults']['transport'] ?? 6000),
+            'misc' => (float) ($activation['inputs']['misc'] ?? $config['defaults']['misc'] ?? 4000),
+        ];
+
+        $totalExpenses = $defaults['rent']
+            + $defaults['ration']
+            + $defaults['utilities']
+            + $defaults['education']
+            + $defaults['transport']
+            + $defaults['misc'];
+
+        $surplusDeficit = $defaults['monthly_income'] - $totalExpenses;
+        $savingsRate = $defaults['monthly_income'] > 0
+            ? ($surplusDeficit / $defaults['monthly_income']) * 100
+            : 0;
+
+        $initialResult = !empty($activation['results']) ? $activation['results'] : [
+            'total_expenses' => round($totalExpenses, 2),
+            'surplus_deficit' => round($surplusDeficit, 2),
+            'savings_rate' => round($savingsRate, 2),
+            'shares' => [
+                'rent' => $totalExpenses > 0 ? round(($defaults['rent'] / $totalExpenses) * 100, 2) : 0,
+                'ration' => $totalExpenses > 0 ? round(($defaults['ration'] / $totalExpenses) * 100, 2) : 0,
+                'utilities' => $totalExpenses > 0 ? round(($defaults['utilities'] / $totalExpenses) * 100, 2) : 0,
+                'education' => $totalExpenses > 0 ? round(($defaults['education'] / $totalExpenses) * 100, 2) : 0,
+                'transport' => $totalExpenses > 0 ? round(($defaults['transport'] / $totalExpenses) * 100, 2) : 0,
+                'misc' => $totalExpenses > 0 ? round(($defaults['misc'] / $totalExpenses) * 100, 2) : 0,
             ],
+        ];
+
+        return Inertia::render('Public/Tools/MonthlyHouseholdBudgetCalculator', [
+            'defaults' => $defaults,
+            'initialResult' => $initialResult,
             'activationPrefill' => $activation,
             'seo' => $seo,
             'faqItems' => $faqItems,

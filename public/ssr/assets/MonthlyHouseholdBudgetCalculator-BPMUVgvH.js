@@ -89,7 +89,33 @@ const defaultFaqItems = [
     answer: "Prioritize non-negotiable survival obligations first: housing rent, basic dry ration staples, and keeping electricity consumption below the next slab threshold. Audit discretionary medical/misc buffers and vehicle fuel trips before borrowing."
   }
 ];
-function MonthlyHouseholdBudgetCalculator({ defaults, activationPrefill, faqItems: faqItemsProp, seo: seoProp, jsonLd: jsonLdProp }) {
+function computeBudgetSummary(inputs) {
+  const income = Number(inputs.monthly_income) || 0;
+  const rent = Number(inputs.rent) || 0;
+  const ration = Number(inputs.ration) || 0;
+  const utilities = Number(inputs.utilities) || 0;
+  const education = Number(inputs.education) || 0;
+  const transport = Number(inputs.transport) || 0;
+  const misc = Number(inputs.misc) || 0;
+  const total_expenses = rent + ration + utilities + education + transport + misc;
+  const surplus_deficit = income - total_expenses;
+  const savings_rate = income > 0 ? Math.round(surplus_deficit / income * 1e4) / 100 : 0;
+  const shares = {
+    rent: total_expenses > 0 ? Math.round(rent / total_expenses * 1e4) / 100 : 0,
+    ration: total_expenses > 0 ? Math.round(ration / total_expenses * 1e4) / 100 : 0,
+    utilities: total_expenses > 0 ? Math.round(utilities / total_expenses * 1e4) / 100 : 0,
+    education: total_expenses > 0 ? Math.round(education / total_expenses * 1e4) / 100 : 0,
+    transport: total_expenses > 0 ? Math.round(transport / total_expenses * 1e4) / 100 : 0,
+    misc: total_expenses > 0 ? Math.round(misc / total_expenses * 1e4) / 100 : 0
+  };
+  return {
+    total_expenses,
+    surplus_deficit,
+    savings_rate,
+    shares
+  };
+}
+function MonthlyHouseholdBudgetCalculator({ defaults, initialResult, activationPrefill, faqItems: faqItemsProp, seo: seoProp, jsonLd: jsonLdProp }) {
   const seo = seoProp ?? {
     title: "Monthly Household Budget Calculator Pakistan – Ghar ka budget planner | Roznamcha",
     description: "Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.",
@@ -101,8 +127,7 @@ function MonthlyHouseholdBudgetCalculator({ defaults, activationPrefill, faqItem
   const { auth } = usePage().props;
   const isAuthenticated = Boolean(auth == null ? void 0 : auth.user);
   const prefilledInputs = (activationPrefill == null ? void 0 : activationPrefill.inputs) ?? {};
-  const prefilledResults = (activationPrefill == null ? void 0 : activationPrefill.results) ?? null;
-  const [form, setForm] = React.useState({
+  const initialInputs = {
     monthly_income: prefilledInputs.monthly_income ?? (defaults == null ? void 0 : defaults.monthly_income) ?? 85e3,
     rent: prefilledInputs.rent ?? (defaults == null ? void 0 : defaults.rent) ?? 2e4,
     ration: prefilledInputs.ration ?? (defaults == null ? void 0 : defaults.ration) ?? 25e3,
@@ -110,15 +135,18 @@ function MonthlyHouseholdBudgetCalculator({ defaults, activationPrefill, faqItem
     education: prefilledInputs.education ?? (defaults == null ? void 0 : defaults.education) ?? 8e3,
     transport: prefilledInputs.transport ?? (defaults == null ? void 0 : defaults.transport) ?? 6e3,
     misc: prefilledInputs.misc ?? (defaults == null ? void 0 : defaults.misc) ?? 4e3
-  });
-  const [result, setResult] = React.useState(prefilledResults);
+  };
+  const defaultInitialResult = initialResult ?? (activationPrefill == null ? void 0 : activationPrefill.results) ?? computeBudgetSummary(initialInputs);
+  const [form, setForm] = React.useState(initialInputs);
+  const [result, setResult] = React.useState(defaultInitialResult);
   const [error, setError] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-  const [revealResult, setRevealResult] = React.useState(Boolean(prefilledResults));
+  const [revealResult, setRevealResult] = React.useState(Boolean(defaultInitialResult));
   const handleScenarioSelect = (scenarioInputs) => {
     setForm({ ...scenarioInputs });
-    setResult(null);
-    setRevealResult(false);
+    const computed = computeBudgetSummary(scenarioInputs);
+    setResult(computed);
+    setRevealResult(true);
   };
   const handleInputChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: Number(value) }));
@@ -519,5 +547,6 @@ function buildWebPageSchema(seo) {
   };
 }
 export {
+  computeBudgetSummary,
   MonthlyHouseholdBudgetCalculator as default
 };

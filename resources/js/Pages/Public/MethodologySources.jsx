@@ -67,7 +67,7 @@ export default function MethodologySources({ seo, jsonLd, contactEmail = 'suppor
                                     <tr>
                                         <td className="py-2.5 px-3 font-medium">Cooking Oil / Ghee</td>
                                         <td className="py-2.5 px-3">1 Litre / 5 Litre pouch</td>
-                                        <td className="py-2.5 px-3">Utility Stores Subsidy + Open Retail</td>
+                                        <td className="py-2.5 px-3">Wholesale Grain Mandi + Open Retail</td>
                                         <td className="py-2.5 px-3">Monthly</td>
                                     </tr>
                                     <tr>

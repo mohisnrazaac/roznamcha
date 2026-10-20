@@ -83,7 +83,37 @@ const defaultFaqItems = [
     },
 ];
 
-export default function MonthlyHouseholdBudgetCalculator({ defaults, activationPrefill, faqItems: faqItemsProp, seo: seoProp, jsonLd: jsonLdProp }) {
+export function computeBudgetSummary(inputs) {
+    const income = Number(inputs.monthly_income) || 0;
+    const rent = Number(inputs.rent) || 0;
+    const ration = Number(inputs.ration) || 0;
+    const utilities = Number(inputs.utilities) || 0;
+    const education = Number(inputs.education) || 0;
+    const transport = Number(inputs.transport) || 0;
+    const misc = Number(inputs.misc) || 0;
+
+    const total_expenses = rent + ration + utilities + education + transport + misc;
+    const surplus_deficit = income - total_expenses;
+    const savings_rate = income > 0 ? Math.round((surplus_deficit / income) * 10000) / 100 : 0;
+
+    const shares = {
+        rent: total_expenses > 0 ? Math.round((rent / total_expenses) * 10000) / 100 : 0,
+        ration: total_expenses > 0 ? Math.round((ration / total_expenses) * 10000) / 100 : 0,
+        utilities: total_expenses > 0 ? Math.round((utilities / total_expenses) * 10000) / 100 : 0,
+        education: total_expenses > 0 ? Math.round((education / total_expenses) * 10000) / 100 : 0,
+        transport: total_expenses > 0 ? Math.round((transport / total_expenses) * 10000) / 100 : 0,
+        misc: total_expenses > 0 ? Math.round((misc / total_expenses) * 10000) / 100 : 0,
+    };
+
+    return {
+        total_expenses,
+        surplus_deficit,
+        savings_rate,
+        shares,
+    };
+}
+
+export default function MonthlyHouseholdBudgetCalculator({ defaults, initialResult, activationPrefill, faqItems: faqItemsProp, seo: seoProp, jsonLd: jsonLdProp }) {
     const seo = seoProp ?? {
         title: 'Monthly Household Budget Calculator Pakistan – Ghar ka budget planner | Roznamcha',
         description: 'Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.',
@@ -95,9 +125,7 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
     const { auth } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);
     const prefilledInputs = activationPrefill?.inputs ?? {};
-    const prefilledResults = activationPrefill?.results ?? null;
-
-    const [form, setForm] = React.useState({
+    const initialInputs = {
         monthly_income: prefilledInputs.monthly_income ?? defaults?.monthly_income ?? 85000,
         rent: prefilledInputs.rent ?? defaults?.rent ?? 20000,
         ration: prefilledInputs.ration ?? defaults?.ration ?? 25000,
@@ -105,17 +133,21 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, activationP
         education: prefilledInputs.education ?? defaults?.education ?? 8000,
         transport: prefilledInputs.transport ?? defaults?.transport ?? 6000,
         misc: prefilledInputs.misc ?? defaults?.misc ?? 4000,
-    });
+    };
 
-    const [result, setResult] = React.useState(prefilledResults);
+    const defaultInitialResult = initialResult ?? activationPrefill?.results ?? computeBudgetSummary(initialInputs);
+
+    const [form, setForm] = React.useState(initialInputs);
+    const [result, setResult] = React.useState(defaultInitialResult);
     const [error, setError] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
-    const [revealResult, setRevealResult] = React.useState(Boolean(prefilledResults));
+    const [revealResult, setRevealResult] = React.useState(Boolean(defaultInitialResult));
 
     const handleScenarioSelect = (scenarioInputs) => {
         setForm({ ...scenarioInputs });
-        setResult(null);
-        setRevealResult(false);
+        const computed = computeBudgetSummary(scenarioInputs);
+        setResult(computed);
+        setRevealResult(true);
     };
 
     const handleInputChange = (field, value) => {

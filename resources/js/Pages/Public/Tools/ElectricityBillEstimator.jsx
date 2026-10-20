@@ -50,6 +50,7 @@ export default function ElectricityBillEstimator({
     categories = [],
     gstPercentage = 17,
     gst_percentage,
+    initialResult,
     activationPrefill,
     faqItems: faqItemsProp,
     seo: seoProp,
@@ -62,7 +63,12 @@ export default function ElectricityBillEstimator({
     const { auth } = usePage().props;
     const isAuthenticated = Boolean(auth?.user);
     const prefilledInputs = activationPrefill?.inputs ?? {};
-    const prefilledResults = activationPrefill?.results ?? null;
+    const defaultInitialResult = initialResult ?? activationPrefill?.results ?? {
+        slab_cost: 5250,
+        total_bill: 7020,
+        last_year_estimate: 5118.75,
+        difference: 1901.25,
+    };
     const [form, setForm] = React.useState({
         units_used: prefilledInputs.units_used ?? defaults?.units_used ?? 250,
         user_category: prefilledInputs.user_category ?? defaults?.user_category ?? 'unprotected',
@@ -89,10 +95,10 @@ export default function ElectricityBillEstimator({
             user_category: newTotal <= 200 ? 'protected' : 'unprotected',
         }));
     };
-    const [result, setResult] = React.useState(prefilledResults);
+    const [result, setResult] = React.useState(defaultInitialResult);
     const [error, setError] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
-    const [revealResult, setRevealResult] = React.useState(Boolean(prefilledResults));
+    const [revealResult, setRevealResult] = React.useState(Boolean(defaultInitialResult));
     const [scrollDepth, setScrollDepth] = React.useState(0);
 
     React.useEffect(() => {

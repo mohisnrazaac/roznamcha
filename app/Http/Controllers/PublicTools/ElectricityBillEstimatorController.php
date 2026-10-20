@@ -44,13 +44,20 @@ class ElectricityBillEstimatorController extends Controller
             ],
         ];
 
+        $defaultUnits = (int) ($activation['inputs']['units_used'] ?? $config['defaults']['units_used'] ?? 250);
+        $defaultCategory = (string) ($activation['inputs']['user_category'] ?? $config['defaults']['user_category'] ?? 'unprotected');
+        $initialResult = !empty($activation['results'])
+            ? $activation['results']
+            : $this->computeEstimate($defaultUnits, $defaultCategory, $config);
+
         return Inertia::render('Public/Tools/ElectricityBillEstimator', [
             'defaults' => [
-                'units_used' => (int) ($activation['inputs']['units_used'] ?? $config['defaults']['units_used'] ?? 250),
-                'user_category' => (string) ($activation['inputs']['user_category'] ?? $config['defaults']['user_category'] ?? 'unprotected'),
+                'units_used' => $defaultUnits,
+                'user_category' => $defaultCategory,
             ],
             'categories' => ['protected', 'unprotected'],
             'gst_percentage' => ($config['gst_rate'] ?? 0.17) * 100,
+            'initialResult' => $initialResult,
             'activationPrefill' => $activation,
             'seo' => $seo,
             'faqItems' => $faqItems,
@@ -105,6 +112,46 @@ class ElectricityBillEstimatorController extends Controller
             'last_year_estimate' => round($lastYearEstimate, 2),
             'difference' => round($difference, 2),
         ]);
+    }
+
+    public function computeEstimate(int $unitsUsed, string $category, array $config): array
+    {
+        try {
+            $slabs = DB::table('slab_rates')
+                ->where('category', $category)
+                ->orderBy('min_units')
+                ->get(['min_units', 'max_units', 'rate_per_unit']);
+        } catch (\Throwable) {
+            $slabs = collect();
+        }
+
+        if ($slabs->isEmpty()) {
+            $seedSlabs = $config['seed_slabs'][$category] ?? [];
+            $slabs = collect(array_map(fn ($s) => (object) $s, $seedSlabs));
+        }
+
+        $slabCost = $this->calculateProgressiveSlabCost($unitsUsed, $slabs->all());
+        $fpa = (float) ($config['fpa_fixed_amount'] ?? 450);
+        $surcharges = (float) ($config['other_surcharges_fixed_amount'] ?? 300);
+        $gstRate = (float) ($config['gst_rate'] ?? 0.17);
+
+        $preTaxSubtotal = $slabCost + $fpa + $surcharges;
+        $gst = $preTaxSubtotal * $gstRate;
+        $totalBill = $preTaxSubtotal + $gst;
+
+        $lastYearBaseRate = (float) data_get($config, "last_year_base_rate_per_unit.{$category}", 14.5);
+        $lastYearBase = $unitsUsed * $lastYearBaseRate;
+        $lastYearPreTaxSubtotal = $lastYearBase + $fpa + $surcharges;
+        $lastYearGst = $lastYearPreTaxSubtotal * $gstRate;
+        $lastYearEstimate = $lastYearPreTaxSubtotal + $lastYearGst;
+        $difference = $totalBill - $lastYearEstimate;
+
+        return [
+            'slab_cost' => round($slabCost, 2),
+            'total_bill' => round($totalBill, 2),
+            'last_year_estimate' => round($lastYearEstimate, 2),
+            'difference' => round($difference, 2),
+        ];
     }
 
     /**

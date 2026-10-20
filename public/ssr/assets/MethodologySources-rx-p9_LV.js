@@ -63,7 +63,7 @@ function MethodologySources({ seo, jsonLd, contactEmail = "support@roznamcha.pk"
               /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "py-2.5 px-3 font-medium", children: "Cooking Oil / Ghee" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "py-2.5 px-3", children: "1 Litre / 5 Litre pouch" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "py-2.5 px-3", children: "Utility Stores Subsidy + Open Retail" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "py-2.5 px-3", children: "Wholesale Grain Mandi + Open Retail" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "py-2.5 px-3", children: "Monthly" })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [

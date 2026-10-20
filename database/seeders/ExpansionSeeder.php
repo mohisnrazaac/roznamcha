@@ -15,22 +15,22 @@ class ExpansionSeeder extends Seeder
                 'title' => 'How Pakistani Families Can Control Monthly Expenses (2026 Comprehensive Guide)',
                 'content' => <<<'HTML'
 <h2>The Macroeconomic Reality Facing Pakistani Families in 2026</h2>
-<p>Managing an urban household budget in Pakistan has transitioned from a routine domestic routine into a defensive financial discipline. According to ongoing bulletins from the Pakistan Bureau of Statistics (PBS), the Sensitive Price Indicator (SPI) and Consumer Price Index (CPI) consistently place food, electricity, and fuel price pressure at historic highs. Families living in Karachi, Lahore, Rawalpindi, Faisalabad, and Peshawar face compounding challenges: base electricity tariffs structured around unforgiving consumption slabs, escalating transport costs, and stagnant wage increments that lag real inflation. Simply attempting to "spend less" without a structural framework is mathematically insufficient. This guide provides an actionable, evidence-based blueprint for Pakistani families seeking total control over their monthly household cash flows.</p>
+<p>Managing an urban household budget in Pakistan has transitioned from a routine domestic task into an essential defensive financial discipline. According to ongoing statistical releases from the Pakistan Bureau of Statistics (PBS), the Sensitive Price Indicator (SPI) and Consumer Price Index (CPI) consistently reflect intense pressure across food staples, electricity tariffs, and transport fuel. Families residing in Karachi, Lahore, Rawalpindi, Faisalabad, Multan, and Peshawar confront compounding macroeconomic pressures: progressive electricity tariffs structured around unforgiving slab thresholds, escalating commuter costs driven by global crude adjustments and statutory levies, and wage increments that systematically lag real inflation. Simply attempting to "spend less" without an empirical, mathematical framework is demonstrably ineffective. This comprehensive guide delivers a field-tested, actionable blueprint for Pakistani families seeking total control over their monthly household cash flows.</p>
 
 <h3>Phase 1: The Zero-Leakage 30-Day Expense Audit</h3>
-<p>Before any household can successfully compress its cost structure, it must accurately document where cash actually disappears. In most urban Pakistani homes, an estimated 15% to 25% of monthly income is lost to unrecorded incidental purchases—frequent neighborhood kiryana runs, unmetered ride-hailing trips, and routine food delivery charges.</p>
+<p>Before any household can systematically compress its cost structure, it must accurately document where cash actually disappears. In most urban Pakistani homes, an estimated 15% to 25% of take-home income evaporates through unrecorded incidental purchases—frequent neighborhood kiryana visits, unmetered ride-hailing trips, impulse food delivery orders, and untracked cash advances.</p>
 <ul>
-    <li><strong>Terminate Approximations:</strong> Never guess monthly spending on groceries or hardware maintenance. Request an itemized receipt for every transaction or record it immediately in a dedicated mobile ledger such as Roznamcha.</li>
-    <li><strong>Audit Automated Digital Subscriptions:</strong> Review bank and digital wallet statements (Raast, debit cards, mobile accounts) for lingering recurring fees. Streaming subscriptions, gaming services, and unmonitored digital packages quietly drain thousands of rupees every quarter.</li>
-    <li><strong>Isolate Delivery App Markups:</strong> Calculate total expenditure on food delivery platforms across the prior month. Delivery surcharges, platform fees, and restaurant price premiums frequently double the cost of an identical home-cooked meal.</li>
+    <li><strong>Terminate Approximations:</strong> Never guess monthly spending on kitchen supplies, motor repairs, or medical needs. Insist on itemized receipts for every transaction or record it immediately in a dedicated mobile ledger such as Roznamcha.</li>
+    <li><strong>Audit Automated Digital Subscriptions:</strong> Review bank and digital wallet statements (Raast transfers, debit cards, Nayapay, Sadapay, JazzCash, Easypaisa) for recurring deductions. Streaming entertainment subscriptions, forgotten app subscriptions, and unmonitored digital packages quietly drain thousands of rupees every quarter.</li>
+    <li><strong>Isolate Delivery App Premiums:</strong> Calculate total expenditure on food delivery platforms across the prior month. Delivery surcharges, service fees, and inflated restaurant menu prices routinely add 40% to 65% to the cost of an equivalent home-prepared meal.</li>
 </ul>
 
 <h3>Phase 2: Electricity Tariff Slab Discipline (NEPRA Guidelines)</h3>
 <p>Electricity expenses under the National Electric Power Regulatory Authority (NEPRA) tariff structure represent the single most volatile variable expense in the household budget. A lack of understanding regarding "protected" versus "unprotected" consumer slabs results in catastrophic bill shock during summer peaks.</p>
 <ul>
-    <li><strong>The 200-Unit Threshold Rule:</strong> Under NEPRA residential guidelines, consuming 200 units or fewer keeps a consumer in the subsidized "protected" category. Surpassing 201 units not only triggers a higher base tariff on the excess unit, but revokes protected status across the entire billing cycle and subsequent six-month lookback period. Weekly meter readings on the 7th, 14th, 21st, and 28th of each month are mandatory to prevent accidental threshold breaches.</li>
+    <li><strong>The 200-Unit Threshold Rule:</strong> Under NEPRA residential guidelines, consuming 200 units or fewer consecutively for six months keeps a consumer in the subsidized "protected" category. Surpassing 201 units not only triggers a higher base tariff on the excess unit, but revokes protected status across the entire billing cycle and subsequent six-month lookback period. Weekly meter readings on the 7th, 14th, 21st, and 28th of each month are mandatory to prevent accidental threshold breaches.</li>
     <li><strong>Appliance Power Budgeting:</strong> Non-inverter air conditioners and legacy single-compressor refrigerators are prime drivers of excessive kilowatt-hour consumption. Transitioning to DC Inverter technology can reduce energy usage by 35% to 50%, generating operational savings that exceed the financing cost within 14 months.</li>
-    <li><strong>Peak vs. Off-Peak Hours:</strong> For three-phase meters with Time-of-Use (TOU) metering, high-draw appliances (heavy washing machines, water suction pumps, and electric irons) should operate strictly during daytime off-peak hours.</li>
+    <li><strong>Peak vs. Off-Peak Hours:</strong> For three-phase meters with Time-of-Use (TOU) metering, high-draw appliances (heavy washing machines, water suction pumps, and electric irons) should operate strictly during daytime off-peak hours (avoiding 7:00 PM to 11:00 PM).</li>
 </ul>
 
 <h3>Phase 3: The Wholesale Mandi vs. Kiryana Procurement Strategy</h3>
@@ -100,19 +100,29 @@ class ExpansionSeeder extends Seeder
 </table>
 
 <h3>Phase 4: Fuel and Commuter Transit Efficiency</h3>
-<p>With petrol and diesel prices indexed to international crude benchmarks and the Petroleum Development Levy (PDL), transport expenditure can silently paralyze household cash flow if not strictly contained.</p>
+<p>With petrol and diesel prices indexed to international crude benchmarks and the statutory Petroleum Development Levy (PDL), transport expenditure can silently paralyze household cash flow if not strictly contained.</p>
 <ul>
     <li><strong>Carpooling Networks:</strong> Professional commuters working in central commercial business districts (such as I.I. Chundrigar Road in Karachi or Gulberg in Lahore) can reduce personal fuel bills by 60% to 75% by organizing four-person office carpools.</li>
     <li><strong>The Two-Wheeler Downshift:</strong> Solo commuting in a 1,000cc car yields approximately 11 to 14 kilometers per liter in dense city traffic. Transitioning daily solo office commutes to a 70cc motorcycle (delivering 45–55 km/l) or an electric motorcycle shields the primary breadwinner from rising transport costs.</li>
     <li><strong>Route Chaining:</strong> Group multiple individual neighborhood errands (grocery runs, pharmacy pick-ups, bank visits) into a single circular journey once per week, eliminating unproductive cold-start engine cycles.</li>
 </ul>
 
-<h3>Phase 5: Financial Resilience & Institutional Citations</h3>
-<p>Protecting a household against sudden macro shocks requires strict alignment with recognized institutional frameworks:</p>
+<h3>Phase 5: School Fees Sinking Funds & Educational Planning</h3>
+<p>Education is one of the largest non-negotiable line items in middle-class budgets. Beyond regular tuition vouchers, families frequently suffer cash crises when faced with lump-sum annual registration fees, book packages, uniforms, and biannual exam charges.</p>
 <ul>
-    <li><strong>State Bank of Pakistan (SBP) Monetary Policy:</strong> Monitor SBP policy rate announcements. High-interest environments favor keeping liquid emergency reserves in Shariah-compliant money market mutual funds (such as Islamic Income Funds regulated by the SECP) yielding competitive daily profit rather than non-yielding current accounts.</li>
+    <li><strong>The Sinking Fund Formula:</strong> Sum all expected non-tuition education expenses across the calendar year (annual charges, registration, lab fees, books, and winter uniform replacements). Divide this cumulative figure by 12 and transfer this exact amount every month into a dedicated savings sub-account. When the school issues the mid-year voucher, funds are already reserved, eliminating emergency borrowing.</li>
+    <li><strong>Used Book Exchanges & Sibling Pass-Downs:</strong> Private school booklists change minimally from year to year. Participating in neighborhood textbook exchanges or purchasing sanitized curriculum books from Urdu Bazaar saves between 40% and 60% on annual educational supplies.</li>
+</ul>
+
+<h3>Phase 6: Financial Resilience & Institutional Citations</h3>
+<p>Protecting a household against sudden macroeconomic shocks requires strict alignment with recognized institutional frameworks:</p>
+<ul>
+    <li><strong>State Bank of Pakistan (SBP) Monetary Policy:</strong> Monitor SBP policy rate announcements. High policy rate cycles create lucrative yields for keeping liquid emergency reserves in Shariah-compliant money market mutual funds (such as Islamic Income Funds regulated by the SECP) yielding competitive daily profit rather than non-yielding current accounts.</li>
     <li><strong>Federal Board of Revenue (FBR) Active Taxpayer List (ATL):</strong> Ensure your national identity is listed on the FBR ATL. Non-filers suffer punitive withholding taxes on cash withdrawals, banking transactions, vehicle token tax, and school fee vouchers above annual statutory thresholds.</li>
 </ul>
+
+<h3>Phase 7: Real-Time Cash Tracking via Roznamcha Kharcha Map</h3>
+<p>A static budget written at the start of the month rarely survives the 20th without active monitoring. By logging daily cash transactions into the Roznamcha Kharcha Map, families gain visual visibility into spending velocity. If dining out or vehicle repairs exceed their allocation by mid-month, the software immediately flags the leakage, allowing households to compress variable grocery or leisure budgets before incurring debt.</p>
 
 <h3>Frequently Asked Questions (FAQs)</h3>
 <h4>1. How can a family start budgeting when income is irregular or freelance?</h4>
@@ -329,11 +339,25 @@ HTML,
     <li><strong>Petty Cash Vouchers:</strong> Never allow cash withdrawals from the till for routine tea (chai), sweepers, or local courier fees without generating an instantaneous digital petty cash voucher. Over 30 days, untracked minor cash leakages routinely consume Rs. 8,000 to Rs. 15,000 of commercial net margin.</li>
 </ul>
 
+<h3>Reconciling Digital Wallets (Raast, Nayapay, SadaPay, JazzCash, Easypaisa)</h3>
+<p>With the rapid consumer adoption of mobile QR payments and the State Bank of Pakistan's Raast P2P and P2M instant payment rails, small businesses handle multiple digital payment channels daily. Managing these disparate channels without a centralized ledger creates dangerous reconciliation gaps.</p>
+<ul>
+    <li><strong>Merchant Account Clearing:</strong> Mobile wallets charge varying merchant discount rates (MDR) and withdrawal fees when cashing out to commercial bank accounts. Tagging digital receipts separately from physical cash allows business owners to verify that wallet settlements match daily sales summaries.</li>
+    <li><strong>Daily Cash Sweeps:</strong> At the close of each business day, sweep balances from mobile wallets into an interest-bearing or Shariah-compliant business account. This practice minimizes exposure to mobile account limits and generates overnight liquidity yields.</li>
+</ul>
+
 <h3>Vendor Trade Credit & Inventory Margin Management</h3>
 <p>Wholesale procurement in commercial centers (such as Shah Alam Market or Brandreth Road in Lahore, and Bolton Market in Karachi) operates on rolling supplier credit cycles. Retailers frequently make the fatal mistake of treating vendor credit as operating profit:</p>
 <ul>
     <li><strong>Aging Payables Tracking:</strong> Log all wholesale supplier invoices with contractual due dates (typically 7, 14, or 30 days). Tracking aging payables prevents damaged distributor relationships and protects your ability to negotiate bulk trade discounts.</li>
     <li><strong>Cash Discount Evaluation:</strong> Distributors frequently offer 2% to 3% prompt-payment cash discounts (Naqd Choot) for settlement within 48 hours. Using a digital roznamcha to forecast upcoming cash inflows allows business owners to capture these cash discounts, generating annualized savings of up to 24% on inventory costs.</li>
+</ul>
+
+<h3>FBR Statutory Compliance (Sections 236G and 236H Withholding Rules)</h3>
+<p>Under current FBR taxation rules, wholesalers and manufacturers are required to collect advance withholding taxes under Section 236G (sales to distributors, dealers, and wholesalers) and Section 236H (sales to retailers). For unregistered non-filers, withholding rates are punitive—often two to three times the rate applied to active taxpayers.</p>
+<ul>
+    <li><strong>Withholding Tax Credit Documentation:</strong> Maintaining itemized digital invoices enables business owners to accurately claim advance tax credits when filing annual tax returns with the FBR, effectively recovering tax deducted at source.</li>
+    <li><strong>Sales Tax Invoice Matching:</strong> For sales tax-registered businesses, a digital roznamcha simplifies monthly STR return preparation by matching input tax on supplier purchases with output tax collected from customers.</li>
 </ul>
 
 <h3>Multi-User Permissions & Audit Trail Security for Partnerships</h3>
@@ -362,6 +386,202 @@ HTML,
 
 <h4>4. Is technical accounting expertise required to operate a digital roznamcha?</h4>
 <p>No. Modern digital roznamcha applications are designed with intuitive interfaces that mirror the simplicity of a physical register, requiring only the amount, category, and an optional note to generate enterprise-grade financial statements.</p>
+HTML,
+            ],
+            'ghar-ka-monthly-budget' => [
+                'title' => 'گھر کا ماہانہ بجٹ کیسے بنائیں | پاکستانی گھرانوں کے لیے 2026 کی مکمل اور عملی گائیڈ',
+                'content' => <<<'HTML'
+<article dir="rtl" lang="ur" style="max-width: 820px; margin: 0 auto; font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif; color: #1f2937; line-height: 2.2; font-size: 20px;">
+
+  <header style="margin-bottom: 30px;">
+    <div style="display: inline-block; background: #fef3c7; color: #b45309; padding: 6px 14px; border-radius: 999px; font-size: 14px; margin-bottom: 18px;">
+      بجٹ اور گھریلو مالیات
+    </div>
+    <h1 style="font-size: 34px; line-height: 1.8; margin: 0 0 18px 0; color: #111827;">
+      گھر کا ماہانہ بجٹ کیسے بنائیں | پاکستانی گھرانوں کے لیے 2026 کی مکمل اور عملی گائیڈ
+    </h1>
+    <p style="margin: 0; color: #6b7280; font-size: 16px;">
+      تحریر: روزنامچہ معاشی ٹیم | نگرانی: محسن، چیف سسٹمز آرکیٹیکٹ
+    </p>
+  </header>
+
+  <section style="background: #f9fafb; border-right: 5px solid #f59e0b; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+    <p style="margin: 0;">
+      پاکستان میں مہنگائی اور معاشی دباؤ کے اس دور میں اکثر تنخواہ دار اور متوسط طبقے کے گھرانوں کا یہی المیہ ہوتا ہے کہ مہینے کی یکم کو تنخواہ اکاؤنٹ میں آتی ہے اور 20 تاریخ سے پہلے ختم ہو جاتی ہے۔ اصل مسئلہ اکثر کم آمدنی نہیں بلکہ مالیاتی نظم و ضبط اور خرچ کے سائنسی ریکارڈ کی عدم موجودگی ہوتا ہے۔ پاکستان بیورو آف شماریات (PBS) کے اعداد و شمار کے مطابق بجلی، ایندھن، اور خوراک کی بنیادی اشیاء پر افراطِ زر کے مسلسل دباؤ نے روایتی بجٹنگ طریقوں کو فرسودہ بنا دیا ہے۔ اگر گھر کا ماہانہ بجٹ منظم انداز میں بنایا جائے تو نہ صرف مہینے کے اختتام پر قرض سے بچا جا سکتا ہے بلکہ مستحکم بچت بھی ممکن ہو جاتی ہے۔
+    </p>
+  </section>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    بجٹ سازی کیوں ناگزیر ہے؟
+  </h2>
+  <p>
+    ہمارے معاشرے میں یہ عمومی غلط فہمی پائی جاتی ہے کہ بجٹ صرف اُن افراد کے لیے ہوتا ہے جن کی آمدنی لاکھوں روپے ہو یا جو بڑی کاروباری کمپنیاں چلاتے ہوں۔ معاشی حقیقت اس کے برعکس ہے: محدود آمدنی والے گھرانے کے لیے بجٹ سازی کی اہمیت امیر گھرانے سے دس گنا زیادہ ہوتی ہے، کیونکہ یہاں ایک غیر ضروری ہزار روپے کا خرچ پورے مہینے کے راشن یا بچوں کی اسکول فیس کو داؤ پر لگا سکتا ہے۔
+  </p>
+
+  <ul style="padding-right: 22px; margin-bottom: 22px;">
+    <li style="margin-bottom: 10px;"><strong>پیسے کی لیکیج کی فوری نشاندہی:</strong> آپ کو روزانہ کی بنیاد پر معلوم ہوتا ہے کہ محنت کی کمائی کن غیر ضروری مدات میں ضائع ہو رہی ہے۔</li>
+    <li style="margin-bottom: 10px;"><strong>مہینے کے آخری دس دنوں کا مالی سکون:</strong> تاریخ 20 کے بعد ادھار، کریڈٹ کارڈ یا کمیٹی توڑنے کے ذہنی دباؤ سے نجات ملتی ہے۔</li>
+    <li style="margin-bottom: 10px;"><strong>ہنگامی طبی فنڈ کا تحفظ:</strong> بیماری یا اچانک موٹر سائیکل مرمت جیسے غیر متوقع اخراجات کے لیے پہلے سے رقم محفوظ رہتی ہے۔</li>
+    <li style="margin-bottom: 10px;"><strong>اہلِ خانہ کا مشترکہ مالی تعاون:</strong> جب تمام گھریلو افراد کو بجٹ کے اہداف کا علم ہو تو فضول خرچی کا خاتمہ آسان ہو جاتا ہے۔</li>
+  </ul>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    روایتی 50/30/20 بجٹ اصول بمقابلہ پاکستانی حقائق
+  </h2>
+  <p>
+    مغربی کتب میں پڑھایا جانے والا مشہور 50/30/20 فارمولا (50 فیصد بنیادی ضروریات، 30 فیصد تفریح و خواہشات، اور 20 فیصد بچت) موجودہ پاکستانی معاشی منظر نامے میں قطعی طور پر ناکام ہو جاتا ہے۔ جب اوسط شہری گھرانے کی آمدنی کا 35 سے 45 فیصد صرف بجلی کے بل اور مکان کے کرائے میں چلا جائے تو 30 فیصد تفریح پر لگانا دیوالیہ پن کا راستہ ہے۔
+  </p>
+  <p>
+    پاکستانی حالات کے لیے معاشی ماہرین <strong>75/15/10 ماڈل</strong> کی سفارش کرتے ہیں:
+  </p>
+  <ul style="padding-right: 22px; margin-bottom: 22px;">
+    <li style="margin-bottom: 10px;"><strong>75 فیصد بقا کی ناگزیر ضروریات:</strong> کرایہ، راشن، بجلی، گیس، اسکول کی فیس اور پیٹرول۔</li>
+    <li style="margin-bottom: 10px;"><strong>15 فیصد غیر متوقع ہنگامی اخراجات اور طبی سنکنگ فنڈ:</strong> دوائیں، سالانہ چارجز اور گھر کی مرمت۔</li>
+    <li style="margin-bottom: 10px;"><strong>10 فیصد غیر مشروط بچت:</strong> جسے تنخواہ ملتے ہی اسلامی بچت کھاتے یا میوچل فنڈ میں منتقل کر دیا جائے۔</li>
+  </ul>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    بجلی کے ٹیرف سلیب اور نیپرا (NEPRA) پروٹیکٹڈ کیٹیگری کا انتظام
+  </h2>
+  <p>
+    پاکستانی گھریلو بجٹ پر سب سے کاری ضرب بجلی کا بل لگاتا ہے۔ نیپرا کے 2024-2026 ٹیرف قوانین کے تحت گھریلو صارفین کو دو بڑی کیٹیگریز میں تقسیم کیا گیا ہے: "پروٹیکٹڈ" (Protected) اور "ان پروٹیکٹڈ" (Unprotected)۔
+  </p>
+  <p>
+    اگر آپ کا ماہانہ استعمال مسلسل 6 ماہ تک 200 یونٹ یا اس سے کم رہے تو آپ پروٹیکٹڈ کیٹیگری میں رہتے ہیں جہاں فی یونٹ نرخ رعایتی ہوتے ہیں اور فیول پرائس ایڈجسٹمنٹ (FPA) کی شرح کم لاگو ہوتی ہے۔ جیسے ہی میٹر 201 یونٹ ریکارڈ کرتا ہے، نہ صرف اضافی یونٹ پر مہنگا ٹیرف لاگو ہوتا ہے بلکہ پروٹیکٹڈ اسٹیٹس ختم ہونے سے پورے بل پر 18 فیصد جی ایس ٹی، فنانسنگ سرچارج، اور ریٹیل ٹیکسز لاگو ہو جاتے ہیں۔
+  </p>
+  <div style="background: #eff6ff; border-right: 5px solid #2563eb; padding: 18px; border-radius: 10px; margin: 24px 0;">
+    <strong style="display: block; margin-bottom: 8px; color: #1e40af;">بجلی بل کنٹرول کے تین بنیادی اصول:</strong>
+    1. ہر ماہ کی 7، 14، 21 اور 28 تاریخ کو اپنے بجلی کے میٹر کی تصویر لیں اور یونٹس کا حساب لگائیں۔<br>
+    2. پیک آورز (شام 7 بجے تا رات 11 بجے) کے دوران استری، واٹر موٹر اور ہیوی آلات کا استعمال مکمل بند رکھیں۔<br>
+    3. روایتی پنکھوں کی جگہ ڈی سی انورٹر پنکھے لگائیں جو 120 واٹ کے بجائے صرف 45 واٹ بجلی استعمال کرتے ہیں۔
+  </div>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    راشن اور کچن گروسری: تھوک منڈی بمقابلہ گلی محلے کا کریانہ
+  </h2>
+  <p>
+    وفاقی حکومت کے فیصلوں کے بعد یوٹیلیٹی اسٹورز کارپوریشن (USC) کی عمومی ریٹیل سبسڈی مکمل طور پر ختم کر کے بینظیر انکم سپورٹ پروگرام (BISP) کے ٹارگٹڈ کیش ٹرانسفرز میں تبدیل کر دی گئی ہے۔ اس لیے پرانی سرکاری دکانوں کے نرخوں پر انحصار کرنے کے بجائے حقیقت پسندانہ اوپن مارکیٹ مینیجمنٹ ضروری ہے۔
+  </p>
+  <p>
+    محلے کی پرچون دکان پر روزانہ سو دو سو روپے کی دال یا کھلا گھی خریدنا بجٹ کو سب سے زیادہ نقصان پہنچاتا ہے۔ دکاندار اس میں اپنی نقل و حمل، دکان کا کرایہ اور پرچون منافع شامل کرتا ہے۔ اس کے برعکس اکبری منڈی لاہور، جوڑیا بازار کراچی، یا گنج منڈی راولپنڈی جیسی مرکزی غلہ منڈیوں سے 20 کلو آٹے کا تھیلا، 16 لیٹر گھی کا ٹن، اور دالوں کی ماہانہ ایک ساتھ خریداری 15 سے 22 فیصد نقد بچت فراہم کرتی ہے۔ اگر آپ کے پاس ایک ساتھ بڑی رقم نہیں تو دو یا تین رشتہ دار مل کر ہول سیل خریداری کریں اور سامان آپس میں تقسیم کر لیں۔
+  </p>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    موازنہ جدول: غیر منظم بمقابلہ منظم گھریلو بجٹ
+  </h2>
+  <p>
+    درج ذیل جدول میں 5 افراد پر مشتمل شہری پاکستانی گھرانے کے ایک ماہ کے اخراجات کا جامع تقابلی جائزہ پیش کیا گیا ہے جس سے ظاہر ہوتا ہے کہ صرف ترجیحات درست کرنے سے 30 فیصد سے زائد رقم کیسے بچائی جا سکتی ہے:
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 16px; text-align: right;">
+    <thead>
+      <tr style="background-color: #001a4a; color: #ffffff;">
+        <th style="padding: 12px; border: 1px solid #cbd5e1;">خرچ کی کیٹیگری</th>
+        <th style="padding: 12px; border: 1px solid #cbd5e1;">غیر منظم خرچ (روپے)</th>
+        <th style="padding: 12px; border: 1px solid #cbd5e1;">منظم بجٹ (روپے)</th>
+        <th style="padding: 12px; border: 1px solid #cbd5e1;">عملی حکمت عملی</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background-color: #ffffff;">
+        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">بجلی اور گیس بل</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">36,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">22,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">200 یونٹ سلیب کا تحفظ اور پیک آورز احتیاط</td>
+      </tr>
+      <tr style="background-color: #f8fafc;">
+        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">خشک راشن اور آٹا</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">40,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">31,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">مرکزی غلہ منڈی سے ماہانہ ہول سیل خریداری</td>
+      </tr>
+      <tr style="background-color: #ffffff;">
+        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">گوشت، دودھ اور سبزیاں</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">24,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">17,500</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">سبزی منڈی سے ہفتہ وار کریٹ اور موسمی خریداری</td>
+      </tr>
+      <tr style="background-color: #f8fafc;">
+        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">پیٹرول اور ٹرانسپورٹ</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">25,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">15,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">70cc بائیک کا استعمال اور راستوں کی منصوبہ بندی</td>
+      </tr>
+      <tr style="background-color: #ffffff;">
+        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">اسکول فیس اور کتب</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">26,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">22,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">پرانی نصابی کتب اور سالانہ چارجز کا سنکنگ فنڈ</td>
+      </tr>
+      <tr style="background-color: #f8fafc;">
+        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">متفرق اور غیر متوقع</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">15,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">5,000</td>
+        <td style="padding: 10px; border: 1px solid #cbd5e1;">کھلا کیش خرچ کرنے کے بجائے لفافہ سسٹم</td>
+      </tr>
+      <tr style="background-color: #fef3c7; font-weight: bold;">
+        <td style="padding: 12px; border: 1px solid #cbd5e1;">کل ماہانہ اخراجات</td>
+        <td style="padding: 12px; border: 1px solid #cbd5e1;">166,000 روپے</td>
+        <td style="padding: 12px; border: 1px solid #cbd5e1;">112,500 روپے</td>
+        <td style="padding: 12px; border: 1px solid #cbd5e1; color: #166534;">خالص ماہانہ بچت: 53,500 روپے (32.2%)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    اسکول فیس اور تعلیمی اخراجات کا سنکنگ فنڈ (Sinking Fund)
+  </h2>
+  <p>
+    تعلیمی اخراجات میں اصل مسئلہ ماہانہ ٹیوشن فیس نہیں ہوتی بلکہ سال میں دو مرتبہ آنے والے امتحانی فیس، یونیفارم اور سالانہ چارجز (Annual Charges) کے بل ہوتے ہیں جو یکدم 30 سے 50 ہزار روپے کے جھٹکے کی صورت میں آتے ہیں۔
+  </p>
+  <p>
+    اس کا واحد حل "تعلیمی سنکنگ فنڈ" ہے: پورے سال کے اضافی تعلیمی اخراجات کا تخمینہ لگائیں۔ فرض کریں سال بھر میں 60,000 روپے اضافی لگنے ہیں، تو اسے 12 پر تقسیم کریں یعنی 5,000 روپے فی مہینہ۔ ہر ماہ یہ رقم ایک الگ ڈیجیٹل بٹوے یا اکاؤنٹ میں منتقل کر دیں۔ جب اسکول کا سالانہ واؤچر آئے گا تو رقم پہلے سے موجود ہوگی اور کسی سے قرض لینے کی ضرورت نہیں پڑے گی۔
+  </p>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    روزنامچہ (Roznamcha) ایپ کے ذریعے خرچوں کی روزانہ ٹریکنگ
+  </h2>
+  <p>
+    کاغذ پر بجٹ بنانا پہلا قدم ہے، لیکن اسے روزانہ برقرار رکھنا اصل کامیابی ہے۔ اگر آپ ہر رات صرف 2 منٹ نکال کر اپنے دن بھر کے اخراجات روزنامچہ کے "خرچہ میپ" میں درج کر لیں تو سسٹم خودکار طور پر آپ کو بتاتا ہے کہ کس مد میں بجٹ ختم ہونے والا ہے۔
+  </p>
+  <ul style="padding-right: 22px; margin-bottom: 22px;">
+    <li style="margin-bottom: 10px;"><strong>الارم سسٹم:</strong> جیسے ہی کسی کیٹیگری کا خرچ 80 فیصد حد کو چھوتا ہے، ایپ آپ کو آگاہ کر دیتی ہے۔</li>
+    <li style="margin-bottom: 10px;"><strong>اردو انٹرفیس اور آسان گرافکس:</strong> کسی پیچیدہ اکاؤنٹنگ کی ضرورت نہیں، گھر کی خواتین اور بزرگ بھی آسانی سے استعمال کر سکتے ہیں۔</li>
+  </ul>
+
+  <h2 style="font-size: 28px; margin-top: 34px; margin-bottom: 14px; color: #111827; border-bottom: 2px solid #fde68a; padding-bottom: 8px;">
+    Frequently Asked Questions (کثرت سے پوچھے جانے والے سوالات)
+  </h2>
+
+  <h3 style="font-size: 22px; margin-top: 20px; margin-bottom: 8px; color: #1e3a8a;">
+    1. اگر ماہانہ تنخواہ صرف 50,000 یا 60,000 روپے ہو تو کیا بجٹ بنانا ممکن ہے؟
+  </h3>
+  <p>
+    جی ہاں، کم تنخواہ میں بجٹ بنانا عیاشی نہیں بلکہ بقا کی شرط ہے۔ کم آمدنی والے گھرانوں کو 80/15/5 پروٹوکول پر عمل کرنا چاہیے جس میں 80 فیصد رقم بنیادی راشن، چھت اور ادویات کے لیے مختص کی جاتی ہے، اور غیر ضروری تقریبات یا باہر کے کھانے کو مکمل منجمد کر دیا جاتا ہے۔
+  </p>
+
+  <h3 style="font-size: 22px; margin-top: 20px; margin-bottom: 8px; color: #1e3a8a;">
+    2. بجلی کا بل کم رکھنے کا سب سے مؤثر طریقہ کیا ہے؟
+  </h3>
+  <p>
+    سب سے اہم قدم اپنے ماہانہ میٹر کو 200 یونٹ کی محفوظ حد کے اندر رکھنا ہے۔ اس کے لیے دن کے اوقات میں قدرتی روشنی کا استعمال کریں، فریج کے تھرموسٹیٹ کو درمیانے درجے پر رکھیں، اور گیزر کے لیے ٹائمر سوئچ استعمال کریں۔
+  </p>
+
+  <h3 style="font-size: 22px; margin-top: 20px; margin-bottom: 8px; color: #1e3a8a;">
+    3. راشن کی خریداری کے لیے ہول سیل مارکیٹ کیسے تلاش کریں؟
+  </h3>
+  <p>
+    ہر بڑے شہر میں مرکزی غلہ منڈیاں موجود ہوتی ہیں، مثلاً کراچی میں جوڑیا بازار، لاہور میں اکبری منڈی، راولپنڈی میں گنج منڈی اور ملتان میں غلہ منڈی۔ یہاں دالیں، گھی اور آٹا تھوک نرخوں پر دستیاب ہوتا ہے جو محلے کی دکانوں سے 20 فیصد تک سستا پڑتا ہے۔
+  </p>
+
+  <h3 style="font-size: 22px; margin-top: 20px; margin-bottom: 8px; color: #1e3a8a;">
+    4. ماہانہ بچت کی گئی رقم کہاں رکھنی چاہیے؟
+  </h3>
+  <p>
+    بچت کو گھر میں کیش کی صورت میں رکھنے سے وہ خرچ ہو جاتی ہے یا افراطِ زر کے باعث اس کی قدر کم ہو جاتی ہے۔ اسے ایس ای سی پی (SECP) سے منظور شدہ کسی اسلامی انکم میوچل فنڈ یا منافع بخش اسلامی سیونگز اکاؤنٹ میں رکھیں جہاں سے ضرورت پڑنے پر رقم فوراً نکلوائی بھی جا سکے۔
+  </p>
+
+</article>
 HTML,
             ],
         ];

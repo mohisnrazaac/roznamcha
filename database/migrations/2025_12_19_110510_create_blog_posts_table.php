@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('seo_keywords')->nullable();
             $table->string('og_image_path')->nullable();
             $table->string('canonical_url')->nullable();
+            $table->json('feature_hooks')->nullable();
             $table->string('language', 8)->nullable()->default('ur');
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();

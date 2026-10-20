@@ -40,7 +40,7 @@ export default function EditorialPolicy({ seo, jsonLd, contactEmail = 'support@r
                                 <strong>Electricity Tariffs &amp; Slab Logic:</strong> Sourced directly from statutory notifications (SROs) published by the National Electric Power Regulatory Authority (NEPRA) and billing schedules from distribution companies (LESCO, K-Electric, IESCO, FESCO, MEPCO, GEPCO, PESCO, HESCO, SEPCO, QESCO). We strictly model both protected and unprotected consumer tiers, GST, TV fees, and Fuel Price Adjustment (FPA) mechanics.
                             </li>
                             <li>
-                                <strong>Kitchen Ration &amp; Grocery Price Baselines:</strong> Cross-verified against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) reports, open wholesale grain markets (ghalla mandi) in Karachi, Lahore, and Rawalpindi, and published utility store subsidy lists.
+                                <strong>Kitchen Ration &amp; Grocery Price Baselines:</strong> Cross-verified against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) reports, and primary wholesale grain markets (ghalla mandi) in Karachi, Lahore, and Rawalpindi.
                             </li>
                             <li>
                                 <strong>Solar Net Metering &amp; Buyback Rates:</strong> Modeled using NEPRA Net Billing regulations, National Average Energy Purchase Price benchmarks, and verified 2026 Tier-1 solar EPC component warranties.

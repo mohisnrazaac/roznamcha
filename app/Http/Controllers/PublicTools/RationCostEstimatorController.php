@@ -42,8 +42,8 @@ class RationCostEstimatorController extends Controller
                 'answer' => 'Yes, the calculator is fully functional in guest mode. Registration is only required if you wish to save your grocery plans and view them inside your household workspace.',
             ],
             [
-                'question' => 'How do Utility Store prices differ from open market kiryana stores in Pakistan?',
-                'answer' => 'Subsidized utility stores provide targeted relief on basic essentials for eligible families, whereas neighborhood kiryana stores incorporate transport costs and retail markups. This tool allows budgeting against standard open market benchmarks.',
+                'question' => 'How do Wholesale Mandi prices differ from open-market kiryana stores in Pakistan?',
+                'answer' => 'Wholesale grain mandis (e.g., Akbari Mandi Lahore or Jodia Bazaar Karachi) offer bulk savings of 12% to 22% on sacks of flour, pulses, and oil cartons, whereas neighborhood kiryana stores incorporate transport costs, local packaging, and retail markups. Following the federal restructuring of Utility Stores Corporation subsidies in favor of direct BISP cash disbursements, households achieve real savings through monthly bulk wholesale procurement rather than relying on discontinued store subsidies.',
             ],
         ];
 

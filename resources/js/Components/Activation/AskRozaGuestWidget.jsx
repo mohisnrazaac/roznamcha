@@ -3,7 +3,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 
 const starterQuestions = [
     'How to cut electricity bill by 5,000 PKR?',
-    'Is Utility Store cheaper for my family size?',
+    'How much does bulk mandi buying save for a family of 5?',
     'What’s a realistic school fee budget for next year?',
 ];
 

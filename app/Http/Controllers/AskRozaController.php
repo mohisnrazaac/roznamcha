@@ -90,8 +90,8 @@ class AskRozaController extends Controller
             return 'Cap high-load usage between 7pm-11pm, then run the Electricity Bill Estimator and save this baseline so next month you can compare unit cuts directly.';
         }
 
-        if (Str::contains($lower, ['utility', 'ration', 'grocery', 'family'])) {
-            return 'Run one ration estimate with your current basket and one with Utility Store substitutes, then save both snapshots to compare where pressure drops next month.';
+        if (Str::contains($lower, ['utility', 'ration', 'grocery', 'family', 'mandi'])) {
+            return 'Run one ration estimate with your current basket and one with wholesale mandi bulk purchasing, then save both snapshots to compare where pressure drops next month.';
         }
 
         if (Str::contains($lower, ['school', 'fee', 'tuition'])) {

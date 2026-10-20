@@ -48,7 +48,7 @@ const modules = [
     {
         key: 'ration-brain',
         title: 'Ration Brain',
-        description: 'Track atta, ghee, chawal, and sabzi prices across bazaars so ration lists stay realistic.',
+        description: 'Track atta, ghee, chawal, and sabzi prices across wholesale mandis and open bazaars so ration lists stay realistic.',
         bullets: ['مہنگائی کا لائیو الارم', 'راشن لسٹ کی ذہین کاپی', 'خریداری سے پہلے قیمت چیک'],
     },
     {
