@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             ExpansionSeeder::class,
         ]);
+
+        \Illuminate\Support\Facades\Artisan::call('roznamcha:adsense-db-clean');
     }
 }
