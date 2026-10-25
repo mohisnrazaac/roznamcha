@@ -66,12 +66,13 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             '/petrol-price-karachi-today',
             '/electricity-bill-calculator-lesco',
             '/ration-cost-for-4-people-pakistan',
+            '/kharcha-map',
+            '/ration-brain',
         ];
 
         foreach ($excludedPages as $path) {
-            $this->get($path)
-                ->assertOk()
-                ->assertSee('meta name="robots" content="noindex,follow"', false);
+            $response = $this->get($path)->assertOk();
+            $this->assertMatchesRegularExpression('/meta name="robots" content="noindex,\s*follow"/', $response->getContent());
         }
     }
 
@@ -81,8 +82,6 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             '/',
             '/features',
             '/features/monthly-expense-tracker-pakistan',
-            '/kharcha-map',
-            '/ration-brain',
             '/survival-report',
             '/tools/ration-cost-estimator',
             '/tools/monthly-household-budget-calculator',
@@ -103,7 +102,7 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         foreach ($corePaths as $path) {
             $this->get($path)
                 ->assertOk()
-                ->assertDontSee('meta name="robots" content="noindex,follow"', false);
+                ->assertDontSee('meta name="robots" content="noindex', false);
         }
     }
 
@@ -114,6 +113,8 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             $this->publicUrl('/petrol-price-karachi-today'),
             $this->publicUrl('/electricity-bill-calculator-lesco'),
             $this->publicUrl('/ration-cost-for-4-people-pakistan'),
+            $this->publicUrl('/kharcha-map'),
+            $this->publicUrl('/ration-brain'),
             $this->publicUrl('/blog/pakistan-sovereign-cloud-ai-trade-ecosystem-2026'),
         ];
     }
@@ -134,8 +135,6 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             $this->publicUrl('/'),
             $this->publicUrl('/features'),
             $this->publicUrl('/features/monthly-expense-tracker-pakistan'),
-            $this->publicUrl('/kharcha-map'),
-            $this->publicUrl('/ration-brain'),
             $this->publicUrl('/survival-report'),
             $this->publicUrl('/tools/ration-cost-estimator'),
             $this->publicUrl('/tools/monthly-household-budget-calculator'),

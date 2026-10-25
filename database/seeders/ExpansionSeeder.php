@@ -591,6 +591,10 @@ HTML,
             if ($post) {
                 $post->title = $data['title'];
                 $post->content = $data['content'];
+                $post->status = 'published';
+                if (! $post->published_at) {
+                    $post->published_at = Carbon::now();
+                }
                 $post->updated_at = Carbon::now();
                 $post->save();
                 echo "Successfully expanded and updated timestamp for: {$slug}\n";

@@ -165,7 +165,7 @@ class AdsenseDbCleanCommand extends Command
 
         foreach ($publishedPosts as $post) {
             $cleanText = strip_tags((string) $post->content);
-            $wordCount = preg_match_all('/[\p{L}\p{N}\-]+/u', $cleanText);
+            $wordCount = preg_match_all('/[\p{L}\p{M}\p{N}\-]+/u', $cleanText);
 
             if ($wordCount < 1000) {
                 $thinCount++;

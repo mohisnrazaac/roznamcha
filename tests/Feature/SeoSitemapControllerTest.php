@@ -77,12 +77,13 @@ class SeoSitemapControllerTest extends TestCase
             '/petrol-price-karachi-today',
             '/electricity-bill-calculator-lesco',
             '/ration-cost-for-4-people-pakistan',
+            '/kharcha-map',
+            '/ration-brain',
         ];
 
         foreach ($noindexPaths as $path) {
-            $this->get($path)
-                ->assertOk()
-                ->assertSee('meta name="robots" content="noindex,follow"', false);
+            $page = $this->get($path)->assertOk();
+            $this->assertMatchesRegularExpression('/meta name="robots" content="noindex,\s*follow"/', $page->getContent());
 
             $response->assertDontSee($this->publicUrl($path), false);
         }
@@ -107,8 +108,6 @@ class SeoSitemapControllerTest extends TestCase
             $this->publicUrl('/'),
             $this->publicUrl('/features'),
             $this->publicUrl('/features/monthly-expense-tracker-pakistan'),
-            $this->publicUrl('/kharcha-map'),
-            $this->publicUrl('/ration-brain'),
             $this->publicUrl('/survival-report'),
             $this->publicUrl('/tools/ration-cost-estimator'),
             $this->publicUrl('/tools/school-fees-planner'),

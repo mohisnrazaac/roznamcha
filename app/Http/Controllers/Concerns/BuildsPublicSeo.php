@@ -42,6 +42,7 @@ trait BuildsPublicSeo
                 'keywords' => ['kharcha map', 'rupee tracking', 'Pakistan household costs', 'Urdu budgeting', 'expense heatmap'],
                 'type' => 'article',
                 'schemaName' => 'Kharcha Map',
+                'robots' => 'noindex, follow',
             ],
             'rationBrain' => [
                 'title' => 'Ration Brain – Grocery Price Planning Pakistan | Roznamcha',
@@ -52,6 +53,7 @@ trait BuildsPublicSeo
                 'keywords' => ['ration planner', 'grocery inflation Pakistan', 'atta price tracking', 'Urdu grocery app', 'household ration'],
                 'type' => 'article',
                 'schemaName' => 'Ration Brain',
+                'robots' => 'noindex, follow',
             ],
             'survivalReport' => [
                 'title' => 'Survival Report – Month-End Spending Summary | Roznamcha',

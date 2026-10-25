@@ -68,11 +68,12 @@ function ElectricityBillEstimator({
   const { auth } = usePage().props;
   const isAuthenticated = Boolean(auth == null ? void 0 : auth.user);
   const prefilledInputs = (activationPrefill == null ? void 0 : activationPrefill.inputs) ?? {};
-  const defaultInitialResult = initialResult ?? (activationPrefill == null ? void 0 : activationPrefill.results) ?? {
-    slab_cost: 5250,
-    total_bill: 7020,
-    last_year_estimate: 5118.75,
-    difference: 1901.25
+  const validInitialResult = Number(initialResult == null ? void 0 : initialResult.total_bill) > 0 ? initialResult : null;
+  const defaultInitialResult = validInitialResult ?? (activationPrefill == null ? void 0 : activationPrefill.results) ?? {
+    slab_cost: 8324,
+    total_bill: 10616,
+    last_year_estimate: 7850,
+    difference: 2766
   };
   const [form, setForm] = React.useState({
     units_used: prefilledInputs.units_used ?? (defaults == null ? void 0 : defaults.units_used) ?? 250,

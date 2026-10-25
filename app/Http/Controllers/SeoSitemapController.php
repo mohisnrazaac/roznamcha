@@ -146,18 +146,6 @@ class SeoSitemapController extends Controller
                 'lastmod' => $this->fileLastmod('resources/js/Pages/Public/ExpenseTrackerPakistan.jsx', '2026-09-07T00:00:00+00:00'),
             ],
             [
-                'loc' => $this->urlGenerator->routeUrl('public.kharcha-map'),
-                'priority' => '0.9',
-                'changefreq' => 'monthly',
-                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/KharchaMap.jsx', '2026-08-15T00:00:00+00:00'),
-            ],
-            [
-                'loc' => $this->urlGenerator->routeUrl('public.ration-brain'),
-                'priority' => '0.9',
-                'changefreq' => 'monthly',
-                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/RationBrain.jsx', '2026-08-15T00:00:00+00:00'),
-            ],
-            [
                 'loc' => $this->urlGenerator->routeUrl('public.survival-report'),
                 'priority' => '0.9',
                 'changefreq' => 'monthly',
