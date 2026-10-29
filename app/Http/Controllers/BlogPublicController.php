@@ -393,7 +393,9 @@ class BlogPublicController extends Controller
 
     protected function readingTimeLabel(BlogPost $post): string
     {
-        $wordCount = max(1, str_word_count(strip_tags((string) $post->rendered_content)));
+        $text = trim(strip_tags((string) $post->rendered_content));
+        $words = preg_split('/\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY);
+        $wordCount = max(1, is_array($words) ? count($words) : 1);
         $minutes = max(1, (int) ceil($wordCount / 180));
 
         return $minutes.' min read';
