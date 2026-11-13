@@ -32,6 +32,7 @@ trait BuildsPublicSeo
                 'keywords' => ['Roznamcha features', 'Pakistan kharcha app demo', 'smart budget templates', 'ration brain preview', 'daily money snapshot', 'AI insights Roznamcha'],
                 'type' => 'article',
                 'schemaName' => 'Roznamcha Features',
+                'robots' => 'noindex, follow',
             ],
             'kharchaMap' => [
                 'title' => 'Kharcha Map – Visualize every rupee spent across Pakistan',
@@ -64,6 +65,7 @@ trait BuildsPublicSeo
                 'keywords' => ['survival report Pakistan', 'month-end budget summary', 'household spending breakdown', 'Urdu finance planning', 'monthly expense pressure'],
                 'type' => 'article',
                 'schemaName' => 'Survival Report',
+                'robots' => 'noindex, follow',
             ],
             'privacy' => [
                 'title' => 'Privacy Policy – Household Data Protection | Roznamcha',
@@ -136,6 +138,7 @@ trait BuildsPublicSeo
                 'keywords' => ['smart budget templates Pakistan', 'salary budget template PKR', 'Pakistan family budget', 'student budget Pakistan', 'joint family budget'],
                 'type' => 'article',
                 'schemaName' => 'Smart Budget Templates',
+                'robots' => 'noindex, follow',
             ],
             'schoolFeesPlanner' => [
                 'title' => 'School Fees Planner Pakistan – Cost Calculator | Roznamcha',

@@ -1,6 +1,5 @@
 import { a as usePage, R as React, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
-import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer } from "./FinancialDisclaimer-DfDbbZDT.js";
-import { R as RelatedLinksBlock } from "./RelatedLinksBlock-DGsmGHba.js";
+import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer, R as RelatedLinksBlock } from "./RelatedLinksBlock-Cq2MIJqG.js";
 import { S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-n5Tdmvpm.js";
 import "util";
@@ -524,10 +523,16 @@ function MonthlyHouseholdBudgetCalculator({ defaults, initialResult, activationP
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RelatedLinksBlock,
           {
-            relatedTools: [],
+            relatedTools: [
+              { title: "Ration Cost Estimator", href: "/tools/ration-cost-estimator" },
+              { title: "Electricity Bill Estimator", href: "/tools/electricity-bill-estimator" },
+              { title: "School Fees Planner", href: "/tools/school-fees-planner" }
+            ],
             relatedBlogs: [
+              { title: "Best Monthly Budget for Rs 50,000 Salary in Pakistan (2026)", href: "/blog/best-monthly-budget-50000-salary-pakistan-2026" },
+              { title: "Salaried Tax Slabs FY 2025-26 & Income Tax Optimization", href: "/blog/salaried-tax-slabs-fy-2025-26-and-income-tax-optimization-strategies-for-pakistani-professionals" },
               { title: "Ghar Ka Monthly Budget Guide", href: "/blog/ghar-ka-monthly-budget" },
-              { title: "How Pakistani Families Can Control Monthly Expenses Without Cutting Their Dignity", href: "/blog/pakistani-family-monthly-expense-control" }
+              { title: "Pakistani Family Monthly Expense Control", href: "/blog/pakistani-family-monthly-expense-control" }
             ]
           }
         )

@@ -403,20 +403,22 @@ function LinkCard({ item, label }) {
   ] });
 }
 function ArticleNextSteps({ relatedTools = [], relatedBlogs = [] }) {
-  const hasTools = relatedTools.length > 0;
-  const hasBlogs = relatedBlogs.length > 0;
+  const tools = relatedTools.slice(0, 1);
+  const blogs = relatedBlogs.slice(0, 4);
+  const hasTools = tools.length > 0;
+  const hasBlogs = blogs.length > 0;
   if (!hasTools && !hasBlogs) {
     return null;
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:p-8", "aria-labelledby": "article-next-steps-heading", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]", children: "What To Do Next" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "article-next-steps-heading", className: "text-3xl font-semibold text-[#001a4a]", children: "Use this article, then move into a stronger practical page" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-3xl text-base leading-7 text-slate-600", children: "Articles help with context. The strongest follow-through usually comes from a working tool or a tighter adjacent guide." })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "article-next-steps-heading", className: "text-2xl font-semibold text-[#001a4a]", children: "Related Planning Tools & Contextual Guides" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-2xl text-sm leading-6 text-slate-600", children: "Apply the numbers from this guide directly into our free calculators or continue reading practical household finance benchmarks." })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3", children: [
-      relatedTools.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(LinkCard, { item, label: "Tool" }, `tool-${item.href}`)),
-      relatedBlogs.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(LinkCard, { item, label: "Guide" }, `blog-${item.href}`))
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4", children: [
+      tools.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(LinkCard, { item, label: "Free Calculator" }, `tool-${item.href}`)),
+      blogs.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(LinkCard, { item, label: "Related Guide" }, `blog-${item.href}`))
     ] })
   ] });
 }

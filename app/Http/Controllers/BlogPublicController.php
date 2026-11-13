@@ -22,7 +22,7 @@ class BlogPublicController extends Controller
     public function index(Request $request): Response
     {
         $posts = $this->baseQuery()
-            ->paginate(6)
+            ->paginate(24)
             ->withQueryString()
             ->through(fn (BlogPost $post) => $this->transformPostSummary($post));
 

@@ -47,13 +47,11 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
         $response = $this->get('/templates-sitemap.xml');
 
         $response->assertOk();
-        $response->assertSee($this->publicUrl('/templates'), false);
+        $this->assertSame(0, substr_count($response->getContent(), '<url>'));
 
         foreach ($this->excludedTemplateUrls() as $url) {
             $response->assertDontSee($url, false);
         }
-
-        $this->assertSame(1, substr_count($response->getContent(), '<url>'));
     }
 
     public function test_excluded_pages_render_noindex_without_breaking_direct_access(): void
@@ -68,6 +66,9 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
             '/ration-cost-for-4-people-pakistan',
             '/kharcha-map',
             '/ration-brain',
+            '/features',
+            '/survival-report',
+            '/templates',
         ];
 
         foreach ($excludedPages as $path) {
@@ -80,14 +81,11 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
     {
         $corePaths = [
             '/',
-            '/features',
             '/features/monthly-expense-tracker-pakistan',
-            '/survival-report',
             '/tools/ration-cost-estimator',
             '/tools/monthly-household-budget-calculator',
             '/tools/school-fees-planner',
             '/tools/electricity-bill-estimator',
-            '/templates',
             '/blog',
             '/about',
             '/contact',
@@ -133,15 +131,12 @@ class AdsenseSearchSurfaceCleanupTest extends TestCase
     {
         return [
             $this->publicUrl('/'),
-            $this->publicUrl('/features'),
             $this->publicUrl('/features/monthly-expense-tracker-pakistan'),
-            $this->publicUrl('/survival-report'),
             $this->publicUrl('/tools/ration-cost-estimator'),
             $this->publicUrl('/tools/monthly-household-budget-calculator'),
             $this->publicUrl('/tools/school-fees-planner'),
             $this->publicUrl('/tools/electricity-bill-estimator'),
             $this->publicUrl('/tools/solar-net-metering-roi-calculator'),
-            $this->publicUrl('/templates'),
             $this->publicUrl('/blog'),
             $this->publicUrl('/about'),
             $this->publicUrl('/contact'),

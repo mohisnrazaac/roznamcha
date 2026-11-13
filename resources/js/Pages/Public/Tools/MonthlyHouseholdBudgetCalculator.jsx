@@ -528,11 +528,17 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, initialResu
                 />
             </article>
 
-                <RelatedLinksBlock
-                relatedTools={[]}
+            <RelatedLinksBlock
+                relatedTools={[
+                    { title: 'Ration Cost Estimator', href: '/tools/ration-cost-estimator' },
+                    { title: 'Electricity Bill Estimator', href: '/tools/electricity-bill-estimator' },
+                    { title: 'School Fees Planner', href: '/tools/school-fees-planner' },
+                ]}
                 relatedBlogs={[
+                    { title: 'Best Monthly Budget for Rs 50,000 Salary in Pakistan (2026)', href: '/blog/best-monthly-budget-50000-salary-pakistan-2026' },
+                    { title: 'Salaried Tax Slabs FY 2025-26 & Income Tax Optimization', href: '/blog/salaried-tax-slabs-fy-2025-26-and-income-tax-optimization-strategies-for-pakistani-professionals' },
                     { title: 'Ghar Ka Monthly Budget Guide', href: '/blog/ghar-ka-monthly-budget' },
-                    { title: 'How Pakistani Families Can Control Monthly Expenses Without Cutting Their Dignity', href: '/blog/pakistani-family-monthly-expense-control' }
+                    { title: 'Pakistani Family Monthly Expense Control', href: '/blog/pakistani-family-monthly-expense-control' }
                 ]}
             />
         </ToolLayout>

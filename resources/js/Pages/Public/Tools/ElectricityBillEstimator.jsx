@@ -9,6 +9,7 @@ import SlabCliffVisualizer from '../../../Components/Calculators/SlabCliffVisual
 import ApplianceBreakdown from '../../../Components/Calculators/ApplianceBreakdown';
 import { APPLIANCE_PRESETS } from '../../../lib/electricityTariff';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
+import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -436,6 +437,19 @@ export default function ElectricityBillEstimator({
                     lastUpdated="September 2026"
                 />
             </article>
+
+            <RelatedLinksBlock
+                relatedTools={[
+                    { title: 'Solar Net Metering ROI Calculator', href: '/tools/solar-net-metering-roi-calculator' },
+                    { title: 'Monthly Household Budget Calculator', href: '/tools/monthly-household-budget-calculator' },
+                ]}
+                relatedBlogs={[
+                    { title: 'Pakistan Electricity Tariff Increases & Household Budgeting Defense (2026)', href: '/blog/pakistan-electricity-tariff-increases-and-household-budgeting-defense-2026' },
+                    { title: 'Inverter AC vs Non-Inverter Power Consumption Testing in Pakistan', href: '/blog/inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads' },
+                    { title: 'Solar Net Metering Regulations in Pakistan (2026): ROI & Payback', href: '/blog/solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown' },
+                    { title: 'Solar Battery Storage Economics: LiFePO4 vs Tubular Battery', href: '/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026' }
+                ]}
+            />
         </ToolLayout>
     );
 }

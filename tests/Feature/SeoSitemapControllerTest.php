@@ -94,8 +94,7 @@ class SeoSitemapControllerTest extends TestCase
         $response = $this->get('/templates-sitemap.xml');
 
         $response->assertOk();
-        $response->assertSee($this->publicUrl('/templates'), false);
-        $this->assertSame(1, substr_count($response->getContent(), '<url>'));
+        $this->assertSame(0, substr_count($response->getContent(), '<url>'));
 
         foreach ($this->excludedTemplatePaths() as $path) {
             $response->assertDontSee($this->publicUrl($path), false);
@@ -106,13 +105,10 @@ class SeoSitemapControllerTest extends TestCase
     {
         return [
             $this->publicUrl('/'),
-            $this->publicUrl('/features'),
             $this->publicUrl('/features/monthly-expense-tracker-pakistan'),
-            $this->publicUrl('/survival-report'),
             $this->publicUrl('/tools/ration-cost-estimator'),
             $this->publicUrl('/tools/school-fees-planner'),
             $this->publicUrl('/tools/electricity-bill-estimator'),
-            $this->publicUrl('/templates'),
             $this->publicUrl('/blog'),
             $this->publicUrl('/about'),
             $this->publicUrl('/contact'),

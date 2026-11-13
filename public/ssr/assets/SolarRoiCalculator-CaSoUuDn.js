@@ -1,6 +1,6 @@
 import { a as usePage, b as reactExports, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { P as PropTypes } from "./index-h3QfXfrJ.js";
-import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer } from "./FinancialDisclaimer-DfDbbZDT.js";
+import { T as ToolLayout, R as RelatedLinksBlock, S as SaveWall, F as FinancialDisclaimer } from "./RelatedLinksBlock-Cq2MIJqG.js";
 import { b as buildWebPageSchema, S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-n5Tdmvpm.js";
 import { r as recommendSolarSystemSize, S as SOLAR_SYSTEM_BENCHMARKS, D as DEFAULT_SELF_CONSUME_RATIO, g as getDefaultAvoidedTariff, a as DEFAULT_NEPRA_BUYBACK_RATE, c as calculateSolarRoi, b as calculateBatteryTco, e as estimateBillFromUnits, d as estimateUnitsFromBill } from "./solarRoiEngine-lTasqdBA.js";
@@ -733,6 +733,21 @@ function SolarRoiCalculator({
               }
             )
           ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            RelatedLinksBlock,
+            {
+              relatedTools: [
+                { title: "Electricity Bill Estimator", href: "/tools/electricity-bill-estimator" },
+                { title: "Monthly Household Budget Calculator", href: "/tools/monthly-household-budget-calculator" }
+              ],
+              relatedBlogs: [
+                { title: "Solar Net Metering Regulations in Pakistan (2026): ROI & Payback", href: "/blog/solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown" },
+                { title: "Solar Battery Storage Economics: LiFePO4 vs Tubular Battery ROI", href: "/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026" },
+                { title: "Pakistan Electricity Tariff Increases & Household Budgeting Defense", href: "/blog/pakistan-electricity-tariff-increases-and-household-budgeting-defense-2026" },
+                { title: "Inverter AC vs Non-Inverter Power Consumption Testing in Pakistan", href: "/blog/inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads" }
+              ]
+            }
+          ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(SaveWall, { toolKey: "solar_roi_calculator", currentResults: roiData }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(FinancialDisclaimer, {})
         ] })

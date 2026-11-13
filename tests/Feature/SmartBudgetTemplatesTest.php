@@ -249,7 +249,7 @@ class SmartBudgetTemplatesTest extends TestCase
         $response = $this->get('/templates-sitemap.xml');
 
         $response->assertOk();
-        $response->assertSee(route('templates.index', [], true), false);
+        $this->assertSame(0, substr_count($response->getContent(), '<url>'));
 
         foreach (BudgetTemplate::query()->pluck('slug') as $slug) {
             $response->assertDontSee(route('templates.show', ['slug' => $slug], true), false);

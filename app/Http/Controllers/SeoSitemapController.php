@@ -134,22 +134,10 @@ class SeoSitemapController extends Controller
                 'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Home.jsx', '2026-10-10T00:00:00+00:00'),
             ],
             [
-                'loc' => $this->urlGenerator->routeUrl('public.features'),
-                'priority' => '0.8',
-                'changefreq' => 'weekly',
-                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Features.jsx', '2026-09-07T00:00:00+00:00'),
-            ],
-            [
                 'loc' => $this->urlGenerator->routeUrl('public.features.expense-tracker-pakistan'),
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
                 'lastmod' => $this->fileLastmod('resources/js/Pages/Public/ExpenseTrackerPakistan.jsx', '2026-09-07T00:00:00+00:00'),
-            ],
-            [
-                'loc' => $this->urlGenerator->routeUrl('public.survival-report'),
-                'priority' => '0.9',
-                'changefreq' => 'monthly',
-                'lastmod' => $this->fileLastmod('resources/js/Pages/Public/SurvivalReport.jsx', '2026-08-15T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.tools.ration-cost-estimator'),
@@ -180,12 +168,6 @@ class SeoSitemapController extends Controller
                 'priority' => '0.8',
                 'changefreq' => 'weekly',
                 'lastmod' => $this->fileLastmod('resources/js/Pages/Public/Tools/SolarRoiCalculator.jsx', '2026-10-08T00:00:00+00:00'),
-            ],
-            [
-                'loc' => $this->urlGenerator->routeUrl('templates.index'),
-                'priority' => '0.8',
-                'changefreq' => 'weekly',
-                'lastmod' => $this->fileLastmod('resources/js/Pages/Templates/Index.jsx', '2026-09-25T00:00:00+00:00'),
             ],
             [
                 'loc' => $this->urlGenerator->routeUrl('public.blog.index'),

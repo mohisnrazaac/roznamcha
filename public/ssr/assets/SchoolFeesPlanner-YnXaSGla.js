@@ -1,5 +1,5 @@
 import { a as usePage, R as React, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
-import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer } from "./FinancialDisclaimer-DfDbbZDT.js";
+import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer, R as RelatedLinksBlock } from "./RelatedLinksBlock-Cq2MIJqG.js";
 import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-BNXvUeLt.js";
 import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-n5Tdmvpm.js";
 import "util";
@@ -429,7 +429,21 @@ function SchoolFeesPlanner({ defaults, activationPrefill, faqItems: faqItemsProp
               lastUpdated: "September 2026"
             }
           )
-        ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RelatedLinksBlock,
+          {
+            relatedTools: [
+              { title: "Monthly Household Budget Calculator", href: "/tools/monthly-household-budget-calculator" },
+              { title: "Ration Cost Estimator", href: "/tools/ration-cost-estimator" }
+            ],
+            relatedBlogs: [
+              { title: "Best Monthly Budget for Rs 50,000 Salary in Pakistan (2026)", href: "/blog/best-monthly-budget-50000-salary-pakistan-2026" },
+              { title: "Ghar Ka Monthly Budget Guide", href: "/blog/ghar-ka-monthly-budget" },
+              { title: "Pakistani Family Monthly Expense Control Without Cutting Dignity", href: "/blog/pakistani-family-monthly-expense-control" }
+            ]
+          }
+        )
       ]
     }
   );

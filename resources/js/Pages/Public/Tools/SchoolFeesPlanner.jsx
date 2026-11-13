@@ -6,6 +6,7 @@ import { buildWebPageSchema, seoContent } from '../../../lib/seo';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
+import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -426,6 +427,18 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, faqItem
                     lastUpdated="September 2026"
                 />
             </article>
+
+            <RelatedLinksBlock
+                relatedTools={[
+                    { title: 'Monthly Household Budget Calculator', href: '/tools/monthly-household-budget-calculator' },
+                    { title: 'Ration Cost Estimator', href: '/tools/ration-cost-estimator' },
+                ]}
+                relatedBlogs={[
+                    { title: 'Best Monthly Budget for Rs 50,000 Salary in Pakistan (2026)', href: '/blog/best-monthly-budget-50000-salary-pakistan-2026' },
+                    { title: 'Ghar Ka Monthly Budget Guide', href: '/blog/ghar-ka-monthly-budget' },
+                    { title: 'Pakistani Family Monthly Expense Control Without Cutting Dignity', href: '/blog/pakistani-family-monthly-expense-control' }
+                ]}
+            />
         </ToolLayout>
     );
 }
