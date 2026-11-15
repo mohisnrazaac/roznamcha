@@ -22,6 +22,10 @@ class MonthlyHouseholdBudgetCalculatorController extends Controller
 
         $faqItems = [
             [
+                'question' => 'Ghar ka mahana budget kaise banaye?',
+                'answer' => 'Ghar ka mahana budget banane ke liye apni kul aamdani (income) mein se lazmi ikhrajat jaise makan ka kiraya, mahana rashan, bijli/gas ke bill, aur bachon ki fees pehle alag karein. Uske baad bachat (savings) ka 10% se 15% target rakhein aur ghair zaroori kharchon ko control karein taake maheenay ke aakhir mein deficit ya udhar se bacha ja sakay.',
+            ],
+            [
                 'question' => 'What is a normal savings rate for a Pakistani household?',
                 'answer' => 'Due to recent high inflation, many middle-income households in Pakistan experience a very tight budget with a savings rate below 10%. A target of 15% is ideal but requires strict allocation of variable expenses like utilities and transport.',
             ],
@@ -61,7 +65,7 @@ class MonthlyHouseholdBudgetCalculatorController extends Controller
             ? ($surplusDeficit / $defaults['monthly_income']) * 100
             : 0;
 
-        $initialResult = !empty($activation['results']) ? $activation['results'] : [
+        $initialResult = ! empty($activation['results']) ? $activation['results'] : [
             'total_expenses' => round($totalExpenses, 2),
             'surplus_deficit' => round($surplusDeficit, 2),
             'savings_rate' => round($savingsRate, 2),

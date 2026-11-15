@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import ToolLayout from '../../../Layouts/ToolLayout';
 import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
+import HouseholdPlanningSuite from '../../../Components/Public/HouseholdPlanningSuite';
 import SaveWall from '../../../Components/Activation/SaveWall';
 import SeoHead from '../../../Components/SeoHead';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
@@ -21,45 +22,48 @@ const clampNumber = (value, min = 0) => {
 
 const budgetScenarios = [
     {
-        key: 'survival',
-        title: 'Tighter Salary Survival Basket',
-        description: 'Designed for a household budget of Rs 50,000–60,000 under active month-end pressure.',
+        key: 'salary-50k',
+        title: '50k PKR Salary Survival',
+        badge: '50k PKR',
+        description: 'Tighter survival budget for Rs 50,000 monthly income under high inflation.',
         inputs: {
-            monthly_income: 55000,
-            rent: 15000,
-            ration: 20000,
-            utilities: 8000,
+            monthly_income: 50000,
+            rent: 14000,
+            ration: 18000,
+            utilities: 7500,
             education: 4000,
-            transport: 4000,
+            transport: 4500,
             misc: 2000,
         }
     },
     {
-        key: 'average-family',
-        title: 'Mid-Income 4-Person Family',
-        description: 'A sturdier model for a middle-class home with Rs 100,000–120,000 monthly income.',
+        key: 'salary-100k',
+        title: '100k PKR Middle-Class Home',
+        badge: '100k PKR',
+        description: 'Realistic 4-person urban family allocation for Rs 100,000 monthly take-home.',
         inputs: {
-            monthly_income: 110000,
-            rent: 30000,
-            ration: 35000,
-            utilities: 18000,
-            education: 12000,
+            monthly_income: 100000,
+            rent: 28000,
+            ration: 32000,
+            utilities: 15000,
+            education: 11000,
             transport: 8000,
-            misc: 5000,
+            misc: 6000,
         }
     },
     {
-        key: 'joint-family',
-        title: 'Joint Family Setup',
-        description: 'Useful when a larger household with Rs 180,000+ income manages multiple students and refilling items.',
+        key: 'salary-150k',
+        title: '150k PKR Comfortable Family',
+        badge: '150k PKR',
+        description: 'Balanced 50/30/20 allocation for Rs 150,000 income with emergency savings.',
         inputs: {
-            monthly_income: 200000,
-            rent: 50000,
-            ration: 60000,
-            utilities: 30000,
-            education: 25000,
-            transport: 15000,
-            misc: 10000,
+            monthly_income: 150000,
+            rent: 40000,
+            ration: 42000,
+            utilities: 22000,
+            education: 18000,
+            transport: 12000,
+            misc: 8000,
         }
     }
 ];
@@ -243,22 +247,49 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, initialResu
                 </div>
             </div>
 
-            <section className="grid gap-6 md:grid-cols-3">
-                {budgetScenarios.map((scenario) => (
-                    <button
-                        key={scenario.key}
-                        type="button"
-                        onClick={() => handleScenarioSelect(scenario.inputs)}
-                        className="text-left rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:border-[#001a4a] hover:bg-slate-50 transition"
-                    >
-                        <h3 className="text-base font-semibold text-[#001a4a]">{scenario.title}</h3>
-                        <p className="mt-2 text-xs text-slate-500">{scenario.description}</p>
-                        <p className="mt-3 text-sm font-semibold text-[#001a4a]/85">
-                            Income: Rs {formatCurrency(scenario.inputs.monthly_income)}
-                        </p>
-                    </button>
-                ))}
-            </section>
+            {/* Quick Preset Salary Buttons & Scenarios */}
+            <div className="space-y-3 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">
+                        Quick Preset Salary Allocations (Pakistan 2026)
+                    </h3>
+                    <div className="flex items-center gap-2 text-xs text-slate-600">
+                        <span>Cross-link tools:</span>
+                        <Link href="/tools/ration-cost-estimator" className="font-semibold text-emerald-700 hover:underline">Ration</Link>
+                        <span>•</span>
+                        <Link href="/tools/electricity-bill-estimator" className="font-semibold text-emerald-700 hover:underline">Electricity</Link>
+                        <span>•</span>
+                        <Link href="/tools/school-fees-planner" className="font-semibold text-emerald-700 hover:underline">School Fees</Link>
+                    </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-3">
+                    {budgetScenarios.map((scenario) => (
+                        <button
+                            key={scenario.key}
+                            type="button"
+                            onClick={() => handleScenarioSelect(scenario.inputs)}
+                            className="group text-left rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:border-emerald-600 hover:bg-emerald-50/20 hover:shadow-md transition-all"
+                        >
+                            <div className="flex items-center justify-between">
+                                <span className="inline-flex items-center rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs px-2.5 py-0.5">
+                                    {scenario.badge}
+                                </span>
+                                <span className="text-xs font-semibold text-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Apply Preset →
+                                </span>
+                            </div>
+                            <h3 className="mt-2 text-base font-semibold text-[#001a4a] group-hover:text-emerald-700 transition-colors">
+                                {scenario.title}
+                            </h3>
+                            <p className="mt-1 text-xs text-slate-500">{scenario.description}</p>
+                            <p className="mt-3 text-sm font-bold text-[#001a4a]">
+                                Income: Rs {formatCurrency(scenario.inputs.monthly_income)}
+                            </p>
+                        </button>
+                    ))}
+                </div>
+            </div>
 
             <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
                 <form
@@ -527,6 +558,8 @@ export default function MonthlyHouseholdBudgetCalculator({ defaults, initialResu
                     lastUpdated="September 2026"
                 />
             </article>
+
+            <HouseholdPlanningSuite currentPath="/tools/monthly-household-budget-calculator" />
 
             <RelatedLinksBlock
                 relatedTools={[

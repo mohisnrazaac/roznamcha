@@ -90,10 +90,10 @@ class AdsenseReadinessAuditTest extends TestCase
         // No separate Googlebot override
         $this->assertStringNotContainsString("User-agent: Googlebot\nAllow: /", $robotsContent);
 
-        // Unified rules allowing auth crawling with noindex
-        $this->assertStringContainsString('Allow: /login', $robotsContent);
-        $this->assertStringContainsString('Allow: /register', $robotsContent);
-        $this->assertStringContainsString('Allow: /forgot-password', $robotsContent);
+        // Unified rules disallowing auth crawling to preserve crawl budget
+        $this->assertStringContainsString('Disallow: /login', $robotsContent);
+        $this->assertStringContainsString('Disallow: /register', $robotsContent);
+        $this->assertStringContainsString('Disallow: /forgot-password', $robotsContent);
         $this->assertStringContainsString('Disallow: /panel/', $robotsContent);
 
         // Check HTTP headers on auth & offline routes

@@ -34,11 +34,15 @@ class SmartBudgetTemplatesTest extends TestCase
             );
     }
 
-    public function test_template_robots_file_advertises_template_sitemap(): void
+    public function test_template_robots_file_excludes_empty_template_sitemap(): void
     {
         $this->assertFileExists(public_path('robots.txt'));
-        $this->assertStringContainsString(
+        $this->assertStringNotContainsString(
             'Sitemap: https://roznamcha.pk/templates-sitemap.xml',
+            (string) file_get_contents(public_path('robots.txt'))
+        );
+        $this->assertStringContainsString(
+            'Sitemap: https://roznamcha.pk/sitemap.xml',
             (string) file_get_contents(public_path('robots.txt'))
         );
     }

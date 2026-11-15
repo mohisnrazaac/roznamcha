@@ -303,7 +303,6 @@ require __DIR__.'/auth.php';
 // AdSense & SEO Audit Redirects for Canonical URL Consistency
 Route::redirect('/monthly-expense-tracker-pakistan', '/features/monthly-expense-tracker-pakistan', 301);
 Route::redirect('/solar-net-metering-roi-calculator', '/tools/solar-net-metering-roi-calculator', 301);
-Route::redirect('/electricity-bill-calculator-lesco', '/tools/electricity-bill-estimator', 301);
 Route::redirect('/ration-cost-estimator', '/tools/ration-cost-estimator', 301);
 Route::redirect('/monthly-household-budget-calculator', '/tools/monthly-household-budget-calculator', 301);
 Route::redirect('/electricity-bill-estimator', '/tools/electricity-bill-estimator', 301);

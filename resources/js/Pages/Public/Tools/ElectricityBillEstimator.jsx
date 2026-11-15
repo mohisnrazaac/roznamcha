@@ -10,6 +10,7 @@ import ApplianceBreakdown from '../../../Components/Calculators/ApplianceBreakdo
 import { APPLIANCE_PRESETS } from '../../../lib/electricityTariff';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
+import HouseholdPlanningSuite from '../../../Components/Public/HouseholdPlanningSuite';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -49,7 +50,7 @@ const defaultFaqItems = [
 export default function ElectricityBillEstimator({
     defaults,
     categories = [],
-    gstPercentage = 17,
+    gstPercentage = 18,
     gst_percentage,
     initialResult,
     activationPrefill,
@@ -386,11 +387,74 @@ export default function ElectricityBillEstimator({
 
                 {/* Part 2: Underlying Data Baseline & Assumptions */}
                 <section className="space-y-3 border-t border-slate-100 pt-6">
-                    <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline & Economic Assumptions</h3>
+                    <h3 className="text-xl font-bold text-[#001a4a]">NEPRA Uniform National Tariff & DISCO Coverage</h3>
                     <p className="text-sm leading-7 text-slate-700">
-                        Tariff slabs mirror the latest NEPRA federal notifications. Under prevailing statutory rules, residential consumers maintaining monthly consumption under 200 units consecutively for six months qualify as Protected Consumers, receiving heavily subsidized base tariffs. Consuming even a single unit above 200 (i.e. 201 units) immediately triggers the Unprotected Consumer schedule for the entire month, increasing the marginal unit cost by over 180%.
+                        Under Pakistan's national uniform electricity tariff notified by NEPRA (S.R.O. 279(I)/2026), the exact same base slab rates apply identically across all distribution companies, including <strong>LESCO</strong> (Lahore), <strong>IESCO</strong> (Islamabad/Rawalpindi), <strong>MEPCO</strong> (Multan), <strong>FESCO</strong> (Faisalabad), <strong>GEPCO</strong> (Gujranwala), <strong>PESCO</strong> (Peshawar), <strong>HESCO</strong> (Hyderabad), <strong>SEPCO</strong> (Sukkur), <strong>QESCO</strong> (Quetta), and <strong>K-Electric</strong> (Karachi). Minor differences between your actual monthly bills across DISCOs arise solely from monthly variable Fuel Charges Adjustments (FCA/FPA), quarterly adjustments (QTA), and municipal electricity duties.
                     </p>
                     <p className="text-sm leading-7 text-slate-700">
+                        Tariff slabs distinguish strictly between <strong>Protected Consumers</strong> (using 200 or fewer units consecutively for six months, who receive subsidized tiered pricing with previous-slab benefits) and <strong>Unprotected Consumers</strong> (whose entire monthly consumption is billed non-telescopically at the highest applicable slab rate).
+                    </p>
+
+                    <h4 className="text-base font-bold text-[#001a4a] pt-3">Worked Bill Examples by Unit Consumption (2026 NEPRA Domestic Slabs)</h4>
+                    <div className="overflow-x-auto rounded-xl border border-slate-200 mt-2">
+                        <table className="min-w-full divide-y divide-slate-200 text-xs sm:text-sm text-left">
+                            <thead className="bg-slate-50 text-slate-700 font-semibold">
+                                <tr>
+                                    <th className="px-3 py-2 sm:px-4 sm:py-3">Monthly Units</th>
+                                    <th className="px-3 py-2 sm:px-4 sm:py-3">Consumer Category</th>
+                                    <th className="px-3 py-2 sm:px-4 sm:py-3">Base Energy Tariff</th>
+                                    <th className="px-3 py-2 sm:px-4 sm:py-3">Base Energy Cost</th>
+                                    <th className="px-3 py-2 sm:px-4 sm:py-3">Estimated Total Bill (PKR)</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 bg-white text-slate-600">
+                                <tr>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-medium text-slate-900">100 Units</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-emerald-700 font-medium">Protected</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">Rs 10.54 / unit</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">Rs 1,054</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-semibold text-slate-900">~Rs 1,690</td>
+                                </tr>
+                                <tr>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-medium text-slate-900">100 Units</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-amber-700 font-medium">Unprotected</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">Rs 22.44 / unit (non-telescopic)</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">Rs 2,244</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-semibold text-slate-900">~Rs 4,288</td>
+                                </tr>
+                                <tr>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-medium text-slate-900">200 Units</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-emerald-700 font-medium">Protected</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">100 @ Rs 10.54 + 100 @ Rs 13.01</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">Rs 2,355</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-semibold text-slate-900">~Rs 3,580</td>
+                                </tr>
+                                <tr className="bg-rose-50/50">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-bold text-rose-900">201 Units (Cliff Jump!)</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-rose-700 font-bold">Unprotected</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-rose-800">All 201 @ Rs 33.15 / unit</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-semibold text-rose-800">Rs 6,663</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-bold text-rose-900">~Rs 10,210 (+185% surge)</td>
+                                </tr>
+                                <tr>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-medium text-slate-900">300 Units</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-amber-700 font-medium">Unprotected</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">All 300 @ Rs 33.15 / unit</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">Rs 9,945</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-semibold text-slate-900">~Rs 15,000</td>
+                                </tr>
+                                <tr>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-medium text-slate-900">500 Units</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-amber-700 font-medium">Unprotected</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">All 500 @ Rs 40.17 / unit</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3">Rs 20,085</td>
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-semibold text-slate-900">~Rs 30,500 (incl. 7.5% Adv Tax)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p className="text-sm leading-7 text-slate-700 pt-2">
                         To explore how our energy models track government notifications, inspect our{' '}
                         <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
                             Methodology & Data Sources
@@ -400,7 +464,42 @@ export default function ElectricityBillEstimator({
                 </section>
 
                 {/* Part 3: Practical Application Guide */}
-                <section className="space-y-3 border-t border-slate-100 pt-6">
+                <section className="space-y-4 border-t border-slate-100 pt-6">
+                    {/* Current NEPRA Tariff & Adjustment Schedule Callout */}
+                    <div className="rounded-2xl border border-amber-300 bg-amber-50/70 p-5 space-y-3">
+                        <div className="flex items-center gap-2">
+                            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-600" />
+                            <h4 className="font-bold text-slate-900 text-base">
+                                Current NEPRA Tariff & Adjustment Schedule (S.R.O. 279(I)/2026)
+                            </h4>
+                        </div>
+                        <p className="text-sm leading-relaxed text-slate-700">
+                            Effective nationwide under NEPRA notifications, all DISCO electricity bills are calculated with statutory monthly fuel charges and periodic surcharges:
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-1">
+                            <div className="rounded-xl border border-amber-200/80 bg-white p-3">
+                                <span className="text-xs text-slate-500 font-medium">Fuel Charge Adjustment (FCA)</span>
+                                <p className="text-base font-bold text-slate-900 mt-0.5">Rs 2.37 / unit</p>
+                                <span className="text-[11px] text-slate-500">Monthly fuel price adjustment</span>
+                            </div>
+                            <div className="rounded-xl border border-amber-200/80 bg-white p-3">
+                                <span className="text-xs text-slate-500 font-medium">Quarterly Adjustment (QTA)</span>
+                                <p className="text-base font-bold text-slate-900 mt-0.5">Rs 0.52 / unit</p>
+                                <span className="text-[11px] text-slate-500">System capacity recovery</span>
+                            </div>
+                            <div className="rounded-xl border border-amber-200/80 bg-white p-3">
+                                <span className="text-xs text-slate-500 font-medium">Financing Cost Surcharge</span>
+                                <p className="text-base font-bold text-slate-900 mt-0.5">Rs 3.23 / unit</p>
+                                <span className="text-[11px] text-slate-500">Rs 0.43 for protected</span>
+                            </div>
+                            <div className="rounded-xl border border-amber-200/80 bg-white p-3">
+                                <span className="text-xs text-slate-500 font-medium">Late Payment Surcharge</span>
+                                <p className="text-base font-bold text-rose-700 mt-0.5">+5% to +10%</p>
+                                <span className="text-[11px] text-slate-500">+5% within 3 days, +10% after</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <h3 className="text-xl font-bold text-[#001a4a]">Practical Application Guide: Avoiding the 201-Unit Cliff</h3>
                     <p className="text-sm leading-7 text-slate-700">
                         Household electricity bills can surge exponentially from minor usage changes. Implement these rules to protect your monthly energy budget:
@@ -434,9 +533,11 @@ export default function ElectricityBillEstimator({
                 <AuthorEditorialBlock
                     authorName="Mohsin Raza"
                     authorRole="Founder & Software Architect (16+ Years Experience)"
-                    lastUpdated="September 2026"
+                    lastUpdated="November 2026"
                 />
             </article>
+
+            <HouseholdPlanningSuite currentPath="/tools/electricity-bill-estimator" />
 
             <RelatedLinksBlock
                 relatedTools={[

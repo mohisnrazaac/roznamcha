@@ -280,7 +280,7 @@
                 '@id' => "{$siteUrl}#website",
                 'name' => 'Roznamcha',
                 'url' => $siteUrl,
-                'description' => 'Roznamcha helps Pakistani families track kharcha, ration, and inflation in Urdu.',
+                'description' => 'Roznamcha helps Pakistani families track monthly kharcha, ration costs, electricity bills, and household budgets.',
                 'publisher' => [
                     '@id' => "{$siteUrl}#organization",
                 ],

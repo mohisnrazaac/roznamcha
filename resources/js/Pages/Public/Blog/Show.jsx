@@ -8,6 +8,7 @@ import SchoolFeeIncreaseCalculator from '../../../Components/Calculators/SchoolF
 import ArticleNextSteps from '../../../Components/Blog/ArticleNextSteps';
 import AdContainer from '../../../Components/Ads/AdContainer';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
+import HouseholdPlanningSuite from '../../../Components/Public/HouseholdPlanningSuite';
 import useAdCodeLoaded from '../../../hooks/useAdCodeLoaded';
 
 const getReturnPath = (url, slug) => {
@@ -122,6 +123,8 @@ export default function BlogShow(props) {
                 />
 
                 <ArticleNextSteps relatedTools={relatedLinks?.tools ?? []} relatedBlogs={relatedLinks?.blogs ?? []} />
+
+                <HouseholdPlanningSuite currentPath="" />
 
                 <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-2 text-sm text-slate-500">
                     <Link href="/blog" className="font-semibold text-[#001a4a] hover:underline">

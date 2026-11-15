@@ -19,6 +19,13 @@ class SecurityHeaders
 
         if ($request->is('login', 'register', 'forgot-password', 'offline')) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        } elseif ($request->is('features', 'features/*', 'survival-report', 'templates', 'templates/*', 'kharcha-map', 'ration-brain')) {
+            $response->headers->set('X-Robots-Tag', 'noindex, follow');
+        } else {
+            $robots = $this->resolveRobots($response);
+            if ($robots !== null && str_contains(strtolower($robots), 'noindex')) {
+                $response->headers->set('X-Robots-Tag', $robots);
+            }
         }
 
         if (app()->isProduction()) {
@@ -35,5 +42,31 @@ class SecurityHeaders
         }
 
         return $response;
+    }
+
+    private function resolveRobots(Response $response): ?string
+    {
+        if ($response instanceof \Illuminate\Http\Response) {
+            $content = $response->getOriginalContent();
+            if ($content instanceof \Illuminate\View\View) {
+                $robots = data_get($content->getData(), 'page.props.seo.robots');
+                if (is_string($robots) && $robots !== '') {
+                    return $robots;
+                }
+            }
+        } elseif ($response instanceof \Illuminate\Http\JsonResponse) {
+            $data = $response->getData(true);
+            $robots = data_get($data, 'props.seo.robots');
+            if (is_string($robots) && $robots !== '') {
+                return $robots;
+            }
+        }
+
+        $html = $response->getContent();
+        if (is_string($html) && preg_match('/<meta[^>]+name=["\']robots["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $matches)) {
+            return $matches[1];
+        }
+
+        return null;
     }
 }

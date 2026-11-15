@@ -13,7 +13,7 @@ export const seoContent = {
         keywords: ['Pakistan budget app', 'household kharcha', 'Urdu expense tracker', 'smart budget templates Pakistan', 'grocery inflation', 'family finances'],
         type: 'website',
         schemaName: 'Roznamcha Home',
-        inLanguage: 'ur',
+        inLanguage: 'en',
     },
     kharchaMap: {
         title: 'Kharcha Map – Visualize every rupee spent across Pakistan',
@@ -26,6 +26,7 @@ export const seoContent = {
         keywords: ['kharcha map', 'rupee tracking', 'Pakistan household costs', 'Urdu budgeting', 'expense heatmap'],
         type: 'article',
         schemaName: 'Kharcha Map',
+        robots: 'noindex, follow',
     },
     rationBrain: {
         title: 'Ration Brain – Grocery Price Planning Pakistan | Roznamcha',
@@ -38,6 +39,7 @@ export const seoContent = {
         keywords: ['ration planner', 'grocery inflation Pakistan', 'atta price tracking', 'Urdu grocery app', 'household ration'],
         type: 'article',
         schemaName: 'Ration Brain',
+        robots: 'noindex, follow',
     },
     survivalReport: {
         title: 'Survival Report – Month-End Spending Summary | Roznamcha',
@@ -50,6 +52,7 @@ export const seoContent = {
         keywords: ['survival report Pakistan', 'month-end budget summary', 'household spending breakdown', 'Urdu finance planning', 'monthly expense pressure'],
         type: 'article',
         schemaName: 'Survival Report',
+        robots: 'noindex, follow',
     },
     about: {
         title: 'About Roznamcha – Pakistani makers of household finance intelligence',
@@ -133,6 +136,7 @@ export const seoContent = {
         keywords: ['Roznamcha features', 'Pakistan kharcha app demo', 'smart budget templates', 'ration brain preview', 'daily money snapshot', 'AI insights Roznamcha'],
         type: 'article',
         schemaName: 'Roznamcha Features',
+        robots: 'noindex, follow',
     },
     smartBudgetTemplates: {
         title: 'Smart Budget Templates Pakistan | Roznamcha',
@@ -145,6 +149,7 @@ export const seoContent = {
         keywords: ['smart budget templates Pakistan', 'salary budget template PKR', 'Pakistan family budget', 'student budget Pakistan', 'joint family budget'],
         type: 'article',
         schemaName: 'Smart Budget Templates',
+        robots: 'noindex, follow',
     },
     schoolFeesPlanner: {
         title: 'School Fees Planner Pakistan – Cost Calculator | Roznamcha',
@@ -159,28 +164,28 @@ export const seoContent = {
         schemaName: 'School Fees Planner',
     },
     electricityBillEstimator: {
-        title: 'Electricity Bill Estimator Pakistan – Slab Rates | Roznamcha',
+        title: 'Electricity Bill Calculator Pakistan 2026 - NEPRA Slab Rates | Roznamcha',
         description:
-            'Estimate your Pakistan electricity bill using progressive slab rates, GST, and surcharge placeholders, then compare against a last-year baseline.',
+            'Calculate your Pakistan electricity bill across LESCO, IESCO, MEPCO, and K-Electric using current NEPRA slab rates, 18% GST, and surcharges.',
         path: '/tools/electricity-bill-estimator',
         url: `${SITE_URL}/tools/electricity-bill-estimator`,
         canonical: `${SITE_URL}/tools/electricity-bill-estimator`,
         image: DEFAULT_OG_IMAGE,
-        keywords: ['electricity bill estimator Pakistan', 'units to bill calculator', 'WAPDA slab calculator', 'electricity tariff comparison', 'household utility planning'],
+        keywords: ['electricity bill calculator Pakistan 2026', 'NEPRA slab rates', 'LESCO bill calculator', 'IESCO bill estimator', 'MEPCO bill calculator', 'K-Electric bill calculator', '18% GST electricity bill'],
         type: 'article',
-        schemaName: 'Electricity Bill Estimator',
+        schemaName: 'Electricity Bill Calculator Pakistan 2026',
     },
     rationCostEstimator: {
-        title: 'Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha',
+        title: 'Monthly Ration Cost Calculator Pakistan 2026 | Roznamcha',
         description:
-            'Estimate your monthly ration cost in Pakistan using base prices for atta, rice, oil, sugar, and daal before the next grocery run.',
+            'Calculate your monthly household ration cost in Pakistan for atta, ghee, sugar, rice, and daal based on family size and wholesale mandi prices.',
         path: '/tools/ration-cost-estimator',
         url: `${SITE_URL}/tools/ration-cost-estimator`,
         canonical: `${SITE_URL}/tools/ration-cost-estimator`,
         image: DEFAULT_OG_IMAGE,
-        keywords: ['ration cost estimator Pakistan', 'grocery budget calculator PKR', 'monthly ration planner', 'Pakistan household grocery costs', 'atta rice oil budget'],
+        keywords: ['monthly ration cost calculator Pakistan 2026', 'grocery budget calculator PKR', 'atta ghee sugar rice budget', 'Pakistan household grocery costs', 'ration calculator'],
         type: 'article',
-        schemaName: 'Ration Cost Estimator',
+        schemaName: 'Monthly Ration Cost Calculator',
     },
     expenseTrackerPakistan: {
         title: 'Best Monthly Expense Tracker in Pakistan | Roznamcha',
@@ -195,14 +200,14 @@ export const seoContent = {
         schemaName: 'Monthly Expense Tracker Pakistan',
     },
     monthlyHouseholdBudgetCalculator: {
-        title: 'Monthly Household Budget Calculator Pakistan | Roznamcha',
+        title: 'Monthly Household Budget Calculator Pakistan 2026 | Roznamcha',
         description:
-            'Calculate your monthly household budget in Pakistan by tracking rent, ration, school fees, transport, and utilities to see your surplus or deficit.',
+            'Calculate your Ghar Ka Budget PKR in Pakistan by tracking rent, ration, school fees, transport, and utilities to optimize savings and beat inflation.',
         path: '/tools/monthly-household-budget-calculator',
         url: `${SITE_URL}/tools/monthly-household-budget-calculator`,
         canonical: `${SITE_URL}/tools/monthly-household-budget-calculator`,
         image: DEFAULT_OG_IMAGE,
-        keywords: ['monthly household budget calculator Pakistan', 'ghar ka budget calculator PKR', 'monthly budget planner', 'Pakistan household expense tracker', 'salary planning Pakistan'],
+        keywords: ['monthly household budget calculator Pakistan 2026', 'ghar ka budget PKR', 'monthly budget planner', 'Pakistan household expense tracker', 'salary planning Pakistan'],
         type: 'article',
         schemaName: 'Monthly Household Budget Calculator',
     },

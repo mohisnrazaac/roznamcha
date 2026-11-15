@@ -28,14 +28,13 @@
     RewriteCond %{REQUEST_URI} ^build/
     RewriteRule ^ - [L]
 
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_URI} ^features/?$
-    RewriteRule ^ index.php [L]
+    # Block sensitive deployment, seed runner, and database artifacts
+    RewriteRule ^(?:.*-runner\.php|.*\.sql|.*\.zip)$ - [F,L,NC]
 
+    # Send Requests To Front Controller...
     # Route XML sitemap endpoints through Laravel even if stale static files exist.
     RewriteRule ^(sitemap\.xml|templates-sitemap\.xml)$ index.php [L]
 
-    RewriteCond %{REQUEST_URI} !^features/.+
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
@@ -58,7 +57,7 @@
 </IfModule>
 
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/css application/javascript application/json text/javascript
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json text/javascript application/xml application/xhtml+xml image/svg+xml
 </IfModule>
 
 <IfModule mod_mime.c>

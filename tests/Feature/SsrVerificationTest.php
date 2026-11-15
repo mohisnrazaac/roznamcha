@@ -97,10 +97,10 @@ class SsrVerificationTest extends TestCase
 
         $this->assertStringContainsString('User-agent: Mediapartners-Google', $content);
         $this->assertStringContainsString('Allow: /', $content);
-        $this->assertStringContainsString('Allow: /login', $content);
+        $this->assertStringContainsString('Disallow: /login', $content);
         $this->assertStringContainsString('Disallow: /panel/', $content);
         $this->assertStringContainsString('Sitemap: https://roznamcha.pk/sitemap.xml', $content);
-        $this->assertStringContainsString('Sitemap: https://roznamcha.pk/templates-sitemap.xml', $content);
+        $this->assertStringNotContainsString('Sitemap: https://roznamcha.pk/templates-sitemap.xml', $content);
     }
 
     public function test_public_pages_do_not_expose_localhost_or_admin_route_data(): void

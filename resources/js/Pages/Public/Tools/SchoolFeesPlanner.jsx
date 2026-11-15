@@ -7,6 +7,7 @@ import SaveWall from '../../../Components/Activation/SaveWall';
 import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
+import HouseholdPlanningSuite from '../../../Components/Public/HouseholdPlanningSuite';
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat('en-PK', {
@@ -427,6 +428,8 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, faqItem
                     lastUpdated="September 2026"
                 />
             </article>
+
+            <HouseholdPlanningSuite currentPath="/tools/school-fees-planner" />
 
             <RelatedLinksBlock
                 relatedTools={[

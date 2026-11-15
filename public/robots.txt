@@ -15,10 +15,9 @@ Disallow: /*?*sort=
 Disallow: /*?*filter=
 Disallow: /*?*page=
 Disallow: /*?*search=
-Allow: /login
-Allow: /register
-Allow: /forgot-password
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
 Allow: /
 
 Sitemap: https://roznamcha.pk/sitemap.xml
-Sitemap: https://roznamcha.pk/templates-sitemap.xml

@@ -233,8 +233,8 @@ class PublicPageSeoHeadTest extends TestCase
             [
                 'requestUrl' => route('public.tools.ration-cost-estimator'),
                 'canonicalUrl' => $this->publicRouteUrl('public.tools.ration-cost-estimator'),
-                'title' => 'Ration Cost Estimator Pakistan – Grocery Budget | Roznamcha',
-                'description' => 'Estimate your monthly ration cost in Pakistan using base prices for atta, rice, oil, sugar, and daal before the next grocery run.',
+                'title' => 'Monthly Ration Cost Calculator Pakistan 2026 | Roznamcha',
+                'description' => 'Calculate your monthly household ration cost in Pakistan for atta, ghee, sugar, rice, and daal based on family size and wholesale mandi prices.',
                 'expectsPageSchema' => true,
             ],
             [
@@ -247,8 +247,8 @@ class PublicPageSeoHeadTest extends TestCase
             [
                 'requestUrl' => route('public.tools.electricity-bill-estimator'),
                 'canonicalUrl' => $this->publicRouteUrl('public.tools.electricity-bill-estimator'),
-                'title' => 'Electricity Bill Estimator Pakistan – Slab Rates | Roznamcha',
-                'description' => 'Estimate your Pakistan electricity bill using progressive slab rates, GST, and surcharge placeholders, then compare against a last-year baseline.',
+                'title' => 'Electricity Bill Calculator Pakistan 2026 - NEPRA Slab Rates | Roznamcha',
+                'description' => 'Calculate your Pakistan electricity bill across LESCO, IESCO, MEPCO, and K-Electric using current NEPRA slab rates, 18% GST, and surcharges.',
                 'expectsPageSchema' => true,
             ],
         ];

@@ -11,6 +11,7 @@ import FinancialDisclaimer from '../../../Components/Public/FinancialDisclaimer'
 import SaveWall from '../../../Components/Activation/SaveWall';
 import AuthorEditorialBlock from '../../../Components/AuthorEditorialBlock';
 import RelatedLinksBlock from '../../../Components/RelatedLinksBlock';
+import HouseholdPlanningSuite from '../../../Components/Public/HouseholdPlanningSuite';
 import { buildWebPageSchema } from '../../../lib/seo';
 import {
     SOLAR_SYSTEM_BENCHMARKS,
@@ -793,6 +794,62 @@ export default function SolarRoiCalculator({
                         </p>
                     </section>
 
+                    {/* Net Metering vs 2026 NEPRA Prosumer Net Billing & Turnkey Payback Benchmarks */}
+                    <section className="space-y-4 border-t border-slate-100 pt-6">
+                        <div className="rounded-2xl border border-sky-300 bg-sky-50/70 p-5 space-y-3">
+                            <div className="flex items-center gap-2">
+                                <span className="flex h-2.5 w-2.5 rounded-full bg-sky-600" />
+                                <h4 className="font-bold text-slate-900 text-base">
+                                    Net Metering (1:1 Unit Offset) vs. 2026 NEPRA Prosumer Net Billing
+                                </h4>
+                            </div>
+                            <p className="text-sm leading-relaxed text-slate-700">
+                                In Pakistan, the historic 1:1 Net Metering regime credited exported units against nighttime grid units. Under NEPRA's prosumer Net Billing transition, exported units are compensated at the National Average Energy Purchase Price (~Rs 11.00/kWh), while units consumed from the grid are charged at full progressive residential tariffs (Rs 42 to Rs 65+/unit including GST & surcharges).
+                            </p>
+                            <p className="text-sm leading-relaxed text-slate-700">
+                                <strong>Key Economic Takeaway:</strong> Maximizing daytime self-consumption (running ACs, pumps, and refrigerators during sunlight hours) yields <strong>4x to 5x higher financial return</strong> than feeding raw power back into the grid.
+                            </p>
+                        </div>
+
+                        {/* Turnkey Payback Examples Table */}
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left text-sm text-slate-600 border border-slate-200 rounded-xl overflow-hidden">
+                                <thead className="bg-slate-50 text-xs uppercase font-semibold text-slate-700">
+                                    <tr>
+                                        <th className="px-4 py-3">System Size</th>
+                                        <th className="px-4 py-3">Est. Monthly Generation</th>
+                                        <th className="px-4 py-3">Turnkey Cost (PKR)</th>
+                                        <th className="px-4 py-3">Est. Monthly Savings</th>
+                                        <th className="px-4 py-3">Payback Period</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100 bg-white">
+                                    <tr>
+                                        <td className="px-4 py-3 font-semibold text-slate-900">3 kW On-Grid</td>
+                                        <td className="px-4 py-3">330 – 380 Units</td>
+                                        <td className="px-4 py-3">Rs 390,000 – 440,000</td>
+                                        <td className="px-4 py-3 text-emerald-700 font-semibold">Rs 14,000 – 19,000</td>
+                                        <td className="px-4 py-3 font-medium text-slate-800">~2.2 – 2.8 Years</td>
+                                    </tr>
+                                    <tr className="bg-emerald-50/30">
+                                        <td className="px-4 py-3 font-semibold text-emerald-950">5 kW On-Grid (Sweet Spot)</td>
+                                        <td className="px-4 py-3">550 – 650 Units</td>
+                                        <td className="px-4 py-3">Rs 620,000 – 720,000</td>
+                                        <td className="px-4 py-3 text-emerald-700 font-bold">Rs 28,000 – 38,000</td>
+                                        <td className="px-4 py-3 font-bold text-emerald-900">~2.0 – 2.5 Years</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="px-4 py-3 font-semibold text-slate-900">10 kW Hybrid / On-Grid</td>
+                                        <td className="px-4 py-3">1,100 – 1,300 Units</td>
+                                        <td className="px-4 py-3">Rs 1,180,000 – 1,350,000</td>
+                                        <td className="px-4 py-3 text-emerald-700 font-semibold">Rs 60,000 – 82,000</td>
+                                        <td className="px-4 py-3 font-medium text-slate-800">~1.8 – 2.3 Years</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
                     {/* Part 2: Underlying Data Baseline: LiFePO4 vs Tall Tubular Storage */}
                     <section className="space-y-3 border-t border-slate-100 pt-6">
                         <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline: LiFePO4 vs Tall Tubular Storage</h3>
@@ -800,7 +857,11 @@ export default function SolarRoiCalculator({
                             While Tall Tubular lead-acid batteries feature a lower upfront sticker price (approx Rs. 140,000 per 48V bank), they degrade within 800 to 1,200 cycles in high ambient Pakistani summer temperatures (restricted to a 50% maximum Depth of Discharge). This necessitates 3 to 4 complete bank replacements across a 10-year lifespan.
                         </p>
                         <p className="text-sm leading-7 text-slate-700">
-                            In contrast, Lithium Iron Phosphate (LiFePO4) storage yields 5,000 to 6,000 cycles at 90% Depth of Discharge with zero mid-term replacements, delivering an effective 35% to 40% lower Total Cost of Ownership per stored kilowatt-hour. For full citations and component lifespan modeling, review our{' '}
+                            In contrast, Lithium Iron Phosphate (LiFePO4) storage yields 5,000 to 6,000 cycles at 90% Depth of Discharge with zero mid-term replacements, delivering an effective 35% to 40% lower Total Cost of Ownership per stored kilowatt-hour. Read our comprehensive economic guide on{' '}
+                            <Link href="/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026" className="font-semibold text-emerald-700 hover:text-emerald-800 underline">
+                                LiFePO4 vs. Tall Tubular Battery Economics in Pakistan (2026)
+                            </Link>{' '}
+                            or inspect our{' '}
                             <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
                                 Methodology & Data Sources
                             </Link>{' '}
@@ -858,6 +919,8 @@ export default function SolarRoiCalculator({
                         lastUpdated="September 2026"
                     />
                 </article>
+
+                <HouseholdPlanningSuite currentPath="/tools/solar-net-metering-roi-calculator" />
 
                 <RelatedLinksBlock
                     relatedTools={[

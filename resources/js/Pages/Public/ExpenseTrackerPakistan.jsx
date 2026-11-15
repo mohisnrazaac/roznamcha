@@ -4,6 +4,7 @@ import PublicLayout from '../../Layouts/PublicLayout';
 import SeoHead from '../../Components/SeoHead';
 import { seoContent, buildWebPageSchema } from '../../lib/seo';
 import AuthorEditorialBlock from '../../Components/AuthorEditorialBlock';
+import HouseholdPlanningSuite from '../../Components/Public/HouseholdPlanningSuite';
 
 const faqItems = [
     {
@@ -167,6 +168,9 @@ export default function ExpenseTrackerPakistan({ seo: seoProp, jsonLd: jsonLdPro
                         </Link>
                     </div>
                 </section>
+
+                {/* Household Planning Suite Grid */}
+                <HouseholdPlanningSuite currentPath="/features/monthly-expense-tracker-pakistan" />
 
                 {/* Section: Author and Editorial Review */}
                 <AuthorEditorialBlock

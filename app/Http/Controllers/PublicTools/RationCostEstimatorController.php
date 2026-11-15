@@ -45,6 +45,10 @@ class RationCostEstimatorController extends Controller
                 'question' => 'How do Wholesale Mandi prices differ from open-market kiryana stores in Pakistan?',
                 'answer' => 'Wholesale grain mandis (e.g., Akbari Mandi Lahore or Jodia Bazaar Karachi) offer bulk savings of 12% to 22% on sacks of flour, pulses, and oil cartons, whereas neighborhood kiryana stores incorporate transport costs, local packaging, and retail markups. Following the federal restructuring of Utility Stores Corporation subsidies in favor of direct BISP cash disbursements, households achieve real savings through monthly bulk wholesale procurement rather than relying on discontinued store subsidies.',
             ],
+            [
+                'question' => 'Mahana rashan ka kharcha kaise calculate karein?',
+                'answer' => 'Mahana rashan ka kharcha calculate karne ke liye ghar ke afrad ki tadad ke mutabiq bunyadi ashya (atta, ghee/oil, cheeni, chawal, daalein) ki miqdar tay karein. Roznamcha calculator wholesale mandi aur market rates ke mutabiq aapka mahana rashan budget minutes mein estimate kar deta hai taake aap kiryana shop jane se pehle apna kharcha plan kar sakein.',
+            ],
         ];
 
         // Extension point: swap config-based pricing with a database or API-driven
