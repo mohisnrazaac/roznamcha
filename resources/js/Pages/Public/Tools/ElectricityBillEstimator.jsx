@@ -532,8 +532,7 @@ export default function ElectricityBillEstimator({
 
                 <AuthorEditorialBlock
                     authorName="Mohsin Raza"
-                    authorRole="Founder & Software Architect (16+ Years Experience)"
-                    lastUpdated="November 2026"
+                    authorRole="Founder & Software Architect, Roznamcha.pk"
                 />
             </article>
 

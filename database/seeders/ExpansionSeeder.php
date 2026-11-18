@@ -595,9 +595,9 @@ HTML,
                 if (! $post->published_at) {
                     $post->published_at = Carbon::now();
                 }
-                $post->updated_at = Carbon::now();
-                $post->save();
-                echo "Successfully expanded and updated timestamp for: {$slug}\n";
+                $post->timestamps = false;
+                $post->saveQuietly();
+                echo "Successfully expanded content for: {$slug}\n";
             }
         }
 

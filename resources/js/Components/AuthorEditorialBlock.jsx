@@ -3,8 +3,9 @@ import { Link } from '@inertiajs/react';
 
 export default function AuthorEditorialBlock({
     authorName = 'Mohsin Raza',
-    authorRole = 'Founder & Software Architect (16+ Years Experience)',
-    lastUpdated = 'September 2026',
+    authorRole = 'Founder & Software Architect, Roznamcha.pk',
+    publishedDate = null,
+    reviewedDate = null,
     showGovernanceLinks = true,
     className = '',
 }) {
@@ -21,18 +22,25 @@ export default function AuthorEditorialBlock({
                         </div>
                         <div>
                             <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#8c5a00]">
-                                Author & Lead Architect
+                                Author
                             </p>
                             <h3 id="author-editorial-heading" className="text-xl font-bold text-[#001a4a]">
-                                {authorName}
+                                <Link href="/about" className="hover:underline">
+                                    {authorName}
+                                </Link>
                             </h3>
                             <p className="text-xs font-medium text-slate-500">{authorRole}</p>
                         </div>
                     </div>
                     <p className="text-sm leading-relaxed text-slate-600">
-                        Mohsin is the founder of Roznamcha.pk. With over 16 years of software architecture experience, he designs
-                        computational models and guides tailored to Pakistani household realities, currency fluctuations, and localized utility tariffs.
+                        Mohsin Raza is the Founder &amp; Software Architect of Roznamcha.pk. With over 16 years of software architecture experience, he builds practical budgeting tools and guides tailored to Pakistani household realities and localized utility tariffs.
                     </p>
+                    {publishedDate && (
+                        <p className="text-xs text-slate-500">Published: {publishedDate}</p>
+                    )}
+                    {reviewedDate && (
+                        <p className="text-xs text-slate-500">Content reviewed: {reviewedDate}</p>
+                    )}
                 </div>
 
                 <div className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs">
@@ -40,14 +48,13 @@ export default function AuthorEditorialBlock({
                         <div className="flex items-center gap-2">
                             <span className="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
                             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#001a4a]">
-                                Editorial Fact-Checking & Review
+                                Editorial Standards
                             </p>
                         </div>
-                        <p className="text-xs text-slate-500">Last verified & updated: {lastUpdated}</p>
+                        <p className="text-xs text-slate-500">Written by the founder, with sources listed at the end of each guide.</p>
                     </div>
                     <p className="text-xs leading-relaxed text-slate-600">
-                        This content is audited against official Pakistani regulatory baselines, including NEPRA tariff schedules,
-                        Pakistan Bureau of Statistics (PBS) SPI/CPI indices, and SBP monetary reports. All calculators use documented mathematical formulas.
+                        Sources are listed at the end of each guide. This is general information, not financial, tax or legal advice.
                     </p>
 
                     {showGovernanceLinks ? (
@@ -56,7 +63,7 @@ export default function AuthorEditorialBlock({
                                 Editorial Policy →
                             </Link>
                             <Link href="/methodology" className="hover:underline">
-                                Methodology & Sources →
+                                Methodology &amp; Sources →
                             </Link>
                             <Link href={route('public.about')} className="hover:underline">
                                 About Roznamcha →

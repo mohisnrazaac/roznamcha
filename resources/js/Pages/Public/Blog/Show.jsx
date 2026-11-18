@@ -118,8 +118,9 @@ export default function BlogShow(props) {
 
                 <AuthorEditorialBlock
                     authorName={post?.author?.name ?? 'Mohsin Raza'}
-                    authorRole={post?.author?.role ?? 'Founder & Software Architect (16+ Years Experience)'}
-                    lastUpdated={post?.updated_label || post?.published_label || 'September 2026'}
+                    authorRole={post?.author?.role ?? 'Founder & Software Architect, Roznamcha.pk'}
+                    publishedDate={post?.published_label ?? null}
+                    reviewedDate={post?.reviewed_date ?? null}
                 />
 
                 <ArticleNextSteps relatedTools={relatedLinks?.tools ?? []} relatedBlogs={relatedLinks?.blogs ?? []} />

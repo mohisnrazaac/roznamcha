@@ -120,6 +120,14 @@ class BlogPublicController extends Controller
         $description = $this->resolvedDescription($post, $headline);
         $excerpt = $this->resolvedExcerpt($post, 220);
 
+        // dateModified: use real content-review date when available; else fall back to published_at.
+        // Never use updated_at (it is set by seeders/commands, not real edits).
+        $reviewedDates = config('content_review.reviewed', []);
+        $reviewedDateStr = $reviewedDates[$post->slug] ?? null;
+        $dateModified = $reviewedDateStr
+            ? \Carbon\Carbon::parse($reviewedDateStr)->toIso8601String()
+            : optional($post->published_at)->toIso8601String();
+
         $seo = [
             'title' => $this->resolvedSeoTitle($post, $headline),
             'description' => $description,
@@ -130,7 +138,7 @@ class BlogPublicController extends Controller
             'type' => 'article',
             'robots' => BlogPost::shouldNoindexPublicSlug($post->slug) ? 'noindex,follow' : 'index,follow',
             'datePublished' => optional($post->published_at)->toIso8601String(),
-            'dateModified' => optional($post->updated_at)->toIso8601String(),
+            'dateModified' => $dateModified,
         ];
 
         $jsonLd = [
@@ -139,13 +147,13 @@ class BlogPublicController extends Controller
             'headline' => $headline,
             'description' => $description,
             'datePublished' => optional($post->published_at)->toIso8601String(),
-            'dateModified' => optional($post->updated_at)->toIso8601String(),
+            'dateModified' => $dateModified,
             'author' => [
                 '@type' => 'Person',
-                'name' => 'Mohsin',
-                'url' => $this->urlGenerator->routeUrl('public.about'),
-                'description' => 'Founder of Roznamcha.pk and Software Architect with 16 years of experience.',
-                'jobTitle' => 'Software Architect',
+                'name' => 'Mohsin Raza',
+                'url' => 'https://roznamcha.pk/about',
+                'description' => 'Founder & Software Architect of Roznamcha.pk with 16+ years of experience building practical tools for Pakistani households.',
+                'jobTitle' => 'Founder & Software Architect, Roznamcha.pk',
             ],
             'publisher' => [
                 '@type' => 'Organization',
@@ -186,11 +194,12 @@ class BlogPublicController extends Controller
             'og_image_url' => $post->og_image_url,
             'feature_hooks' => $post->feature_hooks,
             'author' => [
-                'name' => 'Mohsin',
-                'role' => 'Founder of Roznamcha.pk',
-                'url' => $this->urlGenerator->routeUrl('public.about'),
-                'bio' => 'Builds practical budgeting tools and guides for Pakistani households dealing with monthly money pressure.',
+                'name' => 'Mohsin Raza',
+                'role' => 'Founder & Software Architect, Roznamcha.pk',
+                'url' => 'https://roznamcha.pk/about',
+                'bio' => 'Founder & Software Architect of Roznamcha.pk. With 16+ years of software architecture experience, he builds practical tools and guides for Pakistani households.',
             ],
+            'reviewed_date' => $reviewedDateStr,
         ];
 
         Log::channel('blog_pages')->info('Blog page rendered', $this->blogLogContext($request, [
@@ -403,15 +412,14 @@ class BlogPublicController extends Controller
 
     protected function updatedLabel(BlogPost $post): ?string
     {
-        if (! ($post->published_at instanceof CarbonInterface) || ! ($post->updated_at instanceof CarbonInterface)) {
-            return null;
+        $reviewedDates = config('content_review.reviewed', []);
+        $reviewedDateStr = $reviewedDates[$post->slug] ?? null;
+
+        if ($reviewedDateStr) {
+            return \Carbon\Carbon::parse($reviewedDateStr)->format('F j, Y');
         }
 
-        if ($post->updated_at->lte($post->published_at->copy()->addDay())) {
-            return null;
-        }
-
-        return $post->updated_at->format('F j, Y');
+        return null;
     }
 
     protected function resolveRelatedLinks(BlogPost $post): array

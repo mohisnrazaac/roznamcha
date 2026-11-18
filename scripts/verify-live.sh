@@ -63,4 +63,12 @@ top=$(echo "$sm" | grep -o '<lastmod>[^<]*' | sort | uniq -c | sort -rn | head -
 echo "== F13 ads off on non-content pages =="
 for p in /features /templates /kharcha-map /ration-brain /survival-report; do absent "$p" '>Advertisement<' "no ad label"; done
 
+echo "== Phase 1 unverifiable claims absent =="
+TRUST_PAGES="/ /about /blog/ghar-ka-monthly-budget /blog/best-monthly-budget-50000-salary-pakistan-2026 /blog/pakistan-electricity-tariff-increases-and-household-budgeting-defense-2026 /tools/electricity-bill-estimator /tools/monthly-household-budget-calculator /tools/ration-cost-estimator /tools/school-fees-planner /tools/solar-net-metering-roi-calculator"
+for p in $TRUST_PAGES; do
+  absent "$p" 'certified financial' "no fake financial certification claim"
+  absent "$p" 'Financial & Tariff Experts' "no unverified expert panel claim"
+  absent "$p" 'hands-on testing' "no unverified testing claim"
+done
+
 echo; [ $FAIL -eq 0 ] && echo "ALL CHECKS PASSED" || echo "SOME CHECKS FAILED"; exit $FAIL

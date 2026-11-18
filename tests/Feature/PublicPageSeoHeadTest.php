@@ -19,8 +19,8 @@ class PublicPageSeoHeadTest extends TestCase
         $response = $this->get(route('public.about'));
 
         $response->assertOk();
-        $response->assertSee('<title inertia>About Mohsin | Founder of Roznamcha.pk</title>', false);
-        $response->assertSee('meta name="description" content="Learn about Mohsin, Founder of Roznamcha.pk, building practical tools to help Pakistani households manage budgeting and everyday financial pressure."', false);
+        $response->assertSee('<title inertia>About Mohsin Raza | Founder of Roznamcha.pk</title>', false);
+        $response->assertSee('meta name="description" content="Learn about Mohsin Raza, Founder of Roznamcha.pk, building practical tools to help Pakistani households manage budgeting and everyday financial pressure."', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicRouteUrl('public.about').'" inertia="canonical"', false);
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
     }
@@ -85,11 +85,21 @@ class PublicPageSeoHeadTest extends TestCase
         $response->assertSee('"datePublished"', false);
         $response->assertSee('"dateModified"', false);
         $response->assertSee('"name":"Mohsin Raza"', false);
-        $response->assertSee('Founder & Technical Architect, Roznamcha.pk', false);
+        $response->assertSee('Founder & Software Architect, Roznamcha.pk', false);
         $response->assertSee('meta property="article:published_time"', false);
         $response->assertSee('meta property="article:modified_time"', false);
         $response->assertSee('meta name="datePublished"', false);
         $response->assertSee('meta name="dateModified"', false);
+
+        // When no reviewed date is configured in config/content_review.php,
+        // dateModified must equal datePublished.
+        $publishedIso = $post->published_at->toIso8601String();
+        $response->assertSee('"dateModified":"'.$publishedIso.'"', false);
+
+        // Ensure unverifiable claim strings are absent from rendered HTML
+        $response->assertDontSee('certified financial', false);
+        $response->assertDontSee('Financial & Tariff Experts', false);
+        $response->assertDontSee('hands-on testing', false);
         $this->assertSame(1, substr_count($response->getContent(), 'rel="canonical"'));
     }
 
@@ -412,6 +422,30 @@ class PublicPageSeoHeadTest extends TestCase
                 'link rel="canonical" href="'.$this->publicBaseUrl(),
                 $response->getContent()
             );
+        }
+    }
+
+    public function test_public_pages_do_not_contain_unverifiable_trust_claims(): void
+    {
+        $urls = [
+            route('public.home'),
+            route('public.about'),
+            route('public.editorial-policy'),
+            route('public.methodology'),
+            route('public.tools.electricity-bill-estimator'),
+            route('public.tools.monthly-household-budget-calculator'),
+            route('public.tools.ration-cost-estimator'),
+            route('public.tools.school-fees-planner'),
+            route('public.tools.solar-net-metering-roi-calculator'),
+            route('public.features.expense-tracker-pakistan'),
+        ];
+
+        foreach ($urls as $url) {
+            $response = $this->get($url);
+            $response->assertOk();
+            $response->assertDontSee('certified financial', false);
+            $response->assertDontSee('Financial & Tariff Experts', false);
+            $response->assertDontSee('hands-on testing', false);
         }
     }
 

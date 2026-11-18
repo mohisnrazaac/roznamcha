@@ -47,7 +47,8 @@ class StaggerAndAlignBlogDatesCommand extends Command
                     $this->line("Updating [{$slug}] from {$post->published_at} -> {$newDate}");
                     if (!$isDryRun) {
                         $post->published_at = Carbon::parse($newDate);
-                        $post->save();
+                        $post->timestamps = false;
+                        $post->saveQuietly();
                     }
                 } else {
                     $this->warn("Post not found locally: {$slug}");

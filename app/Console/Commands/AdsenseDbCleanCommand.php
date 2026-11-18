@@ -80,7 +80,8 @@ class AdsenseDbCleanCommand extends Command
 
                 if (!$isDryRun) {
                     $post->content = $cleaned;
-                    $post->save();
+                    $post->timestamps = false;
+                    $post->saveQuietly();
                 }
             }
         }
@@ -121,7 +122,8 @@ class AdsenseDbCleanCommand extends Command
             }
 
             if ($modified && !$isDryRun) {
-                $post->save();
+                $post->timestamps = false;
+                $post->saveQuietly();
                 $this->line("Fixed electrity typo in: {$post->slug}");
             }
         }
@@ -174,7 +176,8 @@ class AdsenseDbCleanCommand extends Command
                 if (!$isDryRun) {
                     $post->status = 'draft';
                     $post->published_at = null;
-                    $post->save();
+                    $post->timestamps = false;
+                    $post->saveQuietly();
                 }
             }
         }

@@ -19,9 +19,9 @@ export default function About({ seo, jsonLd, contactEmail = 'support@roznamcha.p
                 </header>
 
                 <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-                    <h2 className="text-2xl font-semibold text-[#001a4a]">About Mohsin</h2>
+                    <h2 className="text-2xl font-semibold text-[#001a4a]">About Mohsin Raza</h2>
                     <p className="text-base text-slate-700">
-                        Mohsin is the Founder of Roznamcha.pk and a Software Architect. With 16 years of experience
+                        Mohsin Raza is the Founder of Roznamcha.pk and a Software Architect. With 16 years of experience
                         building software and digital systems, he created Roznamcha to help Pakistani households track daily expenses, ration costs,
                         reminders, and budget pressure in plain language that feels useful in everyday life.
                     </p>

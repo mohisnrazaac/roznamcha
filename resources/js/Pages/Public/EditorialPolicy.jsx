@@ -54,12 +54,12 @@ export default function EditorialPolicy({ seo, jsonLd, contactEmail = 'support@r
                     <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
                         <h2 className="text-2xl font-bold text-[#001a4a]">3. Authorship &amp; Subject-Matter Expertise</h2>
                         <p className="text-slate-700 leading-relaxed">
-                            All interactive calculators, economic models, and cornerstone financial guides on Roznamcha are architected and reviewed under the direction of <strong>Mohsin</strong>, Founder of Roznamcha.pk.
+                            All interactive calculators, economic models, and cornerstone financial guides on Roznamcha are created and maintained by <strong>Mohsin Raza</strong>, Founder &amp; Software Architect of Roznamcha.pk.
                         </p>
                         <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 space-y-2">
-                            <h3 className="text-lg font-bold text-[#001a4a]">Lead Author &amp; Systems Architect: Mohsin</h3>
+                            <h3 className="text-lg font-bold text-[#001a4a]">Author &amp; Software Architect: Mohsin Raza</h3>
                             <p className="text-sm text-slate-600 leading-relaxed">
-                                Software Architect with over 16 years of professional experience designing robust distributed computing systems, consumer-facing software, and financial planning engines. He specializes in translating complex macroeconomic regulations (such as NEPRA tariff matrices, currency devaluation shocks, and localized CPI shifts) into intuitive, actionable planning tools for everyday citizens.
+                                Software Architect with over 16 years of professional experience designing software systems and financial planning engines. He specializes in translating complex macroeconomic regulations (such as NEPRA tariff matrices, currency devaluation shocks, and localized CPI shifts) into intuitive, actionable planning tools for everyday citizens.
                             </p>
                             <p className="text-xs text-slate-500 pt-1">
                                 For detailed background and professional profile, read our <Link href="/about" className="text-[#001a4a] font-semibold underline">About Page</Link>.
@@ -70,7 +70,7 @@ export default function EditorialPolicy({ seo, jsonLd, contactEmail = 'support@r
                     <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
                         <h2 className="text-2xl font-bold text-[#001a4a]">4. Revision Protocol, Corrections &amp; Feedback</h2>
                         <p className="text-slate-700 leading-relaxed">
-                            Pakistan’s economic landscape changes rapidly. When NEPRA announces revised base tariffs, or when the federal government introduces new utility surcharges or sales tax amendments, our team updates the underlying calculator databases and publishes contextual advisories.
+                            Pakistan’s economic landscape changes rapidly. When NEPRA announces revised base tariffs, or when the federal government introduces new utility surcharges or sales tax amendments, the author updates the underlying calculator parameters and publishes contextual notes.
                         </p>
                         <p className="text-slate-700 leading-relaxed">
                             We welcome reader feedback and fact-checking. If you detect a numerical discrepancy, outdated tariff reference, or regional price variation, please email us directly at{' '}

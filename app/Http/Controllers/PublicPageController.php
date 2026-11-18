@@ -81,8 +81,8 @@ class PublicPageController extends Controller
         $siteUrl = $this->urlGenerator->baseUrl();
         $publicContactEmail = (string) config('mail.public_contact_email', 'support@roznamcha.pk');
         $seo = [
-            'title' => 'About Mohsin | Founder of Roznamcha.pk',
-            'description' => 'Learn about Mohsin, Founder of Roznamcha.pk, building practical tools to help Pakistani households manage budgeting and everyday financial pressure.',
+            'title' => 'About Mohsin Raza | Founder of Roznamcha.pk',
+            'description' => 'Learn about Mohsin Raza, Founder of Roznamcha.pk, building practical tools to help Pakistani households manage budgeting and everyday financial pressure.',
             'url' => $url,
             'canonical' => $url,
             'type' => 'website',
@@ -95,15 +95,15 @@ class PublicPageController extends Controller
                 '@context' => 'https://schema.org',
                 '@type' => 'AboutPage',
                 '@id' => "{$url}#webpage",
-                'name' => 'About Mohsin',
+                'name' => 'About Mohsin Raza',
                 'url' => $url,
                 'description' => $seo['description'],
                 'inLanguage' => 'en',
                 'mainEntity' => [
                     '@type' => 'Person',
-                    'name' => 'Mohsin',
+                    'name' => 'Mohsin Raza',
                     'description' => 'Founder of Roznamcha.pk and Software Architect with 16 years of experience.',
-                    'jobTitle' => 'Software Architect',
+                    'jobTitle' => 'Founder & Software Architect',
                     'url' => $url,
                 ],
                 'about' => [
