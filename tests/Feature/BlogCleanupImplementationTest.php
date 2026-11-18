@@ -150,4 +150,52 @@ class BlogCleanupImplementationTest extends TestCase
         $this->assertArrayNotHasKey('electricity-bill-breakdown-pakistan-2026-unit-cost-fpa', $blogToolMappings);
         $this->assertArrayNotHasKey('utility-store-vs-open-market-price-comparison-2026-pakistan', $blogToolMappings);
     }
+
+    public function test_phase2_retired_and_duplicate_slugs_routing_and_sitemap(): void
+    {
+        // 1. Redirects
+        $this->get(route('public.blog.show', ['slug' => 'solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026']))
+            ->assertStatus(301)
+            ->assertRedirect(route('public.blog.show', ['slug' => 'solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown']));
+
+        $this->get(route('public.blog.show', ['slug' => 'automobile-fuel-efficiency-and-cng-retrofitting-economics-in-pakistan-2026']))
+            ->assertStatus(301)
+            ->assertRedirect(route('public.blog.show', ['slug' => 'fuel-price-deregulation-in-pakistan-transport-inflation-and-commuter-survival-guide']));
+
+        $this->get(route('public.blog.show', ['slug' => 'national-savings-schemes-behbood-vs-regular-income-certificates-real-returns-against-inflation-2026']))
+            ->assertStatus(301)
+            ->assertRedirect(route('public.blog.show', ['slug' => 'gold-investment-vs-national-savings-certificates-protecting-wealth-against-pkr-devaluation-2026']));
+
+        // 2. Removed (404)
+        $this->get(route('public.blog.show', ['slug' => 'inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads']))
+            ->assertStatus(404);
+
+        // 3. Off-topic (noindex)
+        $chatgptPost = BlogPost::factory()->published()->create([
+            'slug' => 'how-chatgpt-and-gemini-became-part-of-everyday-life-2026',
+            'title' => 'How ChatGPT and Gemini Actually Became Part of Everyday Life',
+        ]);
+
+        $this->get(route('public.blog.show', ['slug' => $chatgptPost->slug]))
+            ->assertOk()
+            ->assertSee('meta name="robots" content="noindex,follow"', false);
+
+        // 4. Sitemap exclusions
+        $sitemap = $this->get('/sitemap.xml')->assertOk()->getContent();
+        $this->assertStringNotContainsString('solar-battery-storage-economics', $sitemap);
+        $this->assertStringNotContainsString('automobile-fuel-efficiency', $sitemap);
+        $this->assertStringNotContainsString('national-savings-schemes-behbood', $sitemap);
+        $this->assertStringNotContainsString('inverter-ac-vs-non-inverter', $sitemap);
+        $this->assertStringNotContainsString('how-chatgpt-and-gemini', $sitemap);
+        $this->assertStringNotContainsString('/blog/category/household-budgeting', $sitemap);
+        $this->assertStringNotContainsString('/blog/category/technology', $sitemap);
+
+        // 5. Internal links config exclusions
+        $internalLinks = config('internal_links.resources', []);
+        $this->assertArrayNotHasKey('inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads', $internalLinks);
+        $this->assertArrayNotHasKey('solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026', $internalLinks);
+        $this->assertArrayNotHasKey('automobile-fuel-efficiency-and-cng-retrofitting-economics-in-pakistan-2026', $internalLinks);
+        $this->assertArrayNotHasKey('national-savings-schemes-behbood-vs-regular-income-certificates-real-returns-against-inflation-2026', $internalLinks);
+        $this->assertArrayNotHasKey('how-chatgpt-and-gemini-became-part-of-everyday-life-2026', $internalLinks);
+    }
 }

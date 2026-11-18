@@ -71,4 +71,36 @@ for p in $TRUST_PAGES; do
   absent "$p" 'hands-on testing' "no unverified testing claim"
 done
 
+echo "== Phase 2 retired, redirect, and sitemap checks =="
+sm_count=$(echo "$sm" | grep -c '<loc>')
+[ "$sm_count" -eq 29 ] && echo "PASS  sitemap URL count is 29" || { echo "FAIL  sitemap URL count is $sm_count (expected 29)"; FAIL=1; }
+echo "$sm" | grep -q 'category/household-budgeting' && { echo "FAIL  thin household-budgeting category in sitemap"; FAIL=1; } || echo "PASS  no household-budgeting category in sitemap"
+echo "$sm" | grep -q 'category/technology' && { echo "FAIL  thin technology category in sitemap"; FAIL=1; } || echo "PASS  no technology category in sitemap"
+
+for redir in \
+  "/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026:solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown" \
+  "/blog/automobile-fuel-efficiency-and-cng-retrofitting-economics-in-pakistan-2026:fuel-price-deregulation-in-pakistan-transport-inflation-and-commuter-survival-guide" \
+  "/blog/national-savings-schemes-behbood-vs-regular-income-certificates-real-returns-against-inflation-2026:gold-investment-vs-national-savings-certificates-protecting-wealth-against-pkr-devaluation-2026"; do
+  src="${redir%%:*}"
+  tgt="${redir##*:}"
+  code=$(curl -sI -A "$UA" "$BASE$src?_v=$RANDOM" | grep -i '^HTTP/' | awk '{print $2}')
+  loc=$(curl -sI -A "$UA" "$BASE$src?_v=$RANDOM" | grep -i '^location:' | awk '{print $2}' | tr -d '\r')
+  if [ "$code" = "301" ] && echo "$loc" | grep -q "$tgt"; then
+    echo "PASS  301 redirect [$src -> $tgt]"
+  else
+    echo "FAIL  redirect [$src got code $code, loc $loc, want 301 -> $tgt]"; FAIL=1
+  fi
+done
+
+code_404=$(curl -sI -A "$UA" "$BASE/blog/inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads?_v=$RANDOM" | grep -i '^HTTP/' | awk '{print $2}')
+[ "$code_404" = "404" ] && echo "PASS  inverter-ac article is 404" || { echo "FAIL  inverter-ac article returned $code_404 (expected 404)"; FAIL=1; }
+
+present /blog/how-chatgpt-and-gemini-became-part-of-everyday-life-2026 'meta name="robots" content="noindex,follow"' "chatgpt article is noindex"
+absent /blog/how-chatgpt-and-gemini-became-part-of-everyday-life-2026 '>Advertisement<' "chatgpt article has no ads"
+
+for retired in solar-battery-storage automobile-fuel-efficiency inverter-ac national-savings-schemes-behbood; do
+  absent / "$retired" "homepage does not link to $retired"
+  absent /blog "$retired" "blog index does not link to $retired"
+done
+
 echo; [ $FAIL -eq 0 ] && echo "ALL CHECKS PASSED" || echo "SOME CHECKS FAILED"; exit $FAIL

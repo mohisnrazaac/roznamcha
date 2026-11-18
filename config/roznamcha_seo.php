@@ -30,6 +30,8 @@ return [
             'inflation-watch',
             'personal-finance-pakistan',
             'news',
+            'household-budgeting',
+            'technology',
         ],
     ],
 

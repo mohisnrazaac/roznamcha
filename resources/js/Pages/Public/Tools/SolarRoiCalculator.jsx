@@ -858,8 +858,8 @@ export default function SolarRoiCalculator({
                         </p>
                         <p className="text-sm leading-7 text-slate-700">
                             In contrast, Lithium Iron Phosphate (LiFePO4) storage yields 5,000 to 6,000 cycles at 90% Depth of Discharge with zero mid-term replacements, delivering an effective 35% to 40% lower Total Cost of Ownership per stored kilowatt-hour. Read our comprehensive economic guide on{' '}
-                            <Link href="/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026" className="font-semibold text-emerald-700 hover:text-emerald-800 underline">
-                                LiFePO4 vs. Tall Tubular Battery Economics in Pakistan (2026)
+                            <Link href="/blog/solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown" className="font-semibold text-emerald-700 hover:text-emerald-800 underline">
+                                Solar Net Metering Regulations in Pakistan (2026): ROI &amp; Payback
                             </Link>{' '}
                             or inspect our{' '}
                             <Link href="/methodology" className="font-semibold text-[#001a4a] underline">
@@ -928,9 +928,8 @@ export default function SolarRoiCalculator({
                     ]}
                     relatedBlogs={[
                         { title: 'Solar Net Metering Regulations in Pakistan (2026): ROI & Payback', href: '/blog/solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown' },
-                        { title: 'Solar Battery Storage Economics: LiFePO4 vs Tubular Battery ROI', href: '/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026' },
                         { title: 'Pakistan Electricity Tariff Increases & Household Budgeting Defense', href: '/blog/pakistan-electricity-tariff-increases-and-household-budgeting-defense-2026' },
-                        { title: 'Inverter AC vs Non-Inverter Power Consumption Testing in Pakistan', href: '/blog/inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads' }
+                        { title: 'Ghar Ka Monthly Budget Kaise Banayein (2026)', href: '/blog/ghar-ka-monthly-budget' },
                     ]}
                 />
 
