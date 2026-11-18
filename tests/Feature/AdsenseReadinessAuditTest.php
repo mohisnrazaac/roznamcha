@@ -56,6 +56,23 @@ class AdsenseReadinessAuditTest extends TestCase
             'AdSense script tag must not be rendered when adsAllowed is false.'
         );
 
+        // Additional non-ad routes: contact, about, terms, cookie policy, categories, noindex articles
+        foreach ([
+            route('public.contact'),
+            route('public.about'),
+            route('public.terms'),
+            route('public.cookie-policy'),
+            route('public.blog.category', ['slug' => 'personal-finance-pakistan']),
+            route('public.blog.show', ['slug' => 'how-chatgpt-and-gemini-became-part-of-everyday-life-2026']),
+        ] as $noAdUrl) {
+            $resp = $this->get($noAdUrl);
+            $this->assertStringNotContainsString(
+                '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=',
+                $resp->getContent(),
+                "AdSense script tag must not be rendered on {$noAdUrl}."
+            );
+        }
+
         // 3. Login page with adsAllowed = false
         $responseLogin = $this->get('/login');
         $responseLogin->assertOk();
