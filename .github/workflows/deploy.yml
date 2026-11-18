@@ -87,6 +87,13 @@ jobs:
           protocol: ftps
           server-dir: ${{ secrets.FTP_REMOTE_DIR || './' }}
           local-dir: ./deploy_bundle/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/public/build/.vite
+            **/public/build/.vite/**
+            **/.vite/**
           log-level: verbose
 
       - name: Call post-deploy hook
