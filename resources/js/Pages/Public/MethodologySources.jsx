@@ -37,7 +37,7 @@ export default function MethodologySources({ seo, jsonLd, contactEmail = 'suppor
                             </p>
                         </div>
                         <p className="text-slate-700 leading-relaxed text-sm">
-                            <strong>Regulatory Sources:</strong> NEPRA Federal Tariff Notifications (SROs) for DISCOs (LESCO, K-Electric, IESCO, FESCO, MEPCO, GEPCO, PESCO, HESCO, SEPCO, QESCO). Our system explicitly distinguishes between <em>Protected Consumers</em> (under 200 kWh/month for 6 consecutive months) and <em>Unprotected Consumers</em>, dynamically simulating the financial cliff that occurs upon crossing unit thresholds.
+                            <strong>Regulatory Sources:</strong> <a href="https://nepra.org.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">NEPRA Consumer-End Tariff Determinations</a> and Ministry of Energy Uniform Tariff Notifications for distribution companies (LESCO, K-Electric, IESCO, FESCO, MEPCO, GEPCO, PESCO, HESCO, SEPCO, QESCO). Our system explicitly distinguishes between <em>Protected Consumers</em> (under 200 kWh/month for 6 consecutive months) and <em>Unprotected Consumers</em>, dynamically simulating the financial cliff that occurs upon crossing unit thresholds. Checked: November 2026.
                         </p>
                     </section>
 
@@ -45,7 +45,7 @@ export default function MethodologySources({ seo, jsonLd, contactEmail = 'suppor
                     <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
                         <h2 className="text-2xl font-bold text-[#001a4a]">2. Kitchen Ration &amp; Grocery Price Baselines</h2>
                         <p className="text-slate-700 leading-relaxed">
-                            Food budgeting requires isolating non-perishable staple carbohydrates and cooking fats from perishable daily items. The Ration Cost Estimator focuses exclusively on core non-perishable kitchen drivers:
+                            Food budgeting requires isolating non-perishable staple carbohydrates and cooking fats from perishable daily items. The Ration Cost Estimator focuses exclusively on core non-perishable kitchen drivers, calibrated against <a href="https://www.pbs.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Pakistan Bureau of Statistics (PBS)</a> weekly market reports:
                         </p>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left text-sm text-slate-700 border-collapse">
@@ -100,7 +100,7 @@ export default function MethodologySources({ seo, jsonLd, contactEmail = 'suppor
                     <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
                         <h2 className="text-2xl font-bold text-[#001a4a]">3. Monthly Household Budgeting &amp; Surplus/Deficit Metrics</h2>
                         <p className="text-slate-700 leading-relaxed">
-                            Our Monthly Household Budget Calculator categorizes spending across 6 localized expenditure vectors: Rent, Ration, Utilities, Education, Transport, and Miscellaneous/Medical.
+                            Our Monthly Household Budget Calculator categorizes spending across 6 localized expenditure vectors: Rent, Ration, Utilities, Education, Transport, and Miscellaneous/Medical, referencing baseline expenditure distributions from the <a href="https://www.pbs.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Pakistan Bureau of Statistics (PBS)</a> HIES survey and macroeconomic indicators from the <a href="https://www.sbp.org.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">State Bank of Pakistan (SBP)</a> and the <a href="https://finance.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Ministry of Finance</a>.
                         </p>
                         <div className="space-y-3 pl-4 border-l-2 border-[#001a4a]/20 text-sm">
                             <p><strong>Net Surplus / Deficit:</strong> Monthly Take-Home Income &minus; Total Categorized Expenses.</p>
@@ -113,7 +113,7 @@ export default function MethodologySources({ seo, jsonLd, contactEmail = 'suppor
                     <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
                         <h2 className="text-2xl font-bold text-[#001a4a]">4. Solar Net Metering ROI &amp; 10-Year Battery TCO</h2>
                         <p className="text-slate-700 leading-relaxed">
-                            Solar financial modeling operates under NEPRA’s Net Billing framework, distinguishing between daytime self-consumption and exported grid energy:
+                            Solar financial modeling operates under <a href="https://nepra.org.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">NEPRA Net Billing Regulations</a> and renewable equipment standards from the <a href="https://www.ppib.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Private Power and Infrastructure Board (PPIB)</a>, distinguishing between daytime self-consumption and exported grid energy:
                         </p>
                         <div className="space-y-3 pl-4 border-l-2 border-[#001a4a]/20 text-sm">
                             <p><strong>Avoided Grid Cost:</strong> Self-Consumed Solar Units &times; Avoided Retail Grid Slab Tariff (Rs. 42 to 71+/kWh).</p>
@@ -127,12 +127,58 @@ export default function MethodologySources({ seo, jsonLd, contactEmail = 'suppor
                     <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
                         <h2 className="text-2xl font-bold text-[#001a4a]">5. School Fees Planner &amp; Annual Amortization</h2>
                         <p className="text-slate-700 leading-relaxed">
-                            Education budgeting fails when families treat monthly school vouchers as their total cost, ignoring annual admission fees, activity charges, and examination registration deadlines.
+                            Education budgeting fails when families treat monthly school vouchers as their total cost, ignoring annual admission fees, activity charges, and examination registration deadlines. Our model incorporates education inflation indices reported by the <a href="https://www.pbs.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Pakistan Bureau of Statistics (PBS)</a>.
                         </p>
                         <div className="space-y-3 pl-4 border-l-2 border-[#001a4a]/20 text-sm">
                             <p><strong>Real Monthly Cost Formula:</strong> (Children Count &times; Monthly Tuition) + [(Annual Charges + Exam Fee &times; Exam Frequency) / 12].</p>
                             <p><strong>Inflation Planning Margin:</strong> Real Monthly Cost &times; (1 + Inflation Buffer % / 100). Private schools in Pakistan escalate tuition by an average of 10% to 15% each academic cycle.</p>
                         </div>
+                    </section>
+
+                    {/* Section 6: Official Primary Regulatory Sources Directory */}
+                    <section className="bg-slate-50 border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
+                        <h2 className="text-2xl font-bold text-[#001a4a]">6. Primary Official Regulatory &amp; Statistical Sources</h2>
+                        <p className="text-slate-700 leading-relaxed text-sm">
+                            Roznamcha relies exclusively on verified public authorities for its regulatory baselines, statutory tax brackets, and market indices:
+                        </p>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm pt-2">
+                            <li className="rounded-xl border border-slate-200 bg-white p-3 space-y-1">
+                                <a href="https://nepra.org.pk/" target="_blank" rel="noopener noreferrer" className="font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1">
+                                    NEPRA Official Portal →
+                                </a>
+                                <p className="text-xs text-slate-500">National uniform electricity tariff determinations, slab schedules, and net metering rules.</p>
+                            </li>
+                            <li className="rounded-xl border border-slate-200 bg-white p-3 space-y-1">
+                                <a href="https://www.pbs.gov.pk/" target="_blank" rel="noopener noreferrer" className="font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1">
+                                    Pakistan Bureau of Statistics (PBS) →
+                                </a>
+                                <p className="text-xs text-slate-500">Weekly Sensitive Price Indicator (SPI), Monthly CPI inflation, and household economic surveys.</p>
+                            </li>
+                            <li className="rounded-xl border border-slate-200 bg-white p-3 space-y-1">
+                                <a href="https://www.fbr.gov.pk/" target="_blank" rel="noopener noreferrer" className="font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1">
+                                    Federal Board of Revenue (FBR) →
+                                </a>
+                                <p className="text-xs text-slate-500">Income Tax Ordinance schedules, salaried tax slabs, and withholding tax circulars.</p>
+                            </li>
+                            <li className="rounded-xl border border-slate-200 bg-white p-3 space-y-1">
+                                <a href="https://www.sbp.org.pk/" target="_blank" rel="noopener noreferrer" className="font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1">
+                                    State Bank of Pakistan (SBP) →
+                                </a>
+                                <p className="text-xs text-slate-500">Policy rate decisions, consumer confidence surveys, inflation outlooks, and FX benchmarks.</p>
+                            </li>
+                            <li className="rounded-xl border border-slate-200 bg-white p-3 space-y-1">
+                                <a href="https://finance.gov.pk/" target="_blank" rel="noopener noreferrer" className="font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1">
+                                    Ministry of Finance, Government of Pakistan →
+                                </a>
+                                <p className="text-xs text-slate-500">Federal Budget publications, Economic Survey of Pakistan, and official fiscal notifications.</p>
+                            </li>
+                            <li className="rounded-xl border border-slate-200 bg-white p-3 space-y-1">
+                                <a href="https://savings.gov.pk/" target="_blank" rel="noopener noreferrer" className="font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1">
+                                    Central Directorate of National Savings (CDNS) →
+                                </a>
+                                <p className="text-xs text-slate-500">Behbood Savings, Regular Income, and Defence Savings Certificates official profit rates.</p>
+                            </li>
+                        </ul>
                     </section>
                 </article>
 

@@ -101,7 +101,7 @@ const defaultFaqItems = [
     },
     {
         question: 'How do Wholesale Mandi prices differ from open-market kiryana stores in Pakistan?',
-        answer: 'Wholesale grain mandis (e.g., Akbari Mandi Lahore or Jodia Bazaar Karachi) offer bulk savings of 12% to 22% on sacks of flour, pulses, and oil cartons, whereas neighborhood kiryana stores incorporate transport costs, local packaging, and retail markups. Following the federal restructuring of Utility Stores Corporation subsidies in favor of direct BISP cash disbursements, households achieve real savings through monthly bulk wholesale procurement rather than relying on discontinued store subsidies.',
+        answer: 'Wholesale grain mandis (e.g., Akbari Mandi Lahore or Jodia Bazaar Karachi) offer bulk savings of 12% to 22% on sacks of flour, pulses, and oil cartons, whereas neighborhood kiryana stores incorporate transport costs, local packaging, and retail markups. Following the federal decision to cease general Utility Stores Corporation (USC) retail operations in favor of targeted BISP cash transfers, general USC store subsidies have ceased. Households achieve real savings through monthly bulk wholesale procurement rather than relying on discontinued store subsidies.',
     },
 ];
 
@@ -604,7 +604,7 @@ export default function RationCostEstimator({
                 <section className="space-y-3 border-t border-slate-100 pt-6">
                     <h3 className="text-xl font-bold text-[#001a4a]">Underlying Data Baseline & Economic Assumptions</h3>
                     <p className="text-sm leading-7 text-slate-700">
-                        Staple grocery inflation in Pakistan is benchmarked against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) and Monthly Consumer Price Index (CPI). Following the federal winding down of general Utility Stores Corporation (USC) retail subsidies in favor of direct BISP cash disbursements, household baselines reflect primary wholesale grain mandis and open-market kiryana retail rates, accounting for transport margins and local wholesale markups.
+                        Staple grocery inflation in Pakistan is benchmarked against the <a href="https://www.pbs.gov.pk/" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 underline hover:text-emerald-800">Pakistan Bureau of Statistics (PBS)</a> Weekly Sensitive Price Indicator (SPI) and Monthly Consumer Price Index (CPI). Following the federal decision to cease general Utility Stores Corporation (USC) retail operations (under the federal rightsizing and privatisation framework) in favor of targeted BISP cash transfers, general USC retail subsidies have ceased. Household baselines reflect open-market retail and wholesale grain mandi benchmarks.
                     </p>
                     <p className="text-sm leading-7 text-slate-700">
                         Perishable items (fresh vegetables, seasonal fruit, milk, poultry, and beef) fluctuate on daily supply cycles and are deliberately separated into a distinct variable weekly allocation. Learn more about our data sources and update cadences in our{' '}
@@ -613,6 +613,20 @@ export default function RationCostEstimator({
                         </Link>{' '}
                         directory.
                     </p>
+
+                    {/* Official Data Source & Assumptions Callout */}
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4">
+                        <div className="flex items-center gap-2">
+                            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                            <h4 className="font-bold text-slate-900 text-sm">Official Statistical Sources &amp; Ration Assumptions</h4>
+                        </div>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                            Commodity price benchmarks are aligned with the official <a href="https://www.pbs.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Pakistan Bureau of Statistics (PBS)</a> Weekly SPI releases and urban wholesale mandi surveys. Checked: November 2026.
+                        </p>
+                        <p className="text-xs text-slate-500 leading-relaxed">
+                            *Note: Monthly ration requirements are nutritional model estimates for standard Pakistani households; actual grocery consumption and expenditures vary by individual dietary habits, brand choices, and city-level freight margins.
+                        </p>
+                    </div>
                 </section>
 
                 {/* Part 3: Practical Application Guide */}

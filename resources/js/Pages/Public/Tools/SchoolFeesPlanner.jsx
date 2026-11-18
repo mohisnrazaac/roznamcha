@@ -388,6 +388,20 @@ export default function SchoolFeesPlanner({ defaults, activationPrefill, faqItem
                         </Link>{' '}
                         directory.
                     </p>
+
+                    {/* Official Data Source & Assumptions Callout */}
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4">
+                        <div className="flex items-center gap-2">
+                            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                            <h4 className="font-bold text-slate-900 text-sm">Official Data Sources &amp; Educational Assumptions</h4>
+                        </div>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                            Educational inflation trends and household spending baselines reference the <a href="https://www.pbs.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Pakistan Bureau of Statistics (PBS)</a> Education Sub-Index and federal economic surveys published by the <a href="https://finance.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">Ministry of Finance</a>. Checked: November 2026.
+                        </p>
+                        <p className="text-xs text-slate-500 leading-relaxed">
+                            *Note: Projected next-year inflation buffers (default 10%-15%) and non-tuition amortizations are user-configurable planning assumptions and do not constitute statutory caps or fixed legal charges.
+                        </p>
+                    </div>
                 </section>
 
                 {/* Part 3: Practical Application Guide */}

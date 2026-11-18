@@ -175,7 +175,7 @@ class ElectricityBillEstimatorController extends Controller
     }
 
     /**
-     * Calculate Slab Cost following NEPRA S.R.O. 279(I)/2026:
+     * Calculate Slab Cost following NEPRA Consumer-End Domestic Tariff Schedule:
      * - Protected consumers: benefit of previous slab applies (1-100 @ Rs 10.54, 101-200 @ Rs 13.01; lifeline up to 50 @ Rs 3.95, 51-100 @ Rs 7.74).
      * - Unprotected consumers: Non-telescopic billing (all units billed at the applicable bracket rate of total units consumed).
      *
@@ -225,7 +225,7 @@ class ElectricityBillEstimatorController extends Controller
         }
 
         // Unprotected: Non-telescopic (entire consumption is billed at the slab rate of total units)
-        // Check rate from passed slabs or fallback to S.R.O. 279(I)/2026 brackets
+        // Check rate from passed slabs or fallback to official NEPRA domestic brackets
         $rate = $this->resolveUnprotectedRate($unitsUsed, $slabs);
 
         return $unitsUsed * $rate;
@@ -245,7 +245,7 @@ class ElectricityBillEstimatorController extends Controller
             }
         }
 
-        // Fallback default NEPRA S.R.O. 279(I)/2026 rates
+        // Fallback default NEPRA domestic tariff schedule rates
         if ($unitsUsed <= 100) {
             return 22.44;
         }

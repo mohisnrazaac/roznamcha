@@ -10,7 +10,7 @@ class SyncSlabRatesCommand extends Command
 {
     protected $signature = 'seo:sync-slab-rates';
 
-    protected $description = 'Sync slab_rates table with NEPRA S.R.O. 279(I)/2026 rates from config/public_tools.php';
+    protected $description = 'Sync slab_rates table with NEPRA domestic tariff schedule from config/public_tools.php';
 
     public function handle(): int
     {

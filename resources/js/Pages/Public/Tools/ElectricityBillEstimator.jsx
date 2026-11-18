@@ -389,11 +389,25 @@ export default function ElectricityBillEstimator({
                 <section className="space-y-3 border-t border-slate-100 pt-6">
                     <h3 className="text-xl font-bold text-[#001a4a]">NEPRA Uniform National Tariff & DISCO Coverage</h3>
                     <p className="text-sm leading-7 text-slate-700">
-                        Under Pakistan's national uniform electricity tariff notified by NEPRA (S.R.O. 279(I)/2026), the exact same base slab rates apply identically across all distribution companies, including <strong>LESCO</strong> (Lahore), <strong>IESCO</strong> (Islamabad/Rawalpindi), <strong>MEPCO</strong> (Multan), <strong>FESCO</strong> (Faisalabad), <strong>GEPCO</strong> (Gujranwala), <strong>PESCO</strong> (Peshawar), <strong>HESCO</strong> (Hyderabad), <strong>SEPCO</strong> (Sukkur), <strong>QESCO</strong> (Quetta), and <strong>K-Electric</strong> (Karachi). Minor differences between your actual monthly bills across DISCOs arise solely from monthly variable Fuel Charges Adjustments (FCA/FPA), quarterly adjustments (QTA), and municipal electricity duties.
+                        Under Pakistan's national uniform electricity tariff notified by the Ministry of Energy under <a href="https://nepra.org.pk/" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 underline hover:text-emerald-800">NEPRA Consumer-End Tariff Determinations</a> (checked November 2026), the exact same base slab rates apply identically across all distribution companies, including <strong>LESCO</strong> (Lahore), <strong>IESCO</strong> (Islamabad/Rawalpindi), <strong>MEPCO</strong> (Multan), <strong>FESCO</strong> (Faisalabad), <strong>GEPCO</strong> (Gujranwala), <strong>PESCO</strong> (Peshawar), <strong>HESCO</strong> (Hyderabad), <strong>SEPCO</strong> (Sukkur), <strong>QESCO</strong> (Quetta), and <strong>K-Electric</strong> (Karachi). Minor differences between your actual monthly bills across DISCOs arise solely from monthly variable Fuel Charges Adjustments (FCA/FPA), quarterly adjustments (QTA), and municipal electricity duties.
                     </p>
                     <p className="text-sm leading-7 text-slate-700">
                         Tariff slabs distinguish strictly between <strong>Protected Consumers</strong> (using 200 or fewer units consecutively for six months, who receive subsidized tiered pricing with previous-slab benefits) and <strong>Unprotected Consumers</strong> (whose entire monthly consumption is billed non-telescopically at the highest applicable slab rate).
                     </p>
+
+                    {/* Official Data Source & Assumptions Callout */}
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4">
+                        <div className="flex items-center gap-2">
+                            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                            <h4 className="font-bold text-slate-900 text-sm">Official Regulatory Sources &amp; Calculation Assumptions</h4>
+                        </div>
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                            Base domestic tariff slabs are calibrated against the official <a href="https://nepra.org.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">NEPRA Domestic Tariff Schedule</a> (National Uniform Tariff notified by the Ministry of Energy). Checked: November 2026.
+                        </p>
+                        <p className="text-xs text-slate-500 leading-relaxed">
+                            *Note: Fuel Charges Adjustments (FCA/FPA) and quarterly adjustments are illustrative placeholders reflecting average historical recoveries and vary on your actual utility invoice.
+                        </p>
+                    </div>
 
                     <h4 className="text-base font-bold text-[#001a4a] pt-3">Worked Bill Examples by Unit Consumption (2026 NEPRA Domestic Slabs)</h4>
                     <div className="overflow-x-auto rounded-xl border border-slate-200 mt-2">
@@ -470,11 +484,11 @@ export default function ElectricityBillEstimator({
                         <div className="flex items-center gap-2">
                             <span className="flex h-2.5 w-2.5 rounded-full bg-amber-600" />
                             <h4 className="font-bold text-slate-900 text-base">
-                                Current NEPRA Tariff & Adjustment Schedule (S.R.O. 279(I)/2026)
+                                Current NEPRA Tariff & Adjustment Schedule (Consumer-End Tariff Schedule, Checked November 2026)
                             </h4>
                         </div>
                         <p className="text-sm leading-relaxed text-slate-700">
-                            Effective nationwide under NEPRA notifications, all DISCO electricity bills are calculated with statutory monthly fuel charges and periodic surcharges:
+                            Effective nationwide under NEPRA notifications, all DISCO electricity bills are calculated with statutory monthly fuel charges and periodic surcharges (shown as illustrative planning figures):
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-1">
                             <div className="rounded-xl border border-amber-200/80 bg-white p-3">

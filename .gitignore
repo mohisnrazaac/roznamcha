@@ -48,6 +48,7 @@ urls_to_check.txt
 Thumbs.db
 deploy_solar_roi.py
 fix_tax_slabs_post.php
+scripts/deploy_helper.py
 __pycache__/
 *.pyc
 .aider*

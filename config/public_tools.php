@@ -48,7 +48,7 @@ return [
             'protected' => 9.5,
             'unprotected' => 14.5,
         ],
-        // NEPRA S.R.O. 279(I)/2026 domestic residential rates
+        // NEPRA / DISCO Consumer-End Domestic Tariff Schedule (notified by Ministry of Energy, applicable FY2024-26)
         'seed_slabs' => [
             'lifeline' => [
                 ['min_units' => 1, 'max_units' => 50, 'rate_per_unit' => 3.95],

@@ -867,6 +867,20 @@ export default function SolarRoiCalculator({
                             </Link>{' '}
                             directory.
                         </p>
+
+                        {/* Official Data Source & Assumptions Callout */}
+                        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4">
+                            <div className="flex items-center gap-2">
+                                <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                                <h4 className="font-bold text-slate-900 text-sm">Official Regulatory Sources &amp; Solar Assumptions</h4>
+                            </div>
+                            <p className="text-xs text-slate-600 leading-relaxed">
+                                Net metering framework, generation regulations, and buyback benchmarks are aligned with <a href="https://nepra.org.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">NEPRA Alternative &amp; Renewable Energy Regulations</a> and <a href="https://www.ppib.gov.pk/" target="_blank" rel="noopener noreferrer" className="text-emerald-700 underline font-semibold hover:text-[#001a4a]">PPIB / Alternative Energy Development Board standards</a>. Checked: November 2026.
+                            </p>
+                            <p className="text-xs text-slate-500 leading-relaxed">
+                                *Note: System costs, solar peak sun hours (average 4.5 kWh/kWp/day in Pakistan), and avoided grid tariff benefits are empirical engineering estimates. Actual yields vary with panel tilt, azimuth, local shading, and DISCO bi-directional net billing settlement times.
+                            </p>
+                        </div>
                     </section>
 
                     {/* Part 3: Practical Application Guide for Solar Adopters */}

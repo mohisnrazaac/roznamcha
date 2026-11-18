@@ -127,4 +127,27 @@ for surl in $sitemap_urls; do
   fi
 done
 
+# Phase 4: Verified sources and outbound links
+echo "Verifying Phase 4 official sources and methodology links..."
+absent /tools/electricity-bill-estimator '279(I)' "no unverified S.R.O. 279(I) on electricity estimator"
+present /tools/electricity-bill-estimator 'https://nepra.org.pk' "electricity estimator has NEPRA official source link"
+present /tools/solar-net-metering-roi-calculator 'https://nepra.org.pk' "solar calculator has NEPRA official source link"
+present /tools/ration-cost-estimator 'https://www.pbs.gov.pk' "ration estimator has PBS official source link"
+present /tools/monthly-household-budget-calculator 'https://www.pbs.gov.pk' "budget calculator has PBS official source link"
+present /tools/school-fees-planner 'https://www.pbs.gov.pk' "school fees planner has PBS official source link"
+
+# Methodology official links count
+meth_html=$(curl -sL -A "$UA" "$BASE/methodology?_v=$RANDOM")
+meth_official_count=0
+for domain in nepra.org.pk pbs.gov.pk fbr.gov.pk sbp.org.pk finance.gov.pk savings.gov.pk ppib.gov.pk; do
+  if echo "$meth_html" | grep -q "$domain"; then
+    meth_official_count=$((meth_official_count + 1))
+  fi
+done
+if [ "$meth_official_count" -ge 5 ]; then
+  echo "PASS  /methodology has $meth_official_count official outbound links (>= 5)"
+else
+  echo "FAIL  /methodology has $meth_official_count official outbound links (expected >= 5)"; FAIL=1
+fi
+
 echo; [ $FAIL -eq 0 ] && echo "ALL CHECKS PASSED" || echo "SOME CHECKS FAILED"; exit $FAIL
