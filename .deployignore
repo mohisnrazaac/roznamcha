@@ -6,6 +6,7 @@ deploy/
 deploy_bundle/
 *.zip
 public/hot
+public/build/.vite/
 storage/app/private/
 storage/framework/cache/
 storage/framework/sessions/
