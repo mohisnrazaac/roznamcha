@@ -290,6 +290,34 @@ class BlogPublicTest extends TestCase
         $this->assertStringContainsString('Final conclusion.', $rendered);
     }
 
+    public function test_blog_post_demotes_h1_tags_in_content_to_h2(): void
+    {
+        $post = BlogPost::factory()->published()->create([
+            'title' => 'Sample Article With Internal H1',
+            'slug' => 'sample-article-with-internal-h1',
+            'content' => '<h1>Main Section Header</h1><p>Paragraph content.</p><h1 class="sub">Another Header</h1>',
+        ]);
+
+        $response = $this->get('/blog/'.$post->slug);
+        $response->assertOk();
+
+        $page = $response->viewData('page');
+        $this->assertNotNull($page);
+        $content = $page['props']['post']['content'];
+
+        $this->assertStringNotContainsString('<h1', $content);
+        $this->assertStringNotContainsString('</h1>', $content);
+        $this->assertStringContainsString('<h2>Main Section Header</h2>', $content);
+        $this->assertStringContainsString('<h2 class="sub">Another Header</h2>', $content);
+    }
+
+    public function test_blog_show_component_has_no_nested_footer_element(): void
+    {
+        $showJsx = file_get_contents(resource_path('js/Pages/Public/Blog/Show.jsx'));
+        // Show.jsx itself should not contain a <footer tag because PublicLayout already provides it
+        $this->assertStringNotContainsString('<footer', $showJsx);
+    }
+
     private function publicRouteUrl(string $routeName, array|string $parameters = []): string
     {
         return rtrim((string) config('roznamcha_seo.base_url'), '/').route($routeName, $parameters, false);

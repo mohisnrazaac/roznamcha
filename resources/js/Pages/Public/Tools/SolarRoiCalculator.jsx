@@ -215,9 +215,9 @@ export default function SolarRoiCalculator({
                         <span className="h-1.5 w-1.5 rounded-full bg-amber-600" />
                         <span>2026 Turnkey EPC Benchmarks</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#001a4a]">
+                    <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#001a4a]">
                         Solar Net Metering & Financial ROI Engine
-                    </h1>
+                    </h2>
                     <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
                         Model exact financial breakeven periods under NEPRA's Net Billing framework, compare avoided retail tariffs against national export buyback rates, and analyze 10-year battery degradation.
                     </p>

@@ -103,4 +103,28 @@ for retired in solar-battery-storage automobile-fuel-efficiency inverter-ac nati
   absent /blog "$retired" "blog index does not link to $retired"
 done
 
+# Phase 3: Single H1 across sitemap URLs, single footer on articles
+echo "Verifying H1 and footer counts across sitemap URLs..."
+sitemap_urls=$(curl -s -A "$UA" "$BASE/sitemap.xml" | grep -oE '<loc>[^<]+</loc>' | sed -e 's/<loc>//g' -e 's/<\/loc>//g')
+for surl in $sitemap_urls; do
+  path="${surl#$BASE}"
+  [ -z "$path" ] && path="/"
+  html=$(curl -sL -A "$UA" "$BASE$path?_v=$RANDOM")
+  h1_count=$(echo "$html" | grep -oiE '<h1[ >]' | wc -l | tr -d ' ')
+  if [ "$h1_count" -eq 1 ]; then
+    echo "PASS  single H1 [$path]"
+  else
+    echo "FAIL  H1 count [$path has $h1_count H1s, expected 1]"; FAIL=1
+  fi
+
+  if echo "$path" | grep -qE '^/blog/[^/]+$' && [ "$path" != "/blog" ]; then
+    footer_count=$(echo "$html" | grep -oiE '<footer[ >]' | wc -l | tr -d ' ')
+    if [ "$footer_count" -eq 1 ]; then
+      echo "PASS  single footer [$path]"
+    else
+      echo "FAIL  footer count [$path has $footer_count footers, expected 1]"; FAIL=1
+    fi
+  fi
+done
+
 echo; [ $FAIL -eq 0 ] && echo "ALL CHECKS PASSED" || echo "SOME CHECKS FAILED"; exit $FAIL

@@ -175,11 +175,17 @@ class BlogPublicController extends Controller
             $jsonLd['image'] = [$post->og_image_url];
         }
 
+        $renderedContent = $post->rendered_content;
+        if (is_string($renderedContent) && stripos($renderedContent, '<h1') !== false) {
+            $renderedContent = preg_replace('/<h1(\s|>)/i', '<h2$1', $renderedContent);
+            $renderedContent = preg_replace('/<\/h1>/i', '</h2>', $renderedContent);
+        }
+
         $postPayload = [
             'id' => $post->id,
             'title' => $post->title,
             'excerpt' => $excerpt,
-            'content' => $post->rendered_content,
+            'content' => $renderedContent,
             'slug' => $post->slug,
             'url' => $postUrl,
             'published_at' => optional($post->published_at)->toDateTimeString(),
