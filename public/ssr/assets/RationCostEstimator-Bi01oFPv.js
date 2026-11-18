@@ -1,7 +1,8 @@
 import { a as usePage, R as React, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer, R as RelatedLinksBlock } from "./RelatedLinksBlock-Cq2MIJqG.js";
-import { A as AuthorEditorialBlock, H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-CLjqZImt.js";
+import { H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-tIJU2Gt6.js";
 import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-DP7kLgW-.js";
+import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-DF2eAWIi.js";
 import "util";
 import "stream";
 import "path";
@@ -99,7 +100,7 @@ const defaultFaqItems = [
   },
   {
     question: "How do Wholesale Mandi prices differ from open-market kiryana stores in Pakistan?",
-    answer: "Wholesale grain mandis (e.g., Akbari Mandi Lahore or Jodia Bazaar Karachi) offer bulk savings of 12% to 22% on sacks of flour, pulses, and oil cartons, whereas neighborhood kiryana stores incorporate transport costs, local packaging, and retail markups. Following the federal restructuring of Utility Stores Corporation subsidies in favor of direct BISP cash disbursements, households achieve real savings through monthly bulk wholesale procurement rather than relying on discontinued store subsidies."
+    answer: "Wholesale grain mandis (e.g., Akbari Mandi Lahore or Jodia Bazaar Karachi) offer bulk savings of 12% to 22% on sacks of flour, pulses, and oil cartons, whereas neighborhood kiryana stores incorporate transport costs, local packaging, and retail markups. Following the federal decision to cease general Utility Stores Corporation (USC) retail operations in favor of targeted BISP cash transfers, general USC store subsidies have ceased. Households achieve real savings through monthly bulk wholesale procurement rather than relying on discontinued store subsidies."
   }
 ];
 function RationCostEstimator({
@@ -572,13 +573,29 @@ function RationCostEstimator({
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-3 border-t border-slate-100 pt-6", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold text-[#001a4a]", children: "Underlying Data Baseline & Economic Assumptions" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-7 text-slate-700", children: "Staple grocery inflation in Pakistan is benchmarked against the Pakistan Bureau of Statistics (PBS) Weekly Sensitive Price Indicator (SPI) and Monthly Consumer Price Index (CPI). Following the federal winding down of general Utility Stores Corporation (USC) retail subsidies in favor of direct BISP cash disbursements, household baselines reflect primary wholesale grain mandis and open-market kiryana retail rates, accounting for transport margins and local wholesale markups." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm leading-7 text-slate-700", children: [
+              "Staple grocery inflation in Pakistan is benchmarked against the ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-semibold text-emerald-700 underline hover:text-emerald-800", children: "Pakistan Bureau of Statistics (PBS)" }),
+              " Weekly Sensitive Price Indicator (SPI) and Monthly Consumer Price Index (CPI). Following the federal decision to cease general Utility Stores Corporation (USC) retail operations (under the federal rightsizing and privatisation framework) in favor of targeted BISP cash transfers, general USC retail subsidies have ceased. Household baselines reflect open-market retail and wholesale grain mandi benchmarks."
+            ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm leading-7 text-slate-700", children: [
               "Perishable items (fresh vegetables, seasonal fruit, milk, poultry, and beef) fluctuate on daily supply cycles and are deliberately separated into a distinct variable weekly allocation. Learn more about our data sources and update cadences in our",
               " ",
               /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/methodology", className: "font-semibold text-[#001a4a] underline", children: "Methodology & Data Sources" }),
               " ",
               "directory."
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex h-2 w-2 rounded-full bg-emerald-500" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-slate-900 text-sm", children: "Official Statistical Sources & Ration Assumptions" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-slate-600 leading-relaxed", children: [
+                "Commodity price benchmarks are aligned with the official ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Pakistan Bureau of Statistics (PBS)" }),
+                " Weekly SPI releases and urban wholesale mandi surveys. Checked: November 2026."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500 leading-relaxed", children: "*Note: Monthly ration requirements are nutritional model estimates for standard Pakistani households; actual grocery consumption and expenditures vary by individual dietary habits, brand choices, and city-level freight margins." })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-3 border-t border-slate-100 pt-6", children: [
@@ -610,8 +627,7 @@ function RationCostEstimator({
             AuthorEditorialBlock,
             {
               authorName: "Mohsin Raza",
-              authorRole: "Founder & Software Architect (16+ Years Experience)",
-              lastUpdated: "September 2026"
+              authorRole: "Founder & Software Architect, Roznamcha.pk"
             }
           )
         ] }),

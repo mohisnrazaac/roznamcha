@@ -25,8 +25,8 @@ function About({ seo, jsonLd, contactEmail = "support@roznamcha.pk" }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base text-slate-700", children: "Roznamcha.pk is a practical budgeting and household tracking product built for Pakistan. It exists to help families follow daily expenses, ration pressure, reminders, and month-end budget stress without financial jargon or spreadsheet fatigue." })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 space-y-3", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-semibold text-[#001a4a]", children: "About Mohsin" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base text-slate-700", children: "Mohsin is the Founder of Roznamcha.pk and a Software Architect. With 16 years of experience building software and digital systems, he created Roznamcha to help Pakistani households track daily expenses, ration costs, reminders, and budget pressure in plain language that feels useful in everyday life." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-semibold text-[#001a4a]", children: "About Mohsin Raza" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base text-slate-700", children: "Mohsin Raza is the Founder of Roznamcha.pk and a Software Architect. With 16 years of experience building software and digital systems, he created Roznamcha to help Pakistani households track daily expenses, ration costs, reminders, and budget pressure in plain language that feels useful in everyday life." })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 space-y-3", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-semibold text-[#001a4a]", children: "Why Roznamcha was built" }),

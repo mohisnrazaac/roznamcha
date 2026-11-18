@@ -88,7 +88,7 @@ export default function EditorialPolicy({ seo, jsonLd, contactEmail = 'support@r
                     <section className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm">
                         <h2 className="text-2xl font-bold text-[#001a4a]">5. Planning Boundaries &amp; Financial Disclaimer</h2>
                         <p className="text-slate-700 leading-relaxed">
-                            Roznamcha publishes budgeting simulators, expense tracking applications, and educational articles for personal decision support and comparison. Nothing published on this site constitutes certified financial, legal, investment, or tax advice. Every household operates with unique financial obligations, debt structures, and risk profiles. Users remain responsible for verifying official utility bills, loan contracts, and bank commitments.
+                            Roznamcha publishes budgeting simulators, expense tracking applications, and educational articles for personal decision support and comparison. Nothing published on this site constitutes professional financial, legal, investment, or tax advice. Every household operates with unique financial obligations, debt structures, and risk profiles. Users remain responsible for verifying official utility bills, loan contracts, and bank commitments.
                         </p>
                         <p className="text-slate-700 leading-relaxed">
                             For complete legal terms and planning limitations, please review our full{' '}

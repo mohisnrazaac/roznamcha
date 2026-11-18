@@ -1,7 +1,8 @@
 import { a as usePage, R as React, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer, R as RelatedLinksBlock } from "./RelatedLinksBlock-Cq2MIJqG.js";
 import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-DP7kLgW-.js";
-import { A as AuthorEditorialBlock, H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-CLjqZImt.js";
+import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-DF2eAWIi.js";
+import { H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-tIJU2Gt6.js";
 import "util";
 import "stream";
 import "path";
@@ -394,6 +395,20 @@ function SchoolFeesPlanner({ defaults, activationPrefill, faqItems: faqItemsProp
               /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/methodology", className: "font-semibold text-[#001a4a] underline", children: "Methodology & Data Sources" }),
               " ",
               "directory."
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex h-2 w-2 rounded-full bg-emerald-500" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-slate-900 text-sm", children: "Official Data Sources & Educational Assumptions" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-slate-600 leading-relaxed", children: [
+                "Educational inflation trends and household spending baselines reference the ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Pakistan Bureau of Statistics (PBS)" }),
+                " Education Sub-Index and federal economic surveys published by the ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://finance.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Ministry of Finance" }),
+                ". Checked: November 2026."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500 leading-relaxed", children: "*Note: Projected next-year inflation buffers (default 10%-15%) and non-tuition amortizations are user-configurable planning assumptions and do not constitute statutory caps or fixed legal charges." })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-3 border-t border-slate-100 pt-6", children: [
@@ -425,8 +440,7 @@ function SchoolFeesPlanner({ defaults, activationPrefill, faqItems: faqItemsProp
             AuthorEditorialBlock,
             {
               authorName: "Mohsin Raza",
-              authorRole: "Founder & Software Architect (16+ Years Experience)",
-              lastUpdated: "September 2026"
+              authorRole: "Founder & Software Architect, Roznamcha.pk"
             }
           )
         ] }),

@@ -55,13 +55,13 @@ function EditorialPolicy({ seo, jsonLd, contactEmail = "support@roznamcha.pk" })
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "3. Authorship & Subject-Matter Expertise" }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed", children: [
-            "All interactive calculators, economic models, and cornerstone financial guides on Roznamcha are architected and reviewed under the direction of ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Mohsin" }),
-            ", Founder of Roznamcha.pk."
+            "All interactive calculators, economic models, and cornerstone financial guides on Roznamcha are created and maintained by ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Mohsin Raza" }),
+            ", Founder & Software Architect of Roznamcha.pk."
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl border border-slate-200 bg-slate-50 p-5 space-y-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold text-[#001a4a]", children: "Lead Author & Systems Architect: Mohsin" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-600 leading-relaxed", children: "Software Architect with over 16 years of professional experience designing robust distributed computing systems, consumer-facing software, and financial planning engines. He specializes in translating complex macroeconomic regulations (such as NEPRA tariff matrices, currency devaluation shocks, and localized CPI shifts) into intuitive, actionable planning tools for everyday citizens." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold text-[#001a4a]", children: "Author & Software Architect: Mohsin Raza" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-600 leading-relaxed", children: "Software Architect with over 16 years of professional experience designing software systems and financial planning engines. He specializes in translating complex macroeconomic regulations (such as NEPRA tariff matrices, currency devaluation shocks, and localized CPI shifts) into intuitive, actionable planning tools for everyday citizens." }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-slate-500 pt-1", children: [
               "For detailed background and professional profile, read our ",
               /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/about", className: "text-[#001a4a] font-semibold underline", children: "About Page" }),
@@ -71,7 +71,7 @@ function EditorialPolicy({ seo, jsonLd, contactEmail = "support@roznamcha.pk" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "4. Revision Protocol, Corrections & Feedback" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Pakistan’s economic landscape changes rapidly. When NEPRA announces revised base tariffs, or when the federal government introduces new utility surcharges or sales tax amendments, our team updates the underlying calculator databases and publishes contextual advisories." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Pakistan’s economic landscape changes rapidly. When NEPRA announces revised base tariffs, or when the federal government introduces new utility surcharges or sales tax amendments, the author updates the underlying calculator parameters and publishes contextual notes." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed", children: [
             "We welcome reader feedback and fact-checking. If you detect a numerical discrepancy, outdated tariff reference, or regional price variation, please email us directly at",
             " ",
@@ -85,7 +85,7 @@ function EditorialPolicy({ seo, jsonLd, contactEmail = "support@roznamcha.pk" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "5. Planning Boundaries & Financial Disclaimer" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Roznamcha publishes budgeting simulators, expense tracking applications, and educational articles for personal decision support and comparison. Nothing published on this site constitutes certified financial, legal, investment, or tax advice. Every household operates with unique financial obligations, debt structures, and risk profiles. Users remain responsible for verifying official utility bills, loan contracts, and bank commitments." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Roznamcha publishes budgeting simulators, expense tracking applications, and educational articles for personal decision support and comparison. Nothing published on this site constitutes professional financial, legal, investment, or tax advice. Every household operates with unique financial obligations, debt structures, and risk profiles. Users remain responsible for verifying official utility bills, loan contracts, and bank commitments." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed", children: [
             "For complete legal terms and planning limitations, please review our full",
             " ",

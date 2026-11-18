@@ -2,7 +2,8 @@ import { a as usePage, R as React, j as jsxRuntimeExports, L as Link_default } f
 import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer, R as RelatedLinksBlock } from "./RelatedLinksBlock-Cq2MIJqG.js";
 import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-DP7kLgW-.js";
 import { A as APPLIANCE_PRESETS, S as SlabCliffVisualizer, a as ApplianceBreakdown } from "./ApplianceBreakdown-C-9vVLt_.js";
-import { A as AuthorEditorialBlock, H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-CLjqZImt.js";
+import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-DF2eAWIi.js";
+import { H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-tIJU2Gt6.js";
 import "util";
 import "stream";
 import "path";
@@ -373,7 +374,9 @@ function ElectricityBillEstimator({
           /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-3 border-t border-slate-100 pt-6", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold text-[#001a4a]", children: "NEPRA Uniform National Tariff & DISCO Coverage" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm leading-7 text-slate-700", children: [
-              "Under Pakistan's national uniform electricity tariff notified by NEPRA (S.R.O. 279(I)/2026), the exact same base slab rates apply identically across all distribution companies, including ",
+              "Under Pakistan's national uniform electricity tariff notified by the Ministry of Energy under ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://nepra.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-semibold text-emerald-700 underline hover:text-emerald-800", children: "NEPRA Consumer-End Tariff Determinations" }),
+              " (checked November 2026), the exact same base slab rates apply identically across all distribution companies, including ",
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "LESCO" }),
               " (Lahore), ",
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "IESCO" }),
@@ -401,6 +404,18 @@ function ElectricityBillEstimator({
               " (using 200 or fewer units consecutively for six months, who receive subsidized tiered pricing with previous-slab benefits) and ",
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Unprotected Consumers" }),
               " (whose entire monthly consumption is billed non-telescopically at the highest applicable slab rate)."
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex h-2 w-2 rounded-full bg-emerald-500" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-slate-900 text-sm", children: "Official Regulatory Sources & Calculation Assumptions" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-slate-600 leading-relaxed", children: [
+                "Base domestic tariff slabs are calibrated against the official ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://nepra.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "NEPRA Domestic Tariff Schedule" }),
+                " (National Uniform Tariff notified by the Ministry of Energy). Checked: November 2026."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500 leading-relaxed", children: "*Note: Fuel Charges Adjustments (FCA/FPA) and quarterly adjustments are illustrative placeholders reflecting average historical recoveries and vary on your actual utility invoice." })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-base font-bold text-[#001a4a] pt-3", children: "Worked Bill Examples by Unit Consumption (2026 NEPRA Domestic Slabs)" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-xl border border-slate-200 mt-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "min-w-full divide-y divide-slate-200 text-xs sm:text-sm text-left", children: [
@@ -468,9 +483,9 @@ function ElectricityBillEstimator({
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-amber-300 bg-amber-50/70 p-5 space-y-3", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex h-2.5 w-2.5 rounded-full bg-amber-600" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-slate-900 text-base", children: "Current NEPRA Tariff & Adjustment Schedule (S.R.O. 279(I)/2026)" })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-slate-900 text-base", children: "Current NEPRA Tariff & Adjustment Schedule (Consumer-End Tariff Schedule, Checked November 2026)" })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed text-slate-700", children: "Effective nationwide under NEPRA notifications, all DISCO electricity bills are calculated with statutory monthly fuel charges and periodic surcharges:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed text-slate-700", children: "Effective nationwide under NEPRA notifications, all DISCO electricity bills are calculated with statutory monthly fuel charges and periodic surcharges (shown as illustrative planning figures):" }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-1", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl border border-amber-200/80 bg-white p-3", children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-slate-500 font-medium", children: "Fuel Charge Adjustment (FCA)" }),
@@ -522,8 +537,7 @@ function ElectricityBillEstimator({
             AuthorEditorialBlock,
             {
               authorName: "Mohsin Raza",
-              authorRole: "Founder & Software Architect (16+ Years Experience)",
-              lastUpdated: "November 2026"
+              authorRole: "Founder & Software Architect, Roznamcha.pk"
             }
           )
         ] }),
@@ -537,9 +551,8 @@ function ElectricityBillEstimator({
             ],
             relatedBlogs: [
               { title: "Pakistan Electricity Tariff Increases & Household Budgeting Defense (2026)", href: "/blog/pakistan-electricity-tariff-increases-and-household-budgeting-defense-2026" },
-              { title: "Inverter AC vs Non-Inverter Power Consumption Testing in Pakistan", href: "/blog/inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads" },
               { title: "Solar Net Metering Regulations in Pakistan (2026): ROI & Payback", href: "/blog/solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown" },
-              { title: "Solar Battery Storage Economics: LiFePO4 vs Tubular Battery", href: "/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026" }
+              { title: "Ghar Ka Monthly Budget Kaise Banayein (2026)", href: "/blog/ghar-ka-monthly-budget" }
             ]
           }
         )

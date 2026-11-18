@@ -1,7 +1,8 @@
 import { a as usePage, R as React, j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { T as ToolLayout, S as SaveWall, F as FinancialDisclaimer, R as RelatedLinksBlock } from "./RelatedLinksBlock-Cq2MIJqG.js";
-import { A as AuthorEditorialBlock, H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-CLjqZImt.js";
+import { H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-tIJU2Gt6.js";
 import { S as SeoHead } from "./SeoHead-DP7kLgW-.js";
+import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-DF2eAWIi.js";
 import "util";
 import "stream";
 import "path";
@@ -504,6 +505,20 @@ function MonthlyHouseholdBudgetCalculator({ defaults, initialResult, activationP
               /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/methodology", className: "font-semibold text-[#001a4a] underline", children: "Methodology & Data Sources" }),
               " ",
               "page."
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex h-2 w-2 rounded-full bg-emerald-500" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-slate-900 text-sm", children: "Official Economic Sources & Budget Assumptions" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-slate-600 leading-relaxed", children: [
+                "Macroeconomic inflation benchmarks and income distributions are referenced against the ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Pakistan Bureau of Statistics (PBS)" }),
+                " Household Integrated Economic Survey (HIES) and ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.sbp.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "State Bank of Pakistan (SBP)" }),
+                " Consumer Surveys. Checked: November 2026."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500 leading-relaxed", children: "*Note: Category share thresholds (e.g. 30% rent, 30% groceries) are empirical household planning guidelines and do not constitute formal financial advisory mandates." })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-3 border-t border-slate-100 pt-6", children: [
@@ -535,8 +550,7 @@ function MonthlyHouseholdBudgetCalculator({ defaults, initialResult, activationP
             AuthorEditorialBlock,
             {
               authorName: "Mohsin Raza",
-              authorRole: "Founder & Software Architect (16+ Years Experience)",
-              lastUpdated: "September 2026"
+              authorRole: "Founder & Software Architect, Roznamcha.pk"
             }
           )
         ] }),

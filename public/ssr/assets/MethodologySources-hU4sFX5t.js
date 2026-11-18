@@ -36,16 +36,22 @@ function MethodologySources({ seo, jsonLd, contactEmail = "support@roznamcha.pk"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed text-sm", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Regulatory Sources:" }),
-            " NEPRA Federal Tariff Notifications (SROs) for DISCOs (LESCO, K-Electric, IESCO, FESCO, MEPCO, GEPCO, PESCO, HESCO, SEPCO, QESCO). Our system explicitly distinguishes between ",
+            " ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://nepra.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "NEPRA Consumer-End Tariff Determinations" }),
+            " and Ministry of Energy Uniform Tariff Notifications for distribution companies (LESCO, K-Electric, IESCO, FESCO, MEPCO, GEPCO, PESCO, HESCO, SEPCO, QESCO). Our system explicitly distinguishes between ",
             /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "Protected Consumers" }),
             " (under 200 kWh/month for 6 consecutive months) and ",
             /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "Unprotected Consumers" }),
-            ", dynamically simulating the financial cliff that occurs upon crossing unit thresholds."
+            ", dynamically simulating the financial cliff that occurs upon crossing unit thresholds. Checked: November 2026."
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "2. Kitchen Ration & Grocery Price Baselines" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Food budgeting requires isolating non-perishable staple carbohydrates and cooking fats from perishable daily items. The Ration Cost Estimator focuses exclusively on core non-perishable kitchen drivers:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed", children: [
+            "Food budgeting requires isolating non-perishable staple carbohydrates and cooking fats from perishable daily items. The Ration Cost Estimator focuses exclusively on core non-perishable kitchen drivers, calibrated against ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Pakistan Bureau of Statistics (PBS)" }),
+            " weekly market reports:"
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full text-left text-sm text-slate-700 border-collapse", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { className: "border-b border-slate-200 bg-slate-50 text-[#001a4a]", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "py-2.5 px-3 font-semibold", children: "Commodity" }),
@@ -93,7 +99,15 @@ function MethodologySources({ seo, jsonLd, contactEmail = "support@roznamcha.pk"
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "3. Monthly Household Budgeting & Surplus/Deficit Metrics" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Our Monthly Household Budget Calculator categorizes spending across 6 localized expenditure vectors: Rent, Ration, Utilities, Education, Transport, and Miscellaneous/Medical." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed", children: [
+            "Our Monthly Household Budget Calculator categorizes spending across 6 localized expenditure vectors: Rent, Ration, Utilities, Education, Transport, and Miscellaneous/Medical, referencing baseline expenditure distributions from the ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Pakistan Bureau of Statistics (PBS)" }),
+            " HIES survey and macroeconomic indicators from the ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.sbp.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "State Bank of Pakistan (SBP)" }),
+            " and the ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://finance.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Ministry of Finance" }),
+            "."
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3 pl-4 border-l-2 border-[#001a4a]/20 text-sm", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Net Surplus / Deficit:" }),
@@ -111,7 +125,13 @@ function MethodologySources({ seo, jsonLd, contactEmail = "support@roznamcha.pk"
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "4. Solar Net Metering ROI & 10-Year Battery TCO" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Solar financial modeling operates under NEPRA’s Net Billing framework, distinguishing between daytime self-consumption and exported grid energy:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed", children: [
+            "Solar financial modeling operates under ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://nepra.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "NEPRA Net Billing Regulations" }),
+            " and renewable equipment standards from the ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.ppib.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Private Power and Infrastructure Board (PPIB)" }),
+            ", distinguishing between daytime self-consumption and exported grid energy:"
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3 pl-4 border-l-2 border-[#001a4a]/20 text-sm", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Avoided Grid Cost:" }),
@@ -133,7 +153,11 @@ function MethodologySources({ seo, jsonLd, contactEmail = "support@roznamcha.pk"
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "5. School Fees Planner & Annual Amortization" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed", children: "Education budgeting fails when families treat monthly school vouchers as their total cost, ignoring annual admission fees, activity charges, and examination registration deadlines." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-slate-700 leading-relaxed", children: [
+            "Education budgeting fails when families treat monthly school vouchers as their total cost, ignoring annual admission fees, activity charges, and examination registration deadlines. Our model incorporates education inflation indices reported by the ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "Pakistan Bureau of Statistics (PBS)" }),
+            "."
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3 pl-4 border-l-2 border-[#001a4a]/20 text-sm", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Real Monthly Cost Formula:" }),
@@ -142,6 +166,36 @@ function MethodologySources({ seo, jsonLd, contactEmail = "support@roznamcha.pk"
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Inflation Planning Margin:" }),
               " Real Monthly Cost × (1 + Inflation Buffer % / 100). Private schools in Pakistan escalate tuition by an average of 10% to 15% each academic cycle."
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "bg-slate-50 border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#001a4a]", children: "6. Primary Official Regulatory & Statistical Sources" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 leading-relaxed text-sm", children: "Roznamcha relies exclusively on verified public authorities for its regulatory baselines, statutory tax brackets, and market indices:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm pt-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "rounded-xl border border-slate-200 bg-white p-3 space-y-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://nepra.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1", children: "NEPRA Official Portal →" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500", children: "National uniform electricity tariff determinations, slab schedules, and net metering rules." })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "rounded-xl border border-slate-200 bg-white p-3 space-y-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.pbs.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1", children: "Pakistan Bureau of Statistics (PBS) →" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500", children: "Weekly Sensitive Price Indicator (SPI), Monthly CPI inflation, and household economic surveys." })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "rounded-xl border border-slate-200 bg-white p-3 space-y-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.fbr.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1", children: "Federal Board of Revenue (FBR) →" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500", children: "Income Tax Ordinance schedules, salaried tax slabs, and withholding tax circulars." })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "rounded-xl border border-slate-200 bg-white p-3 space-y-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.sbp.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1", children: "State Bank of Pakistan (SBP) →" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500", children: "Policy rate decisions, consumer confidence surveys, inflation outlooks, and FX benchmarks." })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "rounded-xl border border-slate-200 bg-white p-3 space-y-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://finance.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1", children: "Ministry of Finance, Government of Pakistan →" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500", children: "Federal Budget publications, Economic Survey of Pakistan, and official fiscal notifications." })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "rounded-xl border border-slate-200 bg-white p-3 space-y-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://savings.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "font-bold text-emerald-700 underline hover:text-[#001a4a] flex items-center gap-1", children: "Central Directorate of National Savings (CDNS) →" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500", children: "Behbood Savings, Regular Income, and Defence Savings Certificates official profit rates." })
             ] })
           ] })
         ] })

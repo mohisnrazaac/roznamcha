@@ -2,7 +2,7 @@ import { b as reactExports, j as jsxRuntimeExports, a as usePage, L as Link_defa
 import { P as PublicLayout } from "./PublicLayout-8f9iGZFn.js";
 import { S as SeoHead } from "./SeoHead-DP7kLgW-.js";
 import { P as PropTypes } from "./index-h3QfXfrJ.js";
-import { A as AuthorEditorialBlock, H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-CLjqZImt.js";
+import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-DF2eAWIi.js";
 import "util";
 import "stream";
 import "path";
@@ -404,20 +404,19 @@ function LinkCard({ item, label }) {
 }
 function ArticleNextSteps({ relatedTools = [], relatedBlogs = [] }) {
   const tools = relatedTools.slice(0, 1);
-  const blogs = relatedBlogs.slice(0, 4);
+  const blogs = relatedBlogs.slice(0, Math.max(0, 3 - tools.length));
   const hasTools = tools.length > 0;
   const hasBlogs = blogs.length > 0;
   if (!hasTools && !hasBlogs) {
     return null;
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:p-8", "aria-labelledby": "article-next-steps-heading", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-1", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold uppercase tracking-[0.35em] text-[#8c5a00]", children: "What To Do Next" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "article-next-steps-heading", className: "text-2xl font-semibold text-[#001a4a]", children: "Related Planning Tools & Contextual Guides" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-2xl text-sm leading-6 text-slate-600", children: "Apply the numbers from this guide directly into our free calculators or continue reading practical household finance benchmarks." })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "article-next-steps-heading", className: "text-2xl font-semibold text-[#001a4a]", children: "Related Tools & Guides" })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4", children: [
-      tools.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(LinkCard, { item, label: "Free Calculator" }, `tool-${item.href}`)),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3", children: [
+      tools.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(LinkCard, { item, label: "Calculator" }, `tool-${item.href}`)),
       blogs.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(LinkCard, { item, label: "Related Guide" }, `blog-${item.href}`))
     ] })
   ] });
@@ -656,13 +655,13 @@ function BlogShow(props) {
         AuthorEditorialBlock,
         {
           authorName: ((_d = post == null ? void 0 : post.author) == null ? void 0 : _d.name) ?? "Mohsin Raza",
-          authorRole: ((_e = post == null ? void 0 : post.author) == null ? void 0 : _e.role) ?? "Founder & Software Architect (16+ Years Experience)",
-          lastUpdated: (post == null ? void 0 : post.updated_label) || (post == null ? void 0 : post.published_label) || "September 2026"
+          authorRole: ((_e = post == null ? void 0 : post.author) == null ? void 0 : _e.role) ?? "Founder & Software Architect, Roznamcha.pk",
+          publishedDate: (post == null ? void 0 : post.published_label) ?? null,
+          reviewedDate: (post == null ? void 0 : post.reviewed_date) ?? null
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(ArticleNextSteps, { relatedTools: (relatedLinks == null ? void 0 : relatedLinks.tools) ?? [], relatedBlogs: (relatedLinks == null ? void 0 : relatedLinks.blogs) ?? [] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(HouseholdPlanningSuite, { currentPath: "" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("footer", { className: "flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-2 text-sm text-slate-500", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { role: "navigation", "aria-label": "Article navigation", className: "flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-2 text-sm text-slate-500", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/blog", className: "font-semibold text-[#001a4a] hover:underline", children: "← Back to blog" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "/blog/rss.xml", className: "inline-flex items-center gap-2 font-semibold text-[#001a4a]", children: "Subscribe via RSS →" })
       ] })

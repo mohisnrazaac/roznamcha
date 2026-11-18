@@ -2,7 +2,8 @@ import { a as usePage, b as reactExports, j as jsxRuntimeExports, L as Link_defa
 import { P as PropTypes } from "./index-h3QfXfrJ.js";
 import { T as ToolLayout, R as RelatedLinksBlock, S as SaveWall, F as FinancialDisclaimer } from "./RelatedLinksBlock-Cq2MIJqG.js";
 import { b as buildWebPageSchema, S as SeoHead } from "./SeoHead-DP7kLgW-.js";
-import { A as AuthorEditorialBlock, H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-CLjqZImt.js";
+import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-DF2eAWIi.js";
+import { H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-tIJU2Gt6.js";
 import { r as recommendSolarSystemSize, S as SOLAR_SYSTEM_BENCHMARKS, D as DEFAULT_SELF_CONSUME_RATIO, g as getDefaultAvoidedTariff, a as DEFAULT_NEPRA_BUYBACK_RATE, c as calculateSolarRoi, b as calculateBatteryTco, e as estimateBillFromUnits, d as estimateUnitsFromBill } from "./solarRoiEngine-lTasqdBA.js";
 import "util";
 import "stream";
@@ -172,7 +173,7 @@ function SolarRoiCalculator({
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "h-1.5 w-1.5 rounded-full bg-amber-600" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "2026 Turnkey EPC Benchmarks" })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl sm:text-4xl font-extrabold tracking-tight text-[#001a4a]", children: "Solar Net Metering & Financial ROI Engine" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl sm:text-4xl font-extrabold tracking-tight text-[#001a4a]", children: "Solar Net Metering & Financial ROI Engine" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm sm:text-base text-slate-600 leading-relaxed", children: "Model exact financial breakeven periods under NEPRA's Net Billing framework, compare avoided retail tariffs against national export buyback rates, and analyze 10-year battery degradation." })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm", children: [
@@ -731,13 +732,27 @@ function SolarRoiCalculator({
               /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm leading-7 text-slate-700", children: [
                 "In contrast, Lithium Iron Phosphate (LiFePO4) storage yields 5,000 to 6,000 cycles at 90% Depth of Discharge with zero mid-term replacements, delivering an effective 35% to 40% lower Total Cost of Ownership per stored kilowatt-hour. Read our comprehensive economic guide on",
                 " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026", className: "font-semibold text-emerald-700 hover:text-emerald-800 underline", children: "LiFePO4 vs. Tall Tubular Battery Economics in Pakistan (2026)" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/blog/solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown", className: "font-semibold text-emerald-700 hover:text-emerald-800 underline", children: "Solar Net Metering Regulations in Pakistan (2026): ROI & Payback" }),
                 " ",
                 "or inspect our",
                 " ",
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Link_default, { href: "/methodology", className: "font-semibold text-[#001a4a] underline", children: "Methodology & Data Sources" }),
                 " ",
                 "directory."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2 mt-4", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex h-2 w-2 rounded-full bg-emerald-500" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-slate-900 text-sm", children: "Official Regulatory Sources & Solar Assumptions" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-slate-600 leading-relaxed", children: [
+                  "Net metering framework, generation regulations, and buyback benchmarks are aligned with ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://nepra.org.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "NEPRA Alternative & Renewable Energy Regulations" }),
+                  " and ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://www.ppib.gov.pk/", target: "_blank", rel: "noopener noreferrer", className: "text-emerald-700 underline font-semibold hover:text-[#001a4a]", children: "PPIB / Alternative Energy Development Board standards" }),
+                  ". Checked: November 2026."
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-500 leading-relaxed", children: "*Note: System costs, solar peak sun hours (average 4.5 kWh/kWp/day in Pakistan), and avoided grid tariff benefits are empirical engineering estimates. Actual yields vary with panel tilt, azimuth, local shading, and DISCO bi-directional net billing settlement times." })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-3 border-t border-slate-100 pt-6", children: [
@@ -779,8 +794,7 @@ function SolarRoiCalculator({
               AuthorEditorialBlock,
               {
                 authorName: "Mohsin Raza",
-                authorRole: "Founder & Software Architect (16+ Years Experience)",
-                lastUpdated: "September 2026"
+                authorRole: "Founder & Software Architect, Roznamcha.pk"
               }
             )
           ] }),
@@ -794,9 +808,8 @@ function SolarRoiCalculator({
               ],
               relatedBlogs: [
                 { title: "Solar Net Metering Regulations in Pakistan (2026): ROI & Payback", href: "/blog/solar-net-metering-regulations-in-pakistan-2026-payback-period-and-roi-breakdown" },
-                { title: "Solar Battery Storage Economics: LiFePO4 vs Tubular Battery ROI", href: "/blog/solar-battery-storage-economics-in-pakistan-lifepo4-vs-tubular-battery-roi-2026" },
                 { title: "Pakistan Electricity Tariff Increases & Household Budgeting Defense", href: "/blog/pakistan-electricity-tariff-increases-and-household-budgeting-defense-2026" },
-                { title: "Inverter AC vs Non-Inverter Power Consumption Testing in Pakistan", href: "/blog/inverter-ac-vs-non-inverter-power-consumption-practical-testing-for-pakistani-summer-loads" }
+                { title: "Ghar Ka Monthly Budget Kaise Banayein (2026)", href: "/blog/ghar-ka-monthly-budget" }
               ]
             }
           ),

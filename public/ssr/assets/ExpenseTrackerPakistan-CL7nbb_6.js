@@ -1,7 +1,8 @@
 import { j as jsxRuntimeExports, L as Link_default } from "../ssr.js";
 import { P as PublicLayout } from "./PublicLayout-8f9iGZFn.js";
 import { b as buildWebPageSchema, s as seoContent, S as SeoHead } from "./SeoHead-DP7kLgW-.js";
-import { H as HouseholdPlanningSuite, A as AuthorEditorialBlock } from "./HouseholdPlanningSuite-CLjqZImt.js";
+import { A as AuthorEditorialBlock } from "./AuthorEditorialBlock-DF2eAWIi.js";
+import { H as HouseholdPlanningSuite } from "./HouseholdPlanningSuite-tIJU2Gt6.js";
 import "util";
 import "stream";
 import "path";
@@ -125,8 +126,7 @@ function ExpenseTrackerPakistan({ seo: seoProp, jsonLd: jsonLdProp }) {
         AuthorEditorialBlock,
         {
           authorName: "Mohsin Raza",
-          authorRole: "Founder & Software Architect (16+ Years Experience)",
-          lastUpdated: "September 2026"
+          authorRole: "Founder & Software Architect, Roznamcha.pk"
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-2xl bg-gradient-to-br from-[#001a4a] to-[#1c4aa6] text-white p-8 text-center space-y-4 shadow-md", children: [
