@@ -13,6 +13,7 @@
 composer.lock
 *.log
 *.sql
+!database/patches/*.sql
 .phpunit.result.cache
 check_live.php
 check_assets_live.php
