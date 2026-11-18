@@ -219,7 +219,7 @@ class BlogPublicTest extends TestCase
                     return true;
                 })
                 ->where('post.reading_time_label', '4 min read')
-                ->where('post.author.name', 'Mohsin')
+                ->where('post.author.name', 'Mohsin Raza')
                 ->where('relatedLinks.tools.0.key', 'ration-cost-estimator')
                 ->where('relatedLinks.tools.1.key', 'kharcha-map')
                 ->where('relatedLinks.tools.2.key', 'survival-report')

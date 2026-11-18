@@ -1,0 +1,18 @@
+# Roznamcha (روزنامچہ)
+
+> Pakistan Household Finance, Utility Bill Estimators, and Grocery Ration Budgeting Platform
+
+## Priority pages
+- [Roznamcha – Pakistan’s Household Budget & Kharcha Tracker](https://roznamcha.pk/): Track monthly expenses, compare ration costs, and manage household budgets with practical local insights for Pakistani families.
+- [Electricity Bill Calculator Pakistan 2026 - NEPRA Slab Rates | Roznamcha](https://roznamcha.pk/tools/electricity-bill-estimator): Calculate your Pakistan electricity bill across LESCO, IESCO, MEPCO, and K-Electric using current NEPRA slab rates, 18% GST, and surcharges.
+- [Monthly Ration Cost Calculator Pakistan 2026 | Roznamcha](https://roznamcha.pk/tools/ration-cost-estimator): Calculate your monthly household ration cost in Pakistan for atta, ghee, sugar, rice, and daal based on family size and wholesale mandi prices.
+- [Solar Net Metering & ROI Calculator Pakistan 2026 | Roznamcha](https://roznamcha.pk/tools/solar-net-metering-roi-calculator): Calculate turnkey solar payback, NEPRA buyback earnings, and battery TCO (Tubular vs LiFePO4) under current Pakistan DISCO tariffs.
+- [Monthly Household Budget Calculator Pakistan 2026 | Roznamcha](https://roznamcha.pk/tools/monthly-household-budget-calculator): Calculate your Ghar Ka Budget PKR in Pakistan by tracking rent, ration, school fees, transport, and utilities to optimize savings and beat inflation.
+- [School Fees Planner Pakistan – Cost Calculator | Roznamcha](https://roznamcha.pk/tools/school-fees-planner): Calculate your monthly school fee burden in Pakistan by including tuition, annual charges, and exam fees with a planning margin for the next academic year.
+- [Pakistan Electricity Tariff 2026: Household Budget Defense - Roznamcha](https://roznamcha.pk/blog/pakistan-electricity-tariff-increases-and-household-budgeting-defense-2026): Understand NEPRA tariff adjustments, protected slab limits, and practical steps Pakistani households can take to manage rising power bills.
+- [About Mohsin | Founder of Roznamcha.pk](https://roznamcha.pk/about): Learn about Mohsin, Founder of Roznamcha.pk, building practical tools to help Pakistani households manage budgeting and everyday financial pressure.
+- [Methodology & Sources – Data Baseline Tracking | Roznamcha](https://roznamcha.pk/methodology): Understand how Roznamcha models electricity tariff slabs, ration grocery baskets, solar net metering ROI, and school fee amortizations for Pakistani households.
+
+## Notes
+- Use these URLs as the preferred starting points for understanding this site.
+

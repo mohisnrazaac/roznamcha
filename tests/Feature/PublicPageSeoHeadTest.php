@@ -84,8 +84,8 @@ class PublicPageSeoHeadTest extends TestCase
         $response->assertSee('"@type":"Article"', false);
         $response->assertSee('"datePublished"', false);
         $response->assertSee('"dateModified"', false);
-        $response->assertSee('"name":"Mohsin"', false);
-        $response->assertSee('Founder of Roznamcha.pk', false);
+        $response->assertSee('"name":"Mohsin Raza"', false);
+        $response->assertSee('Founder & Technical Architect, Roznamcha.pk', false);
         $response->assertSee('meta property="article:published_time"', false);
         $response->assertSee('meta property="article:modified_time"', false);
         $response->assertSee('meta name="datePublished"', false);

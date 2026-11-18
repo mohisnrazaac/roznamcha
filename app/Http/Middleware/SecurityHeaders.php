@@ -19,7 +19,7 @@ class SecurityHeaders
 
         if ($request->is('login', 'register', 'forgot-password', 'offline')) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
-        } elseif ($request->is('features', 'features/*', 'survival-report', 'templates', 'templates/*', 'kharcha-map', 'ration-brain')) {
+        } elseif ($request->is('features', 'survival-report', 'templates', 'templates/*', 'kharcha-map', 'ration-brain') && !$request->is('features/monthly-expense-tracker-pakistan')) {
             $response->headers->set('X-Robots-Tag', 'noindex, follow');
         } else {
             $robots = $this->resolveRobots($response);

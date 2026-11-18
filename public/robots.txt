@@ -1,6 +1,52 @@
 User-agent: Mediapartners-Google
 Allow: /
 
+# Explicit AI Search & Assistant Crawlers (AEO / GEO Support)
+User-agent: GPTBot
+Allow: /
+Disallow: /panel/
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /panel/
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /panel/
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /panel/
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /panel/
+Disallow: /dashboard
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+
 User-agent: *
 Disallow: /panel/
 Disallow: /dashboard
