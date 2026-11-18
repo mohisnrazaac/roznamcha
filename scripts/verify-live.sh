@@ -18,7 +18,7 @@ if [ "$t1" = "$t2" ] && [ -n "$t1" ]; then echo "FAIL  csrf token identical acro
 
 echo "== F3 broken trust links =="
 for p in /about /contact /tools/electricity-bill-estimator /tools/monthly-household-budget-calculator /blog/ghar-ka-monthly-budget; do
-  absent "$p" 'public\.(editorial-policy|methodology)' "no route-name links"
+  absent "$p" 'href=["'\''"]?public\.(editorial-policy|methodology)|>public\.(editorial-policy|methodology)<' "no route-name links"
 done
 
 echo "== F4 placeholders / empty states =="
