@@ -66,10 +66,10 @@ class PublicPageSeoHeadTest extends TestCase
     public function test_blog_detail_page_renders_seo_tags_and_structured_data_in_raw_html(): void
     {
         $post = BlogPost::factory()->published()->create([
-            'title' => 'Best Monthly Budget for 50000 Salary in Pakistan',
-            'slug' => 'best-monthly-budget-50000-salary-pakistan-2026',
-            'seo_title' => 'Best Monthly Budget for 50000 Salary in Pakistan 2026',
-            'seo_description' => 'A practical monthly budget plan for a 50000 salary in Pakistan with household expense guidance.',
+            'title' => 'Sample Household Budget in Pakistan',
+            'slug' => 'sample-unreviewed-budget-guide-pakistan',
+            'seo_title' => 'Sample Household Budget in Pakistan 2026',
+            'seo_description' => 'A practical monthly budget plan for a household in Pakistan with expense guidance.',
             'content' => 'Budget article body',
             'content_format' => 'markdown',
         ]);
@@ -77,8 +77,8 @@ class PublicPageSeoHeadTest extends TestCase
         $response = $this->get(route('public.blog.show', $post->slug));
 
         $response->assertOk();
-        $response->assertSee('<title inertia>Best Monthly Budget for 50000 Salary in Pakistan 2026</title>', false);
-        $response->assertSee('meta name="description" content="A practical monthly budget plan for a 50000 salary in Pakistan with household expense guidance."', false);
+        $response->assertSee('<title inertia>Sample Household Budget in Pakistan 2026</title>', false);
+        $response->assertSee('meta name="description" content="A practical monthly budget plan for a household in Pakistan with expense guidance."', false);
         $response->assertSee('link rel="canonical" href="'.$this->publicRouteUrl('public.blog.show', ['slug' => $post->slug]).'" inertia="canonical"', false);
         $response->assertSee('type="application/ld+json" inertia="page-jsonld"', false);
         $response->assertSee('"@type":"Article"', false);
@@ -95,6 +95,18 @@ class PublicPageSeoHeadTest extends TestCase
         // dateModified must equal datePublished.
         $publishedIso = $post->published_at->toIso8601String();
         $response->assertSee('"dateModified":"'.$publishedIso.'"', false);
+
+        // When a reviewed date is configured, dateModified reflects the reviewed date
+        $reviewedPost = BlogPost::factory()->published()->create([
+            'title' => 'Reviewed Tax Slabs Post',
+            'slug' => 'salaried-tax-slabs-fy-2025-26-and-income-tax-optimization-strategies-for-pakistani-professionals',
+            'seo_title' => 'Reviewed Tax Slabs',
+            'seo_description' => 'Reviewed Tax Slabs description',
+            'content' => 'Reviewed tax slabs content',
+        ]);
+        $reviewedResponse = $this->get(route('public.blog.show', $reviewedPost->slug));
+        $reviewedResponse->assertOk();
+        $reviewedResponse->assertSee('"dateModified":"2026-11-18T00:00:00', false);
 
         // Ensure unverifiable claim strings are absent from rendered HTML
         $response->assertDontSee('certified financial', false);
